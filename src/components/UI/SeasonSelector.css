@@ -1,0 +1,25 @@
+.season-selector-box {
+  width: 500px;
+  height: 30px;
+  padding: 10px;
+  line-height: 30px;
+  /* justify-content: space-around; */
+}
+
+.season-selector-box a {
+  width: 20%;
+  color: black;
+  margin: 10px 10px;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: aliceblue;
+}
+
+.season-selector-box a:hover {
+  cursor: pointer;
+}
+
+.season-selector-box a.active {
+  color: fuchsia;
+}

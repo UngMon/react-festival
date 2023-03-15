@@ -1,0 +1,7 @@
+.Ui-Box {
+  margin: 0 auto;
+  width: 85%;
+  height: 40px;
+  display: flex;
+  line-height: 40px;
+}

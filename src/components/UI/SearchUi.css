@@ -1,0 +1,33 @@
+.search-box {
+  margin-left: 55%;
+  width: 25%;
+  line-height: 40px;
+}
+
+.search-box input {
+  box-sizing: border-box;
+  width: 70%;
+  height: 20px;
+  padding: 2px 8px;
+  margin-right: 5%;
+  border: 0.5px solid black;
+  font-size: 14px;
+}
+
+.search-box input:hover {
+  cursor: pointer;
+}
+
+.search-box button {
+  width: 15%;
+  background-color: white;
+  border: 0;
+  height: 20px;
+  border-radius: 3px;
+  color: white;
+  background-color: rgb(196, 128, 2);
+}
+
+.search-box button:hover {
+  cursor: pointer;
+}

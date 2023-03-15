@@ -1,0 +1,25 @@
+.main-box1 {
+  display: grid;
+  grid-template-columns: auto auto auto; 
+  justify-content: center;
+}
+
+.intro-box {
+  width: 300px;
+  height: 300px;
+  margin: 20px;
+  background-color: white;
+  text-align: center;
+  border-radius: 7px;
+  background-image: url('../../../public/festival.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  font-size: 20px;
+  line-height: 300px;
+}
+
+.intro-box:hover {
+  cursor: pointer;
+}

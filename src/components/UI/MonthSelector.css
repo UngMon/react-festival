@@ -1,0 +1,11 @@
+.picker-month {
+  width: 18%;
+  margin-left: 20px;
+}
+
+.picker-month select {
+  width: 100%;
+  height: 20px;
+  padding: 0 5px;
+}
+

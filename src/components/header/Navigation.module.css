@@ -1,0 +1,21 @@
+.Nav-box {
+  padding: 0;
+  width: 200px;
+  font-size: 0.9em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Nav-box li {
+  text-decoration: none;
+  list-style: none;
+}
+
+.Nav-box li:hover {
+  cursor: pointer;
+  color: orange;
+}
+
+.Nav-box li:active {
+  color: yellow
+}
