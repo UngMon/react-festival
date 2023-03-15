@@ -30,14 +30,14 @@ const Navigation = () => {
   return (
     <nav>
       <ul className={classes["Nav-box"]}>
-        <NavLink to="/all-festival" onClick={() => clickCategory()}>
+        <NavLink to="all-festival/month/all" onClick={() => clickCategory()}>
           전체 보기
         </NavLink>
-        <NavLink to="/regions" onClick={() => clickCategory("region")}>
+        <NavLink to="regions/areacode/0" onClick={() => clickCategory("region")}>
           지역별
         </NavLink>
         <NavLink
-          to={`/seasons/${CurrentSeason()}`}
+          to={`seasons/${CurrentSeason()}`}
           onClick={() => clickCategory("season")}
         >
           계절별

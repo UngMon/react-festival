@@ -20,7 +20,7 @@ const Seasons = () => {
       <UiBox category={"season"} season={season} setSeason={setSeason} />
       {!festivalState.sortedSeason && <Loading />}
       {festivalState.sortedSeason && (
-        <Card type={"season"} season={season} month="전체" />
+        <Card type="season" season={season} month="all" />
       )}
     </main>
   );

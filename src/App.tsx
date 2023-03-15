@@ -12,7 +12,7 @@ import SeasonPage from "./Pages/Seasons";
 import AllFestivalPage from "./Pages/AllFestival";
 import Regions from "./components/main/Regions";
 import Seasons from "./components/main/Seasons";
-import Content from "./components/Content/Content";
+// import Content from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import "./App.css";
 import Search from "./Pages/Search";
@@ -46,30 +46,24 @@ function App() {
       children: [
         { index: true, element: <StartPage /> },
         {
-          path: "all-festival",
+          path: "all-festival/month",
           element: <AllFestivalPage />,
           children: [
             {
-              index: true,
+              path: ":monthKey",
               element: <AllView />,
             },
-            { path: ":eventId", element: <Content /> },
           ],
         },
         {
-          path: "regions",
+          path: "regions/areacode",
           element: <RegionPage />,
-          children: [
-            { index: true, element: <Regions /> },
-            { path: ":eventID", element: <Content /> },
-          ],
+          children: [{ path: ":regionKey", element: <Regions /> }],
         },
         {
           path: "seasons",
           element: <SeasonPage />,
-          children: [
-            { path: ":seasonKey", element: <Seasons /> },
-          ],
+          children: [{ path: ":seasonKey", element: <Seasons /> }],
         },
         { path: "/search", element: <Search /> }, //수정필요
       ],

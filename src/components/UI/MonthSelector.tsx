@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./MonthSelector.css";
 
 interface MonthProps {
@@ -6,9 +7,12 @@ interface MonthProps {
 }
 
 const MonthSelector = (props: MonthProps) => {
+  const navigate = useNavigate();
+
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
+    navigate(`/all-festival/month/${value}`)
   };
 
   return (
@@ -17,7 +21,7 @@ const MonthSelector = (props: MonthProps) => {
         <option value="default" disabled>
           월을 선택하세요
         </option>
-        <option value="전체">전체</option>
+        <option value="all">전체</option>
         <option value="01">1월</option>
         <option value="02">2월</option>
         <option value="03">3월</option>

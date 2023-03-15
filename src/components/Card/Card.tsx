@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Item } from "../../modules/Type";
 import { dataSlice } from "../../modules/DataSlice";
-import "./Card.css";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
+import "./Card.css";
 
 interface CardProps {
   type: string;
@@ -23,7 +23,7 @@ const Card = (props: CardProps) => {
   const returnArray = () => {
     let array: Item[] = [];
 
-    if (props.month === "전체") {
+    if (props.month === "all") {
       if (props.type === "all") array = festivalState.festivalArray;
 
       if (props.type === "region")

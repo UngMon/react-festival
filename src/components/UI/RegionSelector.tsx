@@ -1,11 +1,16 @@
+import { useNavigate } from "react-router-dom";
+
 interface RegionProps {
   setAreaCode: (value: string) => void;
 }
 
 const RegionSelector = (props: RegionProps) => {
+  const navigate = useNavigate();
+
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setAreaCode(value);
+    navigate(`/regions/areacode/${value}`)
   };
 
   return (
