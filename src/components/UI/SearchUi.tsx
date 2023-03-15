@@ -26,7 +26,7 @@ const Search = () => {
       }
     }
     dispatch(festivalActions.searchFestival(searchArray));
-    navigate(`/search/${input}`);
+    navigate(`/result/${input}`);
   };
 
   return (

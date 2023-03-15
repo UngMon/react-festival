@@ -12,10 +12,11 @@ import SeasonPage from "./Pages/Seasons";
 import AllFestivalPage from "./Pages/AllFestival";
 import Regions from "./components/main/Regions";
 import Seasons from "./components/main/Seasons";
-// import Content from "./components/Content/Content";
+import Content from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import "./App.css";
-import Search from "./Pages/Search";
+import ResultPage from "./Pages/Result";
+import SearchPage from "./Pages/SearchPage";
 
 let initial = true;
 
@@ -65,7 +66,23 @@ function App() {
           element: <SeasonPage />,
           children: [{ path: ":seasonKey", element: <Seasons /> }],
         },
-        { path: "/search", element: <Search /> }, //수정필요
+        {
+          path: "search",
+          element: <SearchPage />,
+        },
+        {
+          path: "result",
+          children: [{ path: ":keyword", element: <ResultPage /> }],
+        },
+        {
+          path: "content",
+          children: [
+            {
+              path: ":cotentId",
+              element: <Content />,
+            },
+          ],
+        },
       ],
     },
     {

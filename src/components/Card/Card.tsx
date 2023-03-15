@@ -32,15 +32,16 @@ const Card = (props: CardProps) => {
       if (props.type === "season")
         array = festivalState.seasonArray[props.season!];
 
-      if (props.type === "search" ) {
+      if (props.type === "result" ) {
         if (festivalState.searchArray.length === 0) {
           return <p>찾으시는 정보가 없어요!</p>
         }
         array = festivalState.searchArray;
-      }
-        
+      } 
     } else array = festivalState.monthArray[props.month!];
-
+    // console.log(props.type)
+    // console.log(props.month)
+    // console.log(array)
     return array.map((item) => (
       <div
         className="festival-item"
