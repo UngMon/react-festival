@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { defer, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { LoaderData, ResponImage, ResponDetail } from "../../modules/Type";
 import "./Content.css";
@@ -10,28 +10,28 @@ const Cotent = () => {
   const detail = contentData.response.body.items.item;
   const image = contentImage.response.body.items.item;
 
-  let translate = 0;
+  const [count, setCount] = useState<number>(1);
+  const [translate, setTransLate] = useState<number>(0);
 
-  // const buttonClickHandler = (event: React.MouseEvent) => {
-  //   const type = event.currentTarget.textContent;
-  //   if (type === "<") {
-  //     console.log("?");
-  //     translate -= ulRef.current!.clientWidth;
-  //     ulRef.current!.style.transform = `translateX(${translate}px)`;
-  //   }
+  const buttonClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const type = event.currentTarget.textContent;
+    let transLateX = translate;
 
-  //   if (type === ">") {
-  //     translate += ulRef.current!.clientWidth;
-  //     ulRef.current!.style.transform = `translateX(${translate}px)`;
-  //   }
-  // };
+    if (type === "<") {
+      if (count === 1) return;
+      transLateX += ulRef.current!.clientWidth;
+      ulRef.current!.style.transform = `translateX(${transLateX}px)`;
+      setCount(count - 1);
+    }
 
-  // useEffect(() => {
-  //   window.addEventListener("click", buttonClickHandler);
-  //   return () => {
-  //     window.removeEventListener("click", buttonClickHandler);
-  //   };
-  // });
+    if (type === ">") {
+      if (count === image.length) return;
+      transLateX -= ulRef.current!.clientWidth;
+      ulRef.current!.style.transform = `translateX(${transLateX}px)`;
+      setCount(count + 1);
+    }
+    setTransLate(transLateX);
+  };
 
   return (
     <main className="main-box">
@@ -40,24 +40,25 @@ const Cotent = () => {
           <button type="button" onClick={(e) => buttonClickHandler(e)}>
             {"<"}
           </button>
-          <ul className="slider" ref={ulRef}>
-            {image.map((item) => (
-              <li>
-                <img
-                  key={item.originimgurl}
-                  src={item.originimgurl}
-                  alt="축제 사진"
-                ></img>
-              </li>
-            ))}
-          </ul>
+          <div className="slider-box">
+            <ul className="slider" ref={ulRef}>
+              {image.map((item) => (
+                <li key={item.originimgurl}>
+                  <img src={item.originimgurl} alt="축제 사진"></img>
+                </li>
+              ))}
+            </ul>
+          </div>
           <button type="button" onClick={(e) => buttonClickHandler(e)}>
             {">"}
           </button>
         </div>
-        <div className="Content-info"></div>
-        <div className="Content-script">
-          <span></span>
+        <div className="Content-info">
+          <div className="Cotent-category">
+            <div>기본정보</div>
+            <div>비용정보</div>
+            <div>상세정보</div>
+          </div>
         </div>
       </div>
     </main>
