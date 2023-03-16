@@ -1,21 +1,44 @@
-/* .Cotent-box {
-  padding: 20px;
-  margin: 0 20px;
-  width: 90vw;
-  height: 80vh;
-  background-color: aqua;
-} */
 
 .Content {
   width: 80%;
   height: 80%;
-  display: grid;
-  grid-template-columns: auto auto;
+  border: 1px solid black;
+  margin: 0 auto;
 }
 
-.Content-image-box {
-  width: 30%;
-  height: 30%;
+.Content-image-slider {
+  width: 35%;
+  height: 180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Content-image-slider button {
+  width: 30px;
+  height: 30px;
+}
+
+.slider {
+  width: 80%;
+  height: 100%;
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  /* overflow: hidden; */
+}
+
+.slider li {
+  min-width: 100%;
+  float: left;
+  list-style: none;
+  line-height: 50%;
+  text-align: center;
+}
+
+.slider li img {
+  width: 90%;
+  object-fit: cover;
 }
 
 

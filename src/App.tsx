@@ -4,6 +4,7 @@ import { fetchFromData } from "./redux/fetch-action";
 import { RootState, useAppDispatch } from "./redux/store";
 import { useSelector } from "react-redux";
 import { festivalActions } from "./redux/festival-slice";
+import { Params } from "./modules/Type";
 import StartPage from "./Pages/Start";
 import LoginPage from "./Pages/Login";
 import RootLayout from "./Pages/Root";
@@ -12,11 +13,11 @@ import SeasonPage from "./Pages/Seasons";
 import AllFestivalPage from "./Pages/AllFestival";
 import Regions from "./components/main/Regions";
 import Seasons from "./components/main/Seasons";
-import Content from "./components/Content/Content";
+import Content, {loader as contentLoader} from "./components/Content/Content";
 import AllView from "./components/main/AllView";
-import "./App.css";
 import ResultPage from "./Pages/Result";
 import SearchPage from "./Pages/SearchPage";
+import "./App.css";
 
 let initial = true;
 
@@ -76,9 +77,11 @@ function App() {
         },
         {
           path: "content",
+          id: 'content-detail',
           children: [
             {
-              path: ":cotentId",
+              path: ":contentId",
+              loader: contentLoader,
               element: <Content />,
             },
           ],
