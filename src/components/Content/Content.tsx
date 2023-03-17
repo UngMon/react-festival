@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { defer, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
   LoaderData,
@@ -6,62 +7,46 @@ import {
   ResponDetailCommon,
 } from "../../modules/Type";
 import Slider from "./Slider";
-
+import Detail from "./Detail";
 import "./Content.css";
+import Review from "./Review";
 
 const Cotent = () => {
   const { contentDatailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
-
+  const [category, setCategory] = useState<string>("기본정보");
   const detailIntro = contentDatailIntro.response.body.items.item;
   const detailCommon = contentDetailCommon.response.body.items.item;
   const image = contentImage.response.body.items.item;
-  console.log(detailIntro);
-  console.log(detailCommon);
-  console.log(image);
+  // console.log(detailIntro);
+  // console.log(detailCommon);
+  // console.log(image);
 
   return (
     <main className="main-box">
+      <h1 className="Content-title">{detailCommon[0].title}</h1>
+
       <div className="Content">
-        <Slider image={image}/>
+        <Slider image={image} />
         <div className="Content-info">
           <div className="Cotent-category">
-            <div>기본정보</div>
-            <div>이용안내</div>
-            <div>지도</div>
+            <div onClick={() => setCategory("기본정보")}>기본정보</div>
+            <div onClick={() => setCategory("리뷰")}>리뷰</div>
+            <div onClick={() => setCategory("지도")}>지도</div>
           </div>
-          <div className="Cotent-deatail">
-            {
-              <table>
-                <tr key='기간'>
-                  <th>기간</th>
-                  <td></td>
-                </tr>
-                <tr key='전화번호'>
-                  <th>전화번호</th>
-                  <td></td>
-                </tr>
-                <tr key='이용요금'>
-                  <th>이용요금</th>
-                  <td></td>
-                </tr>
-                <tr key='홈페이지'>
-                  <th>홈페이지</th>
-                  <td></td>
-                </tr>
-                <tr key='주소'>
-                  <th>주소</th>
-                  <td></td>
-                </tr>
-              </table>
-            }
-          </div>
+          <Detail
+            detailCommon={detailCommon}
+            detailIntro={detailIntro}
+          />
         </div>
         <div className="Cotent-summary">
           <strong>개요</strong>
-          <p className="summary-p">{detailCommon[0].overview || '등록된 정보가 없습니다.'}</p>
+          <div className="summary-p">
+            <p dangerouslySetInnerHTML={{ __html: detailCommon[0].overview || "등록된 정보가 없습니다." }}></p>
+          </div>
         </div>
       </div>
+      <Review />
     </main>
   );
 };

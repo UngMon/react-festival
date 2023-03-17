@@ -13,6 +13,10 @@ const Slider = ({ image }: SliderProps) => {
   const [translate, setTransLate] = useState<number>(0);
 
   const buttonClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!image) {
+      return;
+    }
+
     const type = event.currentTarget.textContent;
     let transLateX = translate;
 
