@@ -23,7 +23,7 @@ export type Item = {
   title: string;
 };
 
-export type ContentDetail = {
+export type ContentDetailIntro = {
   contentid: string;
   contenttypeid: string;
   sponsor1: string;
@@ -46,6 +46,25 @@ export type ContentDetail = {
   festivalgrade: string;
 };
 
+export type ContentDetailCommon = {
+  contentid: string;
+  contenttypeid: string;
+  title: string;
+  createdtime: string;
+  modifiedtime: string;
+  tel: string;
+  telname: string;
+  homepage: string;
+  booktour: string;
+  firstimage: string;
+  firstimage2: string;
+  cpyrhtDivCd: string;
+  addr1: string;
+  addr2: string;
+  zipcode: string;
+  overview: string;
+};
+
 export type ContentImage = {
   contentid: string;
   originimgurl: string;
@@ -64,11 +83,21 @@ export type Respon = {
   };
 };
 
-export type ResponDetail = {
+export type ResponDetailIntro = {
   response: {
     body: {
       items: {
-        item: ContentDetail[];
+        item: ContentDetailIntro[];
+      };
+    };
+  };
+};
+
+export type ResponDetailCommon = {
+  response: {
+    body: {
+      items: {
+        item: ContentDetailCommon[];
       };
     };
   };
@@ -85,9 +114,10 @@ export type ResponImage = {
 };
 
 export type LoaderData = {
-  contentData: ResponDetail;
+  contentDatailIntro: ResponDetailIntro;
+  contentDetailCommon: ResponDetailCommon;
   contentImage: ResponImage;
-}
+};
 
 export type Month = {
   [key: string]: Item[];
