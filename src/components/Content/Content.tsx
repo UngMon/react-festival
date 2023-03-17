@@ -9,7 +9,8 @@ const Cotent = () => {
 
   const detail = contentData.response.body.items.item;
   const image = contentImage.response.body.items.item;
-
+  console.log(detail);
+  console.log(image);
   const [count, setCount] = useState<number>(1);
   const [translate, setTransLate] = useState<number>(0);
 
@@ -42,11 +43,17 @@ const Cotent = () => {
           </button>
           <div className="slider-box">
             <ul className="slider" ref={ulRef}>
-              {image.map((item) => (
-                <li key={item.originimgurl}>
-                  <img src={item.originimgurl} alt="축제 사진"></img>
+              {image !== undefined &&
+                image.map((item) => (
+                  <li key={item.originimgurl}>
+                    <img src={item.originimgurl} alt="축제 사진"></img>
+                  </li>
+                ))}
+              {image === undefined && (
+                <li>
+                  <img src="./Noimage.png" alt="축제 이미지"></img>
                 </li>
-              ))}
+              )}
             </ul>
           </div>
           <button type="button" onClick={(e) => buttonClickHandler(e)}>
@@ -56,9 +63,24 @@ const Cotent = () => {
         <div className="Content-info">
           <div className="Cotent-category">
             <div>기본정보</div>
-            <div>비용정보</div>
-            <div>상세정보</div>
+            <div>이용안내</div>
+            <div>지도</div>
           </div>
+          <div className="Cotent-deatail">
+            {
+              <ul>
+                <li>기간</li>
+                <li>전화번호</li>
+                <li>이용요금</li>
+                <li>홈페이지</li>
+                <li>주소</li>
+              </ul>
+            }
+          </div>
+        </div>
+        <div className="Cotent-summary">
+          <strong>개요</strong>
+          <p></p>
         </div>
       </div>
     </main>
