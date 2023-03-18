@@ -1,16 +1,18 @@
 import { useState, useRef } from "react";
-import { ContentImage } from "../../modules/Type";
+import { ResponImage } from "../../modules/Type";
 import NoImage from "../../Images/NoImage.png";
 import './Slider.css';
 
 interface SliderProps {
-  image: ContentImage[];
+  contentImage: ResponImage;
 }
 
-const Slider = ({ image }: SliderProps) => {
+const Slider = ({ contentImage }: SliderProps) => {
   const ulRef = useRef<HTMLUListElement>(null);
   const [count, setCount] = useState<number>(1);
   const [translate, setTransLate] = useState<number>(0);
+
+  const image = contentImage.response.body.items.item;
 
   const buttonClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!image) {

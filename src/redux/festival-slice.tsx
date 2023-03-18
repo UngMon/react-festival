@@ -38,8 +38,11 @@ const festivalSlice = createSlice({
   name: "festival",
   initialState,
   reducers: {
-    sortDataByMonth(state) {
-      console.time();
+    sortDataByMonth(state, action) {
+      if (action.payload !== '') {
+        state.festivalArray = action.payload;
+      }
+
       const result: Month = {
         "01": [],
         "02": [],
@@ -70,10 +73,13 @@ const festivalSlice = createSlice({
       }
       state.monthArray = result;
       state.sortedMonth = true;
-      console.timeEnd();
     },
 
-    sortDataByRegion(state) {
+    sortDataByRegion(state, action) {
+      if (action.payload !== '') {
+        state.festivalArray = action.payload;
+      }
+
       let region: Region = {
         "0": [...state.festivalArray],
         "1": [],
@@ -103,7 +109,11 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedRegion = true;
     },
-    sortDataBySeason(state) {
+    sortDataBySeason(state, action) {
+      if (action.payload !== '') {
+        state.festivalArray = action.payload;
+      }
+
       const season: Season = {
         spring: [],
         summer: [],

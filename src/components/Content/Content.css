@@ -1,7 +1,8 @@
 .Content-title {
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: 30px;
-  width: 50%;
+  padding: 5%;
+  width: 100%;
   text-align: center;
 }
 
@@ -12,34 +13,18 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 400px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
   /* border-radius: 8px; */
 }
 
-.Content-info {
-  box-sizing: border-box;
-  padding: 5%;
-  background-color: aquamarine;
-}
 
-.Cotent-category {
-  box-sizing: border-box;
-  width: 100%;
-  height: 15%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: bisque;
-  border-radius: 25px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-}
-
-.Cotent-summary {
+.Cotent-overview {
   grid-column-end: span 3;
   background-color: cadetblue;
   padding: 2% 3%;
 }
 
-.Cotent-summary strong {
+.Cotent-overview strong {
   display: block;
   margin-bottom: 20px;
 }

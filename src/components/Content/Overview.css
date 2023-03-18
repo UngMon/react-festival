@@ -1,0 +1,10 @@
+.Cotent-overview {
+  grid-column-end: span 3;
+  background-color: cadetblue;
+  padding: 2% 3%;
+}
+
+.Cotent-overview strong {
+  display: block;
+  margin-bottom: 20px;
+}

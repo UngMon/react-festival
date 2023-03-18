@@ -8,22 +8,25 @@ import classes from "./Navigation.module.css";
 const Navigation = () => {
   const dispatch = useAppDispatch();
   const boolean = useSelector((state: RootState) => state.festival);
+  const festivalArray = sessionStorage.getItem('festivalArray') || '';
 
   const clickCategory = (value?: string) => {
     if (!boolean.successGetData) {
-      return;
+      if (!festivalArray) {
+        return alert("데이터를 불러오지 못 했습니다. 새로고침 해주세요!");
+      }
     }
-
+    
     if (!boolean.sortedMonth) {
-      dispatch(festivalActions.sortDataByMonth());
+      dispatch(festivalActions.sortDataByMonth(JSON.parse(festivalArray)));
     }
 
     if (value! === "region" && !boolean.sortedRegion) {
-      dispatch(festivalActions.sortDataByRegion());
+      dispatch(festivalActions.sortDataByRegion(JSON.parse(festivalArray)));
     }
 
     if (value! === "season" && !boolean.sortedSeason) {
-      dispatch(festivalActions.sortDataBySeason());
+      dispatch(festivalActions.sortDataBySeason(JSON.parse(festivalArray)));
     }
   };
 
@@ -33,7 +36,10 @@ const Navigation = () => {
         <NavLink to="all-festival/month/all" onClick={() => clickCategory()}>
           전체 보기
         </NavLink>
-        <NavLink to="regions/areacode/0" onClick={() => clickCategory("region")}>
+        <NavLink
+          to="regions/areacode/0"
+          onClick={() => clickCategory("region")}
+        >
           지역별
         </NavLink>
         <NavLink

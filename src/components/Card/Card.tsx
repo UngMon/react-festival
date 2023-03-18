@@ -15,7 +15,7 @@ interface CardProps {
 const Card = (props: CardProps) => {
   const navigate = useNavigate();
   const festivalState = useSelector((state: RootState) => state.festival);
-
+  const festivalArray = sessionStorage.getItem("festivalArray");
   const cardClickHandler = (contentid: string) => {
     navigate(`/content/${contentid}`);
   };
@@ -24,7 +24,8 @@ const Card = (props: CardProps) => {
     let array: Item[] = [];
 
     if (props.month === "all") {
-      if (props.type === "all") array = festivalState.festivalArray;
+      if (props.type === "all")
+        array = festivalState.festivalArray || festivalArray;
 
       if (props.type === "region")
         array = festivalState.regionArray[props.areaCode!];
@@ -32,12 +33,12 @@ const Card = (props: CardProps) => {
       if (props.type === "season")
         array = festivalState.seasonArray[props.season!];
 
-      if (props.type === "result" ) {
+      if (props.type === "result") {
         if (festivalState.searchArray.length === 0) {
-          return <p>찾으시는 정보가 없어요!</p>
+          return <p>찾으시는 정보가 없어요!</p>;
         }
         array = festivalState.searchArray;
-      } 
+      }
     } else array = festivalState.monthArray[props.month!];
     // console.log(props.type)
     // console.log(props.month)
@@ -65,9 +66,7 @@ const Card = (props: CardProps) => {
 
   return (
     <article className="main-box-content">
-      <div className="AllView-grid-box">
-        {returnArray()}
-      </div>
+      <div className="AllView-grid-box">{returnArray()}</div>
     </article>
   );
 };

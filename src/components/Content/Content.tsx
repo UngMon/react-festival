@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { defer, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { Suspense, useState } from "react";
+import {
+  Await,
+  defer,
+  LoaderFunctionArgs,
+  useLoaderData,
+} from "react-router-dom";
 import {
   LoaderData,
   ResponImage,
@@ -10,41 +15,47 @@ import Slider from "./Slider";
 import Detail from "./Detail";
 import "./Content.css";
 import Review from "./Review";
+import Overview from "./Overview";
+import Loading from "../UI/Loading";
 
 const Cotent = () => {
+  console.log("content render");
   const { contentDatailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
   const [category, setCategory] = useState<string>("기본정보");
-  const detailIntro = contentDatailIntro.response.body.items.item;
-  const detailCommon = contentDetailCommon.response.body.items.item;
-  const image = contentImage.response.body.items.item;
+  // const detailIntro = contentDatailIntro.response.body.items.item;
+  // const detailCommon = contentDetailCommon.response.body.items.item;
+  // const image = contentImage.response.body.items.item;
   // console.log(detailIntro);
   // console.log(detailCommon);
   // console.log(image);
 
   return (
     <main className="main-box">
-      <h1 className="Content-title">{detailCommon[0].title}</h1>
-
+      {/* <h1 className="Content-title">{detailCommon[0].title}</h1> */}
       <div className="Content">
-        <Slider image={image} />
-        <div className="Content-info">
-          <div className="Cotent-category">
-            <div onClick={() => setCategory("기본정보")}>기본정보</div>
-            <div onClick={() => setCategory("리뷰")}>리뷰</div>
-            <div onClick={() => setCategory("지도")}>지도</div>
-          </div>
-          <Detail
-            detailCommon={detailCommon}
-            detailIntro={detailIntro}
-          />
-        </div>
-        <div className="Cotent-summary">
-          <strong>개요</strong>
-          <div className="summary-p">
-            <p dangerouslySetInnerHTML={{ __html: detailCommon[0].overview || "등록된 정보가 없습니다." }}></p>
-          </div>
-        </div>
+        <Suspense fallback={<Loading />}>
+          <Await resolve={contentImage}>
+            {(loadedCotentImage) => <Slider contentImage={loadedCotentImage} />}
+          </Await>
+        </Suspense>
+        <Suspense fallback={<Loading />}>
+          <Await resolve={{ contentDetailCommon, contentDatailIntro }}>
+            {(loadedCotentData) => (
+              <Detail
+                setCategory={setCategory}
+                contentData={loadedCotentData}
+              />
+            )}
+          </Await>
+        </Suspense>
+        <Suspense fallback={<Loading />}>
+          <Await resolve={contentDetailCommon}>
+            {(loadedDetailCommon) => (
+              <Overview contentDetailCommon={loadedDetailCommon} />
+            )}
+          </Await>
+        </Suspense>
       </div>
       <Review />
     </main>
@@ -63,6 +74,7 @@ async function getContentImage(id: string) {
     throw new Error("Failed to Fetch from Data");
   }
   const data: ResponImage = await response.json();
+  console.log("getContentImage work");
   return data;
 }
 
@@ -76,6 +88,7 @@ async function getContentDetailIntro(id: string) {
   }
 
   const data: ResponDetailIntro = await response.json();
+  console.log("loader getContentDetailIntro");
   return data;
 }
 
@@ -89,12 +102,14 @@ async function getCotentDetailCommon(id: string) {
   }
 
   const data: ResponDetailCommon = await response.json();
+  console.log("loader getDetailCommon");
   return data;
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
+  console.log("loader work");
   const contentId = params.contentId;
-  const contentImage = await getContentImage(contentId!);
+  const contentImage = getContentImage(contentId!);
   const contentDatailIntro = await getContentDetailIntro(contentId!);
   const contentDetailCommon = await getCotentDetailCommon(contentId!);
   return defer({ contentDatailIntro, contentDetailCommon, contentImage });

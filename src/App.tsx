@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { fetchFromData } from "./redux/fetch-action";
 import { RootState, useAppDispatch } from "./redux/store";
 import { useSelector } from "react-redux";
-import { festivalActions } from "./redux/festival-slice";
-import { Params } from "./modules/Type";
 import StartPage from "./Pages/Start";
 import LoginPage from "./Pages/Login";
 import RootLayout from "./Pages/Root";
@@ -13,33 +11,31 @@ import SeasonPage from "./Pages/Seasons";
 import AllFestivalPage from "./Pages/AllFestival";
 import Regions from "./components/main/Regions";
 import Seasons from "./components/main/Seasons";
-import Content, {loader as contentLoader} from "./components/Content/Content";
+import Content, { loader as contentLoader } from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import ResultPage from "./Pages/Result";
 import SearchPage from "./Pages/SearchPage";
 import "./App.css";
-
-let initial = true;
 
 function App() {
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
   console.log("app");
 
-  useEffect(() => {
-    console.log("fetchThunk");
-    dispatch(fetchFromData());
-  }, [dispatch]);
+  if (festivalState.successGetData) {
+    // 새로고침시에 불 필요한 thunkAction을 줄이기 위함.
+    sessionStorage.setItem(
+      "festivalArray",
+      JSON.stringify(festivalState.festivalArray)
+    );
+  }
 
   useEffect(() => {
-    if (initial && festivalState.successGetData) {
-      console.log("?");
-      dispatch(festivalActions.sortDataByMonth());
-      dispatch(festivalActions.sortDataBySeason());
-      dispatch(festivalActions.sortDataByRegion());
-      initial = false;
+    if (!sessionStorage.getItem('festivalArray')) {
+      console.log("fetchThunk");
+      dispatch(fetchFromData());
     }
-  }, [dispatch, festivalState.successGetData]);
+  }, [dispatch]);
 
   const router = createBrowserRouter([
     {
@@ -77,7 +73,7 @@ function App() {
         },
         {
           path: "content",
-          id: 'content-detail',
+          id: "content-detail",
           children: [
             {
               path: ":contentId",
