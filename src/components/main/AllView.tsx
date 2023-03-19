@@ -10,9 +10,9 @@ import UiBox from "../UI/UiBox";
 const AllView = () => {
   const { monthKey } = useParams();
   const [month, setMonth] = useState<string>(monthKey || "all");
+  const festivalState = useSelector((state: RootState) => state.festival);
 
   const dispatch = useAppDispatch();
-  const festivalState = useSelector((state: RootState) => state.festival);
   const festivalArray = sessionStorage.getItem('festivalArray') || '';
 
   useEffect(() => {

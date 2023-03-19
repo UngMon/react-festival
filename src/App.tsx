@@ -73,7 +73,7 @@ function App() {
         },
         {
           path: "content",
-          id: "content-detail",
+
           children: [
             {
               path: ":contentId",

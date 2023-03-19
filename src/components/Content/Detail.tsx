@@ -6,13 +6,13 @@ interface DetailProps {
   setCategory: (value: string) => void;
   contentData: {
     contentDetailCommon: ResponDetailCommon;
-    contentDatailIntro: ResponDetailIntro;
+    contentDetailIntro: ResponDetailIntro;
   };
 }
 
 const Detail = ({ setCategory, contentData }: DetailProps) => {
   const detailCommon = contentData.contentDetailCommon.response.body.items.item;
-  const detailIntro = contentData.contentDatailIntro.response.body.items.item;
+  const detailIntro = contentData.contentDetailIntro.response.body.items.item;
 
   return (
     <div className="Content-info">

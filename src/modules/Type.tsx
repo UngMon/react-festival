@@ -114,7 +114,7 @@ export type ResponImage = {
 };
 
 export type LoaderData = {
-  contentDatailIntro: ResponDetailIntro;
+  contentDetailIntro: ResponDetailIntro;
   contentDetailCommon: ResponDetailCommon;
   contentImage: ResponImage;
 };

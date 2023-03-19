@@ -1,10 +1,5 @@
-import { Suspense, useState } from "react";
-import {
-  Await,
-  defer,
-  LoaderFunctionArgs,
-  useLoaderData,
-} from "react-router-dom";
+import { useState } from "react";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
   LoaderData,
   ResponImage,
@@ -16,46 +11,23 @@ import Detail from "./Detail";
 import "./Content.css";
 import Review from "./Review";
 import Overview from "./Overview";
-import Loading from "../UI/Loading";
 
 const Cotent = () => {
   console.log("content render");
-  const { contentDatailIntro, contentDetailCommon, contentImage } =
+  const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
+  console.log(contentDetailIntro);
   const [category, setCategory] = useState<string>("기본정보");
-  // const detailIntro = contentDatailIntro.response.body.items.item;
-  // const detailCommon = contentDetailCommon.response.body.items.item;
-  // const image = contentImage.response.body.items.item;
-  // console.log(detailIntro);
-  // console.log(detailCommon);
-  // console.log(image);
+  const contentData = { contentDetailIntro, contentDetailCommon };
 
   return (
     <main className="main-box">
+      <h1 className="Content-title">hi</h1>
       {/* <h1 className="Content-title">{detailCommon[0].title}</h1> */}
       <div className="Content">
-        <Suspense fallback={<Loading />}>
-          <Await resolve={contentImage}>
-            {(loadedCotentImage) => <Slider contentImage={loadedCotentImage} />}
-          </Await>
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Await resolve={{ contentDetailCommon, contentDatailIntro }}>
-            {(loadedCotentData) => (
-              <Detail
-                setCategory={setCategory}
-                contentData={loadedCotentData}
-              />
-            )}
-          </Await>
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Await resolve={contentDetailCommon}>
-            {(loadedDetailCommon) => (
-              <Overview contentDetailCommon={loadedDetailCommon} />
-            )}
-          </Await>
-        </Suspense>
+        <Slider contentImage={contentImage} />
+        <Detail setCategory={setCategory} contentData={contentData} />
+        <Overview contentDetailCommon={contentDetailCommon} />
       </div>
       <Review />
     </main>
@@ -109,8 +81,34 @@ async function getCotentDetailCommon(id: string) {
 export async function loader({ params }: LoaderFunctionArgs) {
   console.log("loader work");
   const contentId = params.contentId;
-  const contentImage = getContentImage(contentId!);
-  const contentDatailIntro = await getContentDetailIntro(contentId!);
-  const contentDetailCommon = await getCotentDetailCommon(contentId!);
-  return defer({ contentDatailIntro, contentDetailCommon, contentImage });
+  const [contentImage, contentDetailIntro, contentDetailCommon] =
+    await Promise.all([
+      getContentImage(contentId!),
+      getContentDetailIntro(contentId!),
+      getCotentDetailCommon(contentId!),
+    ]);
+  return { contentDetailIntro, contentDetailCommon, contentImage };
 }
+
+/* <Suspense fallback={<p>Loading......</p>}>
+          <Await resolve={contentImage}>
+            {(loadedCotentImage) => <Slider contentImage={loadedCotentImage} />}
+          </Await>
+        </Suspense>
+        <Suspense fallback={<Loading />}>
+          <Await resolve={{ contentDetailCommon, contentDatailIntro }}>
+            {(loadedCotentData) => (
+              <Detail
+                setCategory={setCategory}
+                contentData={loadedCotentData}
+              />
+            )}
+          </Await>
+        </Suspense>
+        <Suspense fallback={<Loading />}>
+          <Await resolve={contentDetailCommon}>
+            {(loadedDetailCommon) => (
+              <Overview contentDetailCommon={loadedDetailCommon} />
+            )}
+          </Await>
+        </Suspense> */
