@@ -16,7 +16,7 @@ const Cotent = () => {
   console.log("content render");
   const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
-  console.log(contentDetailIntro);
+
   const [category, setCategory] = useState<string>("기본정보");
   const contentData = { contentDetailIntro, contentDetailCommon };
 
