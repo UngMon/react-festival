@@ -1,7 +1,7 @@
 .Cotent-overview {
   grid-column-end: span 3;
-  background-color: cadetblue;
-  padding: 2% 3%;
+  /* background-color: cadetblue; */
+  padding: 2% 3% 4%;
 }
 
 .Cotent-overview strong {

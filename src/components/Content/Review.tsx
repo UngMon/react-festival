@@ -4,9 +4,18 @@ const Review = () => {
   return (
     <div className="Cotent-review">
       <div className="Cotent-feeling">
-        <div>좋아요</div>
-        <div>그저 그래요</div>
-        <div>싫어요</div>
+        <div>
+          <img></img>
+          <p>좋아요</p>
+        </div>
+        <div>
+          <img></img>
+          <p>그저 그래요</p>
+        </div>
+        <div>
+          <img></img>
+          <p>싫어요</p>
+        </div>
       </div>
       <div className="user-input-box">
         <input
