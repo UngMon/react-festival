@@ -41,7 +41,7 @@ async function getContentImage(id: string) {
   const response = await fetch(
     `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
   );
-
+  
   if (!response.ok) {
     throw new Error("Failed to Fetch from Data");
   }

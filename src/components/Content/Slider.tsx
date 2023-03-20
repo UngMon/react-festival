@@ -13,22 +13,19 @@ const Slider = ({ contentImage }: SliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const [width, setWidth] = useState<number>(0);
-
-
   const imageData = contentImage.response.body.items.item;
   const [currentIndex, setCurrentIndex] = useState<number>(imageData.length);
+  const [isMouseOver, setISMouseOver] = useState<boolean>(false);
   const image = [...imageData, ...imageData, ...imageData];
   console.log(currentIndex);
 
+  /* 첫 렌더링시에 width값 업데이트를 위함. */
   useEffect(() => {
-    // 첫 렌더링시에 width값 업데이트를 위함.
-    console.log("마운트 이펙트");
     setWidth(containerRef.current!.clientWidth / 3);
   }, []);
 
-
+  /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
-    // 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절
     const resizeHandler = () => {
       setWidth(containerRef.current!.clientWidth / 3);
     };
@@ -38,16 +35,30 @@ const Slider = ({ contentImage }: SliderProps) => {
     };
   });
 
+  /* 아래 두 함수는 마우스가 sluder-container에 있으면 SliderButton.tsx에서
+   정의한 자동 슬라이드 기능을 멈추게 해줌. */
+  const mouseEnterHandler = () => {
+    setISMouseOver(true);
+  };
+
+  const mouseLeaveHandler = () => {
+    setISMouseOver(false);
+  };
+
   console.log(currentIndex);
   return (
-    <div className="slider-container">
+    <div
+      className="slider-container"
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseLeaveHandler}
+    >
       <div className="slider-box" ref={containerRef}>
         <div
           className="slider"
           ref={sliderRef}
           style={{
             transform: `translateX(${-width * currentIndex}px)`,
-            transition: "transform 0.3s ease",
+            transition: "transform 250ms ease",
           }}
         >
           {image ? (
@@ -75,6 +86,7 @@ const Slider = ({ contentImage }: SliderProps) => {
           setCurrentIndex={setCurrentIndex}
           sliderRef={sliderRef}
           imageData={imageData}
+          isMouseOver={isMouseOver}
         />
       </div>
     </div>
@@ -82,14 +94,3 @@ const Slider = ({ contentImage }: SliderProps) => {
 };
 
 export default Slider;
-
-// useEffect(() => {
-//   console.log(sliderRef);
-//   if (currentIndex === imageData.length) {
-//     console.log(`useEFfeect current ${currentIndex}`);
-//     setTimeout(() => {
-//       console.log("트랜스폼 부여");
-//       sliderRef.current!.style.transition = "transform 400ms ease";
-//     }, 0);
-//   }
-// }, [currentIndex, imageData]);
