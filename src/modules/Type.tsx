@@ -61,6 +61,8 @@ export type ContentDetailCommon = {
   cpyrhtDivCd: string;
   addr1: string;
   addr2: string;
+  mapx: string;
+  mapy: string;
   zipcode: string;
   overview: string;
 };

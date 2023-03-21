@@ -7,7 +7,7 @@ import {
   ResponDetailCommon,
 } from "../../modules/Type";
 import Slider from "./Slider";
-import Detail from "./Detail";
+import Detail from "./Detail/Detail";
 import "./Content.css";
 import Review from "./Review";
 import Overview from "./Overview";
@@ -26,7 +26,11 @@ const Cotent = () => {
       {/* <h1 className="Content-title">{detailCommon[0].title}</h1> */}
       <div className="Content">
         <Slider contentImage={contentImage} />
-        <Detail setCategory={setCategory} contentData={contentData} />
+        <Detail
+          category={category}
+          setCategory={setCategory}
+          contentData={contentData}
+        />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
       <Review />
@@ -41,7 +45,7 @@ async function getContentImage(id: string) {
   const response = await fetch(
     `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
   );
-  
+
   if (!response.ok) {
     throw new Error("Failed to Fetch from Data");
   }
@@ -66,7 +70,7 @@ async function getContentDetailIntro(id: string) {
 
 async function getCotentDetailCommon(id: string) {
   const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&contentTypeId=15&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=N&overviewYN=Y&numOfRows=10&pageNo=1`
+    `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&contentTypeId=15&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1`
   );
 
   if (!response.ok) {
@@ -89,26 +93,3 @@ export async function loader({ params }: LoaderFunctionArgs) {
     ]);
   return { contentDetailIntro, contentDetailCommon, contentImage };
 }
-
-/* <Suspense fallback={<p>Loading......</p>}>
-          <Await resolve={contentImage}>
-            {(loadedCotentImage) => <Slider contentImage={loadedCotentImage} />}
-          </Await>
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Await resolve={{ contentDetailCommon, contentDatailIntro }}>
-            {(loadedCotentData) => (
-              <Detail
-                setCategory={setCategory}
-                contentData={loadedCotentData}
-              />
-            )}
-          </Await>
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Await resolve={contentDetailCommon}>
-            {(loadedDetailCommon) => (
-              <Overview contentDetailCommon={loadedDetailCommon} />
-            )}
-          </Await>
-        </Suspense> */
