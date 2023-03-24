@@ -75,6 +75,10 @@ export type ContentImage = {
   serialnum: string;
 };
 
+export type ImageData = {
+  originimgurl: string;
+};
+
 export type Respon = {
   response: {
     body: {

@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
-import { fetchFromData } from "./redux/fetch-action";
+import { getFestiavalData } from "./redux/fetch-action";
 import { RootState, useAppDispatch } from "./redux/store";
 import { useSelector } from "react-redux";
 import StartPage from "./Pages/Start";
@@ -20,7 +20,6 @@ import "./App.css";
 function App() {
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
-  console.log("app");
 
   if (festivalState.successGetData) {
     // 새로고침시에 불 필요한 thunkAction을 줄이기 위함.
@@ -33,7 +32,7 @@ function App() {
   useEffect(() => {
     if (!sessionStorage.getItem('festivalArray')) {
       console.log("fetchThunk");
-      dispatch(fetchFromData());
+      dispatch(getFestiavalData());
     }
   }, [dispatch]);
 

@@ -11,5 +11,7 @@ export const dataSlice = (startDate: string, endDate: string): string => {
     endDate.slice(4, 6) +
     "." +
     endDate.slice(6, 8);
+
   return result;
 };
+

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Item, Region, Season, Month } from "../modules/Type";
-import { fetchFromData } from "./fetch-action";
+import { getFestiavalData } from "./fetch-action";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -151,8 +151,8 @@ const festivalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFromData.pending, (state) => {})
-      .addCase(fetchFromData.fulfilled, (state, action) => {
+      .addCase(getFestiavalData.pending, (state) => {})
+      .addCase(getFestiavalData.fulfilled, (state, action) => {
         const dummyData = action.payload.response.body.items.item;
         const arr: Item[] = [];
 
@@ -171,7 +171,7 @@ const festivalSlice = createSlice({
         state.festivalArray = arr;
         state.successGetData = true;
       })
-      .addCase(fetchFromData.rejected, (state, action) => {
+      .addCase(getFestiavalData.rejected, (state, action) => {
         state.loading = false;
         console.log(action.error);
         state.error = action.error.message || "Failed to fetch data";

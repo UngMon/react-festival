@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Respon } from "../modules/Type";
 
-export const fetchFromData = createAsyncThunk(
+export const getFestiavalData = createAsyncThunk(
   "festival/fetchFromData",
   async () => {
     const serviceKey = process.env.REACT_APP_SERVICE_KEY!;
@@ -18,3 +18,5 @@ export const fetchFromData = createAsyncThunk(
     return data;
   }
 );
+
+// export 
