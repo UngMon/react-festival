@@ -140,3 +140,41 @@ export type Season = {
 export type Params = {
   contentId: string;
 };
+
+export type FirebaseImage = {
+  firstImage: string;
+  images: [];
+};
+
+export type Comment = {
+  name: string;
+  uid: string;
+  when: string;
+  content: string;
+};
+
+export type UserList = {
+  [uid: string]: {
+    좋아요: number;
+    그저그래요: number;
+    싫어요: number;
+  };
+};
+
+export type Expression = {
+  좋아요: number;
+  그저그래요: number;
+  싫어요: number;
+  userList: UserList;
+};
+
+export type ContentData = {
+  comment: Comment[];
+  detailImage: string[];
+  firstImage: string;
+  expression: Expression;
+};
+
+export type FirebaseData = {
+  [key: string]: ContentData;
+};

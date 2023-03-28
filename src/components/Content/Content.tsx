@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
 import {
   LoaderData,
   ResponImage,
@@ -14,6 +14,7 @@ import Overview from "./Overview";
 
 const Cotent = () => {
   console.log("content render");
+  const { contentId } = useParams();
   const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
 
@@ -23,7 +24,6 @@ const Cotent = () => {
   return (
     <main className="main-box">
       <h1 className="Content-title">hi</h1>
-      {/* <h1 className="Content-title">{detailCommon[0].title}</h1> */}
       <div className="Content">
         <Slider contentImage={contentImage} />
         <Detail
@@ -33,7 +33,7 @@ const Cotent = () => {
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
-      <Review />
+      <Review contentId={contentId!}/>
     </main>
   );
 };

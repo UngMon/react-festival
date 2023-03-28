@@ -1,0 +1,62 @@
+import { Navigate, useNavigate } from "react-router-dom";
+import classes from "../../Pages/Login.module.css";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
+const KakaoLogin = () => {
+  const navigate = useNavigate();
+  const { Kakao } = window;
+  const searchParams = new URLSearchParams(document.location.search);
+  const code = searchParams.get("code");
+  if (!window.Kakao.isInitialized()) {
+    window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+  }
+
+  const getAccessToken = async () => {
+    console.log(code);
+    await fetch("https://kauth.kakao.com/oauth/token", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+      body: `grant_type=authorization_code&client_id=5285b2efa74367ac451af3041c4291cd&redirect_uri=http://localhost:3000/login/oauth&code=${code}`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const kakaoLoginHandler = () => {
+    console.log("?");
+    Kakao.Auth.authorize({
+      redirectUri: process.env.REACT_APP_REDIRECT_URL,
+      scope: "account_email,gender",
+    });
+  };
+
+  if (code) {
+    getAccessToken();
+  }
+
+  return (
+    <div className={classes["Social-Login-Box"]} onClick={kakaoLoginHandler}>
+      <img
+        src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+        width="222"
+        alt="카카오 로그인 버튼"
+      />
+    </div>
+  );
+};
+
+export default KakaoLogin;

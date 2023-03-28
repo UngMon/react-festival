@@ -5,6 +5,7 @@ import { dataSlice } from "../../modules/DataSlice";
 import { RootState } from "../../redux/store";
 import { calculateDate } from "../UI/CalculateDate";
 import "./Card.css";
+import { setData } from "../../modules/SetData";
 
 interface CardProps {
   type: string;
@@ -14,10 +15,18 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
+  console.log("CArd");
   const navigate = useNavigate();
   const festivalState = useSelector((state: RootState) => state.festival);
+  const contentData = useSelector(
+    (state: RootState) => state.firebase.contentData
+  );
+
   const festivalArray = sessionStorage.getItem("festivalArray");
   const cardClickHandler = (contentid: string) => {
+    if (!contentData[contentid]) {
+      setData(contentid);
+    }
     navigate(`/content/${contentid}`);
   };
 
@@ -58,6 +67,12 @@ const Card = (props: CardProps) => {
         month,
         date
       );
+
+      let imageUri = "";
+      if (contentData[item.contentid]) {
+        imageUri = contentData[item.contentid].firstImage;
+      }
+
       const element = (
         <div
           className="festival-item"
@@ -67,7 +82,7 @@ const Card = (props: CardProps) => {
           <div className="image-box">
             <img
               className="festival-image"
-              src={item.firstimage || "./NoImage.png"}
+              src={item.firstimage || imageUri || "./NoImage.png"}
               alt={item.title}
             ></img>
           </div>
@@ -102,32 +117,3 @@ const Card = (props: CardProps) => {
 };
 
 export default Card;
-
-// return array.map((item) => (
-//   <div
-//     className="festival-item"
-//     key={item.title}
-//     onClick={() => cardClickHandler(item.contentid)}
-//   >
-//     <div className="image-box">
-//       <img
-//         className="festival-image"
-//         src={item.firstimage || "./NoImage.png"}
-//         alt={item.title}
-//       ></img>
-//     </div>
-//     <div className="event-title">{item.title}</div>
-//     <div className="event-date">
-//       <div className="date">
-//         {dataSlice(item.eventstartdate, item.eventenddate)}
-//       </div>
-//       {calculateDate(
-//         item.eventstartdate,
-//         item.eventenddate,
-//         year,
-//         month,
-//         date
-//       )}
-//     </div>
-//   </div>
-// ));
