@@ -150,22 +150,15 @@ export type Comment = {
   name: string;
   uid: string;
   when: string;
-  content: string;
+  text: string;
 };
 
-export type UserList = {
+export type Expression = {
   [uid: string]: {
     좋아요: number;
     그저그래요: number;
     싫어요: number;
   };
-};
-
-export type Expression = {
-  좋아요: number;
-  그저그래요: number;
-  싫어요: number;
-  userList: UserList;
 };
 
 export type ContentData = {

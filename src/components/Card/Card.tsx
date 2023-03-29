@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Item } from "../../modules/Type";
 import { dataSlice } from "../../modules/DataSlice";
 import { RootState } from "../../redux/store";
-import { calculateDate } from "../UI/CalculateDate";
+import { calculateDate } from "../../modules/CalculateDate";
 import "./Card.css";
 import { setData } from "../../modules/SetData";
+import { nowDate } from "../../modules/NowData";
 
 interface CardProps {
   type: string;
@@ -30,10 +31,7 @@ const Card = (props: CardProps) => {
     navigate(`/content/${contentid}`);
   };
 
-  const today = new Date();
-  const year = String(today.getFullYear());
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const date = String(today.getDate()).padStart(2, "0");
+  const { year, month, date } = nowDate();
 
   const returnArray = () => {
     let array: Item[] = [];

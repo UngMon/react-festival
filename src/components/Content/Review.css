@@ -37,3 +37,25 @@
   border: 0;
   border-radius: 5px;
 }
+
+.user-review-area {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.user-review-box {
+  box-sizing: border-box;
+  padding: 10px 5px;
+}
+
+.name-and-option {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-text {
+  padding-left: 10px;
+  text-align: left;
+}
