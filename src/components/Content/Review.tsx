@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { db } from "../../firebase/firestore";
 import { nowDate } from "../../modules/NowData";
 import { RootState } from "../../redux/store";
-import { Comment } from "../../modules/Type";
+import { Comment, Expression } from "../../modules/Type";
 import Loading from "../UI/Loading";
 import "./Review.css";
 
@@ -15,157 +15,143 @@ interface ReviewProps {
 let isFirst = true;
 
 const Review = ({ contentId }: ReviewProps) => {
-  const uid = "nothing";
   const firebaseState = useSelector((state: RootState) => state.firebase);
+  const uid = firebaseState.userUid || "";
 
   const [reviewArray, setReviewArray] = useState<Comment[]>([]);
   const contentRef = doc(db, "content", contentId);
 
-  const [good, setGood] = useState<number>(0);
-  const [soso, setSoso] = useState<number>(0);
-  const [bad, setBad] = useState<number>(0);
+  const [feelCount, setFeelCount] = useState<[number, number, number]>([
+    0, 0, 0,
+  ]);
 
-  const [isGood, setIsGood] = useState<boolean>(false);
-  const [isSoso, setIsSoso] = useState<boolean>(false);
-  const [isBad, setIsBad] = useState<boolean>(false);
-
-  const [userPick, setUserPick] = useState<string>("");
+  const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]); //
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
       const commentData = firebaseState.contentData[contentId].expression;
-      let dummyGood = 0;
-      let dummySoso = 0;
-      let dummyBad = 0;
+      let Good = 0;
+      let Soso = 0;
+      let Bad = 0;
       for (let user in commentData) {
         const { 좋아요, 그저그래요, 싫어요 } = commentData[user];
-        dummyGood += 좋아요;
-        dummySoso += 그저그래요;
-        dummyBad += 싫어요;
         if (user === uid) {
-          좋아요 === 1 && setUserPick("좋아요");
-          그저그래요 === 1 && setUserPick("그저그래요");
-          싫어요 === 1 && setUserPick("싫어요");
+          setUserPick([좋아요, 그저그래요, 싫어요]);
+          continue;
         }
+        Good += 좋아요;
+        Soso += 그저그래요;
+        Bad += 싫어요;
       }
-      setGood(dummyGood);
-      setSoso(dummySoso);
-      setBad(dummyBad);
+      setFeelCount([Good, Soso, Bad]);
       setReviewArray(firebaseState.contentData[contentId].comment);
     }
-  }, [firebaseState, contentId]);
+  }, [firebaseState, contentId, uid]);
 
   useEffect(() => {
-    let docData;
-
-    if (isGood || isSoso || isBad) {
-      docData = {
-        himon: {
-          좋아요: isGood ? 1 : 0,
-          그저그래요: isSoso ? 1 : 0,
-          싫어요: isBad ? 1 : 0,
-        },
+    if (userPick[0] === 1 || userPick[1] === 1 || userPick[2] === 1) {
+      let docData: Expression = {};
+      docData[uid] = {
+        좋아요: userPick[0],
+        그저그래요: userPick[1],
+        싫어요: userPick[2],
       };
-
       setDoc(contentRef, { expression: docData }, { merge: true });
     }
-    if (!isGood && !isSoso && !isBad && !isFirst) {
-      const updateData = {
-        "expression.himon": deleteField(),
-      };
+    if (
+      userPick[0] === 0 &&
+      userPick[1] === 0 &&
+      userPick[2] === 0 &&
+      !isFirst
+    ) {
+      let updateData: { [key: string]: any } = {};
+      updateData[`expression.${uid}`] = deleteField();
       updateDoc(contentRef, updateData);
     }
   });
 
   const handler = (type: string) => {
-    if (isFirst) {
-      isFirst = false;
-    }
+    if (!firebaseState.loginedUser)
+      return alert("로그인 하시면 이용하실 수 있습니다.");
 
-    if (type === "좋아요") {
-      if (isSoso) {
-        setSoso(soso - 1);
-        setIsSoso(false);
-      }
-      if (isBad) {
-        setBad(bad - 1);
-        setIsBad(false);
-      }
-      setGood((prevState) => (!isGood ? prevState + 1 : prevState - 1));
-      setIsGood((prevState) => !prevState);
-    }
+    if (isFirst) isFirst = false;
 
-    if (type === "그저그래요") {
-      if (isGood) {
-        setGood(good - 1);
-        setIsGood(false);
-      }
+    let userPicked: [number, number, number] = [0, 0, 0];
 
-      if (isBad) {
-        setBad(bad - 1);
-        setIsBad(false);
-      }
+    if (type === "좋아요") userPicked = [userPick[0] === 0 ? 1 : 0, 0, 0];
 
-      setSoso((prevState) => (!isSoso ? prevState + 1 : prevState - 1));
-      setIsSoso((prevState) => !prevState);
-    }
+    if (type === "그저그래요") userPicked = [0, userPick[1] === 0 ? 1 : 0, 0];
 
-    if (type === "싫어요") {
-      if (isGood) {
-        setGood(good - 1);
-        setIsGood(false);
-      }
+    if (type === "싫어요") userPicked = [0, 0, userPick[2] === 0 ? 1 : 0];
 
-      if (isSoso) {
-        setSoso(soso - 1);
-        setIsSoso(false);
-      }
-
-      setBad((prevState) => (!isBad ? prevState + 1 : prevState - 1));
-      setIsBad((prevState) => !prevState);
-    }
+    setUserPick(userPicked);
   };
 
   const reviewInputHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(reviewArray);
-    const { year, month, date, time } = nowDate();
+    if (!firebaseState.loginedUser)
+      return alert("로그인 하시면 이용하실 수 있습니다.");
+
     const text = inputRef.current!.value;
+
+    if (text.length === 0) {
+      return alert('글자를 입력해주세요!');
+    }
+    const { year, month, date, time } = nowDate();
+
     const fieldData = {
-      name: "hi",
-      uid: "user-uid",
+      name: firebaseState.userName,
+      uid: uid,
       when: year + "-" + month + "-" + date + " " + time,
       text,
     };
-    const array = [...reviewArray, fieldData];
+
+    const array = [fieldData, ...reviewArray];
+
     setDoc(contentRef, { comment: array }, { merge: true });
     setReviewArray(array);
   };
 
-  const optionClickHandler = (uid: string) => {
-    
+  const optionClickHandler = (itemUid: string) => {
+    if (itemUid === uid) {
+      
+    }
   };
 
   return (
     <div className="Cotent-review">
+      <p className="How-to-feel">이 축제/행사 어떻게 생각하세요?</p>
       <div className="Cotent-feeling">
         <div onClick={() => handler("좋아요")}>
-          <img></img>
-          <p style={{ color: userPick === "좋아요" ? "red" : "" }}>{good}</p>
-          <p>좋아요</p>
+          <img src="/images/Good.png" alt="Good" width="40"></img>
+          <p
+            style={{ color: userPick[0] === 1 ? "red" : "" }}
+            className="feeling-count"
+          >
+            {feelCount[0] + userPick[0]}
+          </p>
+          <p> 좋아요 </p>
         </div>
         <div onClick={() => handler("그저그래요")}>
-          <img></img>
-          <p style={{ color: userPick === "그저그래요" ? "red" : "" }}>
-            {soso}
+          <img src="/images/Soso.png" alt="Soso" width="40"></img>
+          <p
+            style={{ color: userPick[1] === 1 ? "red" : "" }}
+            className="feeling-count"
+          >
+            {feelCount[1] + userPick[1]}
           </p>
-          <p>그저 그래요</p>
+          <p>그저저럭</p>
         </div>
         <div onClick={() => handler("싫어요")}>
-          <img></img>
-          <p style={{ color: userPick === "싫어요" ? "red" : "" }}>{bad}</p>
-          <p>싫어요</p>
+          <img src="/images/Bad.png" alt="Bad" width="40"></img>
+          <p
+            style={{ color: userPick[2] === 1 ? "red" : "" }}
+            className="feeling-count"
+          >
+            {feelCount[2] + userPick[2]}
+          </p>
+          <p>음..별로?</p>
         </div>
       </div>
       <form className="user-input-box" onSubmit={reviewInputHandler}>
@@ -187,7 +173,7 @@ const Review = ({ contentId }: ReviewProps) => {
                 <div className="user-name">{item.name}</div>
                 <div
                   className="review-option"
-                  onClick={optionClickHandler(item.uid)}
+                  onClick={() =>optionClickHandler(item.uid)}
                 >
                   옵션
                 </div>

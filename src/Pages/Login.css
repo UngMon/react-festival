@@ -18,17 +18,27 @@
   font-size: 1.5em;
 }
 
+.Google-Login-Box{
+  box-sizing: border-box;
+  width: 75%;
+  height: 40px;
+  margin: 0 auto 30px;
+  padding-left: 10px ;
+  border: 0.5px solid black;
+}
+
 .Social-Login-Box {
   box-sizing: border-box;
-  width: 200px;
-  height: 30px;
-  margin: 0 auto 20px;
+  width: 75%;
+  height: 40px;
+  margin: 0 auto 30px;
   padding-left: 10px;
   display: flex;
   justify-content: left;
   align-items: center;
-  line-height: 30px;
-  font-size: 0.9em;
+  line-height: 40px;
+  font-size: 1em;
+  font-weight: 700;
   border: 0.8px solid black;
 }
 
@@ -40,4 +50,12 @@
   box-sizing: border-box;
   padding: 2px;
   height: 100%;
+}
+
+.error-message {
+  display: block;
+  margin: calc(100vh / 2 - 30px) auto;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
 }

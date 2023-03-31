@@ -1,5 +1,5 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import classes from "../../Pages/Login.module.css";
+import "../../Pages/Login.css";
 
 declare global {
   interface Window {
@@ -12,35 +12,60 @@ const KakaoLogin = () => {
   const { Kakao } = window;
   const searchParams = new URLSearchParams(document.location.search);
   const code = searchParams.get("code");
+
   if (!window.Kakao.isInitialized()) {
     window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
   }
 
+  const getUserData = async () => {
+    try {
+      let data = await Kakao.API.request({
+        url: "/v2/user/me",
+      });
+      console.log(data)
+      // const properties = {
+      //   uid: `kakao:${data.result.id}`,
+      //   provider: 'Kakao.com',
+      //   displayName: data.result.properties.nickname,
+      //   email: data.result.kakao_account.email
+      // }
+      
+
+      navigate('/');
+    } catch (err) {
+      console.log("here?");
+      console.log(err);
+    }
+  };
+
   const getAccessToken = async () => {
     console.log(code);
-    await fetch("https://kauth.kakao.com/oauth/token", {
+    const response = await fetch("https://kauth.kakao.com/oauth/token", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       body: `grant_type=authorization_code&client_id=5285b2efa74367ac451af3041c4291cd&redirect_uri=http://localhost:3000/login/oauth&code=${code}`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        // navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
+
+    try {
+      const data = await response.json();
+      console.log(data);
+      Kakao.Auth.setAccessToken(data.access_token);
+      const userData = Kakao.API.request({ url: "/v2/user/me" });
+      console.log(userData);
+      getUserData();
+    } catch (err) {
+      alert(err);
+      console.log(err);
+      navigate('/login');
+    }
   };
 
   const kakaoLoginHandler = () => {
-    console.log("?");
     Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_REDIRECT_URL,
-      scope: "account_email,gender",
+      scope: "profile_nickname account_email",
     });
   };
 
@@ -49,10 +74,9 @@ const KakaoLogin = () => {
   }
 
   return (
-    <div className={classes["Social-Login-Box"]} onClick={kakaoLoginHandler}>
+    <div className="Social-Login-Box" onClick={kakaoLoginHandler}>
       <img
         src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-        width="222"
         alt="카카오 로그인 버튼"
       />
     </div>

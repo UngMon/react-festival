@@ -9,6 +9,7 @@ const Loading = () => {
         <div></div>
         <div></div>
       </div>
+      <p className="lds-p">loading.....</p>
     </div>
   );
 };

@@ -154,7 +154,7 @@ export type Comment = {
 };
 
 export type Expression = {
-  [uid: string]: {
+  [key: string]: {
     좋아요: number;
     그저그래요: number;
     싫어요: number;

@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+.How-to-feel {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
 .Cotent-feeling {
   display: flex;
   justify-content: center;
@@ -13,7 +19,25 @@
 }
 
 .Cotent-feeling div {
-  margin: 0 10px;
+  margin: 0 30px;
+}
+
+.Cotent-feeling div:hover {
+  cursor: pointer;
+
+}
+
+.Cotent-feeling div img:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.feeling-count {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.Cotent-feeling p {
+  margin-top: 5px;
 }
 
 .user-input-box {

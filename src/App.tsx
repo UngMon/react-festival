@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { getFestiavalData, getFriebaseImageData } from "./redux/fetch-action";
 import { RootState, useAppDispatch } from "./redux/store";
 import { useSelector } from "react-redux";
+import { firebaseActions } from "./redux/firebase-slice";
+import { onAuthStateChanged } from "firebase/auth";
 import StartPage from "./Pages/Start";
 import LoginPage from "./Pages/Login";
 import RootLayout from "./Pages/Root";
@@ -15,10 +17,8 @@ import Content, { loader as contentLoader } from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import ResultPage from "./Pages/Result";
 import SearchPage from "./Pages/SearchPage";
-import Oauth from "./components/Login/Oauth";
 import "./App.css";
-// import { collection, getDocs, query } from "firebase/firestore";
-// import { db } from "./firebase/firestore";
+import { auth } from "./firebase/firestore";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -47,7 +47,15 @@ function App() {
       console.log("fetchThunk");
       dispatch(getFestiavalData());
     }
+
     dispatch(getFriebaseImageData());
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, displayName } = user;
+        dispatch(firebaseActions.setUserData({ uid, displayName }));
+      }
+    });
   }, [dispatch]);
 
   const router = createBrowserRouter([
@@ -100,12 +108,6 @@ function App() {
     {
       path: "/login",
       element: <LoginPage />,
-      children: [
-        {
-          path: "oauth",
-          element: <Oauth />,
-        },
-      ],
     },
   ]);
 
