@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ContentImage, ResponImage, ImageData } from "../../modules/Type";
-import NoImage from "../../Images/NoImage.png";
+// import NoImage from "../../Images/NoImage.png";
 import "./Slider.css";
 import SliderButton from "./SliderButton";
 
@@ -67,7 +67,7 @@ const Slider = ({ contentImage }: SliderProps) => {
 
     const resizeHandler = () => {
       setWidth(
-        containerRef.current!.clientWidth < 750
+        containerRef.current!.clientWidth < 650
           ? containerRef.current!.clientWidth
           : containerRef.current!.clientWidth / 3
       );
@@ -117,8 +117,8 @@ const Slider = ({ contentImage }: SliderProps) => {
             ))
           ) : (
             <div className="slider">
-              <a>
-                <img src={NoImage} alt="축제 이미지"></img>
+              <a href="/Noimage.png">
+                <img  alt="축제 이미지"></img>
               </a>
             </div>
           )}

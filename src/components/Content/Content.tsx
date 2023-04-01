@@ -9,7 +9,7 @@ import {
 import Slider from "./Slider";
 import Detail from "./Detail/Detail";
 import "./Content.css";
-import Review from "./Review";
+import Review from "./Review/Review";
 import Overview from "./Overview";
 
 const Cotent = () => {

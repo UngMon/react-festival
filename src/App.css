@@ -6,5 +6,5 @@
 .main-box {
   width: 100%;
   min-height: calc(100vh - 110px);
-  background-color: rgb(243, 240, 235);
+  background-color: white;
 }

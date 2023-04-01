@@ -1,32 +1,29 @@
-import { setDoc, doc, updateDoc, deleteField } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { db } from "../../firebase/firestore";
-import { nowDate } from "../../modules/NowData";
-import { RootState } from "../../redux/store";
-import { Comment, Expression } from "../../modules/Type";
-import Loading from "../UI/Loading";
-import "./Review.css";
-
-interface ReviewProps {
-  contentId: string;
-}
+import { useEffect, useState } from "react";
+import { firebaseState } from "../../../modules/Type";
+import { Expression } from "../../../modules/Type";
+import {
+  DocumentData,
+  DocumentReference,
+  setDoc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 
 let isFirst = true;
 
-const Review = ({ contentId }: ReviewProps) => {
-  const firebaseState = useSelector((state: RootState) => state.firebase);
-  const uid = firebaseState.userUid || "";
+interface FeelingProps {
+  firebaseState: firebaseState;
+  contentRef: DocumentReference<DocumentData>;
+  contentId: string;
+}
 
-  const [reviewArray, setReviewArray] = useState<Comment[]>([]);
-  const contentRef = doc(db, "content", contentId);
-
+const Feeling = ({ firebaseState, contentRef, contentId }: FeelingProps) => {
   const [feelCount, setFeelCount] = useState<[number, number, number]>([
     0, 0, 0,
   ]);
+  const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]);
 
-  const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]); //
-  const inputRef = useRef<HTMLInputElement>(null);
+  const uid = firebaseState.userUid || "";
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
@@ -45,7 +42,6 @@ const Review = ({ contentId }: ReviewProps) => {
         Bad += 싫어요;
       }
       setFeelCount([Good, Soso, Bad]);
-      setReviewArray(firebaseState.contentData[contentId].comment);
     }
   }, [firebaseState, contentId, uid]);
 
@@ -88,39 +84,8 @@ const Review = ({ contentId }: ReviewProps) => {
     setUserPick(userPicked);
   };
 
-  const reviewInputHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!firebaseState.loginedUser)
-      return alert("로그인 하시면 이용하실 수 있습니다.");
-
-    const text = inputRef.current!.value;
-
-    if (text.length === 0) {
-      return alert('글자를 입력해주세요!');
-    }
-    const { year, month, date, time } = nowDate();
-
-    const fieldData = {
-      name: firebaseState.userName,
-      uid: uid,
-      when: year + "-" + month + "-" + date + " " + time,
-      text,
-    };
-
-    const array = [fieldData, ...reviewArray];
-
-    setDoc(contentRef, { comment: array }, { merge: true });
-    setReviewArray(array);
-  };
-
-  const optionClickHandler = (itemUid: string) => {
-    if (itemUid === uid) {
-      
-    }
-  };
-
   return (
-    <div className="Cotent-review">
+    <>
       <p className="How-to-feel">이 축제/행사 어떻게 생각하세요?</p>
       <div className="Cotent-feeling">
         <div onClick={() => handler("좋아요")}>
@@ -141,7 +106,7 @@ const Review = ({ contentId }: ReviewProps) => {
           >
             {feelCount[1] + userPick[1]}
           </p>
-          <p>그저저럭</p>
+          <p>그냥그래요</p>
         </div>
         <div onClick={() => handler("싫어요")}>
           <img src="/images/Bad.png" alt="Bad" width="40"></img>
@@ -154,41 +119,8 @@ const Review = ({ contentId }: ReviewProps) => {
           <p>음..별로?</p>
         </div>
       </div>
-      <form className="user-input-box" onSubmit={reviewInputHandler}>
-        <input
-          type="text"
-          id="user-input"
-          placeholder="여러분의 소중한 리뷰를 작성해주세요!"
-          ref={inputRef}
-        ></input>
-        <button type="submit">입력</button>
-      </form>
-      <div className="user-review-area">
-        {!firebaseState.succesGetData ? (
-          <Loading />
-        ) : reviewArray.length !== 0 ? (
-          reviewArray.map((item, index) => (
-            <div key={index} className="user-review-box">
-              <div className="name-and-option">
-                <div className="user-name">{item.name}</div>
-                <div
-                  className="review-option"
-                  onClick={() =>optionClickHandler(item.uid)}
-                >
-                  옵션
-                </div>
-              </div>
-              <div className="review-text">{item.text}</div>
-            </div>
-          ))
-        ) : (
-          <div>
-            <p>등록된 리뷰가 없습니다!</p>
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 
-export default Review;
+export default Feeling;

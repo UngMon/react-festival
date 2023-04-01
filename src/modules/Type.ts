@@ -171,3 +171,14 @@ export type ContentData = {
 export type FirebaseData = {
   [key: string]: ContentData;
 };
+
+
+export interface firebaseState {
+  contentData: FirebaseData;
+  isChanged: boolean;
+  succesGetData: boolean;
+  userChecked: boolean;
+  loginedUser: boolean;
+  userUid: string,
+  userName: string,
+}

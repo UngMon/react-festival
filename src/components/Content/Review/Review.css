@@ -1,0 +1,173 @@
+.Cotent-review {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.How-to-feel {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.Cotent-feeling {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Cotent-feeling div {
+  margin: 0 30px;
+}
+
+.Cotent-feeling div:hover {
+  cursor: pointer;
+}
+
+.Cotent-feeling div img:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.feeling-count {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.Cotent-feeling p {
+  margin-top: 5px;
+}
+
+.user-input-box {
+  margin: 20px auto;
+}
+
+.user-input-box input {
+  box-sizing: border-box;
+  width: 70%;
+  min-height: 35px;
+  padding: 10px;
+  border: 0.5px solid black;
+}
+
+.user-input-box button {
+  margin-left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: orange;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+}
+
+.user-review-area {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.user-review-box {
+  box-sizing: border-box;
+  padding: 10px 5px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.user-icon {
+  box-sizing: border-box;
+  margin: 20% 0;
+  width: 50px;
+  height: 65%;
+  grid-column-start: 0;
+  grid-column-end: 1;
+  grid-row-start: 0;
+  grid-row-end: span 2;
+  background-color: blueviolet;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 15px;
+}
+
+.user-icon p {
+  height: 100%;
+  line-height: 250%;
+}
+
+.user-reivew-top {
+  padding: 10px;
+  grid-column-start: 1;
+  grid-column-end: span 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.review-option:hover {
+  cursor: pointer;
+}
+
+.review-text {
+  padding: 5px 10px;
+  text-align: left;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.revise-input {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.revise-input input {
+  width: 97%;
+  height: 70%;
+  border: 0;
+  border-bottom: 1.5px solid rgb(169, 169, 169);
+}
+
+.review-button-box {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align: right;
+}
+
+.review-button-box button {
+  margin-left: 10px;
+  width: 40px;
+  height: 80%;
+  border: 0;
+  border-radius: 10px;
+}
+
+.option-box {
+  position: absolute;
+  z-index: 6;
+  top: 40px;
+  right: 10px;
+  width: 80px;
+  height: 60px;
+  padding: 5px 0;
+  background-color: rgb(247, 247, 247);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+}
+
+.option-box p {
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.option-box p:hover {
+  background-color: lightblue;
+}
