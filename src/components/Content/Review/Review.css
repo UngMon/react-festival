@@ -171,3 +171,7 @@
 .option-box p:hover {
   background-color: lightblue;
 }
+
+.stop-scrolling {
+  overflow: hidden;
+}
