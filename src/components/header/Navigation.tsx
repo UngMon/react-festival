@@ -7,33 +7,32 @@ import classes from "./Navigation.module.css";
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
-  const boolean = useSelector((state: RootState) => state.festival);
-  const festivalArray = sessionStorage.getItem('festivalArray') || '';
+  const festivalState = useSelector((state: RootState) => state.festival);
 
   const clickCategory = (value?: string) => {
-    if (!boolean.successGetData) {
-      if (!festivalArray) {
+    if (!festivalState.successGetData) {
+      if (festivalState.festivalArray.length === 0) {
         return alert("데이터를 불러오지 못 했습니다. 새로고침 해주세요!");
       }
     }
     
-    if (!boolean.sortedMonth) {
-      dispatch(festivalActions.sortDataByMonth(JSON.parse(festivalArray)));
+    if (value === 'month' && !festivalState.sortedMonth) {
+      dispatch(festivalActions.sortDataByMonth());
     }
 
-    if (value! === "region" && !boolean.sortedRegion) {
-      dispatch(festivalActions.sortDataByRegion(JSON.parse(festivalArray)));
+    if (value === "region" && !festivalState.sortedRegion) {
+      dispatch(festivalActions.sortDataByRegion());
     }
 
-    if (value! === "season" && !boolean.sortedSeason) {
-      dispatch(festivalActions.sortDataBySeason(JSON.parse(festivalArray)));
+    if (value === "season" && !festivalState.sortedSeason) {
+      dispatch(festivalActions.sortDataBySeason());
     }
   };
 
   return (
     <nav>
       <ul className={classes["Nav-box"]}>
-        <NavLink to="all-festival/month/all" onClick={() => clickCategory()}>
+        <NavLink to="all-festival/month/all" onClick={() => clickCategory('month')}>
           전체 보기
         </NavLink>
         <NavLink

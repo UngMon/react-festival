@@ -16,6 +16,7 @@ interface FestivalState {
   sortedMonth: boolean;
   sortedRegion: boolean;
   sortedSeason: boolean;
+  isSearched: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -30,6 +31,7 @@ const initialState: FestivalState = {
   sortedMonth: false,
   sortedRegion: false,
   sortedSeason: false,
+  isSearched: false,
   loading: true,
   error: null,
 };
@@ -38,10 +40,7 @@ const festivalSlice = createSlice({
   name: "festival",
   initialState,
   reducers: {
-    sortDataByMonth(state, action) {
-      if (action.payload !== "") {
-        state.festivalArray = action.payload;
-      }
+    sortDataByMonth(state) {
 
       const result: Month = {
         "01": [],
@@ -73,15 +72,9 @@ const festivalSlice = createSlice({
       }
       state.monthArray = result;
       state.sortedMonth = true;
-      state.loading = false;
-      state.successGetData = true;
     },
 
-    sortDataByRegion(state, action) {
-      if (action.payload !== "") {
-        state.festivalArray = action.payload;
-        state.successGetData = true;
-      }
+    sortDataByRegion(state) {
 
       let region: Region = {
         "0": [...state.festivalArray],
@@ -111,13 +104,8 @@ const festivalSlice = createSlice({
       }
       state.regionArray = region;
       state.sortedRegion = true;
-      state.loading = false;
-      state.successGetData = true;
     },
-    sortDataBySeason(state, action) {
-      if (action.payload !== "") {
-        state.festivalArray = action.payload;
-      }
+    sortDataBySeason(state) {
 
       const season: Season = {
         spring: [],
@@ -148,10 +136,9 @@ const festivalSlice = createSlice({
       );
       state.seasonArray = season;
       state.sortedSeason = true;
-      state.loading = false;
-      state.successGetData = true;
     },
     searchFestival(state, action) {
+      state.isSearched = true;
       state.searchArray = action.payload;
     },
   },

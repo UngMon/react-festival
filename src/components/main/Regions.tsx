@@ -8,17 +8,17 @@ import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
 
 const Regions = () => {
+  const dispatch = useAppDispatch();
   const { regionKey } = useParams();
   const [areaCode, setAreaCode] = useState<string>(regionKey || "0");
   const festivalState = useSelector((state: RootState) => state.festival);
 
-  const dispatch = useAppDispatch();
-  const festivalArray = sessionStorage.getItem('festivalArray') || '';
-
   useEffect(() => {
     //새로고침(마운트)시 리덕스 스테이트 업데이트
-    dispatch(festivalActions.sortDataByRegion(JSON.parse(festivalArray)))
-  }, [dispatch, festivalArray])
+    if (festivalState.successGetData && !festivalState.sortedRegion) {
+      dispatch(festivalActions.sortDataByRegion());
+    }
+  }, [dispatch, festivalState]);
 
   return (
     <main className="main-box">

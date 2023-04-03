@@ -9,17 +9,17 @@ import Card from "../Card/Card";
 import Loading from "../UI/Loading";
 
 const Seasons = () => {
+  const dispatch = useAppDispatch();
   const { seasonKey } = useParams();
   const [season, setSeason] = useState<string>(seasonKey || CurrentSeason());
   const festivalState = useSelector((state: RootState) => state.festival);
 
-  const dispatch = useAppDispatch();
-  const festivalArray = sessionStorage.getItem('festivalArray') || '';
-
   useEffect(() => {
     //새로고침(마운트)시 리덕스 스테이트 업데이트
-    dispatch(festivalActions.sortDataBySeason(JSON.parse(festivalArray)))
-  }, [dispatch, festivalArray])
+    if (festivalState.successGetData && !festivalState.sortedSeason) {
+      dispatch(festivalActions.sortDataBySeason());
+    }
+  }, [dispatch, festivalState]);
 
   return (
     <main className="main-box">

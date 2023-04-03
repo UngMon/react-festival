@@ -12,35 +12,15 @@ const AllView = () => {
   console.log("allview");
   const { monthKey } = useParams();
   const dispatch = useAppDispatch();
-
   const festivalState = useSelector((state: RootState) => state.festival);
   const [month, setMonth] = useState<string>(monthKey || "all");
 
   useEffect(() => {
-    const arrayExist = sessionStorage.getItem("festivalArray");
-    let festivalArray: string = '';
-
-    if (festivalState.successGetData && !arrayExist) {
-      // 관광공사 데이터는 얻어왔지만 세션스토리지에 정보가 없을 때
-      sessionStorage.setItem(
-        "festivalArray",
-        JSON.stringify(festivalState.festivalArray)
-      );
-    }
-
-    if (!festivalState.successGetData && !arrayExist) {
-      // 양쪽데이터가 없으면 app.tsx에서 thunkAction에서 데이터를 불러오기 까지 기다린다.
-      return;
-    }
-
-    festivalArray = sessionStorage.getItem("festivalArray")!;
-    if (!festivalState.sortedMonth) {
-      console.log('여기 작동함?')
-      dispatch(festivalActions.sortDataByMonth(JSON.parse(festivalArray)));
+    if (festivalState.successGetData && !festivalState.sortedMonth) {
+      dispatch(festivalActions.sortDataByMonth());
     }
   }, [dispatch, festivalState]);
 
-  console.log(month)
   return (
     <main className="main-box">
       <UiBox category={"all"} month={month} setMonth={setMonth} />

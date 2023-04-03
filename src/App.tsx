@@ -38,8 +38,8 @@ function App() {
   useEffect(() => {
     if (!sessionStorage.getItem("festivalArray")) {
       console.log("fetchThunk");
-      dispatch(getFestiavalData());
     }
+    dispatch(getFestiavalData());
 
     dispatch(getFriebaseData());
 
