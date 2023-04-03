@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getFriebaseImageData } from "./fetch-action";
+import { getFriebaseData } from "./fetch-action";
 import { FirebaseData } from "../modules/Type";
 
 interface firebaseState {
@@ -39,12 +39,12 @@ const firebaseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getFriebaseImageData.pending, (state) => {})
-      .addCase(getFriebaseImageData.fulfilled, (state, action) => {
+      .addCase(getFriebaseData.pending, (state) => {})
+      .addCase(getFriebaseData.fulfilled, (state, action) => {
         state.contentData = action.payload;
         state.succesGetData = true;
       })
-      .addCase(getFriebaseImageData.rejected, (state, action) => {
+      .addCase(getFriebaseData.rejected, (state, action) => {
         state.succesGetData = false;
         console.log(action.error);
       });

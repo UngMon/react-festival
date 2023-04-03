@@ -1,0 +1,11 @@
+.result-not-found {
+  width: 100%;
+  height: 30%;
+  margin: 20% auto;
+  text-align: center;
+}
+
+.result-not-found p {
+    font-size: 20px;
+    margin-bottom: 10px;
+}

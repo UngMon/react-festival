@@ -4,9 +4,9 @@ import { Item } from "../../modules/Type";
 import { dataSlice } from "../../modules/DataSlice";
 import { RootState } from "../../redux/store";
 import { calculateDate } from "../../modules/CalculateDate";
-import "./Card.css";
 import { setData } from "../../modules/SetData";
 import { nowDate } from "../../modules/NowData";
+import "./Card.css";
 
 interface CardProps {
   type: string;
@@ -51,7 +51,7 @@ const Card = (props: CardProps) => {
 
       if (props.type === "result") {
         if (festivalState.searchArray.length === 0) {
-          return <p>찾으시는 축제가 없어요!</p>;
+          return;
         }
         array = festivalState.searchArray;
       }

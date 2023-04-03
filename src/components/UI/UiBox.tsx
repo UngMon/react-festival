@@ -18,12 +18,12 @@ const UiBox = (props: MonthProps) => {
   return (
     <div className="Ui-Box">
       {props.category === "region" && (
-        <RegionSelector setAreaCode={props.setAreaCode!} />
+        <RegionSelector areaCode={props.areaCode!} setAreaCode={props.setAreaCode!} />
       )}
       {props.category === "season" && (
         <SeasonSelctor setSeason={props.setSeason!} />
       )}
-      {props.category === "all" && <MonthSelector setMonth={props.setMonth!} />}
+      {props.category === "all" && <MonthSelector month={props.month!} setMonth={props.setMonth!} />}
       <Search />
     </div>
   );

@@ -3,21 +3,21 @@ import { useNavigate } from "react-router-dom";
 import "./MonthSelector.css";
 
 interface MonthProps {
+  month: string;
   setMonth: (value: string) => void;
 }
 
 const MonthSelector = (props: MonthProps) => {
   const navigate = useNavigate();
-
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
-    navigate(`/all-festival/month/${value}`)
+    navigate(`/all-festival/month/${value}`);
   };
 
   return (
     <div className="picker-month">
-      <select onChange={pickedMonthHandler}>
+      <select value={props.month} onChange={pickedMonthHandler}>
         <option value="default" disabled>
           월을 선택하세요
         </option>

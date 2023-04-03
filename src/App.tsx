@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
-import { getFestiavalData, getFriebaseImageData } from "./redux/fetch-action";
+import { getFestiavalData, getFriebaseData } from "./redux/fetch-action";
 import { RootState, useAppDispatch } from "./redux/store";
 import { useSelector } from "react-redux";
 import { firebaseActions } from "./redux/firebase-slice";
@@ -17,30 +17,23 @@ import Content, { loader as contentLoader } from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import ResultPage from "./Pages/Result";
 import SearchPage from "./Pages/SearchPage";
+import Error from "./Pages/Error";
+import LoginAccessError from "./components/Error/LoginAccessError";
 import "./App.css";
 import { auth } from "./firebase/firestore";
 
 function App() {
+  console.log("app");
   const dispatch = useAppDispatch();
-  const festivalState = useSelector((state: RootState) => state.festival);
-  if (!festivalState.successGetData) {
-    console.log('hihihihihihi')
-  }
+  // const festivalState = useSelector((state: RootState) => state.festival);
 
-  // const getData = async () => {
-  //   const querySnapshot = await getDocs(query(collection(db, "contentId")));
-  //   console.log(querySnapshot.docs);
-  //   console.log(querySnapshot.forEach((doc) => console.log(doc)));
-  // };
-  // console.log(getData());
-
-  if (festivalState.successGetData) {
-    // 새로고침시에 불 필요한 thunkAction을 줄이기 위함.
-    sessionStorage.setItem(
-      "festivalArray",
-      JSON.stringify(festivalState.festivalArray)
-    );
-  }
+  // if (festivalState.successGetData) {
+  //   // 새로고침시에 불 필요한 thunkAction을 줄이기 위함.
+  //   sessionStorage.setItem(
+  //     "festivalArray",
+  //     JSON.stringify(festivalState.festivalArray)
+  //   );
+  // }
 
   useEffect(() => {
     if (!sessionStorage.getItem("festivalArray")) {
@@ -48,7 +41,7 @@ function App() {
       dispatch(getFestiavalData());
     }
 
-    dispatch(getFriebaseImageData());
+    dispatch(getFriebaseData());
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -94,7 +87,6 @@ function App() {
         },
         {
           path: "content",
-
           children: [
             {
               path: ":contentId",
@@ -109,6 +101,16 @@ function App() {
       path: "/login",
       element: <LoginPage />,
     },
+    {
+      path: "error",
+      element: <Error />,
+      children: [
+        {
+          path: "login-access",
+          element: <LoginAccessError />,
+        },
+      ],
+    },
   ]);
 
   return (
@@ -119,3 +121,10 @@ function App() {
 }
 
 export default App;
+
+// const getData = async () => {
+//   const querySnapshot = await getDocs(query(collection(db, "contentId")));
+//   console.log(querySnapshot.docs);
+//   console.log(querySnapshot.forEach((doc) => console.log(doc)));
+// };
+// console.log(getData());

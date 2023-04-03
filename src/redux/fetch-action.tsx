@@ -21,7 +21,7 @@ export const getFestiavalData = createAsyncThunk(
   }
 );
 
-export const getFriebaseImageData = createAsyncThunk(
+export const getFriebaseData = createAsyncThunk(
   "firebase/getImageFromData",
   async () => {
     const querySnapshot = await getDocs(collection(db, "content"));
@@ -43,7 +43,6 @@ export const getFriebaseImageData = createAsyncThunk(
       }
     }
 
-    sessionStorage.setItem('firebaseData', JSON.stringify(arr));
     console.log("firebase get data completed");
     return arr;
   }

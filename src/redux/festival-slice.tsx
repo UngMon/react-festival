@@ -30,7 +30,7 @@ const initialState: FestivalState = {
   sortedMonth: false,
   sortedRegion: false,
   sortedSeason: false,
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -39,7 +39,7 @@ const festivalSlice = createSlice({
   initialState,
   reducers: {
     sortDataByMonth(state, action) {
-      if (action.payload !== '') {
+      if (action.payload !== "") {
         state.festivalArray = action.payload;
       }
 
@@ -73,11 +73,14 @@ const festivalSlice = createSlice({
       }
       state.monthArray = result;
       state.sortedMonth = true;
+      state.loading = false;
+      state.successGetData = true;
     },
 
     sortDataByRegion(state, action) {
-      if (action.payload !== '') {
+      if (action.payload !== "") {
         state.festivalArray = action.payload;
+        state.successGetData = true;
       }
 
       let region: Region = {
@@ -108,9 +111,11 @@ const festivalSlice = createSlice({
       }
       state.regionArray = region;
       state.sortedRegion = true;
+      state.loading = false;
+      state.successGetData = true;
     },
     sortDataBySeason(state, action) {
-      if (action.payload !== '') {
+      if (action.payload !== "") {
         state.festivalArray = action.payload;
       }
 
@@ -143,11 +148,12 @@ const festivalSlice = createSlice({
       );
       state.seasonArray = season;
       state.sortedSeason = true;
+      state.loading = false;
+      state.successGetData = true;
     },
     searchFestival(state, action) {
       state.searchArray = action.payload;
     },
-    getDetailFestival(state) {},
   },
   extraReducers: (builder) => {
     builder
@@ -170,12 +176,12 @@ const festivalSlice = createSlice({
         arr.sort((a, b) => (a.eventenddate < b.eventenddate ? -1 : 1));
         state.festivalArray = arr;
         state.successGetData = true;
+        state.loading = false;
       })
       .addCase(getFestiavalData.rejected, (state, action) => {
         state.loading = false;
         console.log(action.error);
         state.error = action.error.message || "Failed to fetch data";
-        console.log(state.error);
       });
   },
 });

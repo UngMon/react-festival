@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 interface RegionProps {
+  areaCode: string;
   setAreaCode: (value: string) => void;
 }
 
@@ -15,7 +16,7 @@ const RegionSelector = (props: RegionProps) => {
 
   return (
     <div className="picker-month">
-      <select onChange={pickedRegionHandler}>
+      <select value={props.areaCode} onChange={pickedRegionHandler}>
         <option value="default" disabled>
           월을 선택하세요
         </option>

@@ -17,7 +17,11 @@ const Review = ({ contentId }: ReviewProps) => {
 
   return (
     <div className="Cotent-review">
-      <Feeling firebaseState={firebaseState} contentRef={contentRef} contentId={contentId} />
+      <Feeling
+        firebaseState={firebaseState}
+        contentRef={contentRef}
+        contentId={contentId}
+      />
       <Reviews
         firebaseState={firebaseState}
         contentRef={contentRef}
