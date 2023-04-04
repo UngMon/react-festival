@@ -37,7 +37,7 @@ const Search = () => {
 
   return (
     <form className="search-box" onSubmit={onSubmitHandler}>
-      <input ref={inputRef} />
+      <input ref={inputRef} placeholder='찾으시는 축제를 검색해보세요!'/>
       <button>검색</button>
     </form>
   );

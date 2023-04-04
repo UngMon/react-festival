@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import { getFestiavalData, getFriebaseData } from "./redux/fetch-action";
-import { RootState, useAppDispatch } from "./redux/store";
-import { useSelector } from "react-redux";
+import { useAppDispatch } from "./redux/store";
+import { auth } from "./firebase/firestore";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import StartPage from "./Pages/Start";
@@ -20,28 +20,14 @@ import SearchPage from "./Pages/SearchPage";
 import Error from "./Pages/Error";
 import LoginAccessError from "./components/Error/LoginAccessError";
 import "./App.css";
-import { auth } from "./firebase/firestore";
 
 function App() {
   console.log("app");
   const dispatch = useAppDispatch();
-  // const festivalState = useSelector((state: RootState) => state.festival);
-
-  // if (festivalState.successGetData) {
-  //   // 새로고침시에 불 필요한 thunkAction을 줄이기 위함.
-  //   sessionStorage.setItem(
-  //     "festivalArray",
-  //     JSON.stringify(festivalState.festivalArray)
-  //   );
-  // }
 
   useEffect(() => {
-    if (!sessionStorage.getItem("festivalArray")) {
-      console.log("fetchThunk");
-    }
-    dispatch(getFestiavalData());
-
     dispatch(getFriebaseData());
+    dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {
       if (user) {

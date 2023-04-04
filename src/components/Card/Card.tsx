@@ -84,12 +84,12 @@ const Card = (props: CardProps) => {
               alt={item.title}
             ></img>
           </div>
-          <div className="event-title">{item.title}</div>
-          <div className="event-date">
-            <div className="date">
+          <div className="festival-text">
+            <h3>{item.title}</h3>
+            <p className="festival-date">
               {dataSlice(item.eventstartdate, item.eventenddate)}
-            </div>
-            <div className="cal-date">{행사상태}</div>
+            </p>
+            <p className="cal-date">{행사상태}</p>
           </div>
         </div>
       );

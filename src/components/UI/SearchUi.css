@@ -1,16 +1,15 @@
 .search-box {
-  margin-left: 55%;
-  width: 25%;
-  line-height: 40px;
+  width: 30%;
 }
 
 .search-box input {
   box-sizing: border-box;
   width: 70%;
-  height: 20px;
-  padding: 2px 8px;
-  margin-right: 5%;
-  border: 0.5px solid black;
+  height: 30px;
+  padding: 5px 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
   font-size: 14px;
 }
 
@@ -20,12 +19,11 @@
 
 .search-box button {
   width: 15%;
+  height: 31px;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
   background-color: white;
-  border: 0;
-  height: 20px;
-  border-radius: 3px;
-  color: white;
-  background-color: rgb(196, 128, 2);
 }
 
 .search-box button:hover {

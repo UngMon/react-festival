@@ -8,8 +8,8 @@ interface firebaseState {
   succesGetData: boolean;
   userChecked: boolean;
   loginedUser: boolean;
-  userUid: string,
-  userName: string,
+  userUid: string;
+  userName: string;
 }
 
 const initialState: firebaseState = {
@@ -18,8 +18,8 @@ const initialState: firebaseState = {
   succesGetData: false,
   userChecked: false,
   loginedUser: false,
-  userUid: '',
-  userName: '',
+  userUid: "",
+  userName: "",
 };
 
 const firebaseSlice = createSlice({
@@ -32,15 +32,16 @@ const firebaseSlice = createSlice({
       state.loginedUser = true;
     },
     logOutUser(state) {
-      state.userName = '';
-      state.userUid = '';
+      state.userName = "";
+      state.userUid = "";
       state.loginedUser = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getFriebaseData.pending, (state) => {})
       .addCase(getFriebaseData.fulfilled, (state, action) => {
+
         state.contentData = action.payload;
         state.succesGetData = true;
       })

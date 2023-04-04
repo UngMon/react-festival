@@ -9,6 +9,7 @@ interface MonthProps {
 
 const MonthSelector = (props: MonthProps) => {
   const navigate = useNavigate();
+
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
@@ -35,6 +36,7 @@ const MonthSelector = (props: MonthProps) => {
         <option value="11">11월</option>
         <option value="12">12월</option>
       </select>
+      <h4 className="picker-month-h">월을 선택하세요</h4>
     </div>
   );
 };

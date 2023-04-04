@@ -29,7 +29,6 @@ export const getFriebaseData = createAsyncThunk(
     if (querySnapshot === undefined) {
       throw new Error("failed to get Image from friebase");
     }
-
     let arr: FirebaseData = {};
 
     for (let item of querySnapshot.docs) {
@@ -40,10 +39,25 @@ export const getFriebaseData = createAsyncThunk(
         detailImage: data.detailImage,
         firstImage: data.firstImage,
         expression: data.expression,
-      }
+      };
     }
-
     console.log("firebase get data completed");
     return arr;
   }
 );
+
+
+
+
+    // let arr: FirebaseData = {};
+
+    // for (let item of querySnapshot.docs) {
+    //   let cotentId = item.id;
+    //   const data = item.data();
+    //   arr[cotentId] = {
+    //     comment: data.comment,
+    //     detailImage: data.detailImage,
+    //     firstImage: data.firstImage,
+    //     expression: data.expression,
+    //   }
+    // }

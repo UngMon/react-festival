@@ -1,11 +1,24 @@
 .picker-month {
-  width: 18%;
-  margin-left: 20px;
+  width: 30%;
+  margin: 0 40% 0 50px;
+  position: relative;
+}
+
+.picker-month-h {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  color: rgb(62, 62, 244);
+  font-size: 16px;
 }
 
 .picker-month select {
-  width: 100%;
-  height: 20px;
-  padding: 0 5px;
+  width: 250px;
+  padding: 10px 0 10px 200px;
+  font-weight: 600;
+  border-radius: 8px;
 }
 
+.picker-month select:hover {
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 .Ui-Box {
-  margin: 0 auto;
-  width: 85%;
+  box-sizing: border-box;
+  padding: 0 30px;
+  width: 100%;
   height: 40px;
   display: flex;
   line-height: 40px;
