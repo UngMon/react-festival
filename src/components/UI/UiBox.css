@@ -1,8 +1,14 @@
 .Ui-Box {
+  position: relative;
   box-sizing: border-box;
-  padding: 0 30px;
+  padding: 30px;
   width: 100%;
-  height: 40px;
   display: flex;
   line-height: 40px;
+}
+
+@media screen and (max-width: 765px) {
+  .Ui-Box {
+    display: block;
+  }
 }

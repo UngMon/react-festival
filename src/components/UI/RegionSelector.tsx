@@ -39,6 +39,7 @@ const RegionSelector = (props: RegionProps) => {
         <option value="38">전라남도</option>
         <option value="39">제주도</option>
       </select>
+      <h4 className="picker-month-h">지역을 선택하세요</h4>
     </div>
   );
 };

@@ -1,19 +1,67 @@
 .Nav-box {
-  padding: 0;
-  width: 300px;
   font-size: 0.9em;
   display: flex;
   justify-content: space-between;
 }
 
-.Nav-box a{
+li {
+  padding-right: 70px;
+  list-style: none;
+}
+
+a {
   text-decoration: none;
-  list-style: none; 
+  list-style: none;
   color: black;
 }
 
-.Nav-box a:hover {
+a:hover {
   cursor: pointer;
-  color: orange;
 }
 
+/* 모바일 환경*/
+.mobile-Nav-box {
+  position: fixed;
+  display: none;
+  border-top: 0.5px solid black;
+}
+
+@media screen and (max-width: 620px) {
+  .Nav-box {
+    display: none;
+  }
+
+  .mobile-Nav-box {
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    line-height: 60px;
+    width: 100%;
+    height: 70px;
+    background-color: white;
+  }
+
+  .mobile-Nav-box li {
+    box-sizing: border-box;
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 13px;
+  }
+
+  .mobile-Nav-box img {
+    display: block;
+    margin: 0 auto;
+    width: 30px;
+    height: 25px;
+  }
+
+  .mobile-Nav-box a {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+  }
+}

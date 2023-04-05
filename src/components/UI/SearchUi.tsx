@@ -3,14 +3,16 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { Item } from "../../modules/Type";
 import { festivalActions } from "../../redux/festival-slice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./SearchUi.css";
 
 const Search = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
   const festivalArray = useSelector(
     (state: RootState) => state.festival.festivalArray
   );
@@ -23,23 +25,57 @@ const Search = () => {
       때문에 해당축제를 찾지를 못한다..
       /\s+/g=> 정규표현식으로 하나이상의 공백을 뜻한다고 한다.
     */
-    const input = inputRef.current!.value.replace(/\s+/g, '');
+    let inputText = "";
+  
+    if (location.pathname === "/search") {
+      inputText = mobileInputRef.current!.value.replace(/\s+/g, "");
+    } else {
+      inputText = inputRef.current!.value.replace(/\s+/g, "");
+    }
+
+    if (inputText.length === 0) {
+      return alert('검색 키워드를 입력해주세요!')
+    }
 
     for (const item of festivalArray) {
-      const title = item.title.replace(/\s+/g, '');
-      if (title.includes(input)) {
+      const title = item.title.replace(/\s+/g, "");
+      if (title.includes(inputText)) {
         searchArray.push(item);
       }
     }
     dispatch(festivalActions.searchFestival(searchArray));
-    navigate(`/result/${input}`);
+    navigate(`/result/${inputText}`);
   };
 
   return (
-    <form className="search-box" onSubmit={onSubmitHandler}>
-      <input ref={inputRef} placeholder='찾으시는 축제를 검색해보세요!'/>
-      <button>검색</button>
-    </form>
+    <>
+      {
+        //pc환경
+        location.pathname !== "/search" && (
+          <form className="search-box" onSubmit={onSubmitHandler}>
+            <input ref={inputRef} placeholder="찾으시는 축제를 검색해보세요!" />
+            <button>검색</button>
+          </form>
+        )
+      }
+      {
+        // 모바일 환경
+        location.pathname === "/search" && (
+          <form className="mobile-search-form" onSubmit={onSubmitHandler}>
+            <div>
+              <input
+                id="title"
+                type="text"
+                name="title"
+                placeholder="검색어를 입력해주세요"
+                ref={mobileInputRef}
+              />
+              <img src="./images/search.png" alt="아이콘" width="25"></img>
+            </div>
+          </form>
+        )
+      }
+    </>
   );
 };
 

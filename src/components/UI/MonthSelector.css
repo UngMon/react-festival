@@ -1,6 +1,6 @@
 .picker-month {
-  width: 30%;
-  margin: 0 40% 0 50px;
+  left: 40px;
+  width: 205px;
   position: relative;
 }
 
@@ -21,4 +21,26 @@
 
 .picker-month select:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 765px) {
+  .picker-month {
+    left: 0;
+    width: 100%;
+  }
+
+  .picker-month select {
+    width: 100%;
+    padding: 10px 0 10px calc(100% - 60px);
+  }
+}
+
+@media screen and (max-width: 250px) {
+  .picker-month-h {
+    display: none;
+  }
+
+  .picker-month select {
+    padding: 10px;
+  }
 }

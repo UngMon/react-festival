@@ -1,11 +1,9 @@
+import Search from "../components/UI/SearchUi";
 
 const SearchPage = () => {
   return (
     <main className="main-box">
-      <div className="input-box">
-        <label htmlFor="title"></label>
-        <input id="title" type="text" name="title" />
-      </div>
+      <Search />
     </main>
   );
 };

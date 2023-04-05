@@ -7,4 +7,11 @@
   width: 100%;
   min-height: calc(100vh - 110px);
   background-color: white;
+  z-index: 4;
+}
+
+@media screen and (max-width: 620px){
+  .main-box {
+    padding: 60px 0 0;
+  }
 }
