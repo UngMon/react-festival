@@ -5,7 +5,7 @@
 
 .main-box {
   width: 100%;
-  min-height: calc(100vh - 110px);
+  /* min-height: calc(100vh - 110px); */
   background-color: white;
   z-index: 4;
 }

@@ -13,13 +13,16 @@
 }
 
 .Cotent-feeling {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .Cotent-feeling div {
-  margin: 0 30px;
+  margin: 0 auto;
 }
 
 .Cotent-feeling div:hover {
@@ -37,6 +40,7 @@
 
 .Cotent-feeling p {
   margin-top: 5px;
+  width: 100%;
 }
 
 .user-input-box {
@@ -68,18 +72,18 @@
 
 .user-review-box {
   box-sizing: border-box;
-  padding: 10px 5px;
+  padding: 15px; 
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 30px 1fr;
 }
 
 .user-icon {
   box-sizing: border-box;
-  margin: 20% 0;
-  width: 50px;
-  height: 65%;
+  margin: 0;
+  width: 40px;
+  height: 40px;
   grid-column-start: 0;
   grid-column-end: 1;
   grid-row-start: 0;
@@ -87,18 +91,22 @@
   background-color: blueviolet;
   align-items: center;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  border-radius: 15px;
+  border-radius: 50%;
+  position: relative;
 }
 
 .user-icon p {
+  position: absolute;
+  top: 10px;
+  left: 12px;
   height: 100%;
-  line-height: 250%;
 }
 
 .user-reivew-top {
-  padding: 10px;
+  padding: 0 10px 10px;
+  height: 20px;
   grid-column-start: 1;
   grid-column-end: span 3;
   display: flex;
@@ -116,7 +124,7 @@
 }
 
 .review-text {
-  padding: 5px 10px;
+  padding: 0 10px;
   text-align: left;
   grid-column-start: 1;
   grid-column-end: 3;
@@ -150,16 +158,13 @@
 
 .option-box {
   position: absolute;
-  z-index: 6;
+  z-index: 4;
   top: 40px;
-  right: 10px;
-  width: 80px;
-  height: 60px;
-  padding: 5px 0;
+  right: 20px;
+  padding: 5px;
   background-color: rgb(247, 247, 247);
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  font-size: 16px;
 }
 
 .option-box p {
@@ -174,4 +179,19 @@
 
 .stop-scrolling {
   overflow: hidden;
+}
+
+
+@media screen and (max-width: 620px) {
+  .user-review-area {
+    width: 100%;
+  }
+
+  .user-input-box button {
+    margin: 0;
+  }
+
+  .Cotent-feeling {
+    width: 70%;
+  }
 }

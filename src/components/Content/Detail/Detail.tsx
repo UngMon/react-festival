@@ -19,11 +19,19 @@ const Detail = ({ category, setCategory, contentData }: DetailProps) => {
   return (
     <div className="Content-info">
       <h1 className="Content-title">{detailCommon[0].title}</h1>
-      <div className="Cotent-category">
-        <div onClick={() => setCategory("기본정보")}>기본정보</div>
-        <div onClick={() => setCategory("리뷰")}>리뷰</div>
-        <div onClick={() => setCategory("지도")}>지도</div>
-      </div>
+
+      <ul className="Cotent-category">
+        <li>
+          <button onClick={() => setCategory("기본정보")}>기본정보</button>
+        </li>
+        <li>
+          <button onClick={() => setCategory("리뷰")}>리뷰</button>
+        </li>
+        <li>
+          <button onClick={() => setCategory("지도")}>지도</button>
+        </li>
+      </ul>
+
       <div className="Cotent-deatail">
         {category === "기본정보" && (
           <BasicInfo detailIntro={detailIntro} detailCommon={detailCommon} />

@@ -9,12 +9,13 @@
   text-align: center;
   color: gray;
 }
+
 .footer-box p {
   margin: 5px auto 0;
 }
 
 @media screen and (max-width: 620px) {
   .footer-box {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
 }

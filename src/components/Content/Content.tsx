@@ -23,7 +23,6 @@ const Cotent = () => {
 
   return (
     <main className="main-box">
-      <h1 className="Content-title">hi</h1>
       <div className="Content">
         <Slider contentImage={contentImage} />
         <Detail

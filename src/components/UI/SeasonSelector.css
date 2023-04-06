@@ -1,24 +1,86 @@
 .season-selector-box {
-  width: 500px;
-  height: 30px;
-  padding: 10px;
+  width: 300px;
   line-height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.season-selector-box li {
+  margin: 0 10px;
+  padding: 0;
+  width: 45px;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .season-selector-box a {
-  width: 20%;
   color: black;
-  margin: 10px 10px;
-  text-decoration: none;
-  border: 1px solid black;
-  border-radius: 10px;
-  background-color: aliceblue;
 }
 
-.season-selector-box a:hover {
+.season-selector-box li:hover {
   cursor: pointer;
 }
 
 .season-selector-box a.active {
-  color: fuchsia;
+  color: green;
 }
+
+/* selector */
+
+.picker-season {
+  width: 100%;
+  display: none;
+}
+
+.picker-season select {
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  color: green;
+}
+
+.picker-season select:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 765px) {
+  .season-selector-box {
+    margin: 0 20%;
+    width: 60%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .season-selector-box {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .season-selector-box {
+    display: none;
+  }
+
+  .picker-season {
+    display: flex;
+  }
+}
+
+
+@media screen and (max-width: 250px) {
+  .picker-month-h {
+    display: none;
+  }
+
+  .picker-month select {
+    padding: 10px;
+  }
+}
+
+

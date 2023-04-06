@@ -1,12 +1,9 @@
 .Content-info {
-  box-sizing: border-box;
   padding: 30px 30px 10px;
 }
 
 .Content-title {
-  box-sizing: border-box;
-  margin: 0 auto;
-  padding: 3%;
+  padding: 20px 0 30px;
   width: 100%;
   text-align: center;
   font-size: 30px;
@@ -17,14 +14,24 @@
   position: sticky;
   top: 5px;
   width: 100%;
-  height: 50px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  background-color: rgb(240, 240, 240);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-  font-size: 20px;
+}
+
+.Cotent-category li {
+  padding: 15px 10px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.Cotent-category li button {
+  border: 0;
+  width: 100%;
+  font-size: 16px;
   font-weight: bold;
+  background-color: white;
 }
 
 .Cotent-category div {
@@ -32,7 +39,7 @@
   height: 100%;
 }
 
-.Cotent-category div:hover {
+.Cotent-category button:hover {
   cursor: pointer;
 }
 
@@ -45,21 +52,26 @@
 
 .Content-table {
   width: 100%;
-  height: 100%;
-  border: 0.3px solid rgb(190, 190, 190);
   border-collapse: collapse;
   font-size: 16px;
 }
 
 .Content-table th {
-  width: 20%;
+  width: 30%;
   padding: 10px;
-  border: 0.3px solid rgb(190, 190, 190);
-  background-color: rgb(238, 237, 237);
+  border: 0.5px solid #dfdede;
+  background-color: rgb(244, 244, 244);
 }
 
 .Content-table td {
-  padding-left: 15px;
+  box-sizing: border-box;
   padding: 10px;
-  border: 0.3px solid #f8f8f8;
+  border: 0.5px solid #dfdede;
+  word-break: break-all;
+}
+
+@media screen and (max-width: 620px){
+  .Content-info {
+    padding: 30px 10px 10px;
+  }
 }
