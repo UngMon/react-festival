@@ -17,15 +17,16 @@ const Slider = ({ contentImage }: SliderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(2);
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
 
-  /* 첫 렌더링시에 width값 업데이트를 위함. */
+  /* 첫 렌더링시에 width값 업데이트를 함. */
   useEffect(() => {
     console.log("?????");
     if (!contentImage.response.body.items) {
+      /* 관광공사 api로 부터 밭은 데이터에서 해당 축제의 사진이 없을 경우 */
       const object = {
-        originimgurl: "../../Images/NoImage.png",
+        originimgurl: "/images/NoImage.png",
       };
       setImageLength(3);
-      setImage([object, object, object, object, object]);
+      setImage([object, object, object, object, object, object, object]);
     }
 
     if (contentImage.response.body.items) {
@@ -64,7 +65,6 @@ const Slider = ({ contentImage }: SliderProps) => {
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
-
     const resizeHandler = () => {
       setWidth(
         containerRef.current!.clientWidth < 650
@@ -118,7 +118,7 @@ const Slider = ({ contentImage }: SliderProps) => {
           ) : (
             <div className="slider">
               <a href="/Noimage.png">
-                <img  alt="축제 이미지"></img>
+                <img alt="축제 이미지"></img>
               </a>
             </div>
           )}
