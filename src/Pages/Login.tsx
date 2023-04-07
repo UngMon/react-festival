@@ -54,7 +54,7 @@ const LoginPage = () => {
       })
       .catch((error) => {
         !isFirst && alert(error.message);
-        navigate("/login");
+        !isFirst && navigate("/login");
         setLoading(false);
       });
   }, [dispatch, navigate]);

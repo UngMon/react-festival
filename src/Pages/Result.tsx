@@ -19,7 +19,8 @@ const ResultPage = () => {
     if (!festivalState.isSearched && festivalState.successGetData) {
       for (const item of festivalState.festivalArray) {
         const title = item.title.replace(/\s+/g, "");
-        if (title === keyword) {
+
+        if (title.includes(keyword!)) {
           searchArray.push(item);
         }
       }

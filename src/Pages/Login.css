@@ -1,12 +1,12 @@
 .Login-Form {
   margin-top: calc((100vh - 500px) / 2);
-  margin-left: calc((100vw - 400px) / 2);;
+  margin-left: calc((100vw - 400px) / 2);
   width: 400px;
   height: 500px;
   background-color: white;
   border-radius: 10px;
   font-size: 16px;
-  border: 0
+  border: 0;
 }
 
 .title {
@@ -45,7 +45,6 @@
   transform: scale(1.2);
 }
 
-
 .Social-Login img {
   width: 30px;
   height: 30px;
@@ -61,18 +60,18 @@
 
 .Facebook {
   color: white;
-  background-color: #1877F2;
+  background-color: #1877f2;
 }
 
 .Kakao {
   color: #000000 85%;
-  background-color: #FEE500;
+  background-color: #fee500;
 }
 
-.Kakao img  {
+.Kakao img {
   width: 25px;
   height: 25px;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .error-message {
@@ -82,7 +81,6 @@
   font-weight: 700;
   text-align: center;
 }
-
 
 @media screen and (max-width: 400px) {
   .Login-Form {
@@ -97,11 +95,22 @@
   }
 
   .Social-Login {
-    width: 50px;
+    width: 90%;
     padding: 5px 10px;
     transition: none;
   }
-  
+}
+
+@media screen and (max-width: 220px) {
+  #p-tag {
+    padding: 0;
+  }
+
+  .Social-Login {
+    width: 50px;
+    transition: none;
+  }
+
   .Social-Login span {
     display: none;
   }
@@ -112,5 +121,4 @@
   .Kakao span {
     display: none;
   }
-
 }

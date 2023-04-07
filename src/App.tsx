@@ -20,6 +20,7 @@ import SearchPage from "./Pages/SearchPage";
 import Error from "./Pages/Error";
 import LoginAccessError from "./components/Error/LoginAccessError";
 import "./App.css";
+import PageNotFound from "./components/Error/PageNotFound";
 
 function App() {
   console.log("app");
@@ -30,7 +31,7 @@ function App() {
     dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
+      console.log(user);
       if (user) {
         const { uid, displayName } = user;
         dispatch(firebaseActions.setUserData({ uid, displayName }));
@@ -100,6 +101,7 @@ function App() {
         },
       ],
     },
+    { path: "*", element: <PageNotFound /> },
   ]);
 
   return (
@@ -110,4 +112,3 @@ function App() {
 }
 
 export default App;
-
