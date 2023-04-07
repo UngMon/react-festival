@@ -32,11 +32,14 @@ const Reviews = ({
   const [pickedComment, setPickedComment] = useState<
     [string, string, string, string | number]
   >(["", "", "", ""]);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const saveInputRef = useRef<HTMLInputElement>(null);
   const optionRef = useRef<HTMLDivElement[]>([]);
+
   useEffect(() => {
     if (firebaseState.succesGetData) {
+      console.log(firebaseState.contentData[contentId])
       setReviewArray(firebaseState.contentData[contentId].comment);
     }
   }, [firebaseState, contentId]);

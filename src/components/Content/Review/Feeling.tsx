@@ -15,18 +15,23 @@ interface FeelingProps {
   firebaseState: firebaseState;
   contentRef: DocumentReference<DocumentData>;
   contentId: string;
+  uid: string;
 }
 
-const Feeling = ({ firebaseState, contentRef, contentId }: FeelingProps) => {
+const Feeling = ({
+  firebaseState,
+  contentRef,
+  uid,
+  contentId,
+}: FeelingProps) => {
   const [feelCount, setFeelCount] = useState<[number, number, number]>([
     0, 0, 0,
   ]);
   const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]);
 
-  const uid = firebaseState.userUid || "";
-
   useEffect(() => {
     if (firebaseState.succesGetData) {
+      console.log(firebaseState.contentData[contentId])
       const commentData = firebaseState.contentData[contentId].expression;
       let Good = 0;
       let Soso = 0;

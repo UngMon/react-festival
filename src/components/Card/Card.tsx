@@ -2,11 +2,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Item } from "../../modules/Type";
 import { dataSlice } from "../../modules/DataSlice";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { calculateDate } from "../../modules/CalculateDate";
 import { setData } from "../../modules/SetData";
 import { nowDate } from "../../modules/NowData";
 import "./Card.css";
+import { firebaseActions } from "../../redux/firebase-slice";
 
 interface CardProps {
   type: string;
@@ -17,6 +18,7 @@ interface CardProps {
 
 const Card = (props: CardProps) => {
   console.log("CArd");
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const festivalState = useSelector((state: RootState) => state.festival);
   const contentData = useSelector(
@@ -27,6 +29,7 @@ const Card = (props: CardProps) => {
   const cardClickHandler = (contentid: string) => {
     if (!contentData[contentid]) {
       setData(contentid);
+      dispatch(firebaseActions.setCardData(contentid));
     }
     navigate(`/content/${contentid}`);
   };

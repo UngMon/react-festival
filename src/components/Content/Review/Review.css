@@ -183,6 +183,10 @@
 
 
 @media screen and (max-width: 620px) {
+  .Cotent-review {
+    padding: 30px 5%;
+  }
+
   .user-review-area {
     width: 100%;
   }
@@ -193,5 +197,17 @@
 
   .Cotent-feeling {
     width: 70%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .Cotent-feeling {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 190px){
+  .Cotent-feeling {
+    flex-direction: column;
   }
 }

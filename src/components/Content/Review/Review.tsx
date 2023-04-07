@@ -20,6 +20,7 @@ const Review = ({ contentId }: ReviewProps) => {
       <Feeling
         firebaseState={firebaseState}
         contentRef={contentRef}
+        uid={uid}
         contentId={contentId}
       />
       <Reviews

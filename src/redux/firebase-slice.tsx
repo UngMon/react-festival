@@ -40,12 +40,19 @@ const firebaseSlice = createSlice({
       state.userUid = "";
       state.loginedUser = false;
     },
+    setCardData(state, action) {
+      state.contentData[action.payload] = {
+        comment: [],
+        detailImage: [],
+        firstImage: '',
+        expression: {},
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getFriebaseData.pending, (state) => {})
       .addCase(getFriebaseData.fulfilled, (state, action) => {
-
         state.contentData = action.payload;
         state.succesGetData = true;
       })
