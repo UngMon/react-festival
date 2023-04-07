@@ -1,55 +1,78 @@
 .Login-Form {
-  position: absolute;
-  top: calc((100vh - 400px) / 2);
-  left: calc((100vw - 400px) / 2);
+  margin-top: calc((100vh - 500px) / 2);
+  margin-left: calc((100vw - 400px) / 2);;
   width: 400px;
-  height: 400px;
+  height: 500px;
   background-color: white;
   border-radius: 10px;
   font-size: 16px;
-  border: 1px solid black;
+  border: 0
 }
 
 .title {
-  width: 100px;
-  margin: 30px auto;
+  width: 100%;
+  margin: 40px 0;
   text-align: center;
   font-weight: 600;
   font-size: 1.5em;
 }
 
-.Google-Login-Box{
-  box-sizing: border-box;
-  width: 75%;
-  height: 40px;
-  margin: 0 auto 30px;
-  padding-left: 10px ;
-  border: 0.5px solid black;
+#p-tag {
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 500;
 }
 
-.Social-Login-Box {
+.Social-Login {
   box-sizing: border-box;
-  width: 75%;
-  height: 40px;
+  width: 80%;
+  height: 50px;
   margin: 0 auto 30px;
-  padding-left: 10px;
+  padding: 10px 15px;
+  border: 0;
   display: flex;
-  justify-content: left;
   align-items: center;
-  line-height: 40px;
-  font-size: 1em;
-  font-weight: 700;
-  border: 0.8px solid black;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+  transition: all 0.5s ease;
 }
 
-.Social-Login-Box img {
-  padding-right: 20px;
+.Social-Login:hover {
+  cursor: pointer;
+  transform: scale(1.2);
 }
 
-.Social-Login-Box span {
+
+.Social-Login img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.Social-Login span {
   box-sizing: border-box;
-  padding: 2px;
-  height: 100%;
+  height: 30px;
+  padding: 5px;
+  line-height: 23px;
+}
+
+.Facebook {
+  color: white;
+  background-color: #1877F2;
+}
+
+.Kakao {
+  color: #000000 85%;
+  background-color: #FEE500;
+}
+
+.Kakao img  {
+  width: 25px;
+  height: 25px;
+  margin-right: 20px;
 }
 
 .error-message {
@@ -58,4 +81,36 @@
   font-size: 22px;
   font-weight: 700;
   text-align: center;
+}
+
+
+@media screen and (max-width: 400px) {
+  .Login-Form {
+    margin: calc((100vh - 500px) / 2) auto;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 260px) {
+  #p-tag {
+    padding: 0 5%;
+  }
+
+  .Social-Login {
+    width: 50px;
+    padding: 5px 10px;
+    transition: none;
+  }
+  
+  .Social-Login span {
+    display: none;
+  }
+  .Kakao img {
+    width: 30px;
+  }
+
+  .Kakao span {
+    display: none;
+  }
+
 }

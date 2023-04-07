@@ -6,7 +6,7 @@ interface firebaseState {
   contentData: FirebaseData;
   isChanged: boolean;
   succesGetData: boolean;
-  userChecked: boolean;
+  userChecking: boolean;
   loginedUser: boolean;
   userUid: string;
   userName: string;
@@ -16,7 +16,7 @@ const initialState: firebaseState = {
   contentData: {},
   isChanged: false,
   succesGetData: false,
-  userChecked: false,
+  userChecking: true,
   loginedUser: false,
   userUid: "",
   userName: "",
@@ -26,10 +26,14 @@ const firebaseSlice = createSlice({
   name: "firebase",
   initialState,
   reducers: {
+    notLoginUser(state) {
+      state.userChecking = false;
+    },
     setUserData(state, action) {
       state.userName = action.payload.displayName;
       state.userUid = action.payload.uid;
       state.loginedUser = true;
+      state.userChecking = false;
     },
     logOutUser(state) {
       state.userName = "";

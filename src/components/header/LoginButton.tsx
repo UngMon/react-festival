@@ -16,21 +16,33 @@ const LoginButton = () => {
   };
 
   const logoutHnalder = () => {
-    signOut(auth).then(() => {
-      dispatch(firebaseActions.logOutUser());
-    }).catch((err) => {
-      alert(err.message);
-    })
+    signOut(auth)
+      .then(() => {
+        dispatch(firebaseActions.logOutUser());
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
     <>
-      {!firebaseState.userUid && <button className={classes.button} onClick={loginHandler}>
-        로그인
-      </button>}
-      {firebaseState.userUid && <button className={classes.button} onClick={logoutHnalder}>
-        로그아웃
-      </button>}
+      {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
+        !firebaseState.userUid ? ( // 로그인 안 되어 있으면,
+          <div className={classes.login} onClick={loginHandler}>
+            <img src="/images/user.png" alt="user"></img>
+            <p>로그인</p>
+          </div>
+        ) : (
+          // 로그인 상태일 때
+          <button className={classes.logout} onClick={logoutHnalder}>
+            로그아웃
+          </button>
+        )
+      ) : (
+        // 새로고침시 잠깐동안 다른 ui보여줌
+        <div className={classes["not-Login"]}></div>
+      )}
     </>
   );
 };

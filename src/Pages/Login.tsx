@@ -62,23 +62,20 @@ const LoginPage = () => {
   return (
     <>
       {loading && <Loading />}
+      {!loading && <p></p>}
       {!loading && (
         <form className="Login-Form">
-          <div className="title">로그인</div>
+          <h3 className="title">로그인</h3>
+          <p id="p-tag">로그인 후 이용하실 수 있습니다.</p>
           <div
-            className="Google-Login-Box"
+            className="Social-Login Google"
             onClick={() => loginHandler("Google")}
           >
-            <img
-              src="/images/Google.jpeg"
-              alt="Google"
-              width="25"
-              height="25"
-            ></img>
+            <img src="/images/Google.jpeg" alt="Google"></img>
             <span>구글 로그인</span>
           </div>
           <div
-            className="Social-Login-Box"
+            className="Social-Login Facebook"
             onClick={() => loginHandler("FaceBook")}
           >
             <img

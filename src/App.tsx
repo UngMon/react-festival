@@ -30,9 +30,12 @@ function App() {
     dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {
+      console.log(user)
       if (user) {
         const { uid, displayName } = user;
         dispatch(firebaseActions.setUserData({ uid, displayName }));
+      } else {
+        dispatch(firebaseActions.notLoginUser());
       }
     });
   }, [dispatch]);
@@ -108,9 +111,3 @@ function App() {
 
 export default App;
 
-// const getData = async () => {
-//   const querySnapshot = await getDocs(query(collection(db, "contentId")));
-//   console.log(querySnapshot.docs);
-//   console.log(querySnapshot.forEach((doc) => console.log(doc)));
-// };
-// console.log(getData());

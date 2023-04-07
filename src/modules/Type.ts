@@ -177,7 +177,7 @@ export interface firebaseState {
   contentData: FirebaseData;
   isChanged: boolean;
   succesGetData: boolean;
-  userChecked: boolean;
+  userChecking: boolean;
   loginedUser: boolean;
   userUid: string,
   userName: string,

@@ -101,10 +101,10 @@ const SliderButton = ({
   return (
     <div>
       <button type="button" onClick={prevClickHandler} className="prev">
-        Prev
+        {`<`}
       </button>
       <button type="button" onClick={nextClickHandler} className="next">
-        Next
+        {`>`}
       </button>
     </div>
   );

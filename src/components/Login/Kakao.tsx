@@ -74,11 +74,12 @@ const KakaoLogin = () => {
   }
 
   return (
-    <div className="Social-Login-Box" onClick={kakaoLoginHandler}>
+    <div className="Social-Login Kakao" onClick={kakaoLoginHandler}>
       <img
-        src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+        src="/images/kakao.png"
         alt="카카오 로그인 버튼"
       />
+      <span>카카오톡 로그인</span>
     </div>
   );
 };

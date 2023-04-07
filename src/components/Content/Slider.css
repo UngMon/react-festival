@@ -36,7 +36,6 @@
   text-align: center;
   line-height: 50px;
   font-size: 20px;
-  cursor: pointer;
   z-index: 4;
   border: 0;
   border-radius: 50%;
@@ -53,6 +52,7 @@
 
 .prev:hover,
 .next:hover {
+  cursor: pointer;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
