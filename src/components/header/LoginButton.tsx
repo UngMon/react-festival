@@ -1,4 +1,5 @@
 import { signOut } from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firestore";
@@ -9,7 +10,29 @@ import classes from "./LoginButton.module.css";
 const LoginButton = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const firebaseState = useSelector((state: RootState) => state.firebase);
+  const [userModalOpen, setUserModalOpen] = useState(false);
+
+  const userImageRef = useRef<HTMLDivElement>(null);
+  const userInfoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const logoutModalOpen = (event: any) => {
+      if (userImageRef.current!.contains(event.target)) {
+        return;
+      }
+
+      if (userInfoRef.current!.contains(event.target)) {
+        return;
+      }
+      setUserModalOpen(false);
+    };
+    if (userModalOpen) {
+      window.addEventListener("click", logoutModalOpen);
+      return () => window.removeEventListener("click", logoutModalOpen);
+    }
+  }, [userModalOpen]);
 
   const loginHandler = () => {
     navigate("/login");
@@ -35,9 +58,23 @@ const LoginButton = () => {
           </div>
         ) : (
           // 로그인 상태일 때
-          <button className={classes.logout} onClick={logoutHnalder}>
-            로그아웃
-          </button>
+          <div className={classes["userPhoto-box"]}>
+            <div
+              ref={userImageRef}
+              onClick={() => setUserModalOpen(!userModalOpen)}
+            >
+              <img src={firebaseState.userPhoto} alt="userPhoto"></img>
+            </div>
+            {userModalOpen && (
+              <div className={classes["logout-box"]} ref={userInfoRef}>
+                <p>{`${firebaseState.userName}님`}</p>
+                <p>{`${firebaseState.userEmail}`}</p>
+                <button className={classes.logout} onClick={logoutHnalder}>
+                  로그아웃
+                </button>
+              </div>
+            )}
+          </div>
         )
       ) : (
         // 새로고침시 잠깐동안 다른 ui보여줌

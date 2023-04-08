@@ -8,6 +8,8 @@ import {
   updateDoc,
   deleteField,
 } from "firebase/firestore";
+import { useAppDispatch } from "../../../redux/store";
+import { firebaseActions } from "../../../redux/firebase-slice";
 
 let isFirst = true;
 
@@ -24,6 +26,7 @@ const Feeling = ({
   uid,
   contentId,
 }: FeelingProps) => {
+  const dispatch = useAppDispatch();
   const [feelCount, setFeelCount] = useState<[number, number, number]>([
     0, 0, 0,
   ]);
@@ -31,7 +34,7 @@ const Feeling = ({
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
-      console.log(firebaseState.contentData[contentId])
+      console.log(firebaseState.contentData[contentId]);
       const commentData = firebaseState.contentData[contentId].expression;
       let Good = 0;
       let Soso = 0;
@@ -87,6 +90,7 @@ const Feeling = ({
     if (type === "싫어요") userPicked = [0, 0, userPick[2] === 0 ? 1 : 0];
 
     setUserPick(userPicked);
+    dispatch(firebaseActions.updateFeelingData({ contentId, userPicked, uid }));
   };
 
   return (

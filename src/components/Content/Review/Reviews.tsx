@@ -9,6 +9,8 @@ import {
 import { nowDate } from "../../../modules/NowData";
 import { firebaseState, Comment } from "../../../modules/Type";
 import Loading from "../../UI/Loading";
+import { useAppDispatch } from "../../../redux/store";
+import { firebaseActions } from "../../../redux/firebase-slice";
 
 interface ReviewProps {
   firebaseState: firebaseState;
@@ -24,6 +26,8 @@ const Reviews = ({
   contentId,
 }: ReviewProps) => {
   console.log("render");
+  const dispatch = useAppDispatch();
+
   const [reviewArray, setReviewArray] = useState<Comment[]>([]);
   const [isOpenOption, setOpenOption] = useState<boolean>(false);
   const [clickedElement, setClickedElement] = useState<HTMLElement | null>(
@@ -39,7 +43,7 @@ const Reviews = ({
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
-      console.log(firebaseState.contentData[contentId])
+      console.log(firebaseState.contentData[contentId]);
       setReviewArray(firebaseState.contentData[contentId].comment);
     }
   }, [firebaseState, contentId]);
@@ -107,6 +111,7 @@ const Reviews = ({
     setDoc(contentRef, { comment: array }, { merge: true });
     setReviewArray(array);
     inputRef.current!.value = "";
+    dispatch(firebaseActions.updateReviewData({ contentId, array }));
   };
 
   const optionClickHandler = (
@@ -132,9 +137,9 @@ const Reviews = ({
     }
   };
 
-  const reviseButtonHandler = (itemUid: string,index: number) => {
+  const reviseButtonHandler = (itemUid: string, index: number) => {
     if (!firebaseState.loginedUser) {
-      return alert('로그인 하시면 이용하실 수 있습니다.');
+      return alert("로그인 하시면 이용하실 수 있습니다.");
     }
 
     if (itemUid !== uid) {
@@ -171,7 +176,7 @@ const Reviews = ({
     newArray[index] = changedData;
     updateDoc(contentRef, { comment: newArray });
     setReviewArray(newArray);
-    setPickedComment(['', '', '', ''])
+    setPickedComment(["", "", "", ""]);
   };
 
   return (

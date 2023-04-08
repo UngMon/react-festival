@@ -29,12 +29,15 @@ function App() {
   useEffect(() => {
     dispatch(getFriebaseData());
     dispatch(getFestiavalData());
-
+    console.log('useEffec app')
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
-        const { uid, displayName } = user;
-        dispatch(firebaseActions.setUserData({ uid, displayName }));
+        const { uid, displayName, email, photoURL } = user;
+        console.log(user);
+
+        dispatch(
+          firebaseActions.setUserData({ uid, displayName, email, photoURL })
+        );
       } else {
         dispatch(firebaseActions.notLoginUser());
       }
