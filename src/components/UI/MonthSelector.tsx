@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./MonthSelector.css";
 
 interface MonthProps {
@@ -7,11 +8,12 @@ interface MonthProps {
 }
 
 const MonthSelector = (props: MonthProps) => {
+  const navigate = useNavigate();
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
-
+    navigate(`/all-festival/month/${value}`);
   };
 
   return (
