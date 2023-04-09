@@ -4,6 +4,7 @@ import Map from "./Map";
 import "./Detail.css";
 
 interface DetailProps {
+  reviewRef: React.RefObject<HTMLDivElement>;
   category: string;
   setCategory: (value: string) => void;
   contentData: {
@@ -12,9 +13,20 @@ interface DetailProps {
   };
 }
 
-const Detail = ({ category, setCategory, contentData }: DetailProps) => {
+const Detail = ({
+  reviewRef,
+  category,
+  setCategory,
+  contentData,
+}: DetailProps) => {
   const detailCommon = contentData.contentDetailCommon.response.body.items.item;
   const detailIntro = contentData.contentDetailIntro.response.body.items.item;
+
+  const reviewClickHandler = () => {
+    if (reviewRef.current) {
+      reviewRef.current!.scrollIntoView({ behavior: 'smooth'});
+    }
+  };
 
   return (
     <div className="Content-info">
@@ -25,7 +37,7 @@ const Detail = ({ category, setCategory, contentData }: DetailProps) => {
           <button onClick={() => setCategory("기본정보")}>기본정보</button>
         </li>
         <li>
-          <button onClick={() => setCategory("리뷰")}>리뷰</button>
+          <button onClick={reviewClickHandler}>리뷰</button>
         </li>
         <li>
           <button onClick={() => setCategory("지도")}>지도</button>

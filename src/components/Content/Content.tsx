@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
 import {
   LoaderData,
@@ -21,6 +21,8 @@ const Cotent = () => {
   const [category, setCategory] = useState<string>("기본정보");
   const contentData = { contentDetailIntro, contentDetailCommon };
 
+  const reviewRef = useRef<HTMLDivElement>(null);
+
   return (
     <main className="main-box">
       <div className="Content">
@@ -29,10 +31,11 @@ const Cotent = () => {
           category={category}
           setCategory={setCategory}
           contentData={contentData}
+          reviewRef={reviewRef}
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
-      <Review contentId={contentId!}/>
+      <Review contentId={contentId!} reviewRef={reviewRef}/>
     </main>
   );
 };
