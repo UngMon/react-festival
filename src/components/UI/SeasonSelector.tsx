@@ -28,7 +28,11 @@ const SeasonSelctor = (props: SeasonProps) => {
               <NavLink
                 to="/seasons/spring"
                 onClick={() => clickSeasonHandler("spring")}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "#F8D1D1" : "",
+                  };
+                }}
               >
                 #봄
               </NavLink>
@@ -46,7 +50,11 @@ const SeasonSelctor = (props: SeasonProps) => {
               <NavLink
                 to="/seasons/authumn"
                 onClick={() => clickSeasonHandler("authumn")}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "#E15024" : "",
+                  };
+                }}
               >
                 #가을
               </NavLink>
@@ -55,7 +63,11 @@ const SeasonSelctor = (props: SeasonProps) => {
               <NavLink
                 to="/seasons/winter"
                 onClick={() => clickSeasonHandler("winter")}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "skyblue" : "",
+                  };
+                }}
               >
                 #겨울
               </NavLink>
