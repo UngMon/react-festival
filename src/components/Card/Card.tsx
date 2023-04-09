@@ -84,7 +84,7 @@ const Card = (props: CardProps) => {
           <div className="image-box">
             <img
               className="festival-image"
-              src={item.firstimage || imageUri || "./NoImage.png"}
+              src={item.firstimage || imageUri || "/images/NoImage.png"}
               alt={item.title}
             ></img>
           </div>

@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { ContentImage, ResponImage, ImageData } from "../../modules/Type";
-// import NoImage from "../../Images/NoImage.png";
 import "./Slider.css";
 import SliderButton from "./SliderButton";
 
@@ -17,9 +16,11 @@ const Slider = ({ contentImage }: SliderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(2);
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
 
-  /* 첫 렌더링시에 width값 업데이트를 함. */
   useEffect(() => {
     console.log("?????");
+    /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
+      아예 없는 경우가 있다. 각각의 경우에 따라서 image State를 따로 정의해줘야 한다. */
+
     if (!contentImage.response.body.items) {
       /* 관광공사 api로 부터 밭은 데이터에서 해당 축제의 사진이 없을 경우 */
       const object = {
@@ -30,19 +31,23 @@ const Slider = ({ contentImage }: SliderProps) => {
     }
 
     if (contentImage.response.body.items) {
+      /* 해당 축제의 이미지가 있을 때, */
       const img = contentImage.response.body.items.item;
 
+      /* 대신 해당 축제의 이미자가 1개만 있을 경우 */
       if (img.length === 1) {
         const arr = [...img, ...img, ...img];
         setImageLength(3);
         setImage([...arr, ...arr, ...arr]);
       }
 
+      /* 해당 축제의 이미지가 2개만 있는 경우*/
       if (img.length === 2) {
         setImageLength(2);
         setImage([...img, ...img, ...img]);
       }
 
+      /* 3개만 있는 경우*/
       if (img.length === 3) {
         setImageLength(3);
         setImage([...img, ...img, ...img]);
@@ -59,7 +64,7 @@ const Slider = ({ contentImage }: SliderProps) => {
         ]);
       }
     }
-
+      /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
     setWidth(containerRef.current!.clientWidth / 3);
   }, [contentImage]);
 
