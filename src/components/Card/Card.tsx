@@ -14,6 +14,7 @@ interface CardProps {
   month?: string;
   areaCode?: string;
   season?: string;
+  searchArray?: Item[];
 }
 
 const Card = (props: CardProps) => {
@@ -53,10 +54,10 @@ const Card = (props: CardProps) => {
         array = festivalState.seasonArray[props.season!];
 
       if (props.type === "result") {
-        if (festivalState.searchArray.length === 0) {
+        if (props.searchArray!.length === 0) {
           return;
         }
-        array = festivalState.searchArray;
+        array = props.searchArray!;
       }
     } else array = festivalState.monthArray[props.month!];
 

@@ -19,11 +19,11 @@ const LoginButton = () => {
 
   useEffect(() => {
     const logoutModalOpen = (event: any) => {
-      if (userImageRef.current!.contains(event.target)) {
+      if (userImageRef.current?.contains(event.target)) {
         return;
       }
 
-      if (userInfoRef.current!.contains(event.target)) {
+      if (userInfoRef.current?.contains(event.target)) {
         return;
       }
       setUserModalOpen(false);
@@ -51,7 +51,7 @@ const LoginButton = () => {
   return (
     <>
       {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
-        !firebaseState.userUid ? ( // 로그인 안 되어 있으면,
+        !firebaseState.loginedUser ? ( // 로그인 안 되어 있으면,
           <div className={classes.login} onClick={loginHandler}>
             <img src="/images/user.png" alt="user"></img>
             <p>로그인</p>

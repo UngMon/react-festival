@@ -12,11 +12,9 @@ interface FestivalState {
   monthArray: Month;
   regionArray: Region;
   seasonArray: Season;
-  searchArray: Item[];
   sortedMonth: boolean;
   sortedRegion: boolean;
   sortedSeason: boolean;
-  isSearched: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -27,11 +25,9 @@ const initialState: FestivalState = {
   monthArray: {},
   regionArray: {},
   seasonArray: {},
-  searchArray: [],
   sortedMonth: false,
   sortedRegion: false,
   sortedSeason: false,
-  isSearched: false,
   loading: true,
   error: null,
 };
@@ -136,10 +132,6 @@ const festivalSlice = createSlice({
       );
       state.seasonArray = season;
       state.sortedSeason = true;
-    },
-    searchFestival(state, action) {
-      state.isSearched = true;
-      state.searchArray = action.payload;
     },
   },
   extraReducers: (builder) => {

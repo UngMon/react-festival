@@ -46,18 +46,3 @@ export const getFriebaseData = createAsyncThunk(
   }
 );
 
-
-
-
-    // let arr: FirebaseData = {};
-
-    // for (let item of querySnapshot.docs) {
-    //   let cotentId = item.id;
-    //   const data = item.data();
-    //   arr[cotentId] = {
-    //     comment: data.comment,
-    //     detailImage: data.detailImage,
-    //     firstImage: data.firstImage,
-    //     expression: data.expression,
-    //   }
-    // }

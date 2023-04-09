@@ -48,11 +48,16 @@ const LoginPage = () => {
   useEffect(() => {
     getRedirectResult(auth)
       .then((credential) => {
-        const { uid, displayName } = credential!.user;
-        dispatch(firebaseActions.setUserData({ uid, displayName }));
+        console.log(credential);
+        console.log("?????");
+        const { uid, email, displayName, photoURL } = credential!.user;
+        dispatch(
+          firebaseActions.setUserData({ uid, email, displayName, photoURL })
+        );
         navigate("/");
       })
       .catch((error) => {
+        console.log("failed");
         !isFirst && alert(error.message);
         !isFirst && navigate("/login");
         setLoading(false);
@@ -62,7 +67,6 @@ const LoginPage = () => {
   return (
     <>
       {loading && <Loading />}
-      {!loading && <p></p>}
       {!loading && (
         <form className="Login-Form">
           <h3 className="title">로그인</h3>

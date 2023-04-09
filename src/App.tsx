@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     dispatch(getFriebaseData());
     dispatch(getFestiavalData());
-    console.log('useEffec app')
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, displayName, email, photoURL } = user;

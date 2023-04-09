@@ -34,7 +34,10 @@ const firebaseSlice = createSlice({
       state.userChecking = false;
     },
     setUserData(state, action) {
-      console.log('setUserData')
+      if (state.loginedUser) {
+        return;
+      }
+
       state.userUid = action.payload.uid;
       state.userName = action.payload.displayName;
       state.userEmail = action.payload.email;
