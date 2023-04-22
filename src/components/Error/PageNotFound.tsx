@@ -1,6 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import "./PageNotFound.css";
 
 const PageNotFound = () => {
+  const navigate = useNavigate()
+  const goBackButton = () => {
+    navigate(-1);
+  }
+
   return (
     <div className="Page-Not-Found">
       <h3>죄송합니다.</h3>
@@ -9,7 +15,7 @@ const PageNotFound = () => {
       <p>
         페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.
       </p>
-      <button>Go Back</button>
+      <button onClick={goBackButton}>Go Back</button>
     </div>
   );
 };

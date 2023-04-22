@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { nowDate } from "../../../modules/NowData";
 import { firebaseState, Comment } from "../../../modules/Type";
-import Loading from "../../UI/Loading";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
 
@@ -17,6 +16,9 @@ interface ReviewProps {
   contentRef: DocumentReference<DocumentData>;
   uid: string;
   contentId: string;
+  setReportModalOpen: React.Dispatch<
+    React.SetStateAction<[boolean, string, string, string, string]>
+  >;
 }
 
 const Reviews = ({
@@ -24,8 +26,8 @@ const Reviews = ({
   contentRef,
   uid,
   contentId,
+  setReportModalOpen,
 }: ReviewProps) => {
-  console.log("render");
   const dispatch = useAppDispatch();
 
   const [reviewArray, setReviewArray] = useState<Comment[]>([]);
@@ -43,7 +45,6 @@ const Reviews = ({
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
-      console.log(firebaseState.contentData[contentId]);
       setReviewArray(firebaseState.contentData[contentId].comment);
     }
   }, [firebaseState, contentId]);
@@ -87,7 +88,7 @@ const Reviews = ({
     };
   }, [isOpenOption, closeOptionModal, clickedElement]);
 
-  const reivewSubmitHandler = (event: React.FormEvent) => {
+  const reivewSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!firebaseState.loginedUser)
       return alert("로그인 하시면 이용하실 수 있습니다.");
@@ -104,14 +105,21 @@ const Reviews = ({
       uid: uid,
       when: year + "-" + month + "-" + date + " " + time,
       text,
+      userPhoto: firebaseState.userPhoto,
     };
 
     const array = [fieldData, ...reviewArray];
 
-    setDoc(contentRef, { comment: array }, { merge: true });
-    setReviewArray(array);
-    inputRef.current!.value = "";
-    dispatch(firebaseActions.updateReviewData({ contentId, array }));
+    try {
+      await setDoc(contentRef, { comment: array }, { merge: true });
+      setReviewArray(array);
+      dispatch(firebaseActions.updateReviewData({ contentId, array }));
+      inputRef.current!.value = "";
+    } catch (error: any) {
+      alert(
+        `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
+      );
+    }
   };
 
   const optionClickHandler = (
@@ -120,12 +128,8 @@ const Reviews = ({
     userUid: string,
     userWhen: string
   ) => {
-    if (userUid !== uid) {
-      return;
-    }
-
-    if (clickedElement === event.target) {
-      // 사용자가 전에 클릭했던 Element('review-option')가 같은 태그를 클릭했을 시,
+    if (clickedElement?.contains(event.target)) {
+      // 사용자가 전에 클릭했던 Element('review-option')와 같은 태그를 클릭했을 시,
       setOpenOption(false);
       setClickedElement(null);
       setPickedComment(["", "", "", ""]);
@@ -155,15 +159,23 @@ const Reviews = ({
     ]);
   };
 
-  const deleteReviewHandler = (index: number) => {
+  const deleteReviewHandler = async (index: number) => {
+    try {
+      updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
+      setReviewArray([
+        ...reviewArray.slice(0, index),
+        ...reviewArray.slice(index + 1),
+      ]);
+    } catch (error: any) {
+      alert(
+        `리뷰 삭제에 오류가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해주세요!`
+      );
+    }
+
     updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
-    setReviewArray([
-      ...reviewArray.slice(0, index),
-      ...reviewArray.slice(index + 1),
-    ]);
   };
 
-  const reviseReviewHandler = () => {
+  const reviseReviewHandler = async () => {
     const { year, month, date, time } = nowDate();
     const newArray = [...reviewArray];
     const index = pickedComment[3] as number;
@@ -172,11 +184,27 @@ const Reviews = ({
       text: saveInputRef.current!.value,
       uid: pickedComment[1],
       when: year + "-" + month + "-" + date + " " + time,
+      userPhoto: firebaseState.userPhoto,
     };
     newArray[index] = changedData;
-    updateDoc(contentRef, { comment: newArray });
-    setReviewArray(newArray);
     setPickedComment(["", "", "", ""]);
+    try {
+      await updateDoc(contentRef, { comment: newArray });
+      setReviewArray(newArray);
+    } catch (error: any) {
+      alert(
+        `리뷰 수정에 에러가 발생했습니다! ${error.message} 에러가 에러가 계속 발생한다면 문의해주세요!`
+      );
+    }
+  };
+
+  const reportUserHandler = async (
+    when: string,
+    userUid: string,
+    name: string,
+    text: string,
+  ) => {
+    setReportModalOpen([true, when, userUid, name, text]);
   };
 
   return (
@@ -191,15 +219,21 @@ const Reviews = ({
         <button type="submit">입력</button>
       </form>
       <div className="user-review-area">
-        {!firebaseState.succesGetData ? (
-          <Loading />
-        ) : reviewArray.length !== 0 ? (
+        {reviewArray.length === 0 && (
+          <div>
+            <p>등록된 리뷰가 없습니다!</p>
+          </div>
+        )}
+        {reviewArray.length !== 0 &&
           reviewArray.map((item, index) => (
             <div key={index} className="user-review-box">
               <div className="user-icon">
-                <p>{item.name[0].toUpperCase()}</p>
+                {item.userPhoto ? (
+                  <img src={`${item.userPhoto}`} alt="userPhoto"></img>
+                ) : (
+                  <p>{item.name[0].toUpperCase()}</p>
+                )}
               </div>
-
               {index !== pickedComment[3] && (
                 <>
                   <div className="user-reivew-top">
@@ -218,24 +252,44 @@ const Reviews = ({
                         (optionRef.current[`${index}`] = el)
                       }
                     >
-                      옵션
+                      <img src="/images/option.png" alt="옵션"></img>
                     </div>
                     {isOpenOption &&
                       item.uid === pickedComment[1] &&
                       item.when === pickedComment[2] && (
                         <div className="option-box">
-                          <p
-                            className="option-revise"
-                            onClick={() => reviseButtonHandler(item.uid, index)}
-                          >
-                            수정
-                          </p>
-                          <p
-                            className="option-delete"
-                            onClick={() => deleteReviewHandler(index)}
-                          >
-                            삭제
-                          </p>
+                          {item.uid === firebaseState.userUid && (
+                            <p
+                              className="option-revise"
+                              onClick={() =>
+                                reviseButtonHandler(item.uid, index)
+                              }
+                            >
+                              수정
+                            </p>
+                          )}
+                          {item.uid === firebaseState.userUid && (
+                            <p
+                              className="option-delete"
+                              onClick={() => deleteReviewHandler(index)}
+                            >
+                              삭제
+                            </p>
+                          )}
+                          {item.uid !== firebaseState.userUid && (
+                            <p
+                              onClick={() =>
+                                reportUserHandler(
+                                  item.when,
+                                  item.uid,
+                                  item.name,
+                                  item.text
+                                )
+                              }
+                            >
+                              신고
+                            </p>
+                          )}
                         </div>
                       )}
                   </div>
@@ -256,12 +310,7 @@ const Reviews = ({
                 </>
               )}
             </div>
-          ))
-        ) : (
-          <div>
-            <p>등록된 리뷰가 없습니다!</p>
-          </div>
-        )}
+          ))}
       </div>
     </>
   );

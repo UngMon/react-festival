@@ -1,0 +1,45 @@
+#report-modal {
+  position: fixed;
+  box-sizing: border-box;
+  padding: 10px;
+  top: calc((100vh - 300px) / 2);
+  left: calc((100vw - 300px) / 2);
+  width: 300px;
+  height: 300px;
+  background-color: rgb(249, 249, 249);
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  text-align: left;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+}
+
+#report-modal label {
+  padding: 10px;
+  line-height: 30px;
+}
+
+#report-modal input {
+  width: 20px;
+  margin-right: 5px;
+}
+
+#report-button-box {
+  text-align: right;
+}
+
+#report-button-box button {
+  width: 40px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  margin-right: 10px;
+  background-color: rgb(227, 227, 227);
+}
+
+#report-button-box button:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}

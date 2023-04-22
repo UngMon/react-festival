@@ -151,6 +151,7 @@ export type Comment = {
   uid: string;
   when: string;
   text: string;
+  userPhoto: string;
 };
 
 export type Expression = {
@@ -176,9 +177,25 @@ export type FirebaseData = {
 export interface firebaseState {
   contentData: FirebaseData;
   isChanged: boolean;
+  isLoading: boolean;
   succesGetData: boolean;
   userChecking: boolean;
   loginedUser: boolean;
-  userUid: string,
-  userName: string,
+  userUid: string;
+  userName: string;
+  userEmail: string;
+  userPhoto: string;
+  userSocial: string;
+}
+
+export interface FestivalState {
+  successGetData: boolean;
+  festivalArray: Item[];
+  monthArray: Month;
+  regionArray: Region;
+  seasonArray: Season;
+  sortedMonth: boolean;
+  sortedRegion: boolean;
+  sortedSeason: boolean;
+  loading: boolean;
 }

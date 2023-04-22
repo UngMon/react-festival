@@ -24,27 +24,10 @@ const BasicMain = () => {
 
   return (
     <main className="main-box1">
-      <div>
-        전국 축제, 공연, 행사를 <br/>한 곳에서 확인해보아요!
-      </div>
-      {/* <div
-        className="intro-box"
-        onClick={() => mainBoxClickHandler("all-festival")}
-      >
-        <div>
-          <div>2023년 축제</div>
-        </div>
-      </div>
-      <div className="intro-box" onClick={() => mainBoxClickHandler("regions")}>
-        <div>
-          <div>지역별</div>
-        </div>
-      </div>
-      <div className="intro-box" onClick={() => mainBoxClickHandler("seasons")}>
-        <div>
-          <div>2023년 계절별</div>
-        </div>
-      </div> */}
+      <h2 className="">
+        전국 축제, 공연, 행사를 <br />한 곳에서 보는
+      </h2>
+      <h4>축제모아!</h4>
     </main>
   );
 };

@@ -17,13 +17,11 @@ import Content, { loader as contentLoader } from "./components/Content/Content";
 import AllView from "./components/main/AllView";
 import ResultPage from "./Pages/Result";
 import SearchPage from "./Pages/SearchPage";
-import Error from "./Pages/Error";
-import LoginAccessError from "./components/Error/LoginAccessError";
-import "./App.css";
 import PageNotFound from "./components/Error/PageNotFound";
+import "./App.css";
+import GetDataError from "./components/Error/GetDataError";
 
 function App() {
-  console.log("app");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -33,8 +31,6 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, displayName, email, photoURL } = user;
-        console.log(user);
-
         dispatch(
           firebaseActions.setUserData({ uid, displayName, email, photoURL })
         );
@@ -80,6 +76,7 @@ function App() {
         },
         {
           path: "content",
+          errorElement: <GetDataError />,
           children: [
             {
               path: ":contentId",
@@ -93,14 +90,9 @@ function App() {
     {
       path: "/login",
       element: <LoginPage />,
-    },
-    {
-      path: "error",
-      element: <Error />,
       children: [
         {
-          path: "login-access",
-          element: <LoginAccessError />,
+          path: "oauth",
         },
       ],
     },

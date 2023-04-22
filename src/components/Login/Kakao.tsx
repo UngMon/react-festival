@@ -1,5 +1,9 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
+import { auth as firebaseAuth } from "../../firebase/firestore";
 import "../../Pages/Login.css";
+import { signInWithCustomToken } from "firebase/auth";
 
 declare global {
   interface Window {
@@ -7,7 +11,15 @@ declare global {
   }
 }
 
-const KakaoLogin = () => {
+interface Auth {
+  firebaseToken: string;
+}
+
+type KakaoProps = {
+  setLoading: (bool: boolean) => void;
+};
+
+const KakaoLogin = ({ setLoading }: KakaoProps) => {
   const navigate = useNavigate();
   const { Kakao } = window;
   const searchParams = new URLSearchParams(document.location.search);
@@ -17,68 +29,46 @@ const KakaoLogin = () => {
     window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
   }
 
-  const getUserData = async () => {
-    try {
-      let data = await Kakao.API.request({
-        url: "/v2/user/me",
-      });
-      console.log(data)
-      // const properties = {
-      //   uid: `kakao:${data.result.id}`,
-      //   provider: 'Kakao.com',
-      //   displayName: data.result.properties.nickname,
-      //   email: data.result.kakao_account.email
-      // }
-      
-
-      navigate('/');
-    } catch (err) {
-      console.log("here?");
-      console.log(err);
+  useEffect(() => {
+    if (!code) {
+      return;
     }
-  };
-
-  const getAccessToken = async () => {
-    console.log(code);
-    const response = await fetch("https://kauth.kakao.com/oauth/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-      body: `grant_type=authorization_code&client_id=5285b2efa74367ac451af3041c4291cd&redirect_uri=http://localhost:3000/login/oauth&code=${code}`,
-    });
-
-    try {
-      const data = await response.json();
-      console.log(data);
-      Kakao.Auth.setAccessToken(data.access_token);
-      const userData = Kakao.API.request({ url: "/v2/user/me" });
-      console.log(userData);
-      getUserData();
-    } catch (err) {
-      alert(err);
-      console.log(err);
-      navigate('/login');
-    }
-  };
+    const kakaoLoginAttempt = async () => {
+      try {
+        setLoading(true);
+        const res: AxiosResponse<Auth> = await axios.post(
+          `${process.env.REACT_APP_SERVER_POINT}/kakao`,
+          { code }
+        );
+        const { firebaseToken } = res.data;
+        await signInWithCustomToken(firebaseAuth, firebaseToken);
+        const currentUrl = sessionStorage.getItem('currentUrl');
+        if (currentUrl) {
+          navigate(-2);
+        } else {
+          navigate('/', { replace: true})
+        }
+      } catch (error: any) {
+        alert(error.message);
+        setLoading(false);
+        navigate("/login");
+      }
+    };
+    kakaoLoginAttempt();
+  });
 
   const kakaoLoginHandler = () => {
+
+    setLoading(true);
     Kakao.Auth.authorize({
-      redirectUri: process.env.REACT_APP_REDIRECT_URL,
-      scope: "profile_nickname account_email",
+      redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
+      scope: "profile_nickname profile_image account_email",
     });
   };
-
-  if (code) {
-    getAccessToken();
-  }
 
   return (
     <div className="Social-Login Kakao" onClick={kakaoLoginHandler}>
-      <img
-        src="/images/kakao.png"
-        alt="카카오 로그인 버튼"
-      />
+      <img src="/images/kakao.png" alt="카카오 로그인 버튼" />
       <span>카카오톡 로그인</span>
     </div>
   );

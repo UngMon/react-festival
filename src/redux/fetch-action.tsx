@@ -12,22 +12,18 @@ export const getFestiavalData = createAsyncThunk(
       `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${key}&numOfRows=1500&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&eventStartDate=20210101`
     );
 
-    if (!response.ok) {
-      throw new Error("데이터를 불러오지 못 했습니다.");
-    }
     const data: Respon = await response.json();
-    console.log("Thunk complete");
     return data;
   }
 );
 
 export const getFriebaseData = createAsyncThunk(
-  "firebase/getImageFromData",
+  "firebase/getFromData",
   async () => {
     const querySnapshot = await getDocs(collection(db, "content"));
-
-    if (querySnapshot === undefined) {
-      throw new Error("failed to get Image from friebase");
+    if (querySnapshot.empty) {
+      // 만약 어떠한 이유로 아무런 데이터를 얻지 못 할 경우 에러 던져주기.
+      throw Error()
     }
     let arr: FirebaseData = {};
 
@@ -41,7 +37,6 @@ export const getFriebaseData = createAsyncThunk(
         expression: data.expression,
       };
     }
-    console.log("firebase get data completed");
     return arr;
   }
 );

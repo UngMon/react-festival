@@ -44,13 +44,13 @@ const SliderButton = ({
     -> useEffect의 디펜던시에 의해 아래의 코드가 작동*/
     if (disabled) {
       if (currentIndex === 1 || currentIndex === imageLength) {
-        console.log(`250 세컨즈 ${currentIndex}`);
+        // console.log(`250 세컨즈 ${currentIndex}`);
         timer = setTimeout(() => {
           setDisabled(false);
           sliderRef.current!.style.transition = "transform 250ms ease";
         }, 250);
       } else {
-        console.log(`500 세컨즈 ${currentIndex}`);
+        // console.log(`500 세컨즈 ${currentIndex}`);
         timer = setTimeout(() => {
           setDisabled(false);
           sliderRef.current!.style.transition = "transform 250ms ease";
@@ -71,11 +71,11 @@ const SliderButton = ({
 
   const prevClickHandler = () => {
     if (!disabled) {
-      console.log(`prev ${currentIndex}`);
+      // console.log(`prev ${currentIndex}`);
       setDisabled(true);
       setCurrentIndex(currentIndex - 1);
       if (currentIndex === 1) {
-        console.log("??????????");
+        // console.log("??????????");
         setTimeout(() => {
           setCurrentIndex(imageLength);
           sliderRef.current!.style.transition = "";
@@ -86,7 +86,7 @@ const SliderButton = ({
 
   const nextClickHandler = () => {
     if (!disabled) {
-      console.log(`next ${currentIndex}`);
+      // console.log(`next ${currentIndex}`);
       setCurrentIndex(currentIndex + 1);
       setDisabled(true);
       if (currentIndex === imageLength) {

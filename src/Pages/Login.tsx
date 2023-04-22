@@ -1,32 +1,39 @@
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import KakaoLogin from "../components/Login/Kakao";
 import { auth } from "../firebase/firestore";
 import {
   signInWithRedirect,
-  browserSessionPersistence,
-  setPersistence,
   getRedirectResult,
   GoogleAuthProvider,
   FacebookAuthProvider,
   AuthProvider,
 } from "firebase/auth";
 import "./Login.css";
-import { useAppDispatch } from "../redux/store";
+import { RootState, useAppDispatch } from "../redux/store";
 import { firebaseActions } from "../redux/firebase-slice";
 import { useEffect, useState } from "react";
 import Loading from "../components/UI/Loading";
+import { useSelector } from "react-redux";
+import LoginAccessError from "../components/Error/LoginAccessError";
 
 let isFirst = true;
 
 const LoginPage = () => {
-  const dispatch = useAppDispatch();
+  console.log("loginpage");
   const navigate = useNavigate();
+  const isUserLoggedIn = useSelector(
+    (state: RootState) => state.firebase.loginedUser
+  );
+  
+
+
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const loginHandler = (type: string) => {
+  const loginHandler = async (type: string) => {
     let provider: AuthProvider | null = null;
     isFirst = false;
-
+    setLoading(true);
     if (type === "Google") {
       provider = new GoogleAuthProvider();
     }
@@ -34,22 +41,18 @@ const LoginPage = () => {
       provider = new FacebookAuthProvider();
     }
 
-    setPersistence(auth, browserSessionPersistence)
-      .then(() => {
-        signInWithRedirect(auth, provider!);
-        setLoading(true);
-      })
-      .catch((error) => {
-        navigate("/login");
-        alert(error.message);
-      });
+    await signInWithRedirect(auth, provider!);
   };
 
   useEffect(() => {
+    // if (isUserLoggedIn) {
+    //   const prevPage = sessionStorage.getItem('currentUrl');
+    //   navigate(`${JSON.parse(prevPage!)}`, { replace: true})
+    //   return;
+    // }
+
     getRedirectResult(auth)
       .then((credential) => {
-        console.log(credential);
-        console.log("?????");
         const { uid, email, displayName, photoURL } = credential!.user;
         dispatch(
           firebaseActions.setUserData({ uid, email, displayName, photoURL })
@@ -57,17 +60,20 @@ const LoginPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log("failed");
+
+
+        console.log(error);
         !isFirst && alert(error.message);
-        !isFirst && navigate("/login");
+        !isFirst && navigate("/login", { replace: true });
         setLoading(false);
       });
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, isUserLoggedIn]);
 
   return (
     <>
       {loading && <Loading />}
-      {!loading && (
+      {!loading && isUserLoggedIn && <LoginAccessError />}
+      {!loading && !isUserLoggedIn && (
         <form className="Login-Form">
           <h3 className="title">로그인</h3>
           <p id="p-tag">로그인 후 이용하실 수 있습니다.</p>
@@ -90,7 +96,8 @@ const LoginPage = () => {
             ></img>
             <span>페이스북 로그인</span>
           </div>
-          <KakaoLogin />
+          <KakaoLogin setLoading={setLoading} />
+          <Outlet />
         </form>
       )}
     </>

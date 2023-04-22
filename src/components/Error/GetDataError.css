@@ -1,0 +1,14 @@
+.get-data-error-box {
+    box-sizing: border-box;
+    padding: 20% 0;
+    width: 100%;
+    height: calc(100vh - 110px);
+    margin: 0 atuo;
+    text-align: center;
+}
+
+.get-data-error-box p {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}

@@ -1,13 +1,14 @@
 import { signOut } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../../firebase/firestore";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import classes from "./LoginButton.module.css";
 
 const LoginButton = () => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const LoginButton = () => {
   }, [userModalOpen]);
 
   const loginHandler = () => {
+    sessionStorage.setItem('currentUrl', JSON.stringify(location.pathname))
     navigate("/login");
   };
 
@@ -42,6 +44,7 @@ const LoginButton = () => {
     signOut(auth)
       .then(() => {
         dispatch(firebaseActions.logOutUser());
+        sessionStorage.clear();
       })
       .catch((err) => {
         alert(err.message);
@@ -68,7 +71,11 @@ const LoginButton = () => {
             {userModalOpen && (
               <div className={classes["logout-box"]} ref={userInfoRef}>
                 <p>{`${firebaseState.userName}님`}</p>
-                <p>{`${firebaseState.userEmail}`}</p>
+                <p>
+                  {firebaseState.userSocial
+                    ? firebaseState.userEmail.slice(5)
+                    : firebaseState.userEmail}
+                </p>
                 <button className={classes.logout} onClick={logoutHnalder}>
                   로그아웃
                 </button>

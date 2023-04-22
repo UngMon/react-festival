@@ -104,7 +104,14 @@
   height: 100%;
 }
 
+.user-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
 .user-reivew-top {
+  box-sizing: border-box;
   padding: 0 10px 10px;
   height: 20px;
   grid-column-start: 1;
@@ -117,6 +124,15 @@
 .user-name {
   font-weight: 600;
   font-size: 16px;
+}
+
+.review-option {
+  width: 30px;
+}
+
+.review-option img {
+  margin-top: 5px;
+  width: 15px;
 }
 
 .review-option:hover {
@@ -137,7 +153,7 @@
 
 .revise-input input {
   width: 97%;
-  height: 70%;
+  height: 90%;
   border: 0;
   border-bottom: 1.5px solid rgb(169, 169, 169);
 }
@@ -149,18 +165,25 @@
 }
 
 .review-button-box button {
+  margin-top: 5px;
   margin-left: 10px;
   width: 40px;
-  height: 80%;
+  height: 30px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.review-button-box button:hover {
+  cursor: pointer;
+  background-color: darkgray;
 }
 
 .option-box {
   position: absolute;
   z-index: 4;
   top: 40px;
-  right: 20px;
+  right: 30px;
   padding: 5px;
   background-color: rgb(247, 247, 247);
   border-radius: 8px;

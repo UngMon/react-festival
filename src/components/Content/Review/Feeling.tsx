@@ -31,11 +31,8 @@ const Feeling = ({
     0, 0, 0,
   ]);
   const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]);
-
   useEffect(() => {
-    if (firebaseState.succesGetData) {
-      console.log(firebaseState.contentData[contentId]);
-      const commentData = firebaseState.contentData[contentId].expression;
+    const commentData = firebaseState.contentData[contentId].expression;
       let Good = 0;
       let Soso = 0;
       let Bad = 0;
@@ -49,11 +46,19 @@ const Feeling = ({
         Soso += 그저그래요;
         Bad += 싫어요;
       }
+      if (!uid) {
+        setUserPick([0, 0, 0])
+      }
       setFeelCount([Good, Soso, Bad]);
-    }
+
   }, [firebaseState, contentId, uid]);
 
   useEffect(() => {
+    // content페이지에서 로그아웃 할 시에 setDoc 방지를 위함.
+    if (!firebaseState.loginedUser) {
+      return;
+    }
+
     if (userPick[0] === 1 || userPick[1] === 1 || userPick[2] === 1) {
       let docData: Expression = {};
       docData[uid] = {
@@ -73,7 +78,7 @@ const Feeling = ({
       updateData[`expression.${uid}`] = deleteField();
       updateDoc(contentRef, updateData);
     }
-  });
+  }, [firebaseState, contentRef, uid, userPick]);
 
   const handler = (type: string) => {
     if (!firebaseState.loginedUser)
@@ -95,7 +100,7 @@ const Feeling = ({
 
   return (
     <>
-      <p className="How-to-feel">이 축제/행사 어떻게 생각하세요?</p>
+      <p className="How-to-feel">이 축제/행사/공연 어떻게 생각하세요?</p>
       <div className="Cotent-feeling">
         <div onClick={() => handler("좋아요")}>
           <img src="/images/Good.png" alt="Good" width="40"></img>

@@ -8,34 +8,58 @@ import {
 } from "../../modules/Type";
 import Slider from "./Slider";
 import Detail from "./Detail/Detail";
-import "./Content.css";
 import Review from "./Review/Review";
 import Overview from "./Overview";
+import MenuBar from "./MenuBar";
+import "./Content.css";
+import ReportModal from "./Review/ReportModal";
 
 const Cotent = () => {
-  console.log("content render");
   const { contentId } = useParams();
   const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
 
   const [category, setCategory] = useState<string>("기본정보");
-  const contentData = { contentDetailIntro, contentDetailCommon };
+  const [reportModalOpen, setReportModalOpen] = useState<
+    [boolean, string, string, string, string]
+  >([false, "", "", "", ""]);
 
+  const contentData = { contentDetailIntro, contentDetailCommon };
+  const menuBarRef = useRef<HTMLHeadingElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
   return (
     <main className="main-box">
+      {reportModalOpen[0] && (
+        <ReportModal
+          contentId={contentId!}
+          reportModalOpen={reportModalOpen}
+          setReportModalOpen={setReportModalOpen}
+        />
+      )}
       <div className="Content">
         <Slider contentImage={contentImage} />
+        <h1 className="Content-title" ref={menuBarRef}>
+          {contentData.contentDetailCommon.response.body.items.item[0].title}
+        </h1>
+        <MenuBar
+          setCategory={setCategory}
+          menuBarRef={menuBarRef}
+          reviewRef={reviewRef}
+        />
         <Detail
           category={category}
           setCategory={setCategory}
           contentData={contentData}
-          reviewRef={reviewRef}
+          menuBarRef={menuBarRef}
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
-      <Review contentId={contentId!} reviewRef={reviewRef}/>
+      <Review
+        contentId={contentId!}
+        reviewRef={reviewRef}
+        setReportModalOpen={setReportModalOpen}
+      />
     </main>
   );
 };

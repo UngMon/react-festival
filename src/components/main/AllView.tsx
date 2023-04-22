@@ -9,7 +9,6 @@ import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
 
 const AllView = () => {
-  console.log("allview");
   const { monthKey } = useParams();
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);

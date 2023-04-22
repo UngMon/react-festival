@@ -1,23 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Item, Region, Season, Month } from "../modules/Type";
 import { getFestiavalData } from "./fetch-action";
+import { FestivalState } from "../modules/Type";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
-
-interface FestivalState {
-  successGetData: boolean;
-  festivalArray: Item[];
-  monthArray: Month;
-  regionArray: Region;
-  seasonArray: Season;
-  sortedMonth: boolean;
-  sortedRegion: boolean;
-  sortedSeason: boolean;
-  loading: boolean;
-  error: string | null;
-}
 
 const initialState: FestivalState = {
   successGetData: false,
@@ -29,7 +17,6 @@ const initialState: FestivalState = {
   sortedRegion: false,
   sortedSeason: false,
   loading: true,
-  error: null,
 };
 
 const festivalSlice = createSlice({
@@ -37,7 +24,6 @@ const festivalSlice = createSlice({
   initialState,
   reducers: {
     sortDataByMonth(state) {
-
       const result: Month = {
         "01": [],
         "02": [],
@@ -71,7 +57,6 @@ const festivalSlice = createSlice({
     },
 
     sortDataByRegion(state) {
-
       let region: Region = {
         "0": [...state.festivalArray],
         "1": [],
@@ -102,7 +87,6 @@ const festivalSlice = createSlice({
       state.sortedRegion = true;
     },
     sortDataBySeason(state) {
-
       const season: Season = {
         spring: [],
         summer: [],
@@ -159,8 +143,14 @@ const festivalSlice = createSlice({
       })
       .addCase(getFestiavalData.rejected, (state, action) => {
         state.loading = false;
-        console.log(action.error);
-        state.error = action.error.message || "Failed to fetch data";
+        state.successGetData = false;
+        let errorMessage = "";
+        if (action.error.message === "Failed to fetch") {
+          errorMessage =
+            "데이터를 불러오는데 문제가 발생했습니다. 이러한 현상이 지속된다면 아래 이메일로 문의해주세요!";
+        }
+        alert(errorMessage);
+        console.log(action.error.message);
       });
   },
 });

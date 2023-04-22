@@ -18,7 +18,6 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  console.log("CArd");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const festivalState = useSelector((state: RootState) => state.festival);
