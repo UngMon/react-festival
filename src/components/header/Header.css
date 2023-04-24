@@ -10,16 +10,26 @@
   font-weight: 700;
   background-color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 3px 3px 8px rgba(0,0,0,.12);
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.12);
 }
 
-@media screen and (max-width: 910px) {
+.Logo {
+  cursor: pointer;
+}
+
+@media (max-width: 910px) {
   .Header-box {
     padding: 10px 5%;
   }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (min-width: 1200px){
+  .Logo {
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
   .Header-box {
     top: 0;
     left: 0;
@@ -27,5 +37,18 @@
     justify-content: space-between;
     z-index: 99;
   }
+}
 
+@media (max-width: 250px) {
+  .Header-box {
+    padding: 10px 0;
+    justify-content: space-around;
+  }
+}
+
+
+@media (max-width: 165px) {
+  .Logo {
+    padding: 0;
+  }
 }

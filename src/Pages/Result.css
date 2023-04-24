@@ -1,11 +1,40 @@
+@font-face {
+  font-family: "omyu_pretty";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .result-not-found {
   width: 100%;
-  height: 30%;
-  margin: 20% auto;
+  margin-top: calc(100vh - 80vh);
   text-align: center;
+  padding: 10px 0;
 }
 
 .result-not-found p {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-family: "omyu_pretty";
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+@media (min-width: 1600px) {
+  .result-not-found p {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .result-not-found p {
+    font-size: 44px;
+  }
+}
+
+
+
+@media (max-height: 500px) {
+  .result-not-found {
+    margin-top: calc(100vh - 95vh);
+  }
 }

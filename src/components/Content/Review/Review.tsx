@@ -1,6 +1,6 @@
 import { doc } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { db } from "../../../firebase/firestore";
+import { db } from "../../../firebase";
 import { RootState } from "../../../redux/store";
 import "./Review.css";
 import Feeling from "./Feeling";

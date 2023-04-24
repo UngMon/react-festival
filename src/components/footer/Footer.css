@@ -1,20 +1,27 @@
 .footer-box {
   box-sizing: border-box;
   width: 100%;
-  height: 50px;
-  margin: 0;
-  padding: 5px 10px;
-  background-color: aliceblue;
-  font-size: 10px;
+  height: 100px;
+  padding: 14px 0;
+  border-top: 0.5px solid black;
+  background-color: white;
+  font-size: 16px;
   text-align: center;
-  color: gray;
+  z-index: 3;
 }
 
 .footer-box p {
-  margin: 5px auto 0;
+  margin: 10px;
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (min-width: 2000px), srceen and (min-heigth: 1680px) {
+  .footer-box {
+    padding: 13px 0;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
   .footer-box {
     margin-bottom: 70px;
   }

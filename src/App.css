@@ -4,14 +4,15 @@
 }
 
 .main-box {
-  width: 100%;
-  /* min-height: calc(100vh - 110px); */
+  /* width: 100%; */
+  min-height: calc(100vh - 230px);
   background-color: white;
   z-index: 4;
 }
 
-@media screen and (max-width: 620px){
+@media (max-width: 768px){
   .main-box {
+    /* position: relative; */
     padding: 60px 0 0;
   }
 }

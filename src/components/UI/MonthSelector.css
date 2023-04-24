@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 765px) {
+@media (max-width: 768px) {
   .picker-month {
     left: 0;
     width: 100%;
@@ -31,11 +31,11 @@
 
   .picker-month select {
     width: 100%;
-    padding: 10px 0 10px calc(100% - 100px);
+    padding: 10px 0 10px calc(100vw - 120px);
   }
 }
 
-@media screen and (max-width: 310px) {
+@media (max-width: 310px) {
   .picker-month-h {
     display: none;
   }

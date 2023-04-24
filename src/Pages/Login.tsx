@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import KakaoLogin from "../components/Login/Kakao";
-import { auth } from "../firebase/firestore";
+import { auth } from "../firebase";
 import {
   signInWithRedirect,
   getRedirectResult,
@@ -15,17 +14,18 @@ import { useEffect, useState } from "react";
 import Loading from "../components/UI/Loading";
 import { useSelector } from "react-redux";
 import LoginAccessError from "../components/Error/LoginAccessError";
+// import KakaoLogin from "../components/Login/Kakao";
+// import Naver from "../components/Login/Naver";
 
 let isFirst = true;
 
 const LoginPage = () => {
   console.log("loginpage");
+
   const navigate = useNavigate();
   const isUserLoggedIn = useSelector(
     (state: RootState) => state.firebase.loginedUser
   );
-  
-
 
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(true);
@@ -45,12 +45,6 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    // if (isUserLoggedIn) {
-    //   const prevPage = sessionStorage.getItem('currentUrl');
-    //   navigate(`${JSON.parse(prevPage!)}`, { replace: true})
-    //   return;
-    // }
-
     getRedirectResult(auth)
       .then((credential) => {
         const { uid, email, displayName, photoURL } = credential!.user;
@@ -60,9 +54,6 @@ const LoginPage = () => {
         navigate("/");
       })
       .catch((error) => {
-
-
-        console.log(error);
         !isFirst && alert(error.message);
         !isFirst && navigate("/login", { replace: true });
         setLoading(false);
@@ -96,7 +87,8 @@ const LoginPage = () => {
             ></img>
             <span>페이스북 로그인</span>
           </div>
-          <KakaoLogin setLoading={setLoading} />
+          {/* <KakaoLogin setLoading={setLoading} /> */}
+          {/* <Naver /> */}
           <Outlet />
         </form>
       )}

@@ -32,7 +32,7 @@ const ResultPage = () => {
       )}
       {searchArray.length === 0 && (
         <div className="result-not-found">
-          <p>😅 검색하신 축제가 없습니다!</p>
+          <p>😅 검색한 축제가 없습니다!</p>
           <p>다시 검색해주세요!</p>
         </div>
       )}

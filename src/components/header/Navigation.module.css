@@ -26,7 +26,7 @@ a:hover {
   border-top: 0.5px solid black;
 }
 
-@media screen and (max-width: 620px) {
+@media (max-width: 768px) {
   .Nav-box {
     display: none;
   }
@@ -63,5 +63,19 @@ a:hover {
     display: block;
     height: 30px;
     line-height: 30px;
+  }
+}
+
+@media (max-width: 182px) {
+  .mobile-Nav-box {
+    justify-content: none;
+  }
+
+  .mobile-Nav-box li {
+    padding: 10px 0;
+  }
+
+  .mobile-Nav-box img {
+    width: 30%;
   }
 }

@@ -70,7 +70,7 @@
 
 /* media */
 
-@media screen and (min-width: 1024px){
+@media (min-width: 1024px){
   .mobile-search-form {
     margin: 0 auto;
     padding: 150px;
@@ -82,7 +82,7 @@
   }
 }
 
-@media screen and (max-width: 765px) {
+@media (max-width: 768px) {
   .search-box {
     display: none;
   }

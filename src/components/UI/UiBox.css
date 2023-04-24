@@ -1,15 +1,23 @@
 .Ui-Box {
-  position: relative;
   box-sizing: border-box;
   padding: 30px;
   width: 100%;
   display: flex;
   align-items: center;
   line-height: 40px;
+  z-index: 5;
 }
 
-@media screen and (max-width: 765px) {
+@media (max-width: 768px) {
   .Ui-Box {
     display: block;
+    position: fixed;
+    top: 60px;
+  }
+}
+
+@media (max-width: 320px) {
+  .Ui-Box {
+    padding: 30px 15px;
   }
 }

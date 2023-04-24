@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
-import { auth as firebaseAuth } from "../../firebase/firestore";
-import "../../Pages/Login.css";
+import { auth as firebaseAuth } from "../../firebase";
 import { signInWithCustomToken } from "firebase/auth";
+import "../../Pages/Login.css";
 
 declare global {
   interface Window {
@@ -36,29 +36,31 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
     const kakaoLoginAttempt = async () => {
       try {
         setLoading(true);
+        // `${process.env.REACT_APP_SERVER_POINT}/kakao`,
+        // https://asia-northeast3-festival-5a61a.cloudfunctions.net/auth
+
         const res: AxiosResponse<Auth> = await axios.post(
-          `${process.env.REACT_APP_SERVER_POINT}/kakao`,
+          "http://127.0.0.1:5001/festival-5a61a/us-central1/auth/kaka",
           { code }
         );
         const { firebaseToken } = res.data;
         await signInWithCustomToken(firebaseAuth, firebaseToken);
-        const currentUrl = sessionStorage.getItem('currentUrl');
+        const currentUrl = sessionStorage.getItem("currentUrl");
         if (currentUrl) {
           navigate(-2);
         } else {
-          navigate('/', { replace: true})
+          navigate("/", { replace: true });
         }
       } catch (error: any) {
         alert(error.message);
         setLoading(false);
-        navigate("/login");
+        navigate("/login", { replace: true });
       }
     };
     kakaoLoginAttempt();
   });
 
   const kakaoLoginHandler = () => {
-
     setLoading(true);
     Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/firestore";
+import { db } from "../firebase";
 import { Respon, FirebaseData } from "../modules/Type";
 
 export const getFestiavalData = createAsyncThunk(
@@ -13,6 +13,7 @@ export const getFestiavalData = createAsyncThunk(
     );
 
     const data: Respon = await response.json();
+    console.log('fetchFromData');
     return data;
   }
 );
@@ -37,6 +38,7 @@ export const getFriebaseData = createAsyncThunk(
         expression: data.expression,
       };
     }
+    console.log('getfromdata');
     return arr;
   }
 );

@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firestore";
+import { db } from "../firebase";
 
 export const setData = async (contentId: string) => {
   const docData = {

@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { auth } from "../../firebase/firestore";
+import { auth } from "../../firebase";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import classes from "./LoginButton.module.css";

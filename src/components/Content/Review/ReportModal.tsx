@@ -1,5 +1,5 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase/firestore";
+import { db } from "../../../firebase";
 import "./ReportModal.css";
 
 interface ReportProps {

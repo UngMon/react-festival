@@ -1,8 +1,7 @@
 .main-box-content {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  padding: 15px 30px 30px;
+  padding: 0 30px 30px;
 }
 
 .AllView-grid-box {
@@ -82,13 +81,10 @@
   }
 }
 
-@media screen and (max-width: 620px) {
-  ::-webkit-scrollbar {
-    width: 0;
-  }
-
+@media screen and (max-width: 768px) {
   .main-box-content {
-    padding: 15px 15px 30px;
+    position: absolute;
+    top: 160px;
   }
 
   .AllView-grid-box {
