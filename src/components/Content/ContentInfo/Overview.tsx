@@ -1,4 +1,4 @@
-import { ResponDetailCommon } from "../../modules/Type";
+import { ResponDetailCommon } from "../../../modules/Type";
 import "./Overview.css";
 
 interface OverviewProps {

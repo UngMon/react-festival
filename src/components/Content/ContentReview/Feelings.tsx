@@ -20,7 +20,7 @@ interface FeelingProps {
   uid: string;
 }
 
-const Feeling = ({
+const Feelings = ({
   firebaseState,
   contentRef,
   uid,
@@ -137,4 +137,4 @@ const Feeling = ({
   );
 };
 
-export default Feeling;
+export default Feelings;

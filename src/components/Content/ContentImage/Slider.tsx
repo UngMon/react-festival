@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ContentImage, ResponImage, ImageData } from "../../modules/Type";
+import { ContentImage, ResponImage, ImageData } from "../../../modules/Type";
 import "./Slider.css";
 import SliderButton from "./SliderButton";
 
@@ -63,7 +63,7 @@ const Slider = ({ contentImage }: SliderProps) => {
         ]);
       }
     }
-      /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
+    /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
     setWidth(containerRef.current!.clientWidth / 3);
   }, [contentImage]);
 

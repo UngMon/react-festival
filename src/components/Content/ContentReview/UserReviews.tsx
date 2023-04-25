@@ -21,7 +21,7 @@ interface ReviewProps {
   >;
 }
 
-const Reviews = ({
+const UserReviews = ({
   firebaseState,
   contentRef,
   uid,
@@ -316,4 +316,4 @@ const Reviews = ({
   );
 };
 
-export default Reviews;
+export default UserReviews;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./MenuBar.css";
 
 interface MenuBarProps {
   category: string;
@@ -13,8 +14,7 @@ const MenuBar = ({
   menuBarRef,
   reviewRef,
 }: MenuBarProps) => {
-  console.log('MenuBars')
-  const [reviewActive, setReviewActive]= useState<boolean>(false);
+  const [reviewActive, setReviewActive] = useState<boolean>(false);
 
   const topBarClickHandler = (type: string) => {
     if (type === "리뷰") {

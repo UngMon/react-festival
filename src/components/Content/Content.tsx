@@ -6,16 +6,15 @@ import {
   ResponDetailIntro,
   ResponDetailCommon,
 } from "../../modules/Type";
-import Slider from "./Slider";
-import Detail from "./Detail/Detail";
-import Review from "./Review/Review";
-import Overview from "./Overview";
-import MenuBar from "./MenuBar";
+import Slider from "./ContentImage/Slider";
+import Detail from "./ContentInfo/Detail";
+import Review from "./ContentReview/ContentReviews";
+import Overview from "./ContentInfo/Overview";
+import MenuBar from "./ContentInfo/MenuBar";
 import "./Content.css";
-import ReportModal from "./Review/ReportModal";
+import ReportModal from "./ContentReview/Modal/ReportModal";
 
 const Cotent = () => {
-  console.log('Cotent Redner')
   const { contentId } = useParams();
   const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
