@@ -12,7 +12,7 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
   const seasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSeason(value);
-    navigate(`/season/${value}`);
+    navigate(`/seasons/${value}`);
   };
 
   return (
@@ -72,7 +72,7 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
         </nav>
       }
       {
-        <div className="picker-season">
+        <div className="mobile-picker-season">
           <select value={season} onChange={seasonChange}>
             <option value="default" disabled>
               계절을 선택하세요
@@ -82,6 +82,7 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
             <option value="authumn">가을</option>
             <option value="winter">겨울</option>
           </select>
+          <h4 className="mobile-picker-seaon-h">계절을 선택하세요</h4>
         </div>
       }
     </>

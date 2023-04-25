@@ -17,7 +17,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
   .Ui-Box {
     padding: 30px 15px;
   }
