@@ -1,7 +1,8 @@
 .picker-month {
-  left: 40px;
-  width: 205px;
   position: relative;
+  left: 0px;
+  width: 205px;
+  margin-right: calc(100vw - 700px);
 }
 
 .picker-month-h {

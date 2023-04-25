@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   line-height: 40px;
   z-index: 5;
 }
@@ -21,3 +22,4 @@
     padding: 30px 15px;
   }
 }
+

@@ -27,7 +27,7 @@
 }
 
 .image-box {
-  height: 250px;
+  height: 200px;
   overflow: hidden;
   border-radius: 7px 7px 0 0;
 }
@@ -42,6 +42,8 @@
   padding: 5px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .festival-text h3 {
@@ -55,7 +57,9 @@
 }
 
 .festival-date {
-  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
   padding-bottom: 7px;
 }
 
@@ -69,31 +73,37 @@
   font-size: 14px;
 }
 
-@media screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
   .AllView-grid-box {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
-@media screen and (max-width: 910px) {
+@media (max-width: 910px) {
   .AllView-grid-box {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .main-box-content {
-    position: absolute;
-    top: 160px;
+    padding-top: 150px;
   }
 
   .AllView-grid-box {
     grid-template-columns: 100%;
   }
+}
 
-  .festival-text h3 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@media (max-width: 162px) {
+  .festival-date {
+    width: 100%;
+  }
+
+  .cal-date {
+    margin: 0;
+    padding: 10px 0;
+    width: 100%;
   }
 }
+

@@ -17,7 +17,7 @@ const Search = () => {
       /\s+/g=> 정규표현식으로 하나이상의 공백을 뜻한다고 한다.
     */
     let inputText = "";
-  
+
     if (location.pathname === "/search") {
       inputText = mobileInputRef.current!.value.replace(/\s+/g, "");
     } else {
@@ -25,7 +25,7 @@ const Search = () => {
     }
 
     if (inputText.length === 0) {
-      return alert('검색 키워드를 입력해주세요!')
+      return alert("검색 키워드를 입력해주세요!");
     }
 
     navigate(`/result/${inputText}`);
@@ -35,10 +35,17 @@ const Search = () => {
     <>
       {
         //pc환경
-        location.pathname !== "/search" && (
+         (
           <form className="search-box" onSubmit={onSubmitHandler}>
-            <input ref={inputRef} placeholder="찾으시는 축제를 검색해보세요!" />
-            <button>검색</button>
+            <input
+              ref={inputRef}
+              type="text"
+              name="title"
+              placeholder="찾으시는 축제를 검색해보세요!"
+            />
+            <button>
+              <img src="/images/search.png" alt="검색" width="25"></img>
+            </button>
           </form>
         )
       }

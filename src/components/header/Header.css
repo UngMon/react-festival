@@ -23,11 +23,11 @@
   }
 }
 
-@media screen and (min-width: 1200px){
+/* @media screen and (min-width: 1200px){
   .Logo {
     padding: 0;
   }
-}
+} */
 
 @media (max-width: 768px) {
   .Header-box {
@@ -46,9 +46,3 @@
   }
 }
 
-
-@media (max-width: 165px) {
-  .Logo {
-    padding: 0;
-  }
-}

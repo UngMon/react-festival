@@ -12,6 +12,9 @@
 
 .footer-box p {
   margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 2000px), srceen and (min-heigth: 1680px) {
@@ -24,5 +27,11 @@
 @media (max-width: 768px) {
   .footer-box {
     margin-bottom: 70px;
+  }
+}
+
+@media (max-width: 182px) {
+  .footer-box {
+    display: none;
   }
 }
