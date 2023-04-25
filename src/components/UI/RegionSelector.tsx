@@ -11,7 +11,7 @@ const RegionSelector = (props: RegionProps) => {
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setAreaCode(value);
-    navigate(`/regions/areacode/${value}`)
+    navigate(`/regions/${value}`)
   };
 
   return (

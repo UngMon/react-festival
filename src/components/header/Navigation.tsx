@@ -37,7 +37,7 @@ const Navigation = () => {
           <ul className={classes["mobile-Nav-box"]}>
             <li>
               <NavLink
-                to="all-festival/month/all"
+                to="month/all"
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };
@@ -49,7 +49,7 @@ const Navigation = () => {
             </li>
             <li>
               <NavLink
-                to="regions/areacode/0"
+                to="regions/0"
                 onClick={() => clickCategory("region")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };
@@ -90,7 +90,7 @@ const Navigation = () => {
           <ul className={classes["Nav-box"]}>
             <li>
               <NavLink
-                to="all-festival/month/all"
+                to="month/all"
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };
@@ -101,7 +101,7 @@ const Navigation = () => {
             </li>
             <li>
               <NavLink
-                to="regions/areacode/0"
+                to="regions/0"
                 onClick={() => clickCategory("region")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };

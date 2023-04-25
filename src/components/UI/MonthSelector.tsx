@@ -13,7 +13,7 @@ const MonthSelector = (props: MonthProps) => {
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
-    navigate(`/all-festival/month/${value}`);
+    navigate(`/month/${value}`);
   };
 
   return (

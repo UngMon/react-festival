@@ -13,7 +13,7 @@ import LoginPage from "./pages/Login";
 import RootLayout from "./pages/Root";
 import RegionPage from "./pages/Regions";
 import SeasonPage from "./pages/Seasons";
-import AllFestivalPage from "./pages/AllFestival";
+import AllFestivalPage from "./pages/MonthFestival";
 import Regions from "./components/main/Regions";
 import Seasons from "./components/main/Seasons";
 import Content, { loader as contentLoader } from "./components/content/Content";
@@ -50,7 +50,7 @@ function App() {
       children: [
         { index: true, element: <StartPage /> },
         {
-          path: "all-festival/month",
+          path: "month",
           element: <AllFestivalPage />,
           children: [
             {
@@ -60,7 +60,7 @@ function App() {
           ],
         },
         {
-          path: "regions/areacode",
+          path: "regions",
           element: <RegionPage />,
           children: [{ path: ":regionKey", element: <Regions /> }],
         },

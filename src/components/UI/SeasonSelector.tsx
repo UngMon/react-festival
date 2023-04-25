@@ -6,17 +6,13 @@ interface SeasonProps {
   setSeason: (value: string) => void;
 }
 
-const SeasonSelctor = (props: SeasonProps) => {
+const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
   const navigate = useNavigate();
 
   const seasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    props.setSeason(value);
-    navigate(`/all-festival/month/${value}`);
-  };
-
-  const clickSeasonHandler = (input: string) => {
-    props.setSeason(input);
+    setSeason(value);
+    navigate(`/season/${value}`);
   };
 
   return (
@@ -27,7 +23,7 @@ const SeasonSelctor = (props: SeasonProps) => {
             <li>
               <NavLink
                 to="/seasons/spring"
-                onClick={() => clickSeasonHandler("spring")}
+                onClick={() => setSeason("spring")}
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "#F8D1D1" : "",
@@ -40,7 +36,7 @@ const SeasonSelctor = (props: SeasonProps) => {
             <li>
               <NavLink
                 to="/seasons/summer"
-                onClick={() => clickSeasonHandler("summer")}
+                onClick={() => setSeason("summer")}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 #여름
@@ -49,7 +45,7 @@ const SeasonSelctor = (props: SeasonProps) => {
             <li>
               <NavLink
                 to="/seasons/authumn"
-                onClick={() => clickSeasonHandler("authumn")}
+                onClick={() => setSeason("authumn")}
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "#E15024" : "",
@@ -62,7 +58,7 @@ const SeasonSelctor = (props: SeasonProps) => {
             <li>
               <NavLink
                 to="/seasons/winter"
-                onClick={() => clickSeasonHandler("winter")}
+                onClick={() => setSeason("winter")}
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "skyblue" : "",
@@ -77,7 +73,7 @@ const SeasonSelctor = (props: SeasonProps) => {
       }
       {
         <div className="picker-season">
-          <select value={props.season} onChange={seasonChange}>
+          <select value={season} onChange={seasonChange}>
             <option value="default" disabled>
               계절을 선택하세요
             </option>
