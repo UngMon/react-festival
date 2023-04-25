@@ -50,9 +50,9 @@ const Cotent = () => {
         />
         <Detail
           category={category}
-          setCategory={setCategory}
+          // setCategory={setCategory}
           contentData={contentData}
-          menuBarRef={menuBarRef}
+          // menuBarRef={menuBarRef}
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>

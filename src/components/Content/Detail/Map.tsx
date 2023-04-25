@@ -10,7 +10,6 @@ const Map = ({ detailCommon }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log('map render')
     const { mapx, mapy } = detailCommon[0];
     let container = mapRef.current!; //지도를 담을 영역의 DOM 레퍼런스
     let options = {

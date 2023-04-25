@@ -4,9 +4,7 @@ import Map from "./Map";
 import "./Detail.css";
 
 interface DetailProps {
-  menuBarRef: React.RefObject<HTMLHeadingElement>;
   category: string;
-  setCategory: (value: string) => void;
   contentData: {
     contentDetailCommon: ResponDetailCommon;
     contentDetailIntro: ResponDetailIntro;
@@ -14,9 +12,7 @@ interface DetailProps {
 }
 
 const Detail = ({
-  // menuBarRef,
   category,
-  // setCategory,
   contentData,
 }: DetailProps) => {
   const detailCommon = contentData.contentDetailCommon.response.body.items.item;
