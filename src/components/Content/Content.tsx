@@ -15,6 +15,7 @@ import "./Content.css";
 import ReportModal from "./Review/ReportModal";
 
 const Cotent = () => {
+  console.log('Cotent Redner')
   const { contentId } = useParams();
   const { contentDetailIntro, contentDetailCommon, contentImage } =
     useLoaderData() as LoaderData;
@@ -50,9 +51,7 @@ const Cotent = () => {
         />
         <Detail
           category={category}
-          // setCategory={setCategory}
           contentData={contentData}
-          // menuBarRef={menuBarRef}
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>

@@ -30,6 +30,10 @@
   background-color: white;
 }
 
+.Cotent-category li::selection {
+  border-bottom: 2px solid blue;
+}
+
 .Cotent-category div {
   line-height: 50px;
   height: 100%;
