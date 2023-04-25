@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ContentImage, ResponImage, ImageData } from "../../../modules/Type";
+import { ContentImage, ResponImage, ImageData } from "../../../type/Type";
 import "./Slider.css";
 import SliderButton from "./SliderButton";
 

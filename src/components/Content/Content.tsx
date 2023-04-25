@@ -5,14 +5,14 @@ import {
   ResponImage,
   ResponDetailIntro,
   ResponDetailCommon,
-} from "../../modules/Type";
-import Slider from "./ContentImage/Slider";
-import Detail from "./ContentInfo/Detail";
-import Review from "./ContentReview/ContentReviews";
-import Overview from "./ContentInfo/Overview";
-import MenuBar from "./ContentInfo/MenuBar";
+} from "../../type/Type";
+import Slider from "./contentImages/Slider";
+import Detail from "./contentInfo/Detail";
+import Review from "./contentReview/ContentReviews";
+import Overview from "./contentInfo/Overview";
+import MenuBar from "./contentInfo/MenuBar";
 import "./Content.css";
-import ReportModal from "./ContentReview/Modal/ReportModal";
+import ReportModal from "./contentReview/modal/ReportModal";
 
 const Cotent = () => {
   const { contentId } = useParams();

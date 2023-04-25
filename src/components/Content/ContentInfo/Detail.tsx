@@ -1,4 +1,4 @@
-import { ResponDetailCommon, ResponDetailIntro } from "../../../modules/Type";
+import { ResponDetailCommon, ResponDetailIntro } from "../../../type/Type";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import "./Detail.css";

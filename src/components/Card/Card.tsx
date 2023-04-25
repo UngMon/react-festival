@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Item } from "../../modules/Type";
-import { dataSlice } from "../../modules/DataSlice";
+import { Item } from "../../type/Type";
+import { dataSlice } from "../../utils/DataSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { calculateDate } from "../../modules/CalculateDate";
-import { setData } from "../../modules/SetData";
-import { nowDate } from "../../modules/NowData";
+import { calculateDate } from "../../utils/CalculateDate";
+import { setData } from "../../utils/SetData";
+import { nowDate } from "../../utils/NowData";
 import "./Card.css";
 import { firebaseActions } from "../../redux/firebase-slice";
 

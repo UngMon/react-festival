@@ -1,4 +1,3 @@
-import Search from "../components/UI/SearchUi";
 import UiBox from "../components/UI/UiBox";
 
 const SearchPage = () => {

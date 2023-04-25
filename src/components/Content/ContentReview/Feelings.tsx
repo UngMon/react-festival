@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { firebaseState } from "../../../modules/Type";
-import { Expression } from "../../../modules/Type";
+import { firebaseState } from "../../../type/Type";
+import { Expression } from "../../../type/Type";
 import {
   DocumentData,
   DocumentReference,

@@ -13,7 +13,7 @@ import { firebaseActions } from "../redux/firebase-slice";
 import { useEffect, useState } from "react";
 import Loading from "../components/UI/Loading";
 import { useSelector } from "react-redux";
-import LoginAccessError from "../components/Error/LoginAccessError";
+import LoginAccessError from "../components/error/LoginAccessError";
 // import KakaoLogin from "../components/Login/Kakao";
 // import Naver from "../components/Login/Naver";
 

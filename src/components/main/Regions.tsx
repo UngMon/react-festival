@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import Card from "../Card/Card";
+import Card from "../card/Card";
 import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
 

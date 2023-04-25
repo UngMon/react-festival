@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { CurrentSeason } from "../../modules/CurrentSeason";
+import { CurrentSeason } from "../../utils/CurrentSeason";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import classes from "./Navigation.module.css";

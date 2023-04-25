@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Item, Region, Season, Month } from "../modules/Type";
+import { Item, Region, Season, Month } from "../type/Type";
 import { getFestiavalData } from "./fetch-action";
-import { FestivalState } from "../modules/Type";
+import { FestivalState } from "../type/Type";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,

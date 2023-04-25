@@ -1,5 +1,5 @@
-import { ContentDetailCommon, ContentDetailIntro } from "../../../modules/Type";
-import { dataSlice } from "../../../modules/DataSlice";
+import { ContentDetailCommon, ContentDetailIntro } from "../../../type/Type";
+import { dataSlice } from "../../../utils/DataSlice";
 
 interface BasicProps {
   detailIntro: ContentDetailIntro[];

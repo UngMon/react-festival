@@ -2,9 +2,9 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState} from "../redux/store";
-import { Item } from "../modules/Type";
+import { Item } from "../type/Type";
 import UiBox from "../components/UI/UiBox";
-import Card from "../components/Card/Card";
+import Card from "../components/card/Card";
 import Loading from "../components/UI/Loading";
 import "./Result.css";
 

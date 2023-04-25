@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { auth as firebaseAuth } from "../../firebase";
 import { signInWithCustomToken } from "firebase/auth";
-import "../../Pages/Login.css";
+import "../../pages/Login.css";
 
 declare global {
   interface Window {

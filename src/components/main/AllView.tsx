@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import Card from "../Card/Card";
-import GetDataError from "../Error/GetDataError";
+import Card from "../card/Card";
+import GetDataError from "../error/GetDataError";
 import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
 

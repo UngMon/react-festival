@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Respon, FirebaseData } from "../modules/Type";
+import { Respon, FirebaseData } from "../type/Type";
 
 export const getFestiavalData = createAsyncThunk(
   "festival/fetchFromData",

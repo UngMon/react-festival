@@ -6,7 +6,7 @@ import "./ContentReviews.css";
 import Feeling from "./Feelings";
 import Reviews from "./UserReviews";
 import Loading from "../../UI/Loading";
-import GetDataError from "../../Error/GetDataError";
+import GetDataError from "../../error/GetDataError";
 
 interface ReviewProps {
   setReportModalOpen: React.Dispatch<

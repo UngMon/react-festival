@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ContentDetailCommon } from "../../../modules/Type";
+import { ContentDetailCommon } from "../../../type/Type";
 
 interface MapProps {
   detailCommon: ContentDetailCommon[];
