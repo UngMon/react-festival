@@ -14,9 +14,9 @@ interface DetailProps {
 }
 
 const Detail = ({
-  menuBarRef,
+  // menuBarRef,
   category,
-  setCategory,
+  // setCategory,
   contentData,
 }: DetailProps) => {
   const detailCommon = contentData.contentDetailCommon.response.body.items.item;

@@ -2,18 +2,12 @@
   padding: 30px 30px 10px;
 }
 
-.Content-title {
-  padding: 20px 0 30px;
-  width: 100%;
-  text-align: center;
-  font-size: 30px;
-}
-
 .Cotent-category {
   position: -webkit-sticky;
   position: sticky;
   top: 5px;
-  width: 100%;
+  margin: 0 auto;
+  width: 96%;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -45,6 +39,10 @@
   cursor: pointer;
 }
 
+.on {
+  border-bottom: 2px solid #5f8cdd;;
+}
+
 .Cotent-deatail {
   box-sizing: border-box;
   width: 100%;
@@ -72,8 +70,16 @@
   word-break: break-all;
 }
 
-@media screen and (max-width: 620px){
+@media screen and (max-width: 768px) {
   .Content-info {
     padding: 30px 10px 10px;
+  }
+
+  .Cotent-category {
+    top: 60px;
+  }
+
+  .Cotent-category li {
+    padding: 15px 0;
   }
 }

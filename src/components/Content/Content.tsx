@@ -43,6 +43,7 @@ const Cotent = () => {
           {contentData.contentDetailCommon.response.body.items.item[0].title}
         </h1>
         <MenuBar
+          category={category}
           setCategory={setCategory}
           menuBarRef={menuBarRef}
           reviewRef={reviewRef}
