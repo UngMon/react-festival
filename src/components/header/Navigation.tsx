@@ -12,7 +12,7 @@ const Navigation = () => {
   const clickCategory = (value?: string) => {
     if (!festivalState.successGetData) {
       if (festivalState.festivalArray.length === 0) {
-        return alert("데이터를 불러오지 못 했습니다. 새로고침 해주세요!");
+        return;
       }
     }
 

@@ -7,6 +7,7 @@ import { CurrentSeason } from "../../utils/CurrentSeason";
 import UiBox from "../UI/UiBox";
 import Card from "../card/Card";
 import Loading from "../UI/Loading";
+import GetDataError from "../error/GetDataError";
 
 const Seasons = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,14 @@ const Seasons = () => {
 
   return (
     <main className="main-box">
-      <UiBox category={"season"} season={season} setSeason={setSeason} />
-      {!festivalState.sortedSeason && <Loading />}
+      {festivalState.successGetData && (
+        <UiBox category={"season"} season={season} setSeason={setSeason} />
+      )}
+      {festivalState.loading ? (
+        <Loading />
+      ) : (
+        !festivalState.successGetData && <GetDataError />
+      )}
       {festivalState.sortedSeason && (
         <Card type="season" season={season} month="all" />
       )}

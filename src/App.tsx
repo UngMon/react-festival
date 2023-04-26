@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import { getFestiavalData, getFriebaseData } from "./redux/fetch-action";
 import { useAppDispatch } from "./redux/store";

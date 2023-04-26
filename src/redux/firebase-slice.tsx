@@ -83,9 +83,6 @@ const firebaseSlice = createSlice({
       .addCase(getFriebaseData.rejected, (state, action) => {
         state.isLoading = false;
         state.succesGetData = false;
-        let errorMessage =
-          "데이터를 불러오는데 문제가 발생했습니다. 이러한 현상이 지속된다면 아래 이메일로 문의해주세요!";
-        alert(errorMessage);
         console.log(action.error.message);
       });
   },

@@ -144,12 +144,6 @@ const festivalSlice = createSlice({
       .addCase(getFestiavalData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
-        let errorMessage = "";
-        if (action.error.message === "Failed to fetch") {
-          errorMessage =
-            "데이터를 불러오는데 문제가 발생했습니다. 이러한 현상이 지속된다면 아래 이메일로 문의해주세요!";
-        }
-        alert(errorMessage);
         console.log(action.error.message);
       });
   },

@@ -22,10 +22,13 @@ const AllView = () => {
 
   return (
     <main className="main-box">
-      <UiBox category={"all"} month={month} setMonth={setMonth} />
-      {festivalState.loading && <Loading />}
-      {!festivalState.loading && !festivalState.successGetData && (
-        <GetDataError />
+      {festivalState.successGetData && (
+        <UiBox category={"all"} month={month} setMonth={setMonth} />
+      )}
+      {festivalState.loading ? (
+        <Loading />
+      ) : (
+        !festivalState.successGetData && <GetDataError />
       )}
       {festivalState.sortedMonth && <Card type="all" month={month} />}
     </main>

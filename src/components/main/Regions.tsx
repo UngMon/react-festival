@@ -6,6 +6,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import Card from "../card/Card";
 import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
+import GetDataError from "../error/GetDataError";
 
 const Regions = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +23,18 @@ const Regions = () => {
 
   return (
     <main className="main-box">
-      <UiBox category="region" areaCode={areaCode} setAreaCode={setAreaCode} />
-      {!festivalState.sortedRegion && <Loading />}
+      {festivalState.successGetData && (
+        <UiBox
+          category="region"
+          areaCode={areaCode}
+          setAreaCode={setAreaCode}
+        />
+      )}
+      {festivalState.loading ? (
+        <Loading />
+      ) : (
+        !festivalState.successGetData && <GetDataError />
+      )}
       {festivalState.sortedRegion && (
         <Card type="region" month="all" areaCode={areaCode} />
       )}
