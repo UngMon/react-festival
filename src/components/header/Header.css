@@ -39,7 +39,7 @@
 }
 
 @media (max-width: 250px) {
-  .Header-box span {
+  .logo-title {
     display: none;
   }
 }

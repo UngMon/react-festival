@@ -8,7 +8,7 @@ const Header = () => {
     <header className="Header-box">
       <Link to="/" className="Logo">
         <img src="/images/fetivalLogo.png" alt="logo"></img>
-        <span>축제모아</span>
+        <span className="logo-title">축제모아</span>
       </Link>
       <Navigation />
       <LoginButton />

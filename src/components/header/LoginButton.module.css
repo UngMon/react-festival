@@ -88,6 +88,7 @@
   .login {
     right: 5%;
   }
+
   .userPhoto-box {
     right: 5%;
   }
@@ -118,8 +119,8 @@
 
   .logout-box {
     box-sizing: border-box;
-    width: 100vw;
     position: fixed;
+    width: 100vw;
     top: 65px;
   }
 }
