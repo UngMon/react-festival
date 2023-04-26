@@ -1,14 +1,30 @@
 .get-data-error-box {
-    box-sizing: border-box;
-    padding: 20% 0;
-    width: 100%;
-    height: calc(100vh - 110px);
-    margin: 0 atuo;
-    text-align: center;
+  box-sizing: border-box;
+  padding: 20% 0;
+  width: 100%;
+  height: calc(100vh - 110px);
+  margin: 0 atuo;
+  text-align: center;
 }
 
 .get-data-error-box p {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .get-data-error-box {
+    position: absolute;
+    padding: 0;
+    top: calc(50vh - 100px);
+  }
+}
+
+@media (max-height: 380px) and (max-width: 768px) {
+  .get-data-error-box {
+    position: static;
+    padding: 0;
+    margin-top: 130px;
+  }
 }

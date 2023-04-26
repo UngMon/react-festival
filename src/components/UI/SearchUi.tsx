@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./SearchUi.css";
 
+
 const Search = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,19 +36,17 @@ const Search = () => {
     <>
       {
         //pc환경
-         (
-          <form className="search-box" onSubmit={onSubmitHandler}>
-            <input
-              ref={inputRef}
-              type="text"
-              name="title"
-              placeholder="찾으시는 축제를 검색해보세요!"
-            />
-            <button>
-              <img src="/images/search.png" alt="검색" width="25"></img>
-            </button>
-          </form>
-        )
+        <form className="search-box" onSubmit={onSubmitHandler}>
+          <input
+            ref={inputRef}
+            type="text"
+            name="title"
+            placeholder="찾으시는 축제를 검색해보세요!"
+          />
+          <button>
+            <img src="/images/search.png" alt="검색" width="25"></img>
+          </button>
+        </form>
       }
       {
         // 모바일 환경

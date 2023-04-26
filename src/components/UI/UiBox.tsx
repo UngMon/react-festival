@@ -3,6 +3,8 @@ import RegionSelector from "./RegionSelector";
 import SeasonSelctor from "./SeasonSelector";
 import Search from "./SearchUi";
 import "./UiBox.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface MonthProps {
   category: string;
@@ -15,21 +17,31 @@ interface MonthProps {
 }
 
 const UiBox = (props: MonthProps) => {
+  const successGetData = useSelector(
+    (state: RootState) => state.festival.successGetData
+  );
+
   return (
     <div className="Ui-Box">
-      {props.category === "region" && (
+      {props.category === "region" && successGetData && (
         <RegionSelector
           areaCode={props.areaCode!}
           setAreaCode={props.setAreaCode!}
         />
       )}
-      {props.category === "season" && (
-        <SeasonSelctor season={props.season!} setSeason={props.setSeason!} />
+      {props.category === "season" && successGetData && (
+        <SeasonSelctor
+          season={props.season!}
+          setSeason={props.setSeason!}
+        />
       )}
-      {props.category === "all" && (
-        <MonthSelector month={props.month!} setMonth={props.setMonth!} />
+      {props.category === "all" && successGetData && (
+        <MonthSelector
+          month={props.month!}
+          setMonth={props.setMonth!}
+        />
       )}
-      <Search />
+      {successGetData && <Search />}
     </div>
   );
 };
