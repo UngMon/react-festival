@@ -73,6 +73,12 @@
   font-size: 14px;
 }
 
+@media (min-width: 2560px) {
+  .AllView-grid-box {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+}
+
 @media (max-width: 1200px) {
   .AllView-grid-box {
     grid-template-columns: 1fr 1fr 1fr;

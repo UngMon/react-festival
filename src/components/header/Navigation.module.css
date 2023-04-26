@@ -1,11 +1,22 @@
 .Nav-box {
+  position: absolute;
   font-size: 0.9em;
+  top: 10px;
+  left: calc(50% - 160px);
+  width: 360px;
+  height: 40px;
   display: flex;
   justify-content: space-between;
 }
 
+.Nav-box li {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
 li {
-  padding-right: 70px;
   list-style: none;
 }
 
@@ -34,12 +45,10 @@ a:hover {
   .mobile-Nav-box {
     bottom: 0;
     left: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    line-height: 60px;
     width: 100%;
     height: 70px;
+    display: flex;
+    align-items: center;
     background-color: white;
   }
 
@@ -47,34 +56,30 @@ a:hover {
     box-sizing: border-box;
     width: 25%;
     height: 100%;
-    text-align: center;
-    padding: 10px 5px;
-    font-size: 13px;
-  }
-
-  .mobile-Nav-box img {
-    display: block;
-    margin: 0 auto;
-    width: 30px;
-    height: 25px;
+    padding: 10px;
+    font-size: 14px;
   }
 
   .mobile-Nav-box a {
-    display: block;
-    height: 30px;
-    line-height: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+  }
+
+  .mobile-Nav-box a img {
+    margin: 0 0 5px;
+    width: 30px;
+    height: 25px;
   }
 }
 
-@media (max-width: 182px) {
-  .mobile-Nav-box {
-    justify-content: none;
-  }
-
+@media (max-width: 200px) {
   .mobile-Nav-box li {
-    padding: 10px 0;
+    padding: 20px 0;
   }
 
-  .mobile-Nav-box img {
+  .mobile-Nav-box li span {
+    display: none;
   }
 }

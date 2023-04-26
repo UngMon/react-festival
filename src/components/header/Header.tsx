@@ -7,7 +7,8 @@ const Header = () => {
   return (
     <header className="Header-box">
       <Link to="/" className="Logo">
-        축제모아
+        <img src="/images/fetivalLogo.png" alt="logo"></img>
+        <span>축제모아</span>
       </Link>
       <Navigation />
       <LoginButton />

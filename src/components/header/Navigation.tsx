@@ -44,7 +44,7 @@ const Navigation = () => {
                 }}
               >
                 <img src="/images/month.png" alt="월" />
-                월별 보기
+                <span>월별 보기</span>
               </NavLink>
             </li>
             <li>
@@ -56,7 +56,7 @@ const Navigation = () => {
                 }}
               >
                 <img src="/images/location.png" alt="지역" />
-                지역별
+                <span>지역별</span>
               </NavLink>
             </li>
             <li>
@@ -68,7 +68,7 @@ const Navigation = () => {
                 }}
               >
                 <img src="/images/season.png" alt="계절" />
-                계절별
+                <span>계절별</span>
               </NavLink>
             </li>
             <li>
@@ -79,7 +79,7 @@ const Navigation = () => {
                 }}
               >
                 <img src="/images/loupe.png" alt="검색" />
-                검색
+                <span>검색</span>
               </NavLink>
             </li>
           </ul>

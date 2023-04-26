@@ -21,9 +21,9 @@ const LoginButton = () => {
   useEffect(() => {
     const logoutModalOpen = (event: any) => {
       if (userImageRef.current?.contains(event.target)) {
+        console.log("userImageRef");
         return;
       }
-
       if (userInfoRef.current?.contains(event.target)) {
         return;
       }
@@ -36,7 +36,7 @@ const LoginButton = () => {
   }, [userModalOpen]);
 
   const loginHandler = () => {
-    sessionStorage.setItem('currentUrl', JSON.stringify(location.pathname))
+    sessionStorage.setItem("currentUrl", JSON.stringify(location.pathname));
     navigate("/login");
   };
 
@@ -61,8 +61,9 @@ const LoginButton = () => {
           </div>
         ) : (
           // 로그인 상태일 때
-          <div className={classes["userPhoto-box"]}>
+          <>
             <div
+              className={classes["userPhoto-box"]}
               ref={userImageRef}
               onClick={() => setUserModalOpen(!userModalOpen)}
             >
@@ -81,7 +82,7 @@ const LoginButton = () => {
                 </button>
               </div>
             )}
-          </div>
+          </>
         )
       ) : (
         // 새로고침시 잠깐동안 다른 ui보여줌

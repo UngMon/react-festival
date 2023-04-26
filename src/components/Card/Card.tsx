@@ -6,8 +6,8 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { calculateDate } from "../../utils/CalculateDate";
 import { setData } from "../../utils/SetData";
 import { nowDate } from "../../utils/NowData";
-import "./Card.css";
 import { firebaseActions } from "../../redux/firebase-slice";
+import "./Card.css";
 
 interface CardProps {
   type: string;
