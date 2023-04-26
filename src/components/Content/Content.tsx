@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
 import {
   LoaderData,
@@ -8,7 +8,7 @@ import {
 } from "../../type/Type";
 import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
-import Review from "./contentReview/ContentReviews";
+import ContentReviews from "./contentReview/ContentReviews";
 import Overview from "./contentInfo/Overview";
 import MenuBar from "./contentInfo/MenuBar";
 import "./Content.css";
@@ -27,6 +27,7 @@ const Cotent = () => {
   const contentData = { contentDetailIntro, contentDetailCommon };
   const menuBarRef = useRef<HTMLHeadingElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
+
 
   return (
     <main className="main-box">
@@ -54,7 +55,7 @@ const Cotent = () => {
         />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
-      <Review
+      <ContentReviews
         contentId={contentId!}
         reviewRef={reviewRef}
         setReportModalOpen={setReportModalOpen}

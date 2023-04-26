@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Item } from "../../type/Type";
+import { ContentData, Item } from "../../type/Type";
 import { dataSlice } from "../../utils/DataSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { calculateDate } from "../../utils/CalculateDate";
-import { setData } from "../../utils/SetData";
+import { setDoc, getDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase";
 import { nowDate } from "../../utils/NowData";
-import { firebaseActions } from "../../redux/firebase-slice";
 import "./Card.css";
+import { firebaseActions } from "../../redux/firebase-slice";
 
 interface CardProps {
   type: string;
@@ -18,20 +19,42 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
+  const firevaseState = useSelector((state: RootState) => state.firebase);
   const contentData = useSelector(
     (state: RootState) => state.firebase.contentData
   );
 
   const festivalArray = sessionStorage.getItem("festivalArray");
-  const cardClickHandler = (contentid: string) => {
-    if (!contentData[contentid]) {
-      setData(contentid);
-      dispatch(firebaseActions.setCardData(contentid));
+
+  const cardClickHandler = async (contentId: string) => {
+    let docData: ContentData;
+
+    try {
+      if (!firevaseState.contentData[contentId]) {
+        const contentRef = doc(db, "content", contentId);
+        const querySnapshot = await getDoc(contentRef);
+        const contentData = querySnapshot.data();
+        console.log('herer??????????')
+        if (!contentData) {
+          docData = {
+            comment: [],
+            detailImage: [],
+            firstImage: "",
+            expression: {},
+          };
+          await setDoc(contentRef, docData);
+        } else {
+          docData = contentData as ContentData;
+        }
+        dispatch(firebaseActions.updateContentData({ docData, contentId }));
+      }
+    } catch (error: any) {
+      alert(error.message);
     }
-    navigate(`/content/${contentid}`);
+    navigate(`/content/${contentId}`);
   };
 
   const { year, month, date } = nowDate();

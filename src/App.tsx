@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
-import { getFestiavalData, getFriebaseData } from "./redux/fetch-action";
+import { getFestiavalData } from "./redux/fetch-action";
 import { useAppDispatch } from "./redux/store";
 import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
@@ -25,7 +25,6 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getFriebaseData());
     dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {

@@ -1,12 +1,14 @@
-import { doc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../../firebase";
-import { RootState } from "../../../redux/store";
+import { RootState, useAppDispatch } from "../../../redux/store";
 import "./ContentReviews.css";
 import Feeling from "./Feelings";
 import Reviews from "./UserReviews";
 import Loading from "../../UI/Loading";
 import GetDataError from "../../error/GetDataError";
+import { useEffect } from "react";
+import { firebaseActions } from "../../../redux/firebase-slice";
 
 interface ReviewProps {
   setReportModalOpen: React.Dispatch<
@@ -16,10 +18,31 @@ interface ReviewProps {
   contentId: string;
 }
 
-const ContentRivews = ({ reviewRef, contentId, setReportModalOpen }: ReviewProps) => {
+const ContentRivews = ({
+  reviewRef,
+  contentId,
+  setReportModalOpen,
+}: ReviewProps) => {
+  const dispatch = useAppDispatch();
   const firebaseState = useSelector((state: RootState) => state.firebase);
   const uid = firebaseState.userUid || "";
   const contentRef = doc(db, "content", contentId);
+
+  useEffect(() => {
+    const setData = async () => {
+      try {
+        if (!firebaseState.contentData[contentId]) {
+          // 리뷰 컴포넌트에서 contentId 키가 없다는 것은 사용자가 새로고침한 경우다..
+          const querySnapshot = await getDoc(contentRef);
+          const docData = querySnapshot.data();
+          dispatch(firebaseActions.updateContentData({ docData, contentId }));
+        }
+      } catch (error: any) {
+        alert(error.message);
+      }
+    };
+    setData();
+  });
 
   return (
     <div className="Cotent-review" ref={reviewRef}>

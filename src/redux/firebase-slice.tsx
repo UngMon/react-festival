@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getFriebaseData } from "./fetch-action";
 import { FirebaseData } from "../type/Type";
 import { firebaseState } from "../type/Type";
 
@@ -53,6 +52,14 @@ const firebaseSlice = createSlice({
         expression: {},
       };
     },
+    updateContentData(state, action) {
+      let dummyData: FirebaseData = { ...state.contentData };
+      if (!state.contentData[action.payload.contentId]) {
+        dummyData[action.payload.contentId] = action.payload.docData;
+      }
+      state.contentData = dummyData;
+      state.succesGetData = true;
+    },
     updateFeelingData(state, action) {
       console.log(action.payload);
       let dummyData: FirebaseData = { ...state.contentData };
@@ -69,22 +76,6 @@ const firebaseSlice = createSlice({
       dummyData[action.payload.contentId].comment = action.payload.array;
       state.contentData = dummyData;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getFriebaseData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getFriebaseData.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.succesGetData = true;
-        state.contentData = action.payload;
-      })
-      .addCase(getFriebaseData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.succesGetData = false;
-        console.log(action.error.message);
-      });
   },
 });
 
