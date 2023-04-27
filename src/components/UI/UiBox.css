@@ -7,6 +7,7 @@
   justify-content: center;
   line-height: 40px;
   z-index: 5;
+  background-color: white;
 }
 
 @media (max-width: 768px) {
@@ -14,12 +15,7 @@
     display: block;
     position: fixed;
     top: 60px;
-  }
-}
-
-@media (max-width: 550px) {
-  .Ui-Box {
-    padding: 30px 15px;
+    padding: 5px 30px;
   }
 }
 

@@ -33,12 +33,12 @@
   color: green;
 }
 
-/* selector */
+/* mobile*/
 
 .mobile-picker-season {
-  height: 40px;
   display: none;
   position: relative;
+  height: 50px;
 }
 
 .mobile-picker-season select {
@@ -69,12 +69,21 @@
   .mobile-picker-season {
     display: flex;
   }
+
+  .mobile-picker-season select {
+    padding: 15px 0 15px calc(100% - 50px);
+    height: 49px;
+  }
+
+  .mobile-picker-seaon-h {
+    padding: 5px 0;
+  }
 }
 
 @media (max-width: 230px) {
-  .mobile-picker-season select {
+  /* .mobile-picker-season select {
     padding: 10px 10px;
-  }
+  } */
 
   .mobile-picker-seaon-h {
     display: none;

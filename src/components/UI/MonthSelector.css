@@ -32,7 +32,10 @@
 
   .picker-month select {
     width: 100%;
-    padding: 10px 0 10px calc(100vw - 120px);
+    padding: 15px 0 15px calc(100vw - 120px);
+  }
+  .picker-month-h {
+    top: 5px;
   }
 }
 
@@ -41,7 +44,7 @@
     display: none;
   }
 
-  .picker-month select {
+  /* .picker-month select {
     padding: 10px;
-  }
+  } */
 }
