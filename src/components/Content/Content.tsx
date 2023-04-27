@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
 import {
   LoaderData,
@@ -28,7 +28,6 @@ const Cotent = () => {
   const menuBarRef = useRef<HTMLHeadingElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
-
   return (
     <main className="main-box">
       {reportModalOpen[0] && (
@@ -49,10 +48,7 @@ const Cotent = () => {
           menuBarRef={menuBarRef}
           reviewRef={reviewRef}
         />
-        <Detail
-          category={category}
-          contentData={contentData}
-        />
+        <Detail category={category} contentData={contentData} />
         <Overview contentDetailCommon={contentDetailCommon} />
       </div>
       <ContentReviews
@@ -76,7 +72,7 @@ async function getContentImage(id: string) {
     throw new Error("Failed to Fetch from Data");
   }
   const data: ResponImage = await response.json();
-  console.log("getContentImage work");
+  // console.log("getContentImage work");
   return data;
 }
 
@@ -90,7 +86,7 @@ async function getContentDetailIntro(id: string) {
   }
 
   const data: ResponDetailIntro = await response.json();
-  console.log("loader getContentDetailIntro");
+  // console.log("loader getContentDetailIntro");
   return data;
 }
 
@@ -104,12 +100,12 @@ async function getCotentDetailCommon(id: string) {
   }
 
   const data: ResponDetailCommon = await response.json();
-  console.log("loader getDetailCommon");
+  // console.log("loader getDetailCommon");
   return data;
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  console.log("loader work");
+  // console.log("loader work");
   const contentId = params.contentId;
   const [contentImage, contentDetailIntro, contentDetailCommon] =
     await Promise.all([

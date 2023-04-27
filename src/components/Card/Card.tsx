@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ContentData, Item } from "../../type/Type";
 import { dataSlice } from "../../utils/DataSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -19,8 +19,6 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const navigation = useNavigation();
-  console.log(navigation.state)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
@@ -54,7 +52,7 @@ const Card = (props: CardProps) => {
         dispatch(firebaseActions.updateContentData({ docData, contentId }));
       }
     } catch (error: any) {
-      alert(error.message);
+      console.log(error.message);
     }
     navigate(`/content/${contentId}`);
   };
