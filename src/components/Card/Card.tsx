@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigation } from "react-router-dom";
 import { ContentData, Item } from "../../type/Type";
 import { dataSlice } from "../../utils/DataSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -19,6 +19,8 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
+  const navigation = useNavigation();
+  console.log(navigation.state)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
@@ -37,7 +39,7 @@ const Card = (props: CardProps) => {
         const contentRef = doc(db, "content", contentId);
         const querySnapshot = await getDoc(contentRef);
         const contentData = querySnapshot.data();
-        console.log('herer??????????')
+
         if (!contentData) {
           docData = {
             comment: [],
