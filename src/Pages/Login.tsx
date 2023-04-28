@@ -20,8 +20,6 @@ import LoginAccessError from "../components/error/LoginAccessError";
 let isFirst = true;
 
 const LoginPage = () => {
-  console.log("loginpage");
-
   const navigate = useNavigate();
   const isUserLoggedIn = useSelector(
     (state: RootState) => state.firebase.loginedUser
@@ -51,7 +49,7 @@ const LoginPage = () => {
         dispatch(
           firebaseActions.setUserData({ uid, email, displayName, photoURL })
         );
-        navigate("/");
+        navigate("/month/all");
       })
       .catch((error) => {
         !isFirst && alert(error.message);

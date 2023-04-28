@@ -6,7 +6,7 @@ import LoginButton from "./LoginButton";
 const Header = () => {
   return (
     <header className="Header-box">
-      <Link to="/" className="Logo">
+      <Link to="/month/all" className="Logo">
         <img src="/images/fetivalLogo.png" alt="logo"></img>
         <span className="logo-title">축제모아</span>
       </Link>

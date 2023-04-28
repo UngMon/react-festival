@@ -91,10 +91,18 @@ const Card = (props: CardProps) => {
         month,
         date
       );
-
+      let firstImage = item.firstimage;
       let imageUri = "";
+
+      if (firstImage) {
+        // 관광공사에서 제공하는 이미지 url이 하필 http....
+        firstImage = firstImage.replace('http', 'https');
+      }
+
       if (contentData[item.contentid]) {
-        imageUri = contentData[item.contentid].firstImage;
+        // firebase storage에 저장된 이미지를 사용할 경우..
+        // 그런데 이 방법은 좋기는 하나 이미지 저작권 문제를 피할 수 없음...
+        imageUri = contentData[item.contentid].firstImage
       }
 
       const element = (
@@ -106,7 +114,7 @@ const Card = (props: CardProps) => {
           <div className="image-box">
             <img
               className="festival-image"
-              src={item.firstimage || imageUri || "/images/NoImage.png"}
+              src={firstImage || imageUri || "/images/NoImage.png"}
               alt={item.title}
             ></img>
           </div>
