@@ -71,8 +71,9 @@
   }
 
   .mobile-picker-season select {
-    padding: 15px 0 15px calc(100% - 50px);
+    padding: 10px 0 10px calc(100% - 50px);
     height: 49px;
+    font-size: 18px;
   }
 
   .mobile-picker-seaon-h {
@@ -80,10 +81,10 @@
   }
 }
 
-@media (max-width: 230px) {
-  /* .mobile-picker-season select {
-    padding: 10px 10px;
-  } */
+@media (max-width: 250px) {
+  .mobile-picker-season select {
+    padding: 10px 15px;
+  }
 
   .mobile-picker-seaon-h {
     display: none;

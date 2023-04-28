@@ -100,3 +100,22 @@
   }
 }
 
+@media (max-width: 375px) {
+  .mobile-search-form {
+    width: 100%;
+    padding: 150px 0;
+  }
+  .mobile-search-form img {
+    right: 0;
+  }
+}
+ 
+
+@media (max-width: 200px) {
+  .mobile-search-form input {
+    padding: 5px;
+  }
+  .mobile-search-form img {
+    display: none;
+  }
+}

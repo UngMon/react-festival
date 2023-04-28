@@ -32,7 +32,9 @@
 
   .picker-month select {
     width: 100%;
-    padding: 15px 0 15px calc(100vw - 120px);
+    padding: 10px 0 10px calc(100vw - 120px);
+    font-size: 18px;
+    height: 49px;
   }
   .picker-month-h {
     top: 5px;
@@ -40,11 +42,12 @@
 }
 
 @media (max-width: 310px) {
+  .picker-month select {
+    width: 100%;
+    padding: 10px 10px;
+  }
+
   .picker-month-h {
     display: none;
   }
-
-  /* .picker-month select {
-    padding: 10px;
-  } */
 }
