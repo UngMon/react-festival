@@ -1,12 +1,12 @@
 .main-box {
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 140px);
   background-color: white;
   z-index: 4;
 }
 
 @media (max-width: 768px) {
   .main-box {
-    min-height: calc(100vh - 170px);
+    min-height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
     flex-grow: 1;

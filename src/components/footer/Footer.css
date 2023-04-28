@@ -1,10 +1,10 @@
 .footer-box {
   box-sizing: border-box;
   width: 100%;
-  height: 100px;
-  padding: 14px 0;
-  border-top: 0.5px solid black;
-  background-color: white;
+  height: 70px;
+  padding: 2px 0;
+  border-top: 0.3px solid black;
+  background-color: rgba(247, 247, 247, 0.5);
   font-size: 16px;
   text-align: center;
   z-index: 3;
@@ -17,12 +17,9 @@
   text-overflow: ellipsis;
 }
 
-@media screen and (min-width: 2000px), srceen and (min-heigth: 1680px) {
-  .footer-box {
-    padding: 13px 0;
-    font-size: 18px;
-  }
-}
+/* @media screen and (min-width: 2000px), srceen and (min-heigth: 1680px) {
+
+} */
 
 @media (max-width: 768px) {
   .footer-box {
@@ -30,8 +27,3 @@
   }
 }
 
-@media (max-width: 182px) {
-  /* .footer-box {
-    display: none;
-  } */
-}

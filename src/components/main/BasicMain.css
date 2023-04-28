@@ -24,7 +24,7 @@
 
 .main-page {
   position: relative;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 130px);
   background-color: white;
   z-index: 4;
   text-align: center;
@@ -99,7 +99,7 @@
 
 @media (max-width: 768px) {
   .main-page {
-    min-height: calc(100vh - 170px);
+    min-height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
