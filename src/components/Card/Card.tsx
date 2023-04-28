@@ -6,7 +6,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { calculateDate } from "../../utils/CalculateDate";
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { nowDate } from "../../utils/NowData";
+import { nowDate } from "../../utils/NowDate";
 import "./Card.css";
 import { firebaseActions } from "../../redux/firebase-slice";
 

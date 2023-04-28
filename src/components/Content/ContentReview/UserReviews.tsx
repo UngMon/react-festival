@@ -6,7 +6,7 @@ import {
   arrayRemove,
   updateDoc,
 } from "firebase/firestore";
-import { nowDate } from "../../../utils/NowData";
+import { nowDate } from "../../../utils/NowDate";
 import { firebaseState, Comment } from "../../../type/Type";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
