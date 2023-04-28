@@ -39,12 +39,15 @@
 }
 
 .summerImage {
+  background-image: url("../../../public/images/summer.jpg");
 }
 
 .autumnImage {
+  background-image: url("../../../public/images/pexels-김-대정-2734512.jpg");
 }
 
 .winterImage {
+    background-image: url('../../../public/images/pexels-matheus-bertelli-799459.jpg');
 }
 
 .main-page-title {
