@@ -5,6 +5,7 @@ import { useAppDispatch } from "./redux/store";
 import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
+import StartPage from "./pages/Start";
 import LoginPage from "./pages/Login";
 import RootLayout from "./pages/Root";
 import RegionPage from "./pages/Regions";
@@ -43,7 +44,7 @@ function App() {
       path: "/",
       element: <RootLayout />,
       children: [
-        // { index: true, element: <StartPage /> },
+        { index: true, element: <StartPage /> },
         {
           path: "month",
           element: <AllFestivalPage />,

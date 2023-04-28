@@ -1,0 +1,133 @@
+@keyframes text-effect {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes arrow-effect {
+  0% {
+    transform: translateX(-20%);
+  }
+
+  50% {
+    transform: translateX(30%);
+  }
+
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+.main-page {
+  position: relative;
+  min-height: calc(100vh - 160px);
+  background-color: white;
+  z-index: 4;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  font-size: 32px;
+}
+
+.springImage {
+  background-image: url("../../../public/images/spring-background.jpg");
+}
+
+.summerImage {
+}
+
+.autumnImage {
+}
+
+.winterImage {
+}
+
+.main-page-title {
+  width: 80%;
+  padding: 200px 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.main-page-title h2 {
+  width: 100%;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 1.2em;
+  animation: text-effect 1s linear;
+}
+
+.start-button-box {
+  width: 250px;
+  height: 80px;
+  padding-left: calc(50vw - 170px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-button-box img {
+  width: 60px;
+  height: 30px;
+  margin-right: 30px;
+  animation: arrow-effect 2s ease-out infinite;
+}
+
+.start-button-box button {
+  padding: 10px;
+  width: 100px;
+  height: 50px;
+  font-size: 0.6em;
+  font-weight: 600;
+  color: rgb(240, 240, 240);
+  background-color: orange;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (max-width: 910px) {
+  .main-page-title {
+    padding: 200px 0 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-page {
+    min-height: calc(100vh - 170px);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 22px;
+  }
+  .start-button-box button {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 350px) {
+  .main-page {
+    font-size: 18px;
+  }
+
+  .start-button-box {
+    padding: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .start-button-box img {
+    display: none;
+  }
+
+  .start-button-box button {
+    padding: 5px;
+    width: 80px;
+    height: 40px;
+  }
+}
