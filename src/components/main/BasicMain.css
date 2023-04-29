@@ -22,6 +22,18 @@
   }
 }
 
+@keyframes button-effect {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .main-page {
   position: relative;
   min-height: calc(100vh - 130px);
@@ -47,12 +59,12 @@
 }
 
 .winterImage {
-    background-image: url('../../../public/images/pexels-matheus-bertelli-799459.jpg');
+  background-image: url("../../../public/images/pexels-matheus-bertelli-799459.jpg");
 }
 
 .main-page-title {
   width: 80%;
-  padding: 200px 0;
+  padding: 30vh 0 100px;
   margin: 0 auto;
   text-align: center;
 }
@@ -62,23 +74,16 @@
   margin-bottom: 10px;
   color: white;
   font-size: 1.2em;
-  animation: text-effect 1s linear;
+  animation: text-effect 2s linear;
 }
 
 .start-button-box {
   width: 250px;
   height: 80px;
-  padding-left: calc(50vw - 170px);
+  padding-left: calc(50vw - 125px);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.start-button-box img {
-  width: 60px;
-  height: 30px;
-  margin-right: 30px;
-  animation: arrow-effect 2s ease-out infinite;
 }
 
 .start-button-box button {
@@ -87,17 +92,24 @@
   height: 50px;
   font-size: 0.6em;
   font-weight: 600;
-  color: rgb(240, 240, 240);
-  background-color: orange;
+  color: white;
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
+  background-color: orange;
   cursor: pointer;
+  animation: button-effect 2s ease-out;
+  transition: all 1s linear;
 }
 
-@media (max-width: 910px) {
-  .main-page-title {
-    padding: 200px 0 150px;
+.start-button-box button:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 920px) {
+  .main-page {
+    font-size: 28px;
   }
+
 }
 
 @media (max-width: 768px) {
@@ -114,22 +126,14 @@
 }
 
 @media (max-width: 350px) {
-  .main-page {
-    font-size: 18px;
-  }
-
   .start-button-box {
     padding: 0;
     width: 100%;
     text-align: center;
   }
 
-  .start-button-box img {
-    display: none;
-  }
-
   .start-button-box button {
-    padding: 5px;
+    font-size: 0.7em;
     width: 80px;
     height: 40px;
   }

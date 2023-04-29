@@ -33,7 +33,6 @@ const BasicMain = () => {
         </div>
       )}
       <div className="start-button-box">
-        <img src="/images/arrow.png" alt='화살표'></img>
         <button onClick={() => navigate('/month/all')}>시작하기</button>
       </div>
     </main>
