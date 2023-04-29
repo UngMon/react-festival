@@ -8,12 +8,13 @@ import GetDataError from "../error/GetDataError";
 import Loading from "../UI/Loading";
 import UiBox from "../UI/UiBox";
 
-const AllView = () => {
+const Monthly = () => {
   const { monthKey } = useParams();
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
-  const [month, setMonth] = useState<string>(monthKey || "all");
-
+  // 현재 url의 pathname값을 기준으로 화면에 렌더링
+  const [month, setMonth] = useState<string>(monthKey!);
+  console.log(month)
   useEffect(() => {
     if (festivalState.successGetData && !festivalState.sortedMonth) {
       dispatch(festivalActions.sortDataByMonth());
@@ -23,16 +24,16 @@ const AllView = () => {
   return (
     <main className="main-box">
       {festivalState.successGetData && (
-        <UiBox category={"all"} month={month} setMonth={setMonth} />
+        <UiBox category={"monthly"} month={month} setMonth={setMonth} />
       )}
       {festivalState.loading ? (
         <Loading />
       ) : (
         !festivalState.successGetData && <GetDataError />
       )}
-      {festivalState.sortedMonth && <Card type="all" month={month} />}
+      {festivalState.sortedMonth && <Card type="monthly" month={month} />}
     </main>
   );
 };
 
-export default AllView;
+export default Monthly;

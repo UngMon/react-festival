@@ -1,9 +1,9 @@
-import BasicMain from "../components/main/BasicMain";
+import Main from "../components/main/Main";
 
 const StartPage = () => {
   return (
     <>
-      <BasicMain />
+      <Main />
     </>
   );
 };

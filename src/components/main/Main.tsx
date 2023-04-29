@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
-import "./BasicMain.css";
+import { nowDate } from "../../utils/NowDate";
+import "./Main.css";
 
-const BasicMain = () => {
+const Main = () => {
   const navigate = useNavigate();
   const currentSeason = CurrentSeason();
+  const { month } = nowDate();
 
   return (
     <main className={`main-page ${currentSeason + "Image"}`}>
@@ -33,10 +35,10 @@ const BasicMain = () => {
         </div>
       )}
       <div className="start-button-box">
-        <button onClick={() => navigate('/month/all')}>시작하기</button>
+        <button onClick={() => navigate(`/month/${month}`)}>시작하기</button>
       </div>
     </main>
   );
 };
 
-export default BasicMain;
+export default Main;

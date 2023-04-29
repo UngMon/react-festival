@@ -35,7 +35,7 @@ const UiBox = (props: MonthProps) => {
           setSeason={props.setSeason!}
         />
       )}
-      {props.category === "all" && successGetData && (
+      {props.category === "monthly" && successGetData && (
         <MonthSelector
           month={props.month!}
           setMonth={props.setMonth!}

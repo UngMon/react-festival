@@ -22,7 +22,6 @@ const MonthSelector = (props: MonthProps) => {
         <option value="default" disabled>
           월을 선택하세요
         </option>
-        <option value="all">전체</option>
         <option value="01">1월</option>
         <option value="02">2월</option>
         <option value="03">3월</option>

@@ -4,11 +4,11 @@ import { ContentData, Item } from "../../type/Type";
 import { dataSlice } from "../../utils/DataSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { calculateDate } from "../../utils/CalculateDate";
-import { setDoc, getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { nowDate } from "../../utils/NowDate";
-import "./Card.css";
+import { setDoc, getDoc, doc } from "firebase/firestore";
 import { firebaseActions } from "../../redux/firebase-slice";
+import "./Card.css";
 
 interface CardProps {
   type: string;
@@ -23,22 +23,18 @@ const Card = (props: CardProps) => {
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
   const firevaseState = useSelector((state: RootState) => state.firebase);
-  const contentData = useSelector(
-    (state: RootState) => state.firebase.contentData
-  );
-
-  const festivalArray = sessionStorage.getItem("festivalArray");
+  const contentData = firevaseState.contentData;
 
   const cardClickHandler = async (contentId: string) => {
     let docData: ContentData;
-
+    
     try {
-      if (!firevaseState.contentData[contentId]) {
+      if (!contentData[contentId]) {
         const contentRef = doc(db, "content", contentId);
         const querySnapshot = await getDoc(contentRef);
-        const contentData = querySnapshot.data();
+        const contentData1 = querySnapshot.data();
 
-        if (!contentData) {
+        if (!contentData1) {
           docData = {
             comment: [],
             detailImage: [],
@@ -47,7 +43,7 @@ const Card = (props: CardProps) => {
           };
           await setDoc(contentRef, docData);
         } else {
-          docData = contentData as ContentData;
+          docData = contentData1 as ContentData;
         }
         dispatch(firebaseActions.updateContentData({ docData, contentId }));
       }
@@ -65,23 +61,21 @@ const Card = (props: CardProps) => {
     let 행사중: JSX.Element[] = [];
     let 행사시작전: JSX.Element[] = [];
 
-    if (props.month === "all") {
-      if (props.type === "all")
-        array = festivalState.festivalArray || festivalArray;
+    if (props.type === "monthly")
+      array = festivalState.monthArray[props.month!];
 
-      if (props.type === "region")
-        array = festivalState.regionArray[props.areaCode!];
+    if (props.type === "region")
+      array = festivalState.regionArray[props.areaCode!];
 
-      if (props.type === "season")
-        array = festivalState.seasonArray[props.season!];
+    if (props.type === "season")
+      array = festivalState.seasonArray[props.season!];
 
-      if (props.type === "result") {
-        if (props.searchArray!.length === 0) {
-          return;
-        }
-        array = props.searchArray!;
+    if (props.type === "result") {
+      if (props.searchArray!.length === 0) {
+        return;
       }
-    } else array = festivalState.monthArray[props.month!];
+      array = props.searchArray!;
+    }
 
     for (let item of array) {
       const 행사상태 = calculateDate(
@@ -96,13 +90,13 @@ const Card = (props: CardProps) => {
 
       if (firstImage) {
         // 관광공사에서 제공하는 이미지 url이 하필 http....
-        firstImage = firstImage.replace('http', 'https');
+        firstImage = firstImage.replace("http", "https");
       }
 
       if (contentData[item.contentid]) {
         // firebase storage에 저장된 이미지를 사용할 경우..
         // 그런데 이 방법은 좋기는 하나 이미지 저작권 문제를 피할 수 없음...
-        imageUri = contentData[item.contentid].firstImage
+        imageUri = contentData[item.contentid].firstImage;
       }
 
       const element = (

@@ -18,9 +18,8 @@ const RegionSelector = (props: RegionProps) => {
     <div className="picker-month">
       <select value={props.areaCode} onChange={pickedRegionHandler}>
         <option value="default" disabled>
-          월을 선택하세요
+          지역을 선택하세요
         </option>
-        <option value="0">전체</option>
         <option value="1">서울</option>
         <option value="2">인천</option>
         <option value="3">대전</option>

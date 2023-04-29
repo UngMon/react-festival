@@ -15,10 +15,10 @@ const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegionPage = lazy(() => import("./pages/Regions"));
 const SeasonPage = lazy(() => import("./pages/Seasons"));
-const AllFestivalPage = lazy(() => import("./pages/MonthFestival"));
+const MonthlyFestival = lazy(() => import("./pages/MonthlyFestival"));
 const Regions = lazy(() => import("./components/main/Regions"));
 const Seasons = lazy(() => import("./components/main/Seasons"));
-const AllView = lazy(() => import("./components/main/AllView"));
+const Monthly = lazy(() => import("./components/main/Monthly"));
 const ResultPage = lazy(() => import("./pages/Result"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const Content = lazy(() => import("./components/content/Content"));
@@ -58,7 +58,7 @@ function App() {
           path: "month",
           element: (
             <Suspense fallback={<Loading />}>
-              <AllFestivalPage />
+              <MonthlyFestival />
             </Suspense>
           ),
           children: [
@@ -66,7 +66,7 @@ function App() {
               path: ":monthKey",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <AllView />
+                  <Monthly />
                 </Suspense>
               ),
             },

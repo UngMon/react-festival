@@ -6,9 +6,11 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import classes from "./Navigation.module.css";
 
 const Navigation = () => {
+  console.log('navi')
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
-
+  const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0")
+  console.log(thisMonth)
   const clickCategory = (value?: string) => {
     if (!festivalState.successGetData) {
       if (festivalState.festivalArray.length === 0) {
@@ -37,7 +39,7 @@ const Navigation = () => {
           <ul className={classes["mobile-Nav-box"]}>
             <li>
               <NavLink
-                to="month/all"
+                to={`month/${thisMonth}`}
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };
@@ -90,7 +92,7 @@ const Navigation = () => {
           <ul className={classes["Nav-box"]}>
             <li>
               <NavLink
-                to="month/all"
+                to={`/month/${thisMonth}`}
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
                   return { color: isActive ? "orange" : "black" };
