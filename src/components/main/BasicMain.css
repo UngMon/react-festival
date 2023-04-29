@@ -47,7 +47,7 @@
 }
 
 .springImage {
-  background-image: url("../../../public/images/spring-background.jpg");
+  background-image: url("../../../public/images/pexels-pixabay-46164.jpg");
 }
 
 .summerImage {
@@ -109,7 +109,6 @@
   .main-page {
     font-size: 28px;
   }
-
 }
 
 @media (max-width: 768px) {
