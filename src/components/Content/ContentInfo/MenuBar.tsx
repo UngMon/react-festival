@@ -29,14 +29,29 @@ const MenuBar = ({
 
   return (
     <ul className="Cotent-category">
-      <li className={category === "기본정보" && !reviewActive ? "on" : ""}>
-        <button onClick={() => topBarClickHandler("기본정보")}>기본정보</button>
+      <li>
+        <button
+          className={category === "기본정보" && !reviewActive ? "on" : "off"}
+          onClick={() => topBarClickHandler("기본정보")}
+        >
+          기본정보
+        </button>
       </li>
-      <li className={reviewActive ? "on" : ""}>
-        <button onClick={() => topBarClickHandler("리뷰")}>리뷰</button>
+      <li>
+        <button
+          className={reviewActive ? "on" : "off"}
+          onClick={() => topBarClickHandler("리뷰")}
+        >
+          리뷰
+        </button>
       </li>
-      <li className={category === "지도" && !reviewActive ? "on" : ""}>
-        <button onClick={() => topBarClickHandler("지도")}>지도</button>
+      <li>
+        <button
+          className={category === "지도" && !reviewActive ? "on" : "off"}
+          onClick={() => topBarClickHandler("지도")}
+        >
+          지도
+        </button>
       </li>
     </ul>
   );
