@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import "./BasicMain.css";
 
 const BasicMain = () => {
+  const navigate = useNavigate();
   const currentSeason = CurrentSeason();
 
   return (
@@ -32,7 +34,7 @@ const BasicMain = () => {
       )}
       <div className="start-button-box">
         <img src="/images/arrow.png" alt='화살표'></img>
-        <button>시작하기</button>
+        <button onClick={() => navigate('/month/all')}>시작하기</button>
       </div>
     </main>
   );
