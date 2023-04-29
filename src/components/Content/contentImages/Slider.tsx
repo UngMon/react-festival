@@ -16,6 +16,8 @@ const Slider = ({ contentImage }: SliderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(2);
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
 
+
+
   useEffect(() => {
     /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
       아예 없는 경우가 있다. 각각의 경우에 따라서 image State를 따로 정의해줘야 한다. */
@@ -71,7 +73,7 @@ const Slider = ({ contentImage }: SliderProps) => {
   useEffect(() => {
     const resizeHandler = () => {
       setWidth(
-        containerRef.current!.clientWidth < 650
+        window.innerWidth < 769
           ? containerRef.current!.clientWidth
           : containerRef.current!.clientWidth / 3
       );
