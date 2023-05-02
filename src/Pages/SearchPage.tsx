@@ -1,4 +1,4 @@
-import UiBox from "../components/UI/UiBox";
+import UiBox from "../components/ui/UiBox";
 
 const SearchPage = () => {
   return (

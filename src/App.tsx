@@ -6,7 +6,7 @@ import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
-import Loading from "./components/UI/Loading";
+import Loading from "./components/ui/Loading";
 import "./App.css";
 
 const StartPage = lazy(() => import("./pages/Start"));

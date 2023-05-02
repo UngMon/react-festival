@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState} from "../redux/store";
 import { Item } from "../type/Type";
-import UiBox from "../components/UI/UiBox";
+import UiBox from "../components/ui/UiBox";
 import Card from "../components/card/Card";
-import Loading from "../components/UI/Loading";
+import Loading from "../components/ui/Loading";
 import "./Result.css";
 
 const ResultPage = () => {

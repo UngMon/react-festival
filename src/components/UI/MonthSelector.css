@@ -5,23 +5,52 @@
   margin-right: calc(100vw - 700px);
 }
 
-.picker-month-h {
+.picker-month-name {
   position: absolute;
-  top: 0px;
-  left: 20px;
+  top: -10px;
+  left: 15px;
+  width: 100px;
   color: rgb(62, 62, 244);
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
+  background: white;
+  text-align: center;
+  line-height: 20px;
+}
+
+.picker-region-name {
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  width: 110px;
+  color: rgb(62, 62, 244);
+  font-size: 14px;
+  font-weight: bold;
+  background: white;
+  text-align: center;
+  line-height: 20px;
 }
 
 .picker-month select {
   width: 250px;
-  padding: 10px 0 10px 180px;
+  padding: 10px 15px;
   font-weight: 600;
+  font-size: 16px;
   border-radius: 8px;
+  background-color: transparent;
+  -webkit-appearance: none;
+  /* -moz-appearance: none; */
+  /* appearance: none; */
 }
 
 .picker-month select:hover {
   cursor: pointer;
+}
+
+@media (min-width: 1500px) {
+  .picker-month {
+    margin-right: calc(50vw - 350px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -32,22 +61,18 @@
 
   .picker-month select {
     width: 100%;
-    padding: 10px 0 10px calc(100vw - 120px);
+    padding: 10px;
     font-size: 18px;
     height: 49px;
   }
-  .picker-month-h {
-    top: 5px;
-  }
 }
 
-@media (max-width: 310px) {
-  .picker-month select {
-    width: 100%;
-    padding: 10px 10px;
+@media (max-width: 195px) {
+  .picker-month-name span {
+    display: none;
   }
 
-  .picker-month-h {
+  .picker-region-name span {
     display: none;
   }
 }

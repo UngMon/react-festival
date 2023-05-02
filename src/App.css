@@ -1,4 +1,5 @@
 .main-box {
+  padding-top: 160px;
   min-height: calc(100vh - 140px);
   background-color: white;
   z-index: 4;
@@ -12,3 +13,5 @@
     flex-grow: 1;
   }
 }
+
+

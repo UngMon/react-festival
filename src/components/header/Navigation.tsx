@@ -3,14 +3,18 @@ import { NavLink } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import classes from "./Navigation.module.css";
+import "./Navigation.css";
 
-const Navigation = () => {
-  console.log('navi')
+interface HeaderProps {
+  pathname: string;
+  scrollY: number;
+}
+
+const Navigation = ({ pathname, scrollY }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
-  const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0")
-  console.log(thisMonth)
+  const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+
   const clickCategory = (value?: string) => {
     if (!festivalState.successGetData) {
       if (festivalState.festivalArray.length === 0) {
@@ -35,10 +39,13 @@ const Navigation = () => {
     <>
       {
         // mobile용
-        <nav>
-          <ul className={classes["mobile-Nav-box"]}>
+        <nav className="mobile-nav-bar">
+          <ul className="mobile-Nav-box">
             <li>
               <NavLink
+                className={`${
+                  pathname === "/" && scrollY === 0 && "no-border"
+                }`}
                 to={`month/${thisMonth}`}
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
@@ -88,14 +95,25 @@ const Navigation = () => {
         </nav>
       }
       {
-        <nav>
-          <ul className={classes["Nav-box"]}>
+        //pc
+        <nav
+          className={`pc-nav-bar ${
+            pathname === "/" && scrollY === 0 && "no-border"
+          }`}
+        >
+          <ul className="Nav-box">
             <li>
               <NavLink
                 to={`/month/${thisMonth}`}
                 onClick={() => clickCategory("month")}
                 style={({ isActive }) => {
-                  return { color: isActive ? "orange" : "black" };
+                  return {
+                    color: isActive
+                      ? "orange"
+                      : pathname === "/" && scrollY === 0
+                      ? "white"
+                      : "#333",
+                  };
                 }}
               >
                 월별 보기
@@ -106,7 +124,13 @@ const Navigation = () => {
                 to="regions/0"
                 onClick={() => clickCategory("region")}
                 style={({ isActive }) => {
-                  return { color: isActive ? "orange" : "black" };
+                  return {
+                    color: isActive
+                      ? "orange"
+                      : pathname === "/" && scrollY === 0
+                      ? "white"
+                      : "#333",
+                  };
                 }}
               >
                 지역별
@@ -117,7 +141,13 @@ const Navigation = () => {
                 to={`seasons/${CurrentSeason()}`}
                 onClick={() => clickCategory("season")}
                 style={({ isActive }) => {
-                  return { color: isActive ? "orange" : "black" };
+                  return {
+                    color: isActive
+                      ? "orange"
+                      : pathname === "/" && scrollY === 0
+                      ? "white"
+                      : "#333",
+                  };
                 }}
               >
                 계절별

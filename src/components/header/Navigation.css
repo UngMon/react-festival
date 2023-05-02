@@ -1,21 +1,3 @@
-.Nav-box {
-  position: absolute;
-  font-size: 0.9em;
-  top: 10px;
-  left: calc(50% - 160px);
-  width: 360px;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Nav-box li {
-  width: 120px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-
 li {
   list-style: none;
 }
@@ -23,11 +5,47 @@ li {
 a {
   text-decoration: none;
   list-style: none;
-  color: black;
 }
 
 a:hover {
   cursor: pointer;
+}
+
+/* pc */
+.pc-nav-bar {
+  box-sizing: border-box;;
+  width: 100%;
+  height: 50px;
+  border-top: 0.3px solid rgb(224, 223, 223);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+.no-border {
+  border: 0;
+  box-shadow: none;
+}
+
+.Nav-box {
+  margin: 0 auto;
+  font-size: 0.8em;
+  width: 420px;
+  height: 100%;
+  display: flex;
+}
+
+.Nav-box li {
+  width: 140px;
+  text-align: center;
+  line-height: 50px;
+  transition: all .1s ease-out;
+}
+
+.Nav-box li a {
+  font-size: 1.1em;
+}
+
+.Nav-box li:hover {
+  border-bottom: 3px solid orange;
 }
 
 /* 모바일 환경*/

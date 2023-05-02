@@ -1,11 +1,12 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./SearchUi.css";
-
+import "./Search.css";
 
 const Search = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [openSearch, SetOpenSearch] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +42,7 @@ const Search = () => {
             ref={inputRef}
             type="text"
             name="title"
-            placeholder="찾으시는 축제를 검색해보세요!"
+            placeholder="축제를 검색해보세요!"
           />
           <button>
             <img src="/images/search.png" alt="검색" width="25"></img>

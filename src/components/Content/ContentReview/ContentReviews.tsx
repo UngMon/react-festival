@@ -5,7 +5,7 @@ import { RootState, useAppDispatch } from "../../../redux/store";
 import "./ContentReviews.css";
 import Feeling from "./Feelings";
 import Reviews from "./UserReviews";
-import Loading from "../../UI/Loading";
+import Loading from "../../ui/Loading";
 import GetDataError from "../../error/GetDataError";
 import { useEffect } from "react";
 import { firebaseActions } from "../../../redux/firebase-slice";

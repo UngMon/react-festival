@@ -1,4 +1,4 @@
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import "./ReportModal.css";
 
@@ -15,12 +15,11 @@ const ReportModal = ({
   reportModalOpen,
   setReportModalOpen,
 }: ReportProps) => {
+  
   const reportUserHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     const contentRef = doc(db, "reportList", contentId);
     const reason = (event.target as HTMLFormElement).reason.value;
-    console.log(event.target);
-    console.log((event.target as HTMLFormElement).reason.value);
     const data = {
       why: reason,
       when: reportModalOpen[1],
@@ -29,8 +28,10 @@ const ReportModal = ({
       text: reportModalOpen[4],
     };
     try {
-      await updateDoc(contentRef, { list: arrayUnion(data)});
+      await setDoc(contentRef, { list: arrayUnion(data) }, { merge: true });
+      setReportModalOpen([false, "", "", "", ""]);
     } catch (error: any) {
+      console.log(error.message);
       alert(error.message);
     }
   };

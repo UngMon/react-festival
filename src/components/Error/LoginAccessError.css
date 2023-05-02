@@ -1,0 +1,16 @@
+.Login-Access-Error {
+  margin: calc(40vh) auto 0;
+  text-align: center;
+}
+
+.Login-Access-Error p {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .Login-Access-Error p {
+    font-size: 14px;
+  }
+}

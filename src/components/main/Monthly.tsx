@@ -5,8 +5,8 @@ import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import Card from "../card/Card";
 import GetDataError from "../error/GetDataError";
-import Loading from "../UI/Loading";
-import UiBox from "../UI/UiBox";
+import Loading from "../ui/Loading";
+import UiBox from "../ui/UiBox";
 
 const Monthly = () => {
   const { monthKey } = useParams();

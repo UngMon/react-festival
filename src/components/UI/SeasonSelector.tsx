@@ -6,7 +6,7 @@ interface SeasonProps {
   setSeason: (value: string) => void;
 }
 
-const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
+const SeasonSelctor = ({ season, setSeason }: SeasonProps) => {
   const navigate = useNavigate();
 
   const seasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -37,7 +37,11 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
               <NavLink
                 to="/seasons/summer"
                 onClick={() => setSeason("summer")}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "green" : "",
+                  };
+                }}
               >
                 #여름
               </NavLink>
@@ -71,7 +75,7 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
           </ul>
         </nav>
       }
-      {
+      { // 모바일 
         <div className="mobile-picker-season">
           <select value={season} onChange={seasonChange}>
             <option value="default" disabled>
@@ -82,7 +86,9 @@ const SeasonSelctor = ({season, setSeason}: SeasonProps) => {
             <option value="authumn">가을</option>
             <option value="winter">겨울</option>
           </select>
-          <h4 className="mobile-picker-seaon-h">계절을 선택하세요</h4>
+          <div className="mobile-picker-name">
+            <span>계절을 선택하세요</span>
+          </div>
         </div>
       }
     </>

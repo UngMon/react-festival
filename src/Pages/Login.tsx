@@ -11,7 +11,7 @@ import "./Login.css";
 import { RootState, useAppDispatch } from "../redux/store";
 import { firebaseActions } from "../redux/firebase-slice";
 import { useEffect, useState } from "react";
-import Loading from "../components/UI/Loading";
+import Loading from "../components/ui/Loading";
 import { useSelector } from "react-redux";
 import LoginAccessError from "../components/error/LoginAccessError";
 // import KakaoLogin from "../components/Login/Kakao";
@@ -46,10 +46,11 @@ const LoginPage = () => {
     getRedirectResult(auth)
       .then((credential) => {
         const { uid, email, displayName, photoURL } = credential!.user;
+        const prevPageUrl = JSON.parse(sessionStorage.getItem("currentUrl")!);
         dispatch(
           firebaseActions.setUserData({ uid, email, displayName, photoURL })
         );
-        navigate("/month/all");
+        navigate(`${prevPageUrl}`, { replace: true });
       })
       .catch((error) => {
         !isFirst && alert(error.message);

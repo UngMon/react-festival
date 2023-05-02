@@ -1,21 +1,30 @@
 .Ui-Box {
+  position: relative;
   box-sizing: border-box;
   padding: 30px;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   line-height: 40px;
   z-index: 5;
   background-color: white;
 }
+
+@media (min-width: 1500px) {
+  .Ui-Box {
+    width: 1500px;
+    margin: auto;
+    padding: 30px 30px;
+  }
+} 
 
 @media (max-width: 768px) {
   .Ui-Box {
     display: block;
     position: fixed;
     top: 60px;
-    padding: 5px 30px;
+    padding: 20px 30px 5px;
   }
 }
 

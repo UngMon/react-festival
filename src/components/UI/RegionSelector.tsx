@@ -11,7 +11,7 @@ const RegionSelector = (props: RegionProps) => {
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setAreaCode(value);
-    navigate(`/regions/${value}`)
+    navigate(`/regions/${value}`);
   };
 
   return (
@@ -38,7 +38,9 @@ const RegionSelector = (props: RegionProps) => {
         <option value="38">전라남도</option>
         <option value="39">제주도</option>
       </select>
-      <h4 className="picker-month-h">지역을 선택하세요</h4>
+      <div className="picker-region-name">
+        <span>지역을 선택하세요</span>
+      </div>
     </div>
   );
 };

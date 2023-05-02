@@ -1,7 +1,7 @@
 import MonthSelector from "./MonthSelector";
 import RegionSelector from "./RegionSelector";
 import SeasonSelctor from "./SeasonSelector";
-import Search from "./SearchUi";
+// import Search from "../header/Search";
 import "./UiBox.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -41,7 +41,7 @@ const UiBox = (props: MonthProps) => {
           setMonth={props.setMonth!}
         />
       )}
-      {successGetData && <Search />}
+      {/* {successGetData && <Search />} */}
     </div>
   );
 };

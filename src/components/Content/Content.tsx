@@ -11,8 +11,8 @@ import Detail from "./contentInfo/Detail";
 import ContentReviews from "./contentReview/ContentReviews";
 import Overview from "./contentInfo/Overview";
 import MenuBar from "./contentInfo/MenuBar";
-import "./Content.css";
 import ReportModal from "./contentReview/modal/ReportModal";
+import "./Content.css";
 
 const Cotent = () => {
   const { contentId } = useParams();

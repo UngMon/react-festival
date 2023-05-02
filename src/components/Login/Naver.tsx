@@ -55,7 +55,7 @@ const Naver = () => {
   useEffect(() => {
     naverLoginHandler();
 
-  }, []);
+  });
 
   return <div id="naverIdLogin" />;
 };

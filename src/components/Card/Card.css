@@ -42,12 +42,11 @@
   padding: 5px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; 
   text-overflow: ellipsis;
 }
 
 .festival-text h3 {
-  box-sizing: border-box;
   padding: 10px 0 7px;
   width: 100%;
   font-size: 16px;
@@ -73,9 +72,11 @@
   font-size: 14px;
 }
 
-@media (min-width: 2560px) {
-  .AllView-grid-box {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+@media (min-width: 1500px) {
+  .main-box-content {
+    box-sizing: border-box;
+    max-width: 1500px;
+    margin: 0 auto;
   }
 }
 

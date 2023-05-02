@@ -35,7 +35,9 @@ const MonthSelector = (props: MonthProps) => {
         <option value="11">11월</option>
         <option value="12">12월</option>
       </select>
-      <h4 className="picker-month-h">월을 선택하세요</h4>
+      <div className="picker-month-name">
+        <span>월을 선택하세요</span>
+      </div>
     </div>
   );
 };

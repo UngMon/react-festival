@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { CurrentSeason } from "../../utils/CurrentSeason";
-import UiBox from "../UI/UiBox";
+import UiBox from "../ui/UiBox";
 import Card from "../card/Card";
-import Loading from "../UI/Loading";
+import Loading from "../ui/Loading";
 import GetDataError from "../error/GetDataError";
 
 const Seasons = () => {
