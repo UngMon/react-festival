@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface RegionProps {
   areaCode: string;
@@ -41,6 +43,7 @@ const RegionSelector = (props: RegionProps) => {
       <div className="picker-region-name">
         <span>지역을 선택하세요</span>
       </div>
+      <FontAwesomeIcon icon={faCheck} />
     </div>
   );
 };

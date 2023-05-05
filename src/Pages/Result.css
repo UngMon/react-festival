@@ -8,9 +8,8 @@
 
 .result-not-found {
   width: 100%;
-  margin-top: calc(100vh - 80vh);
   text-align: center;
-  padding: 10px 0;
+  padding: 10vh 0 15vh;
 }
 
 .result-not-found p {

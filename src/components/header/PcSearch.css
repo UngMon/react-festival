@@ -1,0 +1,71 @@
+@keyframes input-effect {
+  0% {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.search-box {
+  position: relative;
+  width: 300px;
+  height: 40px;
+}
+
+.search-box input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 5px 35px 5px 10px;
+  border-radius: 5px;
+  border: 1.5px solid rgb(135, 135, 135);
+  font-size: 14px;
+  animation: input-effect 0.3s linear;
+}
+
+.search-box input:hover {
+  cursor: pointer;
+}
+
+.search-box button {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  width: 40px;
+  height: 100%;
+  border: 0;
+  background-color: transparent;
+}
+
+.search-box input::placeholder {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.search-box button svg {
+  font-size: 25px;
+}
+
+.search-box button:hover {
+  cursor: pointer;
+  color: gold;
+}
+
+
+@media (max-width: 768px) {
+  .search-box {
+    display: none;
+  }
+}

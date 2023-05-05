@@ -5,14 +5,26 @@ import { firebaseActions } from "../../redux/firebase-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRightToBracket,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import "./LoginButton.css";
 
 interface HeaderProps {
   pathname: string;
   scrollY: number;
+  mouseOver: boolean;
+  setOpenSearch: (value: boolean) => void;
 }
 
-const LoginButton = ({ pathname, scrollY }: HeaderProps) => {
+const LoginButton = ({
+  pathname,
+  scrollY,
+  mouseOver,
+  setOpenSearch,
+}: HeaderProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -61,8 +73,15 @@ const LoginButton = ({ pathname, scrollY }: HeaderProps) => {
       {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
         !firebaseState.loginedUser ? ( // 로그인 안 되어 있으면,
           <div className="login" onClick={loginHandler}>
-            {/* <img src="/images/user.png" alt="user"></img> */}
-            <p>로그인</p>
+            <FontAwesomeIcon
+              icon={faRightToBracket}
+              style={{
+                color:
+                  pathname === "/" && scrollY === 0 && !mouseOver
+                    ? "white"
+                    : "#333",
+              }}
+            />
           </div>
         ) : (
           // 로그인 상태일 때
@@ -76,15 +95,17 @@ const LoginButton = ({ pathname, scrollY }: HeaderProps) => {
             </div>
             {userModalOpen && (
               <div className="logout-box" ref={userInfoRef}>
-                <p>{`${firebaseState.userName}님`}</p>
+                <div className="arrow"></div>
+                {/* <p>{`${firebaseState.userName}님`}</p>
                 <p>
                   {firebaseState.userSocial
                     ? firebaseState.userEmail.slice(5)
                     : firebaseState.userEmail}
-                </p>
-                <button className="logout" onClick={logoutHnalder}>
-                  로그아웃
-                </button>
+                </p> */}
+                <div className="logout" onClick={logoutHnalder}>
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                  <span>로그아웃</span>
+                </div>
               </div>
             )}
           </>

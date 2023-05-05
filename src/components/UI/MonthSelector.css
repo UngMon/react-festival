@@ -39,12 +39,20 @@
   border-radius: 8px;
   background-color: transparent;
   -webkit-appearance: none;
-  /* -moz-appearance: none; */
-  /* appearance: none; */
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .picker-month select:hover {
   cursor: pointer;
+}
+
+.picker-month svg {
+  position: absolute;
+  top: 10px;
+  right: -35px;
+  font-size: 20px;
+  color: rgb(85, 236, 85);
 }
 
 @media (min-width: 1500px) {
@@ -61,9 +69,15 @@
 
   .picker-month select {
     width: 100%;
-    padding: 10px;
-    font-size: 18px;
+    padding: 10px 15px;
+    font-size: 16px;
     height: 49px;
+  }
+
+  .picker-month svg {
+    top: 13px;
+    right: 15px;
+    font-size: 25px;
   }
 }
 
@@ -73,6 +87,10 @@
   }
 
   .picker-region-name span {
+    display: none;
+  }
+
+  .picker-month svg {
     display: none;
   }
 }

@@ -1,16 +1,17 @@
 .main-box {
-  padding-top: 160px;
-  min-height: calc(100vh - 140px);
+  padding-top: 150px;
+  min-height: 300px;
   background-color: white;
   z-index: 4;
 }
 
 @media (max-width: 768px) {
   .main-box {
-    min-height: calc(100vh - 140px);
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding-top: 0;
   }
 }
 

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ContentImage, ResponImage, ImageData } from "../../../type/Type";
-import "./Slider.css";
 import SliderButton from "./SliderButton";
+import "./Slider.css";
 
 interface SliderProps {
   contentImage: ResponImage;
@@ -15,8 +15,6 @@ const Slider = ({ contentImage }: SliderProps) => {
   const [imageLength, setImageLength] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(2);
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
-
-
 
   useEffect(() => {
     /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
@@ -95,12 +93,13 @@ const Slider = ({ contentImage }: SliderProps) => {
   };
 
   return (
-    <div
-      className="slider-container"
-      onMouseEnter={mouseEnterHandler}
-      onMouseLeave={mouseLeaveHandler}
-    >
-      <div className="slider-box" ref={containerRef}>
+    <>
+      {contentImage && <div
+        className="slider-box"
+        ref={containerRef}
+        onMouseEnter={mouseEnterHandler}
+        onMouseLeave={mouseLeaveHandler}
+      >
         <div
           className="slider"
           ref={sliderRef}
@@ -117,7 +116,11 @@ const Slider = ({ contentImage }: SliderProps) => {
                 style={{ width: `${width}px` }}
               >
                 <a key={index} href={item.originimgurl}>
-                  <img src={item.originimgurl} alt="축제 사진"></img>
+                  <img
+                    src={item.originimgurl}
+                    alt="축제 사진"
+                    loading="lazy"
+                  ></img>
                 </a>
               </div>
             ))
@@ -136,8 +139,8 @@ const Slider = ({ contentImage }: SliderProps) => {
           imageLength={imageLength}
           isMouseOver={isMouseOver}
         />
-      </div>
-    </div>
+      </div>}
+    </>
   );
 };
 

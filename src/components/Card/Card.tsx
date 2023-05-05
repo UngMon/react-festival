@@ -27,10 +27,10 @@ const Card = (props: CardProps) => {
 
   const cardClickHandler = async (contentId: string) => {
     let docData: ContentData;
+    const contentRef = doc(db, "content", contentId);
     
     try {
       if (!contentData[contentId]) {
-        const contentRef = doc(db, "content", contentId);
         const querySnapshot = await getDoc(contentRef);
         const contentData1 = querySnapshot.data();
 

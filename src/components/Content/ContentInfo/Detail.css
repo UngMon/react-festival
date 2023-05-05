@@ -1,5 +1,5 @@
 .Content-info {
-  padding: 30px 30px 10px;
+  padding: 30px 30px;
 }
 
 .Cotent-deatail {
@@ -27,6 +27,16 @@
   padding: 10px;
   border: 0.5px solid #dfdede;
   word-break: break-all;
+}
+
+.Cotent-overview {
+  grid-column-end: span 3;
+  padding: 30px;
+}
+
+.Cotent-overview strong {
+  display: block;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {

@@ -8,13 +8,20 @@ import "./Navigation.css";
 interface HeaderProps {
   pathname: string;
   scrollY: number;
+  mouseOver: boolean;
+  setOpenSearch: (value: boolean) => void;
 }
 
-const Navigation = ({ pathname, scrollY }: HeaderProps) => {
+const Navigation = ({
+  pathname,
+  scrollY,
+  mouseOver,
+  setOpenSearch,
+}: HeaderProps) => {
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
   const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
-
+  console.log(window.innerWidth)
   const clickCategory = (value?: string) => {
     if (!festivalState.successGetData) {
       if (festivalState.festivalArray.length === 0) {
@@ -33,6 +40,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
     if (value === "season" && !festivalState.sortedSeason) {
       dispatch(festivalActions.sortDataBySeason());
     }
+    setOpenSearch(false);
   };
 
   return (
@@ -40,7 +48,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
       {
         // mobile용
         <nav className="mobile-nav-bar">
-          <ul className="mobile-Nav-box">
+          <ul className="mobile-nav-box">
             <li>
               <NavLink
                 className={`${
@@ -53,7 +61,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
                 }}
               >
                 <img src="/images/month.png" alt="월" />
-                <span>월별 보기</span>
+                <span>월별</span>
               </NavLink>
             </li>
             <li>
@@ -98,7 +106,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
         //pc
         <nav
           className={`pc-nav-bar ${
-            pathname === "/" && scrollY === 0 && "no-border"
+            pathname === "/" && scrollY === 0 && !mouseOver && "no-border"
           }`}
         >
           <ul className="Nav-box">
@@ -110,13 +118,13 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
                   return {
                     color: isActive
                       ? "orange"
-                      : pathname === "/" && scrollY === 0
+                      : pathname === "/" && scrollY === 0 && !mouseOver
                       ? "white"
                       : "#333",
                   };
                 }}
               >
-                월별 보기
+                월별
               </NavLink>
             </li>
             <li>
@@ -127,7 +135,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
                   return {
                     color: isActive
                       ? "orange"
-                      : pathname === "/" && scrollY === 0
+                      : pathname === "/" && scrollY === 0 && !mouseOver
                       ? "white"
                       : "#333",
                   };
@@ -144,7 +152,7 @@ const Navigation = ({ pathname, scrollY }: HeaderProps) => {
                   return {
                     color: isActive
                       ? "orange"
-                      : pathname === "/" && scrollY === 0
+                      : pathname === "/" && scrollY === 0 && !mouseOver
                       ? "white"
                       : "#333",
                   };

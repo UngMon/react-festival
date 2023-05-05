@@ -14,6 +14,7 @@ export const getFestiavalData = createAsyncThunk(
     );
 
     const data: Respon = await response.json();
+    console.log(data)
     return data;
   }
 );

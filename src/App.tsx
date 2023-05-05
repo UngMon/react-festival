@@ -7,6 +7,7 @@ import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
 import Loading from "./components/ui/Loading";
+import ScrollToTop from "./ScrollToTop";
 import "./App.css";
 
 const StartPage = lazy(() => import("./pages/Start"));
@@ -131,11 +132,11 @@ function App() {
         },
         {
           path: "content",
-          errorElement: (
-            <Suspense fallback={<Loading />}>
-              <GetDataError />
-            </Suspense>
-          ),
+          // errorElement: (
+          //   <Suspense fallback={<Loading />}>
+          //     <GetDataError />
+          //   </Suspense>
+          // ),
           children: [
             {
               path: ":contentId",
@@ -144,10 +145,6 @@ function App() {
                   <Content />
                 </Suspense>
               ),
-              loader: (params) =>
-                import("./components/content/Content").then((module) =>
-                  module.loader(params)
-                ),
             },
           ],
         },

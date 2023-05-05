@@ -1,10 +1,11 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useLocation } from "react-router-dom";
 import MonthSelector from "./MonthSelector";
 import RegionSelector from "./RegionSelector";
 import SeasonSelctor from "./SeasonSelector";
-// import Search from "../header/Search";
+import MobileSearch from "./MobileSearch";
 import "./UiBox.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 
 interface MonthProps {
   category: string;
@@ -17,6 +18,7 @@ interface MonthProps {
 }
 
 const UiBox = (props: MonthProps) => {
+  const { pathname } = useLocation();
   const successGetData = useSelector(
     (state: RootState) => state.festival.successGetData
   );
@@ -30,18 +32,12 @@ const UiBox = (props: MonthProps) => {
         />
       )}
       {props.category === "season" && successGetData && (
-        <SeasonSelctor
-          season={props.season!}
-          setSeason={props.setSeason!}
-        />
+        <SeasonSelctor season={props.season!} setSeason={props.setSeason!} />
       )}
       {props.category === "monthly" && successGetData && (
-        <MonthSelector
-          month={props.month!}
-          setMonth={props.setMonth!}
-        />
+        <MonthSelector month={props.month!} setMonth={props.setMonth!} />
       )}
-      {/* {successGetData && <Search />} */}
+      {pathname === "/search" && <MobileSearch />}
     </div>
   );
 };

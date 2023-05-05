@@ -1,8 +1,8 @@
 .Cotent-review {
   box-sizing: border-box;
-  width: 100%;
-  padding: 5%;
+  width: 80%;
   margin: 0 auto;
+  padding: 60px 0;
   text-align: center;
 }
 
@@ -44,25 +44,28 @@
 }
 
 .user-input-box {
-  margin: 20px auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
 }
 
 .user-input-box input {
   box-sizing: border-box;
-  width: 70%;
-  min-height: 35px;
+  width: 65%;
+  height: 40px;
   padding: 10px;
-  border: 0.5px solid black;
+  border: 0.7px solid black;
 }
 
 .user-input-box button {
-  margin-left: 20px;
   width: 40px;
   height: 40px;
   background-color: orange;
   color: white;
   border: 0;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .user-review-area {
@@ -204,8 +207,19 @@
   overflow: hidden;
 }
 
+@media (min-width: 1600px) {
+  .user-input-box {
+    width: 1300px;
+  }
 
-@media (max-width: 620px) {
+  .user-input-box input {
+    margin-left: 0;
+    width: 60%;
+  }
+}
+
+
+@media (max-width: 768px) {
   .Cotent-review {
     padding: 30px 5%;
   }
@@ -214,16 +228,16 @@
     width: 100%;
   }
 
-  .user-input-box button {
-    margin: 0;
+  .user-input-box input {
+    width: calc(100% - 40px);
   }
 
   .Cotent-feeling {
-    width: 70%;
+    width: 80%;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 425px) {
   .Cotent-feeling {
     width: 100%;
   }

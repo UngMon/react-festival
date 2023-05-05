@@ -1,7 +1,5 @@
 .Cotent-category {
-  position: -webkit-sticky;
   position: sticky;
-  top: 5px;
   margin: 0 auto;
   width: 96%;
   z-index: 10;

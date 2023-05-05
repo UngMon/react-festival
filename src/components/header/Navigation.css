@@ -1,23 +1,21 @@
 li {
   list-style: none;
+  cursor: pointer;
 }
 
 a {
   text-decoration: none;
   list-style: none;
-}
-
-a:hover {
   cursor: pointer;
 }
 
 /* pc */
 .pc-nav-bar {
-  box-sizing: border-box;;
+  box-sizing: border-box;
   width: 100%;
   height: 50px;
   border-top: 0.3px solid rgb(224, 223, 223);
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.12);
 }
 
 .no-border {
@@ -34,13 +32,19 @@ a:hover {
 }
 
 .Nav-box li {
+  box-sizing: border-box;
   width: 140px;
+  height: 50px;
   text-align: center;
   line-height: 50px;
-  transition: all .1s ease-out;
+  transition: all 0.1s ease-out;
 }
 
 .Nav-box li a {
+  box-sizing: border-box;
+  display: block;
+  width: 140px;
+  height: 50px;
   font-size: 1.1em;
 }
 
@@ -49,55 +53,64 @@ a:hover {
 }
 
 /* 모바일 환경*/
-.mobile-Nav-box {
+
+.mobile-nav-box {
   position: fixed;
-  display: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
   border-top: 0.5px solid black;
+  background-color: white;
+}
+
+.mobile-nav-box li {
+  box-sizing: border-box;
+  width: 25%;
+  height: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.mobile-nav-box a {
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.mobile-nav-box a img {
+  margin: 0 0 5px;
+  width: 30px;
+  height: 25px;
+}
+
+@media (min-width: 768px) {
+  .mobile-nav-bar {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
-  .Nav-box {
+  .pc-nav-bar {
     display: none;
   }
 
-  .mobile-Nav-box {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    background-color: white;
-  }
-
-  .mobile-Nav-box li {
-    box-sizing: border-box;
-    width: 25%;
-    height: 100%;
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .mobile-Nav-box a {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    white-space: nowrap;
-  }
-
-  .mobile-Nav-box a img {
-    margin: 0 0 5px;
-    width: 30px;
-    height: 25px;
+  .mobile-nav-bar {
+    display: block;
   }
 }
 
 @media (max-width: 200px) {
-  .mobile-Nav-box li {
-    padding: 20px 0;
+  .mobile-nav-box {
+    width: 100vw;
   }
 
-  .mobile-Nav-box li span {
+  .mobile-nav-box li span {
     display: none;
   }
 }

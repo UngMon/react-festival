@@ -22,9 +22,8 @@
 @media (max-width: 768px) {
   .Ui-Box {
     display: block;
-    position: fixed;
     top: 60px;
-    padding: 20px 30px 5px;
+    padding: 40px 30px 5px;
   }
 }
 

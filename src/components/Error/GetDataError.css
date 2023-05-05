@@ -1,9 +1,8 @@
 .get-data-error-box {
   box-sizing: border-box;
-  padding: 20% 0;
+  padding-top: 10%;
   width: 100%;
-  height: calc(100vh - 110px);
-  margin: 0 atuo;
+  height: auto;
   text-align: center;
 }
 
