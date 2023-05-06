@@ -1,18 +1,24 @@
 #report-modal {
   position: fixed;
   box-sizing: border-box;
-  padding: 20px 10px 10px;
   top: calc((100vh - 300px) / 2);
   left: calc((100vw - 300px) / 2);
   width: 300px;
   height: 300px;
-  background-color: rgb(249, 249, 249);
+  background-color: rgb(247, 247, 247);
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
-  text-align: left;
   z-index: 11;
-  display: flex;
-  flex-direction: column;
+}
+
+.report-modal-title {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  background-color: rgb(228, 228, 228);
+  margin-bottom: 10px;
+  border-radius: 10px 10px 0 0;
+  line-height: 30px;
 }
 
 #report-modal label {
@@ -39,6 +45,7 @@
   right: 10px;
   bottom: 25px;
   text-align: right;
+  width: 120px;
 }
 
 #report-button-box button {
@@ -60,13 +67,5 @@
   #report-modal {
     left: calc((100vw - 80%) / 2);
     width: 80%;
-  }
-}
-
-@media (max-width: 180px) {
-  #report-button-box  {
-    width: 80%;
-    bottom: 15px;
-    right: 10px;
   }
 }

@@ -1,4 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import "./SeasonSelector.css";
 
 interface SeasonProps {
@@ -89,6 +91,7 @@ const SeasonSelctor = ({ season, setSeason }: SeasonProps) => {
           <div className="mobile-picker-name">
             <span>계절을 선택하세요</span>
           </div>
+          <FontAwesomeIcon icon={faCheck} />
         </div>
       }
     </>

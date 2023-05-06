@@ -86,6 +86,14 @@
   cursor: pointer;
 }
 
+.mobile-picker-season svg {
+  position: absolute;
+  top: 14px;
+  right: 13px;
+  font-size: 20px;
+  color: rgb(85, 236, 85);
+}
+
 @media (max-width: 768px) {
   .season-selector-box {
     display: none;

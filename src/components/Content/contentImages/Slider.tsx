@@ -41,17 +41,12 @@ const Slider = ({ contentImage }: SliderProps) => {
       }
 
       /* 해당 축제의 이미지가 2개만 있는 경우*/
-      if (img.length === 2) {
-        setImageLength(2);
+      if (1 < img.length && img.length < 4) {
+        setImageLength(img.length);
         setImage([...img, ...img, ...img]);
       }
 
-      /* 3개만 있는 경우*/
-      if (img.length === 3) {
-        setImageLength(3);
-        setImage([...img, ...img, ...img]);
-      }
-
+      /* 4개 이상인 경우*/
       if (img.length > 3) {
         setImageLength(img.length);
         setImage([
@@ -69,6 +64,11 @@ const Slider = ({ contentImage }: SliderProps) => {
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
+    // 첫 렌더링 후 모바일 너비이면 이미지 슬라이드 너비 맞춤
+    if (window.innerWidth < 769)
+      return setWidth(containerRef.current!.clientWidth);
+
+    // pc 사용자가 브라우저 크기를 조절할 때,
     const resizeHandler = () => {
       setWidth(
         window.innerWidth < 769
@@ -80,66 +80,60 @@ const Slider = ({ contentImage }: SliderProps) => {
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  });
-
-  /* 아래 두 함수는 마우스가 sluder-container에 있으면 SliderButton.tsx에서
-   정의한 자동 슬라이드 기능을 멈추게 해줌. */
-  const mouseEnterHandler = () => {
-    setISMouseOver(true);
-  };
-
-  const mouseLeaveHandler = () => {
-    setISMouseOver(false);
-  };
+  }, [setWidth]);
 
   return (
     <>
-      {contentImage && <div
-        className="slider-box"
-        ref={containerRef}
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
-      >
+      {contentImage && (
         <div
-          className="slider"
-          ref={sliderRef}
-          style={{
-            transform: `translateX(${-width * currentIndex}px)`,
-            transition: "transform 250ms ease",
-          }}
+          className="slider-box"
+          ref={containerRef}
+          onMouseEnter={() => setISMouseOver(true)}
+          onMouseLeave={() => setISMouseOver(false)}
         >
-          {image ? (
-            image.map((item, index) => (
-              <div
-                key={index}
-                className="slide"
-                style={{ width: `${width}px` }}
-              >
-                <a key={index} href={item.originimgurl}>
-                  <img
-                    src={item.originimgurl}
-                    alt="축제 사진"
-                    loading="lazy"
-                  ></img>
+          <div
+            className="slider"
+            ref={sliderRef}
+            style={{
+              transform: `translateX(${-width * currentIndex}px)`,
+              transition: "transform 250ms ease",
+            }}
+          >
+            {image ? (
+              image.map((item, index) => (
+                <div
+                  key={index}
+                  className="slide"
+                  style={{ width: `${width}px` }}
+                >
+                  <a
+                    key={index}
+                    href={item.originimgurl.replace("http", "https")}
+                  >
+                    <img
+                      src={item.originimgurl.replace("http", "https")}
+                      alt="축제 사진"
+                    />
+                  </a>
+                </div>
+              ))
+            ) : (
+              <div className="slider">
+                <a href="/Noimage.png">
+                  <img alt="축제 이미지"></img>
                 </a>
               </div>
-            ))
-          ) : (
-            <div className="slider">
-              <a href="/Noimage.png">
-                <img alt="축제 이미지"></img>
-              </a>
-            </div>
-          )}
+            )}
+          </div>
+          <SliderButton
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            sliderRef={sliderRef}
+            imageLength={imageLength}
+            isMouseOver={isMouseOver}
+          />
         </div>
-        <SliderButton
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-          sliderRef={sliderRef}
-          imageLength={imageLength}
-          isMouseOver={isMouseOver}
-        />
-      </div>}
+      )}
     </>
   );
 };

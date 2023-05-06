@@ -1,7 +1,18 @@
 .rolling-box {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.rolling-box-two {
+  box-sizing: border-box;
+  width: 100%;
+  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;

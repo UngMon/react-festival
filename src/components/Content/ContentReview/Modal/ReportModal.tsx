@@ -15,7 +15,6 @@ const ReportModal = ({
   reportModalOpen,
   setReportModalOpen,
 }: ReportProps) => {
-  
   const reportUserHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     const contentRef = doc(db, "reportList", contentId);
@@ -38,6 +37,7 @@ const ReportModal = ({
 
   return (
     <form id="report-modal" onSubmit={reportUserHandler}>
+      <div className="report-modal-title">사용자 신고</div>
       <label htmlFor="reason1">
         <input
           type="radio"
@@ -54,7 +54,7 @@ const ReportModal = ({
           name="reason"
           value="포르노 또는 음란물"
         />
-        <span>포르노 또는 음란물</span>
+        <span>음란물 또는 성희롱</span>
       </label>
       <label htmlFor="reason4">
         <input

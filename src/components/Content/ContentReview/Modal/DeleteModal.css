@@ -1,8 +1,62 @@
+.Delete-Modal-Background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 99;
+}
+
 .Delete-Modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  background-color: lightblue;
+  box-sizing: border-box;
+  position: fixed;
+  top: calc(45vh - 50px);
+  left: calc(50vw - 102px);
+  padding: 10px 20px;
+  max-width: 250px;
+  min-height: 110px;
+  border-radius: 8px;
+  background-color: rgb(235, 235, 235);
+}
+
+.Delete-Modal p {
+  padding: 20px 0 15px;
+  font-size: 16px;
+}
+
+.Delete-button-box {
+  text-align: right;;
+}
+
+.Delete-button-box button {
+  margin-left: 15px;
+  width: 40px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgb(224, 224, 224);
+}
+
+.Delete-button-box button:hover {
+  cursor: pointer;
+  background-color: lightgray;
+  color: orange;
+}
+
+@media (max-width: 250px) {
+  .Delete-Modal {
+    width: 90%;
+    left: 5%;
+  }
+}
+
+@media (max-width: 170px) {
+  .Delete-button-box {
+    text-align: center;
+  }
+
+  .Delete-button-box button{
+    margin: 0 0 10px;
+  }
 }

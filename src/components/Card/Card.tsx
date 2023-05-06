@@ -110,6 +110,7 @@ const Card = (props: CardProps) => {
               className="festival-image"
               src={firstImage || imageUri || "/images/NoImage.png"}
               alt={item.title}
+              loading={"lazy"}
             ></img>
           </div>
           <div className="festival-text">

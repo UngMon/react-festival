@@ -4,9 +4,7 @@ import { useParams } from "react-router-dom";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import Card from "../card/Card";
-import Loading from "../ui/Loading";
 import UiBox from "../ui/UiBox";
-import GetDataError from "../error/GetDataError";
 
 const Regions = () => {
   const dispatch = useAppDispatch();
@@ -29,11 +27,6 @@ const Regions = () => {
           areaCode={areaCode}
           setAreaCode={setAreaCode}
         />
-      )}
-      {festivalState.loading ? (
-        <Loading />
-      ) : (
-        !festivalState.successGetData && <GetDataError />
       )}
       {festivalState.sortedRegion && (
         <Card type="region" month="all" areaCode={areaCode} />

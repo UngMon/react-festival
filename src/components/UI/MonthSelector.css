@@ -38,9 +38,6 @@
   font-size: 16px;
   border-radius: 8px;
   background-color: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
 }
 
 .picker-month select:hover {

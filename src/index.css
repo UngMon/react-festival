@@ -15,7 +15,13 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: rgb(222, 221, 221);
+  background: orange;
   height: 30%;
   border-radius: 2px;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }

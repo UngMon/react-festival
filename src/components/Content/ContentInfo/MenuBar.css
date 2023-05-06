@@ -1,8 +1,18 @@
-.Cotent-category {
-  position: sticky;
-  margin: 0 auto;
-  width: 96%;
+
+.fixed-tab {
+  position: fixed;
+  top: 0px;
+}
+
+.Content-menu-nav {
+  width: 100%;
   z-index: 10;
+}
+
+.Cotent-category {
+  width: 95%;
+  margin: 0 auto;
+
   display: flex;
   align-items: center;
   background-color: white;
@@ -38,8 +48,12 @@
   border-bottom: 2px solid #5f8cdd;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1600px) {
+  .Content-menu-nav {
+    width: 1380px;
+  }
+
   .Cotent-category {
-    top: 60px;
+    width: 100%;
   }
 }

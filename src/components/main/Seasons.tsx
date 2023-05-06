@@ -6,8 +6,6 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import UiBox from "../ui/UiBox";
 import Card from "../card/Card";
-import Loading from "../ui/Loading";
-import GetDataError from "../error/GetDataError";
 
 const Seasons = () => {
   const dispatch = useAppDispatch();
@@ -26,11 +24,6 @@ const Seasons = () => {
     <main className="main-box">
       {festivalState.successGetData && (
         <UiBox category={"season"} season={season} setSeason={setSeason} />
-      )}
-      {festivalState.loading ? (
-        <Loading />
-      ) : (
-        !festivalState.successGetData && <GetDataError />
       )}
       {festivalState.sortedSeason && (
         <Card type="season" season={season} month="all" />

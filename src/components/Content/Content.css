@@ -9,7 +9,8 @@
 }
 
 .Content-title {
-  padding: 40px 0;
+  box-sizing: border-box;
+  padding: 40px 2%;
   width: 100%;
   text-align: center;
   font-size: 30px;
@@ -20,6 +21,11 @@
   overflow: hidden;
   position: relative;
   margin-bottom: 40px;
+}
+
+.Content-menu-box {
+  display: flex;
+  justify-content: center;
 }
 
 .Content-detatil-area {
@@ -35,9 +41,13 @@
 @media (max-width: 768px) {
   .Content {
     margin: 0 auto 0;
-    width: 95%;
+    width: 96%;
   }
   .Content-box {
     padding-top: 0;
+  }
+
+  .Content-title {
+    font-size: 24px;
   }
 }

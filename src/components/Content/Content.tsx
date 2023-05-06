@@ -1,14 +1,6 @@
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
-  Await,
-  LoaderFunctionArgs,
-  defer,
-  useLoaderData,
-  useNavigation,
-  useParams,
-} from "react-router-dom";
-import {
-  LoaderData,
   ResponImage,
   ResponDetailIntro,
   ResponDetailCommon,
@@ -16,13 +8,10 @@ import {
 import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
 import ContentReviews from "./contentReview/ContentReviews";
-import Overview from "./contentInfo/Overview";
 import MenuBar from "./contentInfo/MenuBar";
 import ReportModal from "./contentReview/modal/ReportModal";
 import Loading from "../ui/Loading";
 import "./Content.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 
 type Data = {
   contentDetailIntro: ResponDetailIntro;
@@ -31,25 +20,17 @@ type Data = {
 };
 
 const Cotent = () => {
-  console.log("content render");
   const { contentId } = useParams();
-  const navigation = useNavigation();
-  console.log(navigation);
   const [contentData, setContentData] = useState<Data>();
-  // const { contentDetailIntro, contentDetailCommon, contentImage } =
-  //   useLoaderData() as LoaderData;
-  // const stat = useSelector((state: RootState) => state.content)
 
   const [category, setCategory] = useState<string>("기본정보");
   const [reportModalOpen, setReportModalOpen] = useState<
     [boolean, string, string, string, string]
   >([false, "", "", "", ""]);
 
-  // const contentData = { contentDetailIntro, contentDetailCommon };
   const menuBarRef = useRef<HTMLHeadingElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
-  // console.log(navigation)
-  console.log(contentData);
+  
   useEffect(() => {
     const getContentData = async (contentId: string) => {
       try {
@@ -73,23 +54,24 @@ const Cotent = () => {
         />
       )}
       <h2 className="Content-title">
-        {!contentData
-          ? "불러오는중..."
-          : contentData!.contentDetailCommon.response.body.items.item[0].title}
+        {contentData &&
+          contentData!.contentDetailCommon.response.body.items.item[0].title}
       </h2>
       <div className="Content">
         <div className="slider-container">
           {!contentData && <Loading />}
           {contentData && <Slider contentImage={contentData.contentImage} />}
         </div>
-        {contentData && (
-          <MenuBar
-            category={category}
-            setCategory={setCategory}
-            menuBarRef={menuBarRef}
-            reviewRef={reviewRef}
-          />
-        )}
+        <div className="Content-menu-box">
+          {contentData && (
+            <MenuBar
+              category={category}
+              setCategory={setCategory}
+              menuBarRef={menuBarRef}
+              reviewRef={reviewRef}
+            />
+          )}
+        </div>
         <div className="Content-detatil-area" ref={menuBarRef}>
           {!contentData && (
             <div style={{ height: 500 }}>
@@ -127,7 +109,7 @@ async function getContentImage(id: string) {
     throw new Error("Failed to Fetch from Data");
   }
   const data: ResponImage = await response.json();
-  console.log("getContentImage work");
+  // console.log("getContentImage work");
   return data;
 }
 
@@ -141,7 +123,7 @@ async function getContentDetailIntro(id: string) {
   }
 
   const data: ResponDetailIntro = await response.json();
-  console.log("loader getContentDetailIntro");
+  // console.log("loader getContentDetailIntro");
   return data;
 }
 
@@ -155,13 +137,13 @@ async function getCotentDetailCommon(id: string) {
   }
 
   const data: ResponDetailCommon = await response.json();
-  console.log("loader getDetailCommon");
+  // console.log("loader getDetailCommon");
   return data;
 }
 
 export async function loader(contentId: string) {
   // { params }: LoaderFunctionArgs
-  console.log("loader work");
+  // console.log("loader work");
   // const contentId = params.contentId;
   const [contentImage, contentDetailIntro, contentDetailCommon] =
     await Promise.all([
@@ -169,14 +151,6 @@ export async function loader(contentId: string) {
       getContentDetailIntro(contentId!),
       getCotentDetailCommon(contentId!),
     ]);
-  // const contentDetailCommon = getCotentDetailCommon(contentId!);
-  // const contentDetailIntro = getContentDetailIntro(contentId!);
-  // const contentImage = await getContentImage(contentId!);
-  // return defer({
-  //   contentDetailCommon: getCotentDetailCommon(contentId!),
-  //   contentDetailIntro: getContentDetailIntro(contentId!),
-  //   contentImage: getContentImage(contentId!),
-  // });
-  // console.log("loader work");
+
   return { contentDetailIntro, contentDetailCommon, contentImage };
 }

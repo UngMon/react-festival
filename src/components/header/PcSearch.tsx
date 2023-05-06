@@ -54,21 +54,22 @@ const PcSearch = ({
             name="title"
             placeholder="축제를 검색해보세요!"
           />
-          <button type="submit">
+          <button type={openSearch ? "submit" : "button"}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
         </>
       )}
       {!openSearch && (
-        <button onClick={() => !openSearch && setOpenSearch(true)}>
+        <button
+          className={`${
+            pathname === "/" && scrollY === 0 && !mouseOver
+              ? "scroll-top-color"
+              : "#normal-color"
+          }`}
+          onClick={() => !openSearch && setOpenSearch(true)}
+        >
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            style={{
-              color:
-                pathname === "/" && scrollY === 0 && !mouseOver
-                  ? "white"
-                  : "#333",
-            }}
           />
         </button>
       )}

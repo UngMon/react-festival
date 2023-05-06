@@ -43,7 +43,7 @@ const Header = () => {
           pathname === "/" && scrollY === 0 && !mouseOver
             ? "transparent"
             : "white",
-        position: pathname.includes('content') ? 'relative' : 'fixed'
+        position: pathname.includes("content") ? "relative" : 'fixed',
       }}
       ref={headerRef}
       onMouseEnter={() => pathname === "/" && mouseEnter()}

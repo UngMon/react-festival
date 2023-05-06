@@ -20,7 +20,6 @@ const SliderButton = ({
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-
     /* 자동슬라이드 
     사용자가 이미지 슬라이드에 마우스를 올려놓지 않은 상태에서 작동
     또한 사용자가 prev, next 버튼을 누르지 않은 경우에서 작동*/
@@ -71,11 +70,9 @@ const SliderButton = ({
 
   const prevClickHandler = () => {
     if (!disabled) {
-      // console.log(`prev ${currentIndex}`);
       setDisabled(true);
       setCurrentIndex(currentIndex - 1);
       if (currentIndex === 1) {
-        // console.log("??????????");
         setTimeout(() => {
           setCurrentIndex(imageLength);
           sliderRef.current!.style.transition = "";
@@ -86,7 +83,6 @@ const SliderButton = ({
 
   const nextClickHandler = () => {
     if (!disabled) {
-      // console.log(`next ${currentIndex}`);
       setCurrentIndex(currentIndex + 1);
       setDisabled(true);
       if (currentIndex === imageLength) {

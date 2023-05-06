@@ -7,11 +7,11 @@ import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
 import Loading from "./components/ui/Loading";
-import ScrollToTop from "./ScrollToTop";
+import StartPage from "./pages/Start";
+import LoadingTwo from "./components/ui/LoadingTwo";
+import GetDataError from "./components/error/GetDataError";
 import "./App.css";
 
-const StartPage = lazy(() => import("./pages/Start"));
-const GetDataError = lazy(() => import("./components/error/GetDataError"));
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegionPage = lazy(() => import("./pages/Regions"));
@@ -49,16 +49,13 @@ function App() {
       children: [
         {
           index: true,
-          element: (
-            <Suspense fallback={<Loading />}>
-              <StartPage />
-            </Suspense>
-          ),
+          element: <StartPage />,
         },
         {
           path: "month",
+          errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<LoadingTwo />}>
               <MonthlyFestival />
             </Suspense>
           ),
@@ -66,7 +63,7 @@ function App() {
             {
               path: ":monthKey",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<LoadingTwo />}>
                   <Monthly />
                 </Suspense>
               ),
@@ -75,8 +72,9 @@ function App() {
         },
         {
           path: "regions",
+          errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<LoadingTwo />}>
               <RegionPage />
             </Suspense>
           ),
@@ -84,7 +82,7 @@ function App() {
             {
               path: ":regionKey",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<LoadingTwo />}>
                   <Regions />
                 </Suspense>
               ),
@@ -93,8 +91,9 @@ function App() {
         },
         {
           path: "seasons",
+          errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<LoadingTwo />}>
               <SeasonPage />
             </Suspense>
           ),
@@ -102,7 +101,7 @@ function App() {
             {
               path: ":seasonKey",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<LoadingTwo />}>
                   <Seasons />
                 </Suspense>
               ),
@@ -132,11 +131,7 @@ function App() {
         },
         {
           path: "content",
-          // errorElement: (
-          //   <Suspense fallback={<Loading />}>
-          //     <GetDataError />
-          //   </Suspense>
-          // ),
+          errorElement: <GetDataError />,
           children: [
             {
               path: ":contentId",

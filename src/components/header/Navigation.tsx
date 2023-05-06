@@ -3,6 +3,13 @@ import { NavLink } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendar,
+  faLocationDot,
+  faWind,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Navigation.css";
 
 interface HeaderProps {
@@ -21,8 +28,9 @@ const Navigation = ({
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
   const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
-  console.log(window.innerWidth)
+
   const clickCategory = (value?: string) => {
+    window.scrollTo(0, 0)
     if (!festivalState.successGetData) {
       if (festivalState.festivalArray.length === 0) {
         return;
@@ -60,7 +68,7 @@ const Navigation = ({
                   return { color: isActive ? "orange" : "black" };
                 }}
               >
-                <img src="/images/month.png" alt="월" />
+                <FontAwesomeIcon icon={faCalendar} />
                 <span>월별</span>
               </NavLink>
             </li>
@@ -72,7 +80,7 @@ const Navigation = ({
                   return { color: isActive ? "orange" : "black" };
                 }}
               >
-                <img src="/images/location.png" alt="지역" />
+                <FontAwesomeIcon icon={faLocationDot} />
                 <span>지역별</span>
               </NavLink>
             </li>
@@ -84,7 +92,7 @@ const Navigation = ({
                   return { color: isActive ? "orange" : "black" };
                 }}
               >
-                <img src="/images/season.png" alt="계절" />
+                <FontAwesomeIcon icon={faWind} />
                 <span>계절별</span>
               </NavLink>
             </li>
@@ -95,7 +103,7 @@ const Navigation = ({
                   return { color: isActive ? "orange" : "black" };
                 }}
               >
-                <img src="/images/loupe.png" alt="검색" />
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
                 <span>검색</span>
               </NavLink>
             </li>

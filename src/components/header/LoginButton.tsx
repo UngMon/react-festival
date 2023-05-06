@@ -72,16 +72,15 @@ const LoginButton = ({
     <>
       {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
         !firebaseState.loginedUser ? ( // 로그인 안 되어 있으면,
-          <div className="login" onClick={loginHandler}>
-            <FontAwesomeIcon
-              icon={faRightToBracket}
-              style={{
-                color:
-                  pathname === "/" && scrollY === 0 && !mouseOver
-                    ? "white"
-                    : "#333",
-              }}
-            />
+          <div
+            className={`login ${
+              pathname === "/" && scrollY === 0 && !mouseOver
+                ? "scroll-top-color"
+                : "#normal-color"
+            }`}
+            onClick={loginHandler}
+          >
+            <FontAwesomeIcon icon={faRightToBracket} />
           </div>
         ) : (
           // 로그인 상태일 때
@@ -96,12 +95,6 @@ const LoginButton = ({
             {userModalOpen && (
               <div className="logout-box" ref={userInfoRef}>
                 <div className="arrow"></div>
-                {/* <p>{`${firebaseState.userName}님`}</p>
-                <p>
-                  {firebaseState.userSocial
-                    ? firebaseState.userEmail.slice(5)
-                    : firebaseState.userEmail}
-                </p> */}
                 <div className="logout" onClick={logoutHnalder}>
                   <FontAwesomeIcon icon={faArrowRightFromBracket} />
                   <span>로그아웃</span>

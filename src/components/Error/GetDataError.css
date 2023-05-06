@@ -1,9 +1,7 @@
 .get-data-error-box {
-  box-sizing: border-box;
-  padding-top: 10%;
   width: 100%;
-  height: auto;
   text-align: center;
+  padding: calc(25vh - 30px) 0;
 }
 
 .get-data-error-box p {
@@ -14,9 +12,7 @@
 
 @media (max-width: 768px) {
   .get-data-error-box {
-    position: absolute;
     padding: 0;
-    top: calc(50vh - 100px);
   }
 }
 

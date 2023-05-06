@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="footer-box">
       <p>제작자: &nbsp;박완웅</p>
       <p>개인정보담당자: &nbsp;박완웅</p>
-      <p>주소: &nbsp;하늘을 지붕 삼은 곳</p>
+      <p>주소: &nbsp;서울특별시</p>
       <p>contact: &nbsp;ungmorning9@gmail.com</p>
       <p>
         사진 및 정보: &nbsp;

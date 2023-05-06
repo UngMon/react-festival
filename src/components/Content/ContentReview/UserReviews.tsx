@@ -10,6 +10,9 @@ import { nowDate } from "../../../utils/NowDate";
 import { firebaseState, Comment } from "../../../type/Type";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+import DeleteModal from "./modal/DeleteModal";
 
 interface ReviewProps {
   firebaseState: firebaseState;
@@ -30,6 +33,11 @@ const UserReviews = ({
 }: ReviewProps) => {
   const dispatch = useAppDispatch();
 
+  const [visibleOption, setVisibleOption] = useState<[boolean, number]>([
+    false,
+    0,
+  ]);
+  const [openDelete, setOpenDelete] = useState<[boolean, number]>([false, 0]);
   const [reviewArray, setReviewArray] = useState<Comment[]>([]);
   const [isOpenOption, setOpenOption] = useState<boolean>(false);
   const [clickedElement, setClickedElement] = useState<HTMLElement | null>(
@@ -41,7 +49,7 @@ const UserReviews = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const saveInputRef = useRef<HTMLInputElement>(null);
-  const optionRef = useRef<HTMLDivElement[]>([]);
+  const optionRef = useRef<SVGSVGElement[]>([]);
 
   useEffect(() => {
     if (firebaseState.succesGetData) {
@@ -68,6 +76,7 @@ const UserReviews = ({
     if (!isIn) {
       setClickedElement(null);
       setOpenOption(false);
+      setVisibleOption([false, 0]);
     }
   }, []);
 
@@ -159,22 +168,6 @@ const UserReviews = ({
     ]);
   };
 
-  const deleteReviewHandler = async (index: number) => {
-    try {
-      updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
-      setReviewArray([
-        ...reviewArray.slice(0, index),
-        ...reviewArray.slice(index + 1),
-      ]);
-    } catch (error: any) {
-      alert(
-        `리뷰 삭제에 오류가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해주세요!`
-      );
-    }
-
-    updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
-  };
-
   const reviseReviewHandler = async () => {
     const { year, month, date, time } = nowDate();
     const newArray = [...reviewArray];
@@ -202,7 +195,7 @@ const UserReviews = ({
     when: string,
     userUid: string,
     name: string,
-    text: string,
+    text: string
   ) => {
     setReportModalOpen([true, when, userUid, name, text]);
   };
@@ -226,7 +219,12 @@ const UserReviews = ({
         )}
         {reviewArray.length !== 0 &&
           reviewArray.map((item, index) => (
-            <div key={index} className="user-review-box">
+            <div
+              key={index}
+              className="user-review-box"
+              onMouseEnter={() => setVisibleOption([true, index])}
+              onMouseLeave={() => !isOpenOption && setVisibleOption([false, 0])}
+            >
               <div className="user-icon">
                 {item.userPhoto ? (
                   <img src={`${item.userPhoto}`} alt="userPhoto"></img>
@@ -237,23 +235,24 @@ const UserReviews = ({
               {index !== pickedComment[3] && (
                 <>
                   <div className="user-reivew-top">
-                    <div className="user-name">{item.name}</div>
-                    <div
-                      className="review-option"
-                      onClick={(event) =>
-                        optionClickHandler(
-                          event,
-                          item.name,
-                          item.uid,
-                          item.when
-                        )
-                      }
-                      ref={(el: HTMLDivElement) =>
-                        (optionRef.current[`${index}`] = el)
-                      }
-                    >
-                      <img src="/images/option.png" alt="옵션"></img>
-                    </div>
+                    <span className="user-name">{item.name}</span>
+                    {visibleOption[0] && index === visibleOption[1] && (
+                      <FontAwesomeIcon
+                        className="review-option"
+                        onClick={(event) =>
+                          optionClickHandler(
+                            event,
+                            item.name,
+                            item.uid,
+                            item.when
+                          )
+                        }
+                        ref={(el: SVGSVGElement) =>
+                          (optionRef.current[`${index}`] = el)
+                        }
+                        icon={faGear}
+                      />
+                    )}
                     {isOpenOption &&
                       item.uid === pickedComment[1] &&
                       item.when === pickedComment[2] && (
@@ -271,7 +270,7 @@ const UserReviews = ({
                           {item.uid === firebaseState.userUid && (
                             <p
                               className="option-delete"
-                              onClick={() => deleteReviewHandler(index)}
+                              onClick={() => setOpenDelete([true, index])}
                             >
                               삭제
                             </p>
@@ -294,6 +293,15 @@ const UserReviews = ({
                       )}
                   </div>
                   <div className="review-text">{item.text}</div>
+                  {openDelete[0] && (
+                    <DeleteModal
+                      contentRef={contentRef}
+                      reviewArray={reviewArray}
+                      setReviewArray={setReviewArray}
+                      openDelete={openDelete}
+                      setOpenDelete={setOpenDelete}
+                    />
+                  )}
                 </>
               )}
               {index === pickedComment[3] && (
