@@ -2,7 +2,7 @@
 
 한국관광공사 api를 이용하여 대한민국 축제/행사/공연을 한 곳에서 확인할 수 있는 웹(web) 앱.
 
-## 축제모아 V1.20 출시
+## 축제모아 V1.21 출시
 
 https://festival-moa-fc37b.firebaseapp.com
 
