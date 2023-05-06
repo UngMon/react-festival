@@ -135,15 +135,19 @@ festival
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/tyoescript-3178C6?style=for-the-badge&logo=react&logoColor=black">
+</div>
+
+2. 라이브러리
+<div style={{display: flex}}>
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=react&logoColor=black">
 </div>
 
-2. DB(NoSQL)
+3. DB(NoSQL)
    <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=react&logoColor=black">
 
-3. API
+4. API
    한국관광공사(https://www.data.go.kr/data/15101578/openapi.do),
    카카오맵, firebase
 
@@ -160,7 +164,7 @@ festival
 ### 기능 설명
 
 1.  반응형 웹: 모바일, PC 환경을 고려한 ui 설계
-    <이미지...>
+    
 2.  소셜 로그인: Firebase Auth를 이용한 소셜 로그인 기능
 
 3.  월, 지역, 계절별 볼 수 있는 NavBar
@@ -188,6 +192,3 @@ https://github.com/UngMon/react-festival/blob/main/Patchhistoty.md
 ### 프로젝트 후기
 
 = api를 이용해서 의미 있는 서비스를 만들어 보자는 아이디어에서 시작한 프로젝트입니다. 코로나도 풀리고 놀러갈 때, 모든 축제를 한눈에 알아볼 수 있으면 좋겠다는 마음에 관광공사 api를 이용해서 웹 서비스를 배포했습니다. 개발 단계에서 보이지 않던 문제가 서비스 개시를 하면서 지인들과 사용자들의 평가로부터 웹 개발자로써 신경 써야 할 부분이 많다는 것을 느꼈습니다. 특히 여태 크롬 환경에서 개발을 했는데.. 정의한 css가 다양한 브라우저에서 적용되지 않았던 점, http 보안 이슈, UX 등 아쉬웠던 점이 많이 보였습니다. 특히 웹 성능 측면에서 사용자가 어떤 네트워크 환경에서 사용하는지 고려하며 서비스를 만들어야 함을 알게 되었습니다. 축제 모아는 많은 이미지를 받아오는 프로젝트 입니다. 그런데 관광공사에서 제공하는 축제 이미지들은 해상도에 비해 용량이 매우 큽니다. 그러다 보니 slow 3G환경은 물론, 모바일 데이터 환경에서 사용자가 받아오는 데이터가 많다는 것을 알게 되었습니다. 이를 해결하기 위해 클라이언트 측에서 이미지 lazy 라이브러리를 사용할지 아니면 firebase storage에서 압축된 이미지를 저장하여 데이터를 불러올지 고민하고 있습니다. 특히 lazy loading을 구현하기 위해서 img 태그에 loading='lazy' 속성을 추가하거나, intersection observer를 사용하는 방법이 있지만 찾아보니 지원하지 않는 브라우저가 있기 때문에 완벽한 방법은 아닌 것 같습니다. 현재로써는 압축된 이미지를 사용하는 것이 웹 성능을 개선하는데 최적의 방법 같습니다. 마지막으로 타입스크립트를 적용한 첫 프로젝트 입니다. 타입스크립트를 배우면서도 '굳이 이걸 왜 쓸까?' 싶었지만, 개발 중간 단계부터 컴포넌트 개수가 증가하고, 코드가 길어질수록 변수와 props 의 타입이 명시가 되어있다 보니 코드 이해가 쉬었습니다. 캘린더 프로젝트에서는 제가 작성한 코드를 이해를 못 한 경우가 있었는데, 타입 명시가 이럴 때 도움이 된다는 것을 느꼈으며 실무에서 협업할 때, 각자가 쓴 코드를 좀 더 수월하게 이해할 수 있겠다 느꼈습니다. 결과적으로 축제모아를 만들면서 단순 기능 구현을 하는 개발자가 아닌 성능과 사용자 경험을 중시하며 설계를 하는 개발자가 되어야겠다! 느끼게 해준 프로젝트입니다!.
-
-
- 

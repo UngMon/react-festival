@@ -5,14 +5,14 @@ import { useAppDispatch } from "./redux/store";
 import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
-import RootLayout from "./pages/Root";
+import RootLayout from './pages/Root'
 import Loading from "./components/ui/Loading";
 import StartPage from "./pages/Start";
 import LoadingTwo from "./components/ui/LoadingTwo";
 import GetDataError from "./components/error/GetDataError";
 import "./App.css";
 
-const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
+const PageNotFound = lazy(() => import('./components/error/PageNotFound'));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegionPage = lazy(() => import("./pages/Regions"));
 const SeasonPage = lazy(() => import("./pages/Seasons"));
