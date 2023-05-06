@@ -2,7 +2,7 @@
 
 한국관광공사 api를 이용하여 대한민국 축제/행사/공연을 한 곳에서 확인할 수 있는 웹(web) 앱.
 
-## 축제모아 V1.01 출시
+## 축제모아 V1.20 출시
 
 https://festival-moa-fc37b.firebaseapp.com
 
@@ -39,8 +39,6 @@ festival
 │  │  │  │  ├─ Map.tsx
 │  │  │  │  ├─ MenuBar.css
 │  │  │  │  ├─ MenuBar.tsx
-│  │  │  │  ├─ Overview.css
-│  │  │  │  └─ Overview.tsx
 │  │  │  └─ contentReview // 사용자들의 리뷰
 │  │  │     ├─ ContentReviews.css
 │  │  │     ├─ ContentReviews.tsx
@@ -66,9 +64,11 @@ festival
 │  │  │  ├─ Header.tsx
 │  │  │  ├─ LoginButton.module.css
 │  │  │  ├─ LoginButton.tsx
-│  │  │  ├─ Navigation.module.css
-│  │  │  └─ Navigation.tsx
-│  │  ├─ login // 추가 소셜 로그인(v1.01 기준 구현 안됨)
+│  │  │  ├─ Navigation.css
+│  │  │  ├─ Navigation.tsx
+│  │  │  ├─ PcSearch.css
+│  │  │  └─ PcSearch.tsx
+│  │  ├─ login // 추가 소셜 로그인(v1.20 기준 구현 안됨)
 │  │  │  ├─ Kakao.tsx
 │  │  │  └─ Naver.tsx
 │  │  ├─ main // 첫 페이지, 월별 보기, 지역, 계절별 메인 페이지
@@ -80,11 +80,12 @@ festival
 │  │  └─ ui // 월, 지역, 계절, 검색에 관한 ui 컴포넌트
 │  │     ├─ Loading.css
 │  │     ├─ Loading.tsx
+│  │     ├─ LoadingTwo.tsx
+│  │     ├─ MobileSearch.cs
+│  │     ├─ MobileSearch.tsx
 │  │     ├─ MonthSelector.css
 │  │     ├─ MonthSelector.tsx
 │  │     ├─ RegionSelector.tsx
-│  │     ├─ SearchUi.css
-│  │     ├─ SearchUi.tsx
 │  │     ├─ SeasonSelector.css
 │  │     ├─ SeasonSelector.tsx
 │  │     ├─ UiBox.css
@@ -154,7 +155,7 @@ festival
 4. 페이스북 로그인 기능을 사용하시려면 https://developers.facebook.com/?locale=ko_KR에 여러분의 앱을 등록해야 합니다.
 5. 카카오 맵을 이용하시려면 https://developers.kakao.com/에 앱을 등록하세요.
 
-앱 실행은 'npm start'로 로컬호스트에서 실행됩니다.
+앱 실행은 'npm start'
 
 ### 기능 설명
 
@@ -176,14 +177,9 @@ festival
 
 9.  검색 기능
 
-### 버전별 주요 변화
+### 업데이트
 
-1. V1.01
 
-- (1) 각종 컴포넌트 css 수정
-- (2) 관광공사 이미지 http -> https변경
-- (3) 시작 페이지 추가(Main.tsx) // 계절마다 이미지 변경됨
-- (4) MonthSelector, RegionSelector.tsx에서 전체 옵션 삭제 => 성능 이슈
 
 ### 향후 계획
 
@@ -192,4 +188,4 @@ festival
 ### 프로젝트 후기
 
 = 저번 리액트 캘린더 프로젝트 이후 firebase를 제외한 첫 api사용을 해본 프로젝트 입니다. 공공데이터에서 한국관광공사 api를 신청하였으나, 통신 에러를 겪었는데 다행히 문의를 하고 해결이 되었습니다.
-혼자서 열심히 만들려고 생각을 했고, 저번 캘린더 프로젝트에서 타입 때문에 많은 오류를 겪어 이번에는 타입스크립트를 적용했습니다. 처음에 타입 정의하는게 골칫거리 였는데(router, redux에서...), 사용해보니 왜 인기있는 언어인지 깨달았습니다. 확실히 사전에 오류를 캐치할 수 있다는 점에서 좋았고, 타입이 명시되어 있어 협업할 때 좋겠구나라고 느꼈습니다. 아쉬웠던 점은 미적 감각이 떨어져 ui가 상당히 단조롭다고 느낍니다.. 남들처럼 예쁘고 멋진 웹을 만들고 싶은데 디자인 공부좀 해야 할 것 같습니다. ㅜㅜ; 나름 컴포넌트를 관리하기 쉽게 기능별로 분리를 해놨지만, ETC하게 좀 더 다듬어야 할 것 같습니다. 마지막으로 관광공사에서 제공하는 이미지가 어떤 행사는 있고, 없는 경우가 있어서 Noimage.png로 대체했습니다. 그리고 이미지 파일크기들이 최적화가 안 되어있어서 페이지 로딩시 resource가 유튜브 보다 많은 점에 있어서 아쉬웠습니다.
+혼자서 열심히 만들려고 생각을 했고, 저번 캘린더 프로젝트에서 타입 때문에 많은 오류를 겪어 이번에는 타입스크립트를 적용했습니다. 처음에 타입 정의하는게 골칫거리 였는데(router, redux에서...), 사용해보니 왜 인기있는 언어인지 깨달았습니다. 확실히 사전에 오류를 캐치할 수 있다는 점에서 좋았고, 타입이 명시되어 있어 협업할 때 좋겠구나라고 느꼈습니다. 아쉬웠던 점은 미적 감각이 떨어져 ui가 상당히 단조롭다고 느낍니다.. 남들처럼 예쁘고 멋진 웹을 만들고 싶은데 디자인 공부좀 해야 할 것 같습니다. ㅜㅜ; 나름 컴포넌트를 관리하기 쉽게 기능별로 분리를 해놨지만, 좀 더 다듬어야 할 것 같습니다. 마지막으로 관광공사에서 제공하는 이미지가 어떤 행사는 있고, 없는 경우가 있어서 Noimage.png로 대체했습니다. 그리고 이미지 파일크기들이 최적화가 안 되어있어서 페이지 로딩시 resource가 유튜브 보다 많은 점에 있어서 아쉬웠습니다.
