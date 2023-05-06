@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
+import Loading from "../ui/Loading";
 import Card from "../card/Card";
 import UiBox from "../ui/UiBox";
 
@@ -28,6 +29,7 @@ const Regions = () => {
           setAreaCode={setAreaCode}
         />
       )}
+      {!festivalState.sortedRegion && <Loading />}
       {festivalState.sortedRegion && (
         <Card type="region" month="all" areaCode={areaCode} />
       )}

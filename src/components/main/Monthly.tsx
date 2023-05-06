@@ -5,6 +5,7 @@ import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import Card from "../card/Card";
 import UiBox from "../ui/UiBox";
+import Loading from "../ui/Loading";
 
 const Monthly = () => {
   const { monthKey } = useParams();
@@ -24,6 +25,7 @@ const Monthly = () => {
       {festivalState.successGetData && (
         <UiBox category={"monthly"} month={month} setMonth={setMonth} />
       )}
+      {!festivalState.sortedMonth && <Loading/>}
       {festivalState.sortedMonth && <Card type="monthly" month={month} />}
     </main>
   );

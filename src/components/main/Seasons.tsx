@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { festivalActions } from "../../redux/festival-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { CurrentSeason } from "../../utils/CurrentSeason";
+import Loading from "../ui/Loading";
 import UiBox from "../ui/UiBox";
 import Card from "../card/Card";
 
@@ -25,6 +26,7 @@ const Seasons = () => {
       {festivalState.successGetData && (
         <UiBox category={"season"} season={season} setSeason={setSeason} />
       )}
+      {!festivalState.sortedSeason && <Loading />}
       {festivalState.sortedSeason && (
         <Card type="season" season={season} month="all" />
       )}
