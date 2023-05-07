@@ -19,7 +19,7 @@ const MonthSelector = (props: MonthProps) => {
   };
 
   return (
-    <div className="picker-month">
+    <div className="picker">
       <select value={props.month} onChange={pickedMonthHandler}>
         <option value="default" disabled>
           월을 선택하세요
@@ -37,7 +37,7 @@ const MonthSelector = (props: MonthProps) => {
         <option value="11">11월</option>
         <option value="12">12월</option>
       </select>
-      <div className="picker-month-name">
+      <div className="picker-name">
         <span>월을 선택하세요</span>
       </div>
       <FontAwesomeIcon icon={faCheck} />

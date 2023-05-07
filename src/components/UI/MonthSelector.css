@@ -1,15 +1,16 @@
-.picker-month {
+.picker {
   position: relative;
   left: 0px;
   width: 205px;
   margin-right: calc(100vw - 700px);
 }
 
-.picker-month-name {
+.picker-name {
   position: absolute;
-  top: -10px;
+  padding: 0 5px;
+  top: -12px;
   left: 15px;
-  width: 100px;
+  width: auto;
   color: rgb(62, 62, 244);
   font-size: 14px;
   font-weight: bold;
@@ -18,20 +19,7 @@
   line-height: 20px;
 }
 
-.picker-region-name {
-  position: absolute;
-  top: -10px;
-  left: 15px;
-  width: 110px;
-  color: rgb(62, 62, 244);
-  font-size: 14px;
-  font-weight: bold;
-  background: white;
-  text-align: center;
-  line-height: 20px;
-}
-
-.picker-month select {
+.picker select {
   width: 250px;
   padding: 10px 15px;
   font-weight: 600;
@@ -40,54 +28,50 @@
   background-color: transparent;
 }
 
-.picker-month select:hover {
+.picker select:hover {
   cursor: pointer;
 }
 
-.picker-month svg {
+.picker svg {
   position: absolute;
-  top: 10px;
-  right: -35px;
+  top: 9px;
+  right: -38px;
+  width: 25px;
+  height: 25px;
   font-size: 20px;
   color: rgb(85, 236, 85);
 }
 
 @media (min-width: 1500px) {
-  .picker-month {
+  .picker {
     margin-right: calc(50vw - 350px);
   }
 }
 
 @media (max-width: 768px) {
-  .picker-month {
-    left: 0;
+  .picker {
     width: 100%;
   }
 
-  .picker-month select {
+  .picker select {
     width: 100%;
-    padding: 10px 15px;
     font-size: 16px;
-    height: 49px;
+    height: 50px;
   }
 
-  .picker-month svg {
-    top: 13px;
-    right: 15px;
+  .picker svg {
+    top: 14px;
+    right: 10px;
     font-size: 25px;
   }
 }
 
-@media (max-width: 195px) {
-  .picker-month-name span {
+@media (max-width: 200px) {
+  .picker-name {
     display: none;
   }
 
-  .picker-region-name span {
-    display: none;
-  }
-
-  .picker-month svg {
+  .picker svg {
     display: none;
   }
 }

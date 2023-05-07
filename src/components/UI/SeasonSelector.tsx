@@ -78,7 +78,7 @@ const SeasonSelctor = ({ season, setSeason }: SeasonProps) => {
         </nav>
       }
       { // 모바일 
-        <div className="mobile-picker-season">
+        <div className="picker mobile-season">
           <select value={season} onChange={seasonChange}>
             <option value="default" disabled>
               계절을 선택하세요
@@ -88,7 +88,7 @@ const SeasonSelctor = ({ season, setSeason }: SeasonProps) => {
             <option value="authumn">가을</option>
             <option value="winter">겨울</option>
           </select>
-          <div className="mobile-picker-name">
+          <div className="picker-name">
             <span>계절을 선택하세요</span>
           </div>
           <FontAwesomeIcon icon={faCheck} />

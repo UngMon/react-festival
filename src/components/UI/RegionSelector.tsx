@@ -17,19 +17,19 @@ const RegionSelector = (props: RegionProps) => {
   };
 
   return (
-    <div className="picker-month">
+    <div className="picker">
       <select value={props.areaCode} onChange={pickedRegionHandler}>
         <option value="default" disabled>
           지역을 선택하세요
         </option>
-        <option value="1">서울</option>
-        <option value="2">인천</option>
-        <option value="3">대전</option>
-        <option value="4">대구</option>
-        <option value="5">광주</option>
-        <option value="6">부산</option>
-        <option value="7">울산</option>
-        <option value="8">세종</option>
+        <option value="1">서울특별시</option>
+        <option value="2">인천광역시</option>
+        <option value="3">대전광역시</option>
+        <option value="4">대구광역시</option>
+        <option value="5">광주광역시</option>
+        <option value="6">부산광역시</option>
+        <option value="7">울산광역시</option>
+        <option value="8">세종특별자치시</option>
         <option value="31">경기도</option>
         <option value="32">강원도</option>
         <option value="33">충청북도</option>
@@ -40,7 +40,7 @@ const RegionSelector = (props: RegionProps) => {
         <option value="38">전라남도</option>
         <option value="39">제주도</option>
       </select>
-      <div className="picker-region-name">
+      <div className="picker-name">
         <span>지역을 선택하세요</span>
       </div>
       <FontAwesomeIcon icon={faCheck} />
