@@ -21,7 +21,7 @@ export const calculateDate = (
       count += lastDate;
     }
 
-    result = `${count}일후 개최`;
+    result = `${count}일 후 개최`;
   } else {
     if (today <= eventEndDate) {
       result = "진행중";

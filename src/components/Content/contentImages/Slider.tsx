@@ -25,8 +25,7 @@ const Slider = ({ contentImage }: SliderProps) => {
       const object = {
         originimgurl: "/images/NoImage.png",
       };
-      setImageLength(3);
-      setImage([object, object, object, object, object, object, object]);
+      setImage([object]);
     }
 
     if (contentImage.response.body.items) {
@@ -83,58 +82,47 @@ const Slider = ({ contentImage }: SliderProps) => {
   }, [setWidth]);
 
   return (
-    <>
-      {contentImage && (
+    <div
+      className="slider-box"
+      ref={containerRef}
+      onMouseEnter={() => setISMouseOver(true)}
+      onMouseLeave={() => setISMouseOver(false)}
+    >
+      {image.length > 1 ? (
         <div
-          className="slider-box"
-          ref={containerRef}
-          onMouseEnter={() => setISMouseOver(true)}
-          onMouseLeave={() => setISMouseOver(false)}
+          className="slider"
+          ref={sliderRef}
+          style={{
+            transform: `translateX(${-width * currentIndex}px)`,
+            transition: "transform 250ms ease",
+          }}
         >
-          <div
-            className="slider"
-            ref={sliderRef}
-            style={{
-              transform: `translateX(${-width * currentIndex}px)`,
-              transition: "transform 250ms ease",
-            }}
-          >
-            {image ? (
-              image.map((item, index) => (
-                <div
-                  key={index}
-                  className="slide"
-                  style={{ width: `${width}px` }}
-                >
-                  <a
-                    key={index}
-                    href={item.originimgurl.replace("http", "https")}
-                  >
-                    <img
-                      src={item.originimgurl.replace("http", "https")}
-                      alt="축제 사진"
-                    />
-                  </a>
-                </div>
-              ))
-            ) : (
-              <div className="slider">
-                <a href="/Noimage.png">
-                  <img alt="축제 이미지"></img>
-                </a>
-              </div>
-            )}
-          </div>
-          <SliderButton
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-            sliderRef={sliderRef}
-            imageLength={imageLength}
-            isMouseOver={isMouseOver}
-          />
+          {image.map((item, index) => (
+            <div key={index} className="slide" style={{ width: `${width}px` }}>
+              <a key={index} href={item.originimgurl.replace("http", "https")}>
+                <img
+                  src={item.originimgurl.replace("http", "https")}
+                  alt="축제 사진"
+                />
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="Noimage">
+          <img src="/images/NoImage.png" alt="축제 이미지"></img>
         </div>
       )}
-    </>
+      {contentImage.response.body.items && (
+        <SliderButton
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+          sliderRef={sliderRef}
+          imageLength={imageLength}
+          isMouseOver={isMouseOver}
+        />
+      )}
+    </div>
   );
 };
 

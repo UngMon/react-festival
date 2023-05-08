@@ -28,7 +28,7 @@ const Card = (props: CardProps) => {
   const cardClickHandler = async (contentId: string) => {
     let docData: ContentData;
     const contentRef = doc(db, "content", contentId);
-    
+
     try {
       if (!contentData[contentId]) {
         const querySnapshot = await getDoc(contentRef);
@@ -114,7 +114,7 @@ const Card = (props: CardProps) => {
             ></img>
           </div>
           <div className="festival-text">
-            <h3>{item.title}</h3>
+            <h3 className="prevent-overflow">{item.title}</h3>
             <p className="festival-date">
               {dataSlice(item.eventstartdate, item.eventenddate)}
             </p>

@@ -51,3 +51,9 @@
     font-size: 24px;
   }
 }
+
+@media (max-width: 320px) {
+  .slider-container {
+    height: 200px;
+  }
+}
