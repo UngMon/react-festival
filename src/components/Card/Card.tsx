@@ -113,12 +113,22 @@ const Card = (props: CardProps) => {
               loading={"lazy"}
             ></img>
           </div>
+          <p
+            className={`cal-date ${
+              행사상태 === "진행중"
+                ? "ing"
+                : 행사상태 === "행사종료"
+                ? "end"
+                : "aft"
+            }`}
+          >
+            {행사상태}
+          </p>
           <div className="festival-text">
             <h3 className="prevent-overflow">{item.title}</h3>
             <p className="festival-date">
               {dataSlice(item.eventstartdate, item.eventenddate)}
             </p>
-            <p className="cal-date">{행사상태}</p>
           </div>
         </div>
       );
