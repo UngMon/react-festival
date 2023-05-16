@@ -14,12 +14,8 @@ import "./App.css";
 
 const PageNotFound = lazy(() => import('./components/error/PageNotFound'));
 const LoginPage = lazy(() => import("./pages/Login"));
-const RegionPage = lazy(() => import("./pages/Regions"));
-const SeasonPage = lazy(() => import("./pages/Seasons"));
-const MonthlyFestival = lazy(() => import("./pages/MonthlyFestival"));
-const Regions = lazy(() => import("./components/main/Regions"));
-const Seasons = lazy(() => import("./components/main/Seasons"));
-const Monthly = lazy(() => import("./components/main/Monthly"));
+const Festival = lazy(() => import("./pages/MonthlyFestival"));
+const Monthly = lazy(() => import("./components/main/Festival"));
 const ResultPage = lazy(() => import("./pages/Result"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const Content = lazy(() => import("./components/content/Content"));
@@ -52,57 +48,19 @@ function App() {
           element: <StartPage />,
         },
         {
-          path: "month",
+          path: "festival",
           errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<LoadingTwo />}>
-              <MonthlyFestival />
-            </Suspense>
-          ),
+          // element: (
+          //   <Suspense fallback={<LoadingTwo />}>
+          //     <Festival />
+          //   </Suspense>
+          // ),
           children: [
             {
-              path: ":monthKey",
+              path: ":monthKey:regionKey",
               element: (
                 <Suspense fallback={<LoadingTwo />}>
-                  <Monthly />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-        {
-          path: "regions",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<LoadingTwo />}>
-              <RegionPage />
-            </Suspense>
-          ),
-          children: [
-            {
-              path: ":regionKey",
-              element: (
-                <Suspense fallback={<LoadingTwo />}>
-                  <Regions />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-        {
-          path: "seasons",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<LoadingTwo />}>
-              <SeasonPage />
-            </Suspense>
-          ),
-          children: [
-            {
-              path: ":seasonKey",
-              element: (
-                <Suspense fallback={<LoadingTwo />}>
-                  <Seasons />
+                  <Festival />
                 </Suspense>
               ),
             },

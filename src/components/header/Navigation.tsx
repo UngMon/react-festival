@@ -37,17 +37,10 @@ const Navigation = ({
       }
     }
 
-    if (value === "month" && !festivalState.sortedMonth) {
-      dispatch(festivalActions.sortDataByMonth());
+    if (value === "festival" && !festivalState.sortedFestivalArr) {
+      dispatch(festivalActions.sortFestivalArray());
     }
 
-    if (value === "region" && !festivalState.sortedRegion) {
-      dispatch(festivalActions.sortDataByRegion());
-    }
-
-    if (value === "season" && !festivalState.sortedSeason) {
-      dispatch(festivalActions.sortDataBySeason());
-    }
     setOpenSearch(false);
   };
 
@@ -154,8 +147,8 @@ const Navigation = ({
             </li>
             <li>
               <NavLink
-                to={`seasons/${CurrentSeason()}`}
-                onClick={() => clickCategory("season")}
+                to={`festival/${thisMonth}/01`}
+                onClick={() => clickCategory("festival")}
                 style={({ isActive }) => {
                   return {
                     color: isActive
@@ -166,7 +159,7 @@ const Navigation = ({
                   };
                 }}
               >
-                계절별
+                지역축제
               </NavLink>
             </li>
           </ul>

@@ -193,9 +193,12 @@ export interface FestivalState {
   festivalArray: Item[];
   monthArray: Month;
   regionArray: Region;
-  seasonArray: Season;
-  sortedMonth: boolean;
-  sortedRegion: boolean;
-  sortedSeason: boolean;
+  sortedFestivalArr: boolean,
+  // seasonArray: Season;
+  // sortedMonth: boolean;
+  // sortedRegion: boolean;
+  // sortedSeason: boolean;
+  cat2: string,
+  cat3: string,
   loading: boolean;
 }

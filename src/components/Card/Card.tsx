@@ -22,8 +22,8 @@ const Card = (props: CardProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const festivalState = useSelector((state: RootState) => state.festival);
-  const firevaseState = useSelector((state: RootState) => state.firebase);
-  const contentData = firevaseState.contentData;
+  const firebaseState = useSelector((state: RootState) => state.firebase);
+  const contentData = firebaseState.contentData;
 
   const cardClickHandler = async (contentId: string) => {
     let docData: ContentData;
@@ -61,14 +61,14 @@ const Card = (props: CardProps) => {
     let 행사중: JSX.Element[] = [];
     let 행사시작전: JSX.Element[] = [];
 
-    if (props.type === "monthly")
+    if (props.type === "festival")
       array = festivalState.monthArray[props.month!];
 
     if (props.type === "region")
       array = festivalState.regionArray[props.areaCode!];
 
-    if (props.type === "season")
-      array = festivalState.seasonArray[props.season!];
+    // if (props.type === "season")
+    //   array = festivalState.seasonArray[props.season!];
 
     if (props.type === "result") {
       if (props.searchArray!.length === 0) {

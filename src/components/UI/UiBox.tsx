@@ -5,7 +5,7 @@ import MonthSelector from "./selector/MonthSelector";
 import RegionSelector from "./selector/RegionSelector";
 import MobileSearch from "./MobileSearch";
 import OnGoingSelector from "./OnGoingSelector";
-import FestivalCategory from "./FestivalCategory";
+import FestivalTags from "./tags/FestivalTags";
 import CategorySelector from "./selector/CategorySelector";
 import "./UiBox.css";
 
@@ -38,7 +38,7 @@ const UiBox = (props: MonthProps) => {
         </div>
       )}
       <div className="Select-Table">
-        <FestivalCategory />
+        <FestivalTags />
       </div>
 
       {pathname === "/search" && <MobileSearch />}

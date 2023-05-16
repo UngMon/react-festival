@@ -1,30 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Item, Region, Season, Month } from "../type/Type";
+import { Item, Region, Month } from "../type/Type";
 import { getFestiavalData } from "./fetch-action";
 import { FestivalState } from "../type/Type";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
+// cat2 =>  A207 축제 , A208 공연/행사
+// A207 => cat3 => A02070100: 문화관광축제,  A02070200: 일반 축제
+// A208 => cat3 => A02080100: 전통공연, A02080200: 연극, A02080300: 뮤지컬, A02080400: 오페라
+// A02080500: 전시회, A02080600: 박람회, A02080800: 무용, A02080900: 클래식음악회, A02081000: 대중콘서트
+// A02081100 영화, A02081200: 스포츠, A02081300: 기타행사
 
 const initialState: FestivalState = {
   successGetData: false,
   festivalArray: [],
   monthArray: {},
   regionArray: {},
-  seasonArray: {},
-  sortedMonth: false,
-  sortedRegion: false,
-  sortedSeason: false,
+  sortedFestivalArr: false,
+  cat2: "",
+  cat3: "",
   loading: true,
 };
-
+// 내가 분류해야할 것 월, 지역, 카테고리
 const festivalSlice = createSlice({
   name: "festival",
   initialState,
   reducers: {
-    sortDataByMonth(state) {
-      const result: Month = {
+    sortFestivalArray(state) {
+      const monthly: Month = {
         "01": [],
         "02": [],
         "03": [],
@@ -38,25 +42,7 @@ const festivalSlice = createSlice({
         "11": [],
         "12": [],
       };
-      for (const item of state.festivalArray) {
-        const startMonth = item.eventstartdate.slice(4, 6);
-        const endMonth = item.eventenddate.slice(4, 6);
-        for (const mon in result) {
-          if (startMonth < mon) {
-            (endMonth > mon || endMonth === mon) && result[mon].push(item);
-            continue;
-          }
-          if (startMonth === mon) {
-            result[mon].push(item);
-            continue;
-          }
-        }
-      }
-      state.monthArray = result;
-      state.sortedMonth = true;
-    },
 
-    sortDataByRegion(state) {
       let region: Region = {
         "0": [...state.festivalArray],
         "1": [],
@@ -77,47 +63,35 @@ const festivalSlice = createSlice({
         "38": [],
         "39": [],
       };
+
+      //O(n)
       for (const item of state.festivalArray) {
-        if (item.areacode === "") {
+        const startMonth = item.eventstartdate.slice(4, 6);
+        const endMonth = item.eventenddate.slice(4, 6);
+
+        if (item.areacode !== "") {
+          //O(1)
+          region[`${item.areacode}`].push(item);
+        }
+
+        if (startMonth === endMonth) {
+          //O(1)
+          monthly[startMonth].push(item);
           continue;
         }
-        region[`${item.areacode}`].push(item);
+
+        // startMonth < endMonth 인 경우
+        //O(1)
+        for (let i = Number(startMonth); i <= Number(endMonth); i++) {
+          monthly[`${String(i).padStart(2, "0")}`].push(item);
+        }
       }
+      state.monthArray = monthly;
       state.regionArray = region;
-      state.sortedRegion = true;
-    },
-    sortDataBySeason(state) {
-      const season: Season = {
-        spring: [],
-        summer: [],
-        authumn: [],
-        winter: [],
-      };
-      for (const item of state.festivalArray) {
-        const month = item.eventenddate.slice(4, 6);
-        if (month < "03" || month === "12") {
-          season["winter"].push(item);
-        }
-
-        if (month > "02" && month < "06") {
-          season["spring"].push(item);
-        }
-
-        if (month > "05" && month < "09") {
-          season["summer"].push(item);
-        }
-
-        if (month > "08" && month < "12") {
-          season["authumn"].push(item);
-        }
-      }
-      season["winter"].sort((a, b) =>
-        a.eventenddate < b.eventenddate ? 1 : -1
-      );
-      state.seasonArray = season;
-      state.sortedSeason = true;
+      state.sortedFestivalArr = true;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getFestiavalData.pending, (state) => {
