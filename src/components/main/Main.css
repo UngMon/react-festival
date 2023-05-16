@@ -1,3 +1,12 @@
+@keyframes backgroundEffect {
+  from {
+    transform: scale(1.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 @keyframes text-effect {
   from {
     opacity: 0;
@@ -39,6 +48,7 @@
   z-index: 4;
   text-align: center;
   font-size: 32px;
+  overflow: hidden;
 }
 
 .background {
@@ -55,18 +65,22 @@
 
 .spring {
   background-image: url("../../../public/images/pexels-pixabay-46164.jpg");
+  animation: backgroundEffect 1.5s ease-in-out;
 }
 
 .summer {
   background-image: url("../../../public/images/pexels-asad-photo-maldives-457881.jpg");
+  animation: backgroundEffect 1.5s ease-in-out;
 }
 
 .autumn {
   background-image: url("../../../public/images/pexels-김-대정-2734512.jpg");
+  animation: backgroundEffect 1.5s ease-in-out;
 }
 
 .winter {
   background-image: url("../../../public/images/pexels-matheus-bertelli-799459.jpg");
+  animation: backgroundEffect 1.5s ease-in-out;
 }
 
 .main-page-title {
@@ -144,4 +158,3 @@
     font-size: 1.4em;
   }
 }
-

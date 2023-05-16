@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useLocation } from "react-router-dom";
-import MonthSelector from "./MonthSelector";
-import RegionSelector from "./RegionSelector";
-import SeasonSelctor from "./SeasonSelector";
+import MonthSelector from "./selector/MonthSelector";
+import RegionSelector from "./selector/RegionSelector";
 import MobileSearch from "./MobileSearch";
+import OnGoingSelector from "./OnGoingSelector";
+import FestivalCategory from "./FestivalCategory";
+import CategorySelector from "./selector/CategorySelector";
 import "./UiBox.css";
 
 interface MonthProps {
@@ -25,19 +27,22 @@ const UiBox = (props: MonthProps) => {
 
   return (
     <div className="Ui-Box">
-      {props.category === "region" && successGetData && (
-        <RegionSelector
-          areaCode={props.areaCode!}
-          setAreaCode={props.setAreaCode!}
-        />
+      {successGetData && (
+        <div id="picker-box">
+          <MonthSelector month={props.month!} setMonth={props.setMonth!} />
+          <RegionSelector
+            areaCode={props.areaCode!}
+            setAreaCode={props.setAreaCode!}
+          />
+          <CategorySelector />
+        </div>
       )}
-      {props.category === "season" && successGetData && (
-        <SeasonSelctor season={props.season!} setSeason={props.setSeason!} />
-      )}
-      {props.category === "monthly" && successGetData && (
-        <MonthSelector month={props.month!} setMonth={props.setMonth!} />
-      )}
+      <div className="Select-Table">
+        <FestivalCategory />
+      </div>
+
       {pathname === "/search" && <MobileSearch />}
+      <OnGoingSelector />
     </div>
   );
 };

@@ -30,7 +30,7 @@ const Cotent = () => {
 
   const menuBarRef = useRef<HTMLHeadingElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const getContentData = async (contentId: string) => {
       try {

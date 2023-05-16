@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import "./MonthSelector.css";
+import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import "./Selector.css";
 
 interface MonthProps {
   month: string;
@@ -37,9 +37,7 @@ const MonthSelector = (props: MonthProps) => {
         <option value="11">11월</option>
         <option value="12">12월</option>
       </select>
-      <div className="picker-name">
-        <span>월을 선택하세요</span>
-      </div>
+      <FontAwesomeIcon id="before-icon" icon={faCalendar} />
       <FontAwesomeIcon icon={faCheck} />
     </div>
   );

@@ -42,7 +42,7 @@ const Header = () => {
         backgroundColor:
           pathname === "/" && scrollY === 0 && !mouseOver
             ? "transparent"
-            : "white",
+            : "rgba(245,245,245)",
         position: pathname.includes("content") ? "relative" : 'fixed',
       }}
       ref={headerRef}

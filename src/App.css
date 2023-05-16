@@ -3,6 +3,7 @@
   min-height: 300px;
   background-color: white;
   z-index: 4;
+  background-color: #f0f1fa;
 }
 
 @media (max-width: 768px) {
@@ -12,4 +13,6 @@
   }
 }
 
-
+button:hover {
+  cursor: pointer;
+}

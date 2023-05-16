@@ -154,3 +154,4 @@ const Card = (props: CardProps) => {
 };
 
 export default Card;
+
