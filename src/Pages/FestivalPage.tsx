@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const MonthlyFestival = () => {
+const FestivalPage = () => {
   return (
     <>
       <Outlet />
@@ -8,4 +8,4 @@ const MonthlyFestival = () => {
   );
 };
 
-export default MonthlyFestival;
+export default FestivalPage;

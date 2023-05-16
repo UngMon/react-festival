@@ -90,6 +90,13 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedFestivalArr = true;
     },
+    cat2Change(state, action) {
+      state.cat2 = action.payload.cat2;
+    },
+
+    cat3Change(state, action) {
+      state.cat3 = action.payload.cat3;
+    },
   },
 
   extraReducers: (builder) => {

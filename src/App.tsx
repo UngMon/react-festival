@@ -14,8 +14,8 @@ import "./App.css";
 
 const PageNotFound = lazy(() => import('./components/error/PageNotFound'));
 const LoginPage = lazy(() => import("./pages/Login"));
-const Festival = lazy(() => import("./pages/MonthlyFestival"));
-const Monthly = lazy(() => import("./components/main/Festival"));
+const FestivalPage = lazy(() => import("./pages/FestivalPage"));
+const Festival = lazy(() => import("./components/main/Festival"));
 const ResultPage = lazy(() => import("./pages/Result"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const Content = lazy(() => import("./components/content/Content"));
@@ -50,14 +50,14 @@ function App() {
         {
           path: "festival",
           errorElement: <GetDataError />,
-          // element: (
-          //   <Suspense fallback={<LoadingTwo />}>
-          //     <Festival />
-          //   </Suspense>
-          // ),
+          element: (
+            <Suspense fallback={<LoadingTwo />}>
+              <FestivalPage />
+            </Suspense>
+          ),
           children: [
             {
-              path: ":monthKey:regionKey",
+              path: ":festivalKey",
               element: (
                 <Suspense fallback={<LoadingTwo />}>
                   <Festival />

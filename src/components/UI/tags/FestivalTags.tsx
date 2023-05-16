@@ -1,6 +1,16 @@
 // import { MouseEvent, useRef, useState } from "react";
 
+
+import { useAppDispatch } from "../../../redux/store";
+import { festivalActions } from "../../../redux/festival-slice";
+
 const FestivalTags = () => {
+  const dispatch = useAppDispatch();
+
+  const festivalTagClick = (cat3: string) => {
+    dispatch(festivalActions.cat3Change(cat3));
+  };
+
   // const scrollRef = useRef<HTMLDivElement>(null);
   // const [isDrag, setIsDrag] = useState(false);
   // const [startX, setStartX] = useState<number>(0);
@@ -48,9 +58,13 @@ const FestivalTags = () => {
     <div className="Festival-Body">
       <div className="tags">
         <div className="hash">
-          <button># 전체</button>
-          <button># 문화관광축제</button>
-          <button># 일반축제</button>
+          <button onClick={() => festivalTagClick("all")}># 전체</button>
+          <button onClick={() => festivalTagClick("A02070100")}>
+            # 문화관광축제
+          </button>
+          <button onClick={() => festivalTagClick("A02070200")}>
+            # 일반축제
+          </button>
         </div>
       </div>
       <div className="tags">
@@ -62,19 +76,37 @@ const FestivalTags = () => {
           // onMouseUp={(e: MouseEvent) => onDragEnd(e)}
           // onMouseLeave={(e: MouseEvent) => onDragEnd(e)}
         >
-          <button># 전체</button>
-          <button># 전통공연</button>
-          <button># 연극</button>
-          <button># 뮤지컬</button>
-          <button># 오페라</button>
-          <button># 전시회</button>
-          <button># 박람회</button>
-          <button># 무용</button>
-          <button># 클래식음악회</button>
-          <button># 대중콘서트</button>
-          <button># 영화</button>
-          <button># 스포츠경기</button>
-          <button># 기타행사</button>
+          <button onClick={() => festivalTagClick("all")}># 전체</button>
+          <button onClick={() => festivalTagClick("A02080100")}>
+            # 전통공연
+          </button>
+          <button onClick={() => festivalTagClick("A02080200")}># 연극</button>
+          <button onClick={() => festivalTagClick("A02080300")}>
+            # 뮤지컬
+          </button>
+          <button onClick={() => festivalTagClick("A02080400")}>
+            # 오페라
+          </button>
+          <button onClick={() => festivalTagClick("A02080500")}>
+            # 전시회
+          </button>
+          <button onClick={() => festivalTagClick("A02080600")}>
+            # 박람회
+          </button>
+          <button onClick={() => festivalTagClick("A02080800")}># 무용</button>
+          <button onClick={() => festivalTagClick("A02080900")}>
+            # 클래식음악회
+          </button>
+          <button onClick={() => festivalTagClick("A02081000")}>
+            # 대중콘서트
+          </button>
+          <button onClick={() => festivalTagClick("A02081100")}># 영화</button>
+          <button onClick={() => festivalTagClick("A02081200")}>
+            # 스포츠경기
+          </button>
+          <button onClick={() => festivalTagClick("A02081300")}>
+            # 기타행사
+          </button>
         </div>
       </div>
     </div>
