@@ -2,10 +2,10 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState} from "../redux/store";
-import { Item } from "../type/Type";
+import { Item } from "../type/FestivalType";
 import UiBox from "../components/ui/UiBox";
 import Card from "../components/card/Card";
-import Loading from "../components/ui/Loading";
+import Loading from "../components/ui/loading/Loading";
 import "./Result.css";
 
 const ResultPage = () => {
@@ -25,10 +25,10 @@ const ResultPage = () => {
 
   return (
     <main className="main-box">
-      <UiBox category="result" />
+      <UiBox title="result" />
       {!festivalState.successGetData && <Loading />}
       {searchArray.length !== 0 && (
-        <Card type="result" month="all" searchArray={searchArray}/>
+        <Card title="result" month="all" searchArray={searchArray}/>
       )}
       {searchArray.length === 0 && (
         <div className="result-not-found">

@@ -1,4 +1,4 @@
-import { ContentDetailCommon, ContentDetailIntro } from "../../../type/Type";
+import { ContentDetailCommon, ContentDetailIntro } from "../../../type/FestivalType";
 import { dataSlice } from "../../../utils/DataSlice";
 
 interface BasicProps {

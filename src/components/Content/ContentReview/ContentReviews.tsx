@@ -1,14 +1,14 @@
+import { useEffect } from "react";
+import { firebaseActions } from "../../../redux/firebase-slice";
 import { doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../../firebase";
 import { RootState, useAppDispatch } from "../../../redux/store";
-import "./ContentReviews.css";
 import Feeling from "./Feelings";
 import Reviews from "./UserReviews";
-import Loading from "../../ui/Loading";
+import Loading from "../../ui/loading/Loading";
 import GetDataError from "../../error/GetDataError";
-import { useEffect } from "react";
-import { firebaseActions } from "../../../redux/firebase-slice";
+import "./ContentReviews.css";
 
 interface ReviewProps {
   setReportModalOpen: React.Dispatch<

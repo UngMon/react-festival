@@ -3,7 +3,7 @@ import UiBox from "../components/ui/UiBox";
 const SearchPage = () => {
   return (
     <main className="main-box">
-      <UiBox category="search"/>
+      <UiBox title="search"/>
     </main>
   );
 };

@@ -1,4 +1,4 @@
-import { ResponDetailCommon, ResponDetailIntro } from "../../../type/Type";
+import { ResponDetailCommon, ResponDetailIntro } from "../../../type/FestivalType";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import "./Detail.css";

@@ -6,6 +6,7 @@ import "./Selector.css";
 
 interface MonthProps {
   month: string;
+  areaCode: string;
   setMonth: (value: string) => void;
 }
 
@@ -15,7 +16,7 @@ const MonthSelector = (props: MonthProps) => {
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setMonth(value);
-    navigate(`/month/${value}`);
+    navigate(`/festival/serach?month=${value}&region=${props.areaCode}`);
   };
 
   return (

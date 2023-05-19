@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const SeasonPage = () => {
+const TourPage = () => {
   return (
     <>
       <Outlet />
@@ -8,4 +8,4 @@ const SeasonPage = () => {
   );
 };
 
-export default SeasonPage;
+export default TourPage;

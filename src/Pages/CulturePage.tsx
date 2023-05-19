@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const RegionPage = () => {
+const CulturePage = () => {
   return (
     <>
       <Outlet />
@@ -8,4 +8,4 @@ const RegionPage = () => {
   );
 };
 
-export default RegionPage;
+export default CulturePage;

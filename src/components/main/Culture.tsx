@@ -1,31 +1,32 @@
 import { useEffect } from "react";
+import { useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { getTouristData } from "../../redux/fetch-action";
 import UiBox from "../ui/UiBox";
 import Card from "../card/Card";
 
-const Tour = () => {
+const Culture = () => {
   const dispatch = useAppDispatch();
-  const tourState = useSelector((state: RootState) => state.tour);
+  const cultureState = useSelector((state: RootState) => state.culture);
 
   useEffect(() => {
-    if (!tourState.successGetData) {
+    if (!cultureState.successGetData) {
       const parameter = {
-        page: tourState.page,
-        region: tourState.region,
-        type: "12",
+        page: "1",
+        region: "서울",
+        type: "14",
       };
       dispatch(getTouristData(parameter));
     }
-  }, [dispatch, tourState]);
+  }, [dispatch, cultureState]);
   console.log("???");
   return (
     <main className="main-box">
-      <UiBox title="tour" />
-      <Card title="tour" />
+      <UiBox title="culture" />
+      <Card title="culture" />
     </main>
   );
 };
 
-export default Tour;
+export default Culture;

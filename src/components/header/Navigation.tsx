@@ -26,16 +26,21 @@ const Navigation = ({
   setOpenSearch,
 }: HeaderProps) => {
   const dispatch = useAppDispatch();
+
   const festivalState = useSelector((state: RootState) => state.festival);
   const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
 
   const clickCategory = (value?: string) => {
     window.scrollTo(0, 0)
-    if (!festivalState.successGetData) {
-      if (festivalState.festivalArray.length === 0) {
-        return;
-      }
-    }
+    // if (!festivalState.successGetData) {
+    //   if (festivalState.festivalArray.length === 0) {
+    //     return;
+    //   }
+    // }
+
+    // if (value === 'tour' && !tourState.successGetData) {
+
+    // }
 
     if (value === "festival" && !festivalState.sortedFestivalArr) {
       dispatch(festivalActions.sortFestivalArray());
@@ -113,8 +118,8 @@ const Navigation = ({
           <ul className="Nav-box">
             <li>
               <NavLink
-                to={`/month/${thisMonth}`}
-                onClick={() => clickCategory("month")}
+                to={`/tour/search?region=1&cat1=1`}
+                onClick={() => clickCategory("tour")}
                 style={({ isActive }) => {
                   return {
                     color: isActive
@@ -125,12 +130,12 @@ const Navigation = ({
                   };
                 }}
               >
-                월별
+                관광지
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="regions/0"
+                to="culture/search?region='서울'&cat1='01'&cat2='01"
                 onClick={() => clickCategory("region")}
                 style={({ isActive }) => {
                   return {
@@ -142,12 +147,12 @@ const Navigation = ({
                   };
                 }}
               >
-                지역별
+                문화시설
               </NavLink>
             </li>
             <li>
               <NavLink
-                to={`festival/${thisMonth}/01`}
+                to={`/festival/search?month=05&region=0`}
                 onClick={() => clickCategory("festival")}
                 style={({ isActive }) => {
                   return {
@@ -160,6 +165,23 @@ const Navigation = ({
                 }}
               >
                 지역축제
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={`/travelCos`}
+                onClick={() => clickCategory("festival")}
+                style={({ isActive }) => {
+                  return {
+                    color: isActive
+                      ? "orange"
+                      : pathname === "/" && scrollY === 0 && !mouseOver
+                      ? "white"
+                      : "#333",
+                  };
+                }}
+              >
+                여행코스
               </NavLink>
             </li>
           </ul>

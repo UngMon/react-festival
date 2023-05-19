@@ -1,0 +1,56 @@
+.Select-Table {
+  box-sizing: border-box;
+  max-width: 1024px;
+  margin: 0 auto;
+  /* overflow: hidden; */
+}
+
+.tags {
+  /* width: 100%; */
+  /* padding: 5px 0; */
+  /* height: 30px; */
+  /* display: flex; */
+  /* justify-content: center; */
+  width: 80%;
+  margin: 20px auto;
+  line-height: 50px;
+  text-align: center;
+}
+
+.hash {
+  /* height: auto; */
+  /* display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 40px; */
+  /* white-space: nowrap;
+    overflow: hidden; */
+}
+
+.hash button {
+  display: inline-block;
+  border: 0;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0 10px;
+  margin: 0px 5px;
+  border-radius: 20px;
+  height: 30px;
+  line-height: 30px;
+
+}
+
+.tags button:hover {
+  background-color: #7a45e5;
+  color: white;
+}
+
+.null {
+  background-color: #e1e1e1;
+  color: #333;
+}
+
+.category-active {
+  background-color: #7a45e5;
+  color: white;
+}

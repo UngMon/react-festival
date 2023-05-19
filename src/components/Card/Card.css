@@ -12,7 +12,7 @@
   row-gap: 25px;
 }
 
-.festival-item {
+.card-item {
   position: relative;
   box-sizing: border-box;
   background-color: white;
@@ -21,15 +21,19 @@
   transition: all 0.3s ease;
 }
 
-.festival-item:hover {
+.card-item:hover {
   cursor: pointer;
   box-shadow: 2px 2px 15px rgba(144, 144, 144, 0.648);
 }
 
-.image-box {
+.festival-image-box {
   width: auto;
   height: 300px;
+}
 
+.tour-image-box {
+  width: auto;
+  height: 220px;
 }
 
 .cal-date {
@@ -58,23 +62,24 @@
   background-color: rgb(38, 223, 38);
 }
 
-.festival-image {
+.card-image {
   width: 100%;
   height: 100%;
   object-fit: fill;
   border-radius: 5px;
 }
 
-.festival-text {
+.card-text {
   position: relative;
   padding: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
   font-weight: 600;
+  min-height: 35px;
 }
 
-.festival-text h3 {
+.card-text h3 {
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -87,7 +92,7 @@
   color: #333;
 }
 
-.festival-date {
+.card-date {
   box-sizing: border-box;
   width: 100%;
   text-align: center;
@@ -131,11 +136,11 @@
     column-gap: 10px;
   }
 
-  .festival-text {
+  .card-text {
     padding: 5px 0 10px;
   }
 
-  .festival-text h3 {
+  .card-text h3 {
     padding: 10px 10px 0;
   }
 }
@@ -160,19 +165,19 @@
     row-gap: 0;
   }
 
-  .festival-item {
+  .card-item {
     border-top: 1px solid rgb(203, 203, 203);
     border-radius: 0;
     display: flex;
     padding: 15px 0;
   }
  
-  .image-box {
+  .card-image-box {
     width: 100px;
     height: 150px;
   }
 
-  .festival-text {
+  .card-text {
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -180,12 +185,12 @@
     
   }
 
-  .festival-text h3 {
+  .card-text h3 {
     top: 40px;
     padding: 0 20px;
   }
 
-  .festival-date {
+  .card-date {
     padding: 40px 0 0;
   }
 

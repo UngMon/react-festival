@@ -26,9 +26,9 @@ a {
 .Nav-box {
   margin: 0 auto;
   font-size: 0.8em;
-  width: 420px;
   height: 100%;
   display: flex;
+  justify-content: center;
 }
 
 .Nav-box li {

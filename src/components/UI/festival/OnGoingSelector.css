@@ -3,7 +3,7 @@
   height: 30px;
   display: flex;
   justify-content: right;
-  margin-top: 25px;
+  margin-top: 15px;
   margin-right: 25px;
 }
 
@@ -12,7 +12,6 @@
   width: 60px;
   font-size: 0.95em;
   font-weight: 600;
-  color: #333;
   line-height: 30px;
   border-radius: 5px;
 }
@@ -22,4 +21,11 @@
   color: #0080ff;
 }
 
+.null1 {
+  color: #333;
+}
+
+.OnGoing-active {
+  color: #7a45e5;
+}
 

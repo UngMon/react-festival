@@ -10,10 +10,6 @@ const Main = () => {
 
   return (
     <main className='main-page'>
-      {/* <div>이미지slide</div>
-      <div>대동여지도</div>
-      <div><div>테마~</div></div> */}
-
       {currentSeason === "spring" && (
         <>
           <div className="background spring"></div>

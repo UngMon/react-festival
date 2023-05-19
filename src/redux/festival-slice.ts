@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Item, Region, Month } from "../type/Type";
+import { Item, Region, Month } from "../type/Common";
+import { FestivalState } from "../type/FestivalType";
 import { getFestiavalData } from "./fetch-action";
-import { FestivalState } from "../type/Type";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -18,6 +18,8 @@ const initialState: FestivalState = {
   monthArray: {},
   regionArray: {},
   sortedFestivalArr: false,
+  month: "",
+  region: "",
   cat2: "",
   cat3: "",
   loading: true,
@@ -66,8 +68,8 @@ const festivalSlice = createSlice({
 
       //O(n)
       for (const item of state.festivalArray) {
-        const startMonth = item.eventstartdate.slice(4, 6);
-        const endMonth = item.eventenddate.slice(4, 6);
+        const startMonth = item.eventstartdate!.slice(4, 6);
+        const endMonth = item.eventenddate!.slice(4, 6);
 
         if (item.areacode !== "") {
           //O(1)
@@ -90,11 +92,12 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedFestivalArr = true;
     },
-    cat2Change(state, action) {
-      state.cat2 = action.payload.cat2;
+    setChange(state, action) {
+      state.month = action.payload.month;
+      state.region = action.payload.region;
     },
-
-    cat3Change(state, action) {
+    catChange(state, action) {
+      state.cat2 = action.payload.cat2;
       state.cat3 = action.payload.cat3;
     },
   },
@@ -113,13 +116,13 @@ const festivalSlice = createSlice({
             continue;
           }
 
-          if (item.eventenddate < "20230101") {
+          if (item.eventenddate! < "20230101") {
             continue;
           } else {
             arr.push(item);
           }
         }
-        arr.sort((a, b) => (a.eventenddate < b.eventenddate ? -1 : 1));
+        arr.sort((a, b) => (a.eventenddate! < b.eventenddate! ? -1 : 1));
         state.festivalArray = arr;
         state.successGetData = true;
         state.loading = false;

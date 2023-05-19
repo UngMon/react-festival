@@ -33,12 +33,6 @@
   left: 20px;
 }
 
-@media (min-width: 1500px) {
-  .picker {
-    margin-right: calc(50vw - 350px);
-  }
-}
-
 @media (max-width: 768px) {
 
   .picker {

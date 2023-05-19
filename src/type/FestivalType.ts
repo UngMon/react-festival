@@ -1,27 +1,4 @@
-export type Item = {
-  addr1: string;
-  addr2: string;
-  booktour: string;
-  cat1: string;
-  cat2: string;
-  cat3: string;
-  contentid: string;
-  contenttypeid: string;
-  createdtime: string;
-  eventstartdate: string;
-  eventenddate: string;
-  firstimage: string;
-  firstimage2: string;
-  mapx: string;
-  mapy: string;
-  mlevel: string;
-  modifiedtime: string;
-  readcount: string;
-  areacode: string;
-  sigungucode: string;
-  tel: string;
-  title: string;
-};
+import { Item, Month, Region } from "./Common";
 
 export type ContentDetailIntro = {
   contentid: string;
@@ -79,16 +56,6 @@ export type ImageData = {
   originimgurl: string;
 };
 
-export type Respon = {
-  response: {
-    body: {
-      items: {
-        item: Item[];
-      };
-    };
-  };
-};
-
 export type ResponDetailIntro = {
   response: {
     body: {
@@ -125,68 +92,9 @@ export type LoaderData = {
   contentImage: ResponImage;
 };
 
-export type Month = {
-  [key: string]: Item[];
-};
-
-export type Region = {
-  [key: string]: Item[];
-};
-
-export type Season = {
-  [key: string]: Item[];
-};
-
 export type Params = {
   contentId: string;
 };
-
-export type FirebaseImage = {
-  firstImage: string;
-  images: [];
-};
-
-export type Comment = {
-  name: string;
-  uid: string;
-  when: string;
-  text: string;
-  userPhoto: string;
-};
-
-export type Expression = {
-  [key: string]: {
-    좋아요: number;
-    그저그래요: number;
-    싫어요: number;
-  };
-};
-
-export type ContentData = {
-  comment: Comment[];
-  detailImage: string[];
-  firstImage: string;
-  expression: Expression;
-};
-
-export type FirebaseData = {
-  [key: string]: ContentData;
-};
-
-
-export interface firebaseState {
-  contentData: FirebaseData;
-  isChanged: boolean;
-  isLoading: boolean;
-  succesGetData: boolean;
-  userChecking: boolean;
-  loginedUser: boolean;
-  userUid: string;
-  userName: string;
-  userEmail: string;
-  userPhoto: string;
-  userSocial: string;
-}
 
 export interface FestivalState {
   successGetData: boolean;
@@ -194,10 +102,8 @@ export interface FestivalState {
   monthArray: Month;
   regionArray: Region;
   sortedFestivalArr: boolean,
-  // seasonArray: Season;
-  // sortedMonth: boolean;
-  // sortedRegion: boolean;
-  // sortedSeason: boolean;
+  month: string,
+  region: string,
   cat2: string,
   cat3: string,
   loading: boolean;

@@ -4,13 +4,13 @@ import {
   ResponImage,
   ResponDetailIntro,
   ResponDetailCommon,
-} from "../../type/Type";
+} from "../../type/FestivalType";
 import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
 import ContentReviews from "./contentReview/ContentReviews";
 import MenuBar from "./contentInfo/MenuBar";
 import ReportModal from "./contentReview/modal/ReportModal";
-import Loading from "../ui/Loading";
+import Loading from "../ui/loading/Loading";
 import "./Content.css";
 
 type Data = {

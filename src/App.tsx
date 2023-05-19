@@ -5,15 +5,19 @@ import { useAppDispatch } from "./redux/store";
 import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
-import RootLayout from './pages/Root'
-import Loading from "./components/ui/Loading";
+import RootLayout from "./pages/Root";
+import Loading from "./components/ui/loading/Loading";
 import StartPage from "./pages/Start";
-import LoadingTwo from "./components/ui/LoadingTwo";
+import LoadingTwo from "./components/ui/loading/LoadingTwo";
 import GetDataError from "./components/error/GetDataError";
+import CulturePage from "./pages/CulturePage";
 import "./App.css";
+import Culture from "./components/main/Culture";
 
-const PageNotFound = lazy(() => import('./components/error/PageNotFound'));
+const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
+const TourPage = lazy(() => import("./pages/TourPage"));
+const Tour = lazy(() => import("./components/main/Tour"));
 const FestivalPage = lazy(() => import("./pages/FestivalPage"));
 const Festival = lazy(() => import("./components/main/Festival"));
 const ResultPage = lazy(() => import("./pages/Result"));
@@ -24,7 +28,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getFestiavalData());
+    // dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -46,6 +50,44 @@ function App() {
         {
           index: true,
           element: <StartPage />,
+        },
+        {
+          path: "tour",
+          errorElement: <GetDataError />,
+          element: (
+            <Suspense fallback={<LoadingTwo />}>
+              <TourPage />
+            </Suspense>
+          ),
+          children: [
+            {
+              path: ":tourKey",
+              element: (
+                <Suspense fallback={<LoadingTwo />}>
+                  <Tour />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: "culture",
+          errorElement: <GetDataError />,
+          element: (
+            <Suspense fallback={<LoadingTwo />}>
+              <CulturePage />
+            </Suspense>
+          ),
+          children: [
+            {
+              path: ":cultureKey",
+              element: (
+                <Suspense fallback={<LoadingTwo />}>
+                  <Culture />
+                </Suspense>
+              ),
+            },
+          ],
         },
         {
           path: "festival",

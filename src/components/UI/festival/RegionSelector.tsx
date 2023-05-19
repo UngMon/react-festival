@@ -4,6 +4,7 @@ import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import './Selector.css';
 
 interface RegionProps {
+  month: string;
   areaCode: string;
   setAreaCode: (value: string) => void;
 }
@@ -14,7 +15,7 @@ const RegionSelector = (props: RegionProps) => {
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     props.setAreaCode(value);
-    navigate(`/regions/${value}`);
+    navigate(`/festival/search?month=${props.month}&region=${value}`);
   };
 
   return (
@@ -23,6 +24,7 @@ const RegionSelector = (props: RegionProps) => {
         <option value="default" disabled>
           지역을 선택하세요
         </option>
+        <option value="0">전체</option>
         <option value="1">서울특별시</option>
         <option value="2">인천광역시</option>
         <option value="3">대전광역시</option>

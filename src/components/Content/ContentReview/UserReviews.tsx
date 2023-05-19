@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { nowDate } from "../../../utils/NowDate";
-import { firebaseState, Comment } from "../../../type/Type";
+import { firebaseState, Comment } from "../../../type/FestivalType";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

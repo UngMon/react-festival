@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FirebaseData } from "../type/Type";
-import { firebaseState } from "../type/Type";
+import { FirebaseData } from "../type/Firebase";
+import { FirebaseState } from "../type/Firebase";
 
-const initialState: firebaseState = {
+const initialState: FirebaseState = {
   contentData: {},
   isChanged: false,
   isLoading: false,
