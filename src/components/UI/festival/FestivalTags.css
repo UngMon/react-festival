@@ -17,16 +17,6 @@
   text-align: center;
 }
 
-.hash {
-  /* height: auto; */
-  /* display: flex;
-    justify-content: left;
-    align-items: center;
-    height: 40px; */
-  /* white-space: nowrap;
-    overflow: hidden; */
-}
-
 .hash button {
   display: inline-block;
   border: 0;

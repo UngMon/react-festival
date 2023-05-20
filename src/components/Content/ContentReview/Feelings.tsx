@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { firebaseState } from "../../../type/FestivalType";
-import { Expression } from "../../../type/FestivalType";
+import { FirebaseState } from "../../../type/Firebase";
+import { Expression } from "../../../type/UserData";
 import {
   DocumentData,
   DocumentReference,
@@ -14,7 +14,7 @@ import { firebaseActions } from "../../../redux/firebase-slice";
 let isFirst = true;
 
 interface FeelingProps {
-  firebaseState: firebaseState;
+  firebaseState: FirebaseState;
   contentRef: DocumentReference<DocumentData>;
   contentId: string;
   uid: string;

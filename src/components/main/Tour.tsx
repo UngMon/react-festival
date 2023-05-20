@@ -7,19 +7,19 @@ import Card from "../card/Card";
 
 const Tour = () => {
   const dispatch = useAppDispatch();
-  const tourState = useSelector((state: RootState) => state.tour);
+  const tour = useSelector((state: RootState) => state.tour);
 
   useEffect(() => {
-    if (!tourState.successGetData) {
+    if (!tour.successGetData) {
       const parameter = {
-        page: tourState.page,
-        region: tourState.region,
+        page: tour.page,
+        region: tour.region,
         type: "12",
       };
       dispatch(getTouristData(parameter));
     }
-  }, [dispatch, tourState]);
-  console.log("???");
+  }, [dispatch, tour]);
+
   return (
     <main className="main-box">
       <UiBox title="tour" />

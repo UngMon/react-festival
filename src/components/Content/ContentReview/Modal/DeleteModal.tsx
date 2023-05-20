@@ -1,4 +1,4 @@
-import { Comment } from "../../../../type/FestivalType";
+import { Comment } from "../../../../type/UserData";
 import {
   updateDoc,
   arrayRemove,

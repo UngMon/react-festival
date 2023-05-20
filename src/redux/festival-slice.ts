@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Item, Region, Month } from "../type/Common";
 import { FestivalState } from "../type/FestivalType";
 import { getFestiavalData } from "./fetch-action";
+import { nowDate } from "../utils/NowDate";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -14,15 +15,16 @@ import { getFestiavalData } from "./fetch-action";
 
 const initialState: FestivalState = {
   successGetData: false,
+  sortedFestivalArr: false,
+  loading: true,
   festivalArray: [],
   monthArray: {},
   regionArray: {},
-  sortedFestivalArr: false,
-  month: "",
-  region: "",
-  cat2: "",
-  cat3: "",
-  loading: true,
+  month: nowDate().month,
+  areaCode: "0",
+  cat2: "all",
+  cat3: "all",
+  행사상태: [true, false, false],
 };
 // 내가 분류해야할 것 월, 지역, 카테고리
 const festivalSlice = createSlice({
@@ -92,20 +94,22 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedFestivalArr = true;
     },
-    setChange(state, action) {
+    setMonthAndRegion(state, action) {
       state.month = action.payload.month;
-      state.region = action.payload.region;
+      state.areaCode = action.payload.region;
     },
     catChange(state, action) {
       state.cat2 = action.payload.cat2;
       state.cat3 = action.payload.cat3;
     },
+    행사상태설정(state, action) {
+      state.행사상태 = action.payload
+    }
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getFestiavalData.pending, (state) => {
-        state.loading = true;
       })
       .addCase(getFestiavalData.fulfilled, (state, action) => {
         const dummyData = action.payload.response.body.items.item;

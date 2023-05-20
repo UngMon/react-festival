@@ -1,34 +1,37 @@
+import { festivalActions } from "../../../redux/festival-slice";
+import { useAppDispatch } from "../../../redux/store";
 import "./OnGoingSelector.css";
 
-interface OnGoingProps {
+interface T {
   행사상태: [boolean, boolean, boolean];
-  행사상태설정: React.Dispatch<
-    React.SetStateAction<[boolean, boolean, boolean]>
-  >;
 }
 
-const OnGoingSelector = ({ 행사상태, 행사상태설정 }: OnGoingProps) => {
+const OnGoingSelector = ({ 행사상태 }: T) => {
+  const dispatch = useAppDispatch();
+
   const clickHandler = (num: number) => {
     if (num === 0) {
       if (!행사상태[1] && !행사상태[2]) return;
-      행사상태설정([!행사상태[0], 행사상태[1], 행사상태[2]]);
+      dispatch(
+        festivalActions.행사상태설정([!행사상태[0], 행사상태[1], 행사상태[2]])
+      );
     }
 
     if (num === 1) {
- 
       if (!행사상태[0] && !행사상태[2]) return;
-      console.log(행사상태)
-      행사상태설정([행사상태[0], !행사상태[1], 행사상태[2]]);
+      dispatch(
+        festivalActions.행사상태설정([행사상태[0], !행사상태[1], 행사상태[2]])
+      );
     }
 
     if (num === 2) {
-      console.log(행사상태)
       if (!행사상태[0] && !행사상태[1]) return;
-      console.log(행사상태)
-      행사상태설정([행사상태[0], 행사상태[1], !행사상태[2]]);
+      dispatch(
+        festivalActions.행사상태설정([행사상태[0], 행사상태[1], !행사상태[2]])
+      );
     }
   };
-  console.log(행사상태)
+  console.log(행사상태);
   return (
     <ul className="OnGoing-Selector">
       <li

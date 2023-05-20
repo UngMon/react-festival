@@ -1,21 +1,19 @@
 // import { MouseEvent, useRef, useState } from "react";
 
-// import { useAppDispatch } from "../../../redux/store";
-// import { festivalActions } from "../../../redux/festival-slice";
+import { useAppDispatch } from "../../../redux/store";
+import { festivalActions } from "../../../redux/festival-slice";
 import "./FestivalTags.css";
 
-interface FestivalTagsProps {
-  category: string;
+interface T {
+  cat2: string;
   cat3: string;
-  setCat3: (value: string) => void;
 }
 
-const FestivalTags = (props: FestivalTagsProps) => {
-  // const dispatch = useAppDispatch();
+const FestivalTags = ({ cat2, cat3 }: T) => {
+  const dispatch = useAppDispatch();
 
-  const festivalTagClick = (cat2: string, cat3: string) => {
-    props.setCat3(cat3);
-    // dispatch(festivalActions.catChange({ cat2, cat3 }));
+  const festivalTagClick = (va1: string, va2: string) => {
+    dispatch(festivalActions.catChange({ cat2: va1, cat3: va2 }));
   };
 
   // const scrollRef = useRef<HTMLDivElement>(null);
@@ -63,27 +61,23 @@ const FestivalTags = (props: FestivalTagsProps) => {
 
   return (
     <>
-      {props.category === "A0207" && (
+      {cat2 === "A0207" && (
         <div className="tags">
           <div className="hash">
             <button
-              className={`${props.cat3 === "all" ? "category-active" : "null"}`}
+              className={`${cat3 === "all" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0207", "all")}
             >
               # 전체
             </button>
             <button
-              className={`${
-                props.cat3 === "A02070100" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02070100" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0207", "A02070100")}
             >
               # 문화관광축제
             </button>
             <button
-              className={`${
-                props.cat3 === "A02070200" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02070200" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0207", "A02070200")}
             >
               # 일반축제
@@ -91,7 +85,7 @@ const FestivalTags = (props: FestivalTagsProps) => {
           </div>
         </div>
       )}
-      {props.category === "A0208" && (
+      {cat2 === "A0208" && (
         <div className="tags">
           <div
             className="hash"
@@ -102,103 +96,79 @@ const FestivalTags = (props: FestivalTagsProps) => {
             // onMouseLeave={(e: MouseEvent) => onDragEnd(e)}
           >
             <button
-              className={`${props.cat3 === "all" ? "category-active" : "null"}`}
+              className={`${cat3 === "all" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "all")}
             >
               # 전체
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080100" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080100" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080100")}
             >
               # 전통공연
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080200" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080200" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080200")}
             >
               # 연극
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080300" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080300" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080300")}
             >
               # 뮤지컬
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080400" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080400" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080400")}
             >
               # 오페라
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080500" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080500" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080500")}
             >
               # 전시회
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080600" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080600" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080600")}
             >
               # 박람회
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080800" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080800" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080800")}
             >
               # 무용
             </button>
             <button
-              className={`${
-                props.cat3 === "A02080900" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02080900" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02080900")}
             >
               # 클래식음악회
             </button>
             <button
-              className={`${
-                props.cat3 === "A02081000" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02081000" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02081000")}
             >
               # 대중콘서트
             </button>
             <button
-              className={`${
-                props.cat3 === "A02081100" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02081100" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02081100")}
             >
               # 영화
             </button>
             <button
-              className={`${
-                props.cat3 === "A02081200" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02081200" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02081200")}
             >
               # 스포츠경기
             </button>
             <button
-              className={`${
-                props.cat3 === "A02081300" ? "category-active" : "null"
-              }`}
+              className={`${cat3 === "A02081300" ? "category-active" : "null"}`}
               onClick={() => festivalTagClick("A0208", "A02081300")}
             >
               # 기타행사

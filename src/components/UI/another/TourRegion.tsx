@@ -2,16 +2,17 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+interface T {
+  title: string;
   region: string;
 }
 
-const TourRegion = ({ region }: Props) => {
+const TourRegion = ({title, region }: T) => {
   const navigate = useNavigate();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    navigate(`/tour/search?region=${region}&cat1=`);
+    navigate(`/${title}/search?region=${value}&cat1=`);
   };
 
   return (

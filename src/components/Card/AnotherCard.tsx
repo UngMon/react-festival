@@ -15,14 +15,13 @@ const AnotherCard = ({title}: Props) => {
   if (title === 'tour') array = tourState.touristArray![tourState.region];
 
   if (title === 'culture') array = cultureState.cultureArray![cultureState.region];
-  console.log(array)
-  console.log(cultureState.cultureArray![cultureState.region])
+
   const returnResult = () => {
     console.log('여기')
     return array.map((item) => (
       <div
         className="card-item"
-        key={item.title}
+        key={item.title + `${Math.random()}`}
         // onClick={() => cardClickHandler(item.contentid)}
       >
         <div className="tour-image-box">

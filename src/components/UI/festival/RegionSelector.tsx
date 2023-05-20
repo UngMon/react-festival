@@ -1,26 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import './Selector.css';
+import { useAppDispatch } from "../../../redux/store";
+import { festivalActions } from "../../../redux/festival-slice";
+import "./Selector.css";
 
-interface RegionProps {
+interface T {
   month: string;
   areaCode: string;
-  setAreaCode: (value: string) => void;
 }
 
-const RegionSelector = (props: RegionProps) => {
+const RegionSelector = ({ month, areaCode }: T) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    props.setAreaCode(value);
-    navigate(`/festival/search?month=${props.month}&region=${value}`);
+    dispatch(festivalActions.setMonthAndRegion({ month, region: value }));
+    navigate(`/festival/search?month=${month}&region=${value}`);
   };
 
   return (
     <div className="picker">
-      <select value={props.areaCode} onChange={pickedRegionHandler}>
+      <select value={areaCode} onChange={pickedRegionHandler}>
         <option value="default" disabled>
           지역을 선택하세요
         </option>
@@ -43,7 +45,7 @@ const RegionSelector = (props: RegionProps) => {
         <option value="38">전라남도</option>
         <option value="39">제주도</option>
       </select>
-      <FontAwesomeIcon id="before-icon" icon={faLocationDot}/>
+      <FontAwesomeIcon id="before-icon" icon={faLocationDot} />
       <FontAwesomeIcon icon={faCheck} />
     </div>
   );

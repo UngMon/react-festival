@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import { nowDate } from "../../utils/NowDate";
 import "./Main.css";
 
 const Main = () => {
-  const navigate = useNavigate();
   const currentSeason = CurrentSeason();
   const { month } = nowDate();
 

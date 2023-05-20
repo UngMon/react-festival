@@ -27,7 +27,7 @@ export const getTouristData = createAsyncThunk(
     const encode = encodeURIComponent(parameter.region);
     const type = parameter.type
     const response = await fetch(
-      `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${key}&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=Moat&_type=json&listYN=Y&arrange=Q&keyword=${encode}&contentTypeId=${type}`
+      `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${key}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moat&_type=json&listYN=Y&arrange=Q&keyword=${encode}&contentTypeId=${type}`
     );
     
     const data: FetchRespon = await response.json();

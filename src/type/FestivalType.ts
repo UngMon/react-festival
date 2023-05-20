@@ -98,13 +98,14 @@ export type Params = {
 
 export interface FestivalState {
   successGetData: boolean;
+  sortedFestivalArr: boolean;
+  loading: boolean;
   festivalArray: Item[];
   monthArray: Month;
   regionArray: Region;
-  sortedFestivalArr: boolean,
-  month: string,
-  region: string,
-  cat2: string,
-  cat3: string,
-  loading: boolean;
+  month: string;
+  areaCode: string;
+  cat2: string;
+  cat3: string;
+  행사상태: [boolean, boolean, boolean];
 }

@@ -25,7 +25,6 @@ const tourSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTouristData.pending, (state) => {
-        state.loading = true;
       })
       .addCase(getTouristData.fulfilled, (state, action) => {
         if (action.payload.type !== '12') return;

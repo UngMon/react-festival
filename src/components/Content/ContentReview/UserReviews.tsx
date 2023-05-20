@@ -7,7 +7,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { nowDate } from "../../../utils/NowDate";
-import { firebaseState, Comment } from "../../../type/FestivalType";
+import { FirebaseState } from "../../../type/Firebase";
+import { Comment } from "../../../type/UserData";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +16,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import DeleteModal from "./modal/DeleteModal";
 
 interface ReviewProps {
-  firebaseState: firebaseState;
+  firebaseState: FirebaseState;
   contentRef: DocumentReference<DocumentData>;
   uid: string;
   contentId: string;

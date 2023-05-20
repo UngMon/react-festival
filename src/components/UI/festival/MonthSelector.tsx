@@ -1,27 +1,28 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { useAppDispatch } from "../../../redux/store";
+import { festivalActions } from "../../../redux/festival-slice";
 import "./Selector.css";
 
-interface MonthProps {
+interface T {
   month: string;
   areaCode: string;
-  setMonth: (value: string) => void;
 }
 
-const MonthSelector = (props: MonthProps) => {
+const MonthSelector = ({month, areaCode}: T) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    props.setMonth(value);
-    navigate(`/festival/serach?month=${value}&region=${props.areaCode}`);
+    dispatch(festivalActions.setMonthAndRegion({month: value, region: areaCode}))
+    navigate(`/festival/serach?month=${value}&region=${areaCode}`);
   };
 
   return (
     <div className="picker">
-      <select value={props.month} onChange={pickedMonthHandler}>
+      <select value={month} onChange={pickedMonthHandler}>
         <option value="default" disabled>
           월을 선택하세요
         </option>

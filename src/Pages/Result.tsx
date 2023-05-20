@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState} from "../redux/store";
-import { Item } from "../type/FestivalType";
+import { Item } from "../type/Common";
 import UiBox from "../components/ui/UiBox";
 import Card from "../components/card/Card";
 import Loading from "../components/ui/loading/Loading";
@@ -28,7 +28,7 @@ const ResultPage = () => {
       <UiBox title="result" />
       {!festivalState.successGetData && <Loading />}
       {searchArray.length !== 0 && (
-        <Card title="result" month="all" searchArray={searchArray}/>
+        <Card title="result" searchArray={searchArray}/>
       )}
       {searchArray.length === 0 && (
         <div className="result-not-found">

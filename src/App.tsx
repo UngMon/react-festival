@@ -28,7 +28,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(getFestiavalData());
+    dispatch(getFestiavalData());
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
