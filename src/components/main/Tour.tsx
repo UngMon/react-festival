@@ -1,24 +1,17 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { getTouristData } from "../../redux/fetch-action";
+import { useAppDispatch } from "../../redux/store";
+import { categoryActions } from "../../redux/category-slice";
+import { useSearchParams } from "react-router-dom";
 import UiBox from "../ui/UiBox";
 import Card from "../card/Card";
 
 const Tour = () => {
   const dispatch = useAppDispatch();
-  const tour = useSelector((state: RootState) => state.tour);
+  const [params] = useSearchParams();
 
   useEffect(() => {
-    if (!tour.successGetData) {
-      const parameter = {
-        page: tour.page,
-        region: tour.region,
-        type: "12",
-      };
-      dispatch(getTouristData(parameter));
-    }
-  }, [dispatch, tour]);
+    dispatch(categoryActions.regionChange({ region: params.get("region") }));
+  }, [dispatch, params]);
 
   return (
     <main className="main-box">

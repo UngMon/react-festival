@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
-import { getFestiavalData } from "./redux/fetch-action";
 import { useAppDispatch } from "./redux/store";
 import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
@@ -11,8 +10,9 @@ import StartPage from "./pages/Start";
 import LoadingTwo from "./components/ui/loading/LoadingTwo";
 import GetDataError from "./components/error/GetDataError";
 import CulturePage from "./pages/CulturePage";
-import "./App.css";
 import Culture from "./components/main/Culture";
+import "./App.css";
+import Travel from "./components/main/Travel";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
@@ -28,8 +28,6 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getFestiavalData());
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, displayName, email, photoURL } = user;
@@ -103,6 +101,20 @@ function App() {
               element: (
                 <Suspense fallback={<LoadingTwo />}>
                   <Festival />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: "travel",
+          errorElement: <GetDataError />,
+          children: [
+            {
+              path: ":festivalKey",
+              element: (
+                <Suspense fallback={<LoadingTwo />}>
+                  <Travel />
                 </Suspense>
               ),
             },

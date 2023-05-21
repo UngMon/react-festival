@@ -9,7 +9,7 @@ interface MonthProps {
 const UiBox = (props: MonthProps) => {
   return (
     <div className="Ui-Box">
-      {props.title === "tour" && <Selector title={props.title}/>}
+      {props.title !== "festival" && <Selector title={props.title}/>}
       {props.title === "festival" && <FestivalUi />}
     </div>
   );

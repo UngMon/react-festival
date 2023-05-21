@@ -38,3 +38,11 @@ export type Month = {
 export type Region = {
   [key: string]: Item[];
 };
+
+export interface FetchParams {
+  region: string;
+  cat1: string;
+  cat2: string;
+  cat3: string;
+  type: string;
+}

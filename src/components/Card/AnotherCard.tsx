@@ -1,50 +1,94 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { Item } from "../../type/Common";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { getTCTRData } from "../../redux/fetch-action";
 import Loading from "../ui/loading/Loading";
 
 interface Props {
   title: string;
 }
 
-const AnotherCard = ({title}: Props) => {
-  const tourState = useSelector((state: RootState) => state.tour);
-  const cultureState = useSelector((state: RootState) => state.culture);
+const AnotherCard = ({ title }: Props) => {
+  const dispatch = useAppDispatch();
 
-  let array: Item[] = [];
-  if (title === 'tour') array = tourState.touristArray![tourState.region];
+  const tour = useSelector((state: RootState) => state.tour);
+  const culture = useSelector((state: RootState) => state.culture);
+  const category = useSelector((state: RootState) => state.category);
 
-  if (title === 'culture') array = cultureState.cultureArray![cultureState.region];
+  useEffect(() => {
+    const parameter = {
+      region: category.region,
+      cat1: category.cat1,
+      cat2: category.cat2,
+      cat3: category.cat3,
+      type: title === "tour" ? "12" : title === "culture" ? "14" : "25",
+    };
+    if (title === "tour" && !tour.touristArray![category.region]) {
+      dispatch(getTCTRData(parameter));
+    }
+
+    if (title === "culture" && !culture.cultureArray![category.region]) {
+      dispatch(getTCTRData(parameter));
+    }
+  }, [dispatch, category, tour, title, culture]);
 
   const returnResult = () => {
-    console.log('여기')
-    return array.map((item) => (
-      <div
-        className="card-item"
-        key={item.title + `${Math.random()}`}
-        // onClick={() => cardClickHandler(item.contentid)}
-      >
-        <div className="tour-image-box">
-          <img
-            className="card-image"
-            src={item.firstimage.replace("http", "https")}
-            alt={item.title}
-            loading={"lazy"}
-          ></img>
+    let array: Item[] = [];
+
+    if (title === "tour") array = tour.touristArray![category.region];
+
+    if (title === "culture") array = culture.cultureArray![category.region];
+
+    let result: JSX.Element[] = [];
+
+    for (let item of array) {
+      if (category.cat1 !== "all" && category.cat1 !== item.cat1) continue;
+
+      if (category.cat2 !== "all" && category.cat2 !== item.cat2) continue;
+
+      if (category.cat3 !== "all" && category.cat3 !== item.cat3) continue;
+
+      const element = (
+        <div
+          className="card-item"
+          key={item.title + `${Math.random()}`}
+          // onClick={() => cardClickHandler(item.contentid)}
+        >
+          <div className="tour-image-box">
+            <img
+              className="card-image"
+              src={item.firstimage.replace("http", "https")}
+              alt={item.title}
+              loading={"lazy"}
+            ></img>
+          </div>
+          <div className="card-text">
+            <h3>{item.title}</h3>
+          </div>
         </div>
-        <div className="card-text">
-          <h3>{item.title}</h3>
-        </div>
+      );
+      result.push(element);
+    }
+    return result.length === 0 ? (
+      <div className="not-found-category">
+        <p>조건에 부합하는 결과가 없습니다!</p>
       </div>
-    ));
+    ) : (
+      result
+    );
   };
 
   return (
     <>
-      {title === 'tour' && tourState.loading && <Loading />}
-      {title === 'tour' && tourState.successGetData && returnResult()}
-      {title === 'culture' && cultureState.loading && <Loading />}
-      {title === 'culture' && cultureState.successGetData && returnResult()}
+      {title === "tour" && tour.loading && <Loading />}
+      {title === "tour" &&
+        tour.touristArray![category.region] &&
+        returnResult()}
+      {title === "culture" && culture.loading && <Loading />}
+      {title === "culture" &&
+        culture.cultureArray![category.region] &&
+        returnResult()}
     </>
   );
 };

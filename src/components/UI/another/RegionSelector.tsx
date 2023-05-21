@@ -1,18 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { useAppDispatch } from "../../../redux/store";
+import { categoryActions } from "../../../redux/category-slice";
 
 interface T {
   title: string;
   region: string;
+  cat1: string;
+  cat2: string;
+  cat3: string;
 }
 
-const TourRegion = ({title, region }: T) => {
+const RegionSelector = ({ title, region, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    navigate(`/${title}/search?region=${value}&cat1=`);
+    dispatch(categoryActions.regionChange({ region: value }));
+    navigate(`/${title}/search?region=${value}&cat1=${cat1}&cat2=${cat2}&cat3={cat3}`);
   };
 
   return (
@@ -44,4 +51,4 @@ const TourRegion = ({title, region }: T) => {
     </div>
   );
 };
-export default TourRegion;
+export default RegionSelector;

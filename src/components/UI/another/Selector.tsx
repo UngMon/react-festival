@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { useState } from "react";
-import TourRegion from "./TourRegion";
+// import { useState } from "react";
+import RegionSelector from "./RegionSelector";
 import Category from "./Category";
 
 interface T {
@@ -9,18 +9,25 @@ interface T {
 }
 
 const TourUi = ({ title }: T) => {
-  const tour = useSelector((state: RootState) => state.tour);
-  const culture = useSelector((state: RootState) => state.culture);
-  const [page, setPage] = useState<string>("1");
-
-  const region = title === 'tour' ? tour.region : culture.region;
-  const cat1 = title === 'tour' ? tour.cat1 : culture.cat1;
-  const cat2 = title === 'tour' ? tour.cat2 : culture.cat2;
+  const category = useSelector((state: RootState) => state.category);
+  // const [page, setPage] = useState<string>("1");
 
   return (
     <div id="picker-box">
-      <TourRegion title={title} region={region} />
-      <Category title={title} cat1={cat1} cat2={cat2}/>
+      <RegionSelector
+        title={title}
+        region={category.region}
+        cat1={category.cat1}
+        cat2={category.cat2}
+        cat3={category.cat3}
+      />
+      <Category
+        title={title}
+        region={category.region}
+        cat1={category.cat1}
+        cat2={category.cat2}
+        cat3={category.cat3}
+      />
     </div>
   );
 };

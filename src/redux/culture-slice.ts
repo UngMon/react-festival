@@ -1,16 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTouristData } from "./fetch-action";
+import { getTCTRData } from "./fetch-action";
 import { Region } from "../type/Common";
-import { TCJRState } from "../type/TCJRType";
+import { TCTRtype } from "../type/TCTRtype";
 
-const initialState: TCJRState = {
+const initialState: TCTRtype = {
   successGetData: false,
   cultureArray: {},
-  region: "서울",
-  page: "1",
-  cat1: "",
-  cat2: "",
-  cat3: "",
   loading: true,
 };
 
@@ -20,10 +15,10 @@ const cultureSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getTouristData.pending, (state) => {})
-      .addCase(getTouristData.fulfilled, (state, action) => {
+      .addCase(getTCTRData.pending, (state) => {})
+      .addCase(getTCTRData.fulfilled, (state, action) => {
         if (action.payload.type !== "14") return;
-        console.log("????");
+        console.log(action.payload.data)
         let region: Region = {
             서울: [],
             인천: [],
@@ -54,7 +49,7 @@ const cultureSlice = createSlice({
           state.successGetData = true;
           state.loading = false;
       })
-      .addCase(getTouristData.rejected, (state, action) => {
+      .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
         console.log(action.error);

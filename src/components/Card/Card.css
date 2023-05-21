@@ -1,7 +1,7 @@
 .main-box-content {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 30px 100px;
+  padding: 30px 30px 100px;
 }
 
 .AllView-grid-box {
@@ -10,6 +10,18 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   column-gap: 25px;
   row-gap: 25px;
+}
+
+.not-found-category {
+  grid-column-end: span 3;
+  text-align: center;
+  height: 200px;
+}
+
+.not-found-category p {
+  padding-top: 100px;
+  font-size: 1.2em;
+  font-weight: 600;
 }
 
 .card-item {

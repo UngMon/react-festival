@@ -1,8 +1,5 @@
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { CurrentSeason } from "../../utils/CurrentSeason";
-import { festivalActions } from "../../redux/festival-slice";
-import { RootState, useAppDispatch } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -11,41 +8,23 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navigation.css";
+import { useAppDispatch } from "../../redux/store";
+import { categoryActions } from "../../redux/category-slice";
 
-interface HeaderProps {
+interface T {
   pathname: string;
   scrollY: number;
   mouseOver: boolean;
   setOpenSearch: (value: boolean) => void;
 }
 
-const Navigation = ({
-  pathname,
-  scrollY,
-  mouseOver,
-  setOpenSearch,
-}: HeaderProps) => {
+const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
   const dispatch = useAppDispatch();
-
-  const festivalState = useSelector((state: RootState) => state.festival);
   const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
 
   const clickCategory = (value?: string) => {
-    window.scrollTo(0, 0)
-    // if (!festivalState.successGetData) {
-    //   if (festivalState.festivalArray.length === 0) {
-    //     return;
-    //   }
-    // }
-
-    // if (value === 'tour' && !tourState.successGetData) {
-
-    // }
-
-    if (value === "festival" && !festivalState.sortedFestivalArr) {
-      dispatch(festivalActions.sortFestivalArray());
-    }
-
+    window.scrollTo(0, 0);
+    if (value !== "festival") dispatch(categoryActions.clearSet());
     setOpenSearch(false);
   };
 
@@ -118,7 +97,7 @@ const Navigation = ({
           <ul className="Nav-box">
             <li>
               <NavLink
-                to={`/tour/search?region=1&cat1=1`}
+                to={`/tour/search?region=서울&cat1=all&cat2=all&cat3=all`}
                 onClick={() => clickCategory("tour")}
                 style={({ isActive }) => {
                   return {
@@ -135,8 +114,8 @@ const Navigation = ({
             </li>
             <li>
               <NavLink
-                to="culture/search?region='서울'&cat1='01'&cat2='01"
-                onClick={() => clickCategory("region")}
+                to="culture/search?region=서울&cat1=all&cat2=all&cat3=all"
+                onClick={() => clickCategory("culture")}
                 style={({ isActive }) => {
                   return {
                     color: isActive

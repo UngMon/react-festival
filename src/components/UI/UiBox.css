@@ -1,7 +1,7 @@
 .Ui-Box {
   position: relative;
   box-sizing: border-box;
-  padding: 30px 0 15px;
+  padding: 30px 0 0;
   width: 100%;
   z-index: 5;
   background-color: #f0f1fa;
