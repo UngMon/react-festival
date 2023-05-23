@@ -53,7 +53,7 @@ function App() {
           path: "tour",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<LoadingTwo />}>
+            <Suspense fallback={<Loading />}>
               <TourPage />
             </Suspense>
           ),
@@ -61,7 +61,7 @@ function App() {
             {
               path: ":tourKey",
               element: (
-                <Suspense fallback={<LoadingTwo />}>
+                <Suspense fallback={<Loading />}>
                   <Tour />
                 </Suspense>
               ),
@@ -72,7 +72,7 @@ function App() {
           path: "culture",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<LoadingTwo />}>
+            <Suspense fallback={<Loading />}>
               <CulturePage />
             </Suspense>
           ),
@@ -80,7 +80,7 @@ function App() {
             {
               path: ":cultureKey",
               element: (
-                <Suspense fallback={<LoadingTwo />}>
+                <Suspense fallback={<Loading />}>
                   <Culture />
                 </Suspense>
               ),
@@ -91,7 +91,7 @@ function App() {
           path: "festival",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<LoadingTwo />}>
+            <Suspense fallback={<Loading />}>
               <FestivalPage />
             </Suspense>
           ),
@@ -99,7 +99,7 @@ function App() {
             {
               path: ":festivalKey",
               element: (
-                <Suspense fallback={<LoadingTwo />}>
+                <Suspense fallback={<Loading />}>
                   <Festival />
                 </Suspense>
               ),
@@ -111,9 +111,9 @@ function App() {
           errorElement: <GetDataError />,
           children: [
             {
-              path: ":festivalKey",
+              path: ":travelKey",
               element: (
-                <Suspense fallback={<LoadingTwo />}>
+                <Suspense fallback={<Loading />}>
                   <Travel />
                 </Suspense>
               ),

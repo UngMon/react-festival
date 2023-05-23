@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
+  grid-column-end: span 4;
 }
 
 .rolling-box-two {

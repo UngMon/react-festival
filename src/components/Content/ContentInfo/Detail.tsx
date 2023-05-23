@@ -1,4 +1,7 @@
-import { ResponDetailCommon, ResponDetailIntro } from "../../../type/FestivalType";
+import {
+  ResponDetailCommon,
+  ResponDetailIntro,
+} from "../../../type/FestivalType";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import "./Detail.css";
@@ -7,15 +10,15 @@ interface DetailProps {
   category: string;
   contentDetailCommon: ResponDetailCommon;
   contentDetailIntro: ResponDetailIntro;
-
+  type: string;
 }
 
 const Detail = ({
   category,
   contentDetailCommon,
   contentDetailIntro,
+  type,
 }: DetailProps) => {
-
   const detailCommon = contentDetailCommon.response.body.items.item;
   const detailIntro = contentDetailIntro.response.body.items.item;
 
@@ -24,7 +27,11 @@ const Detail = ({
       <div className="Content-info">
         <div className="Cotent-deatail">
           {category === "기본정보" && (
-            <BasicInfo detailIntro={detailIntro} detailCommon={detailCommon} />
+            <BasicInfo
+              detailIntro={detailIntro}
+              detailCommon={detailCommon}
+              type={type}
+            />
           )}
           {category === "지도" && <Map detailCommon={detailCommon} />}
         </div>

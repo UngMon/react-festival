@@ -23,16 +23,22 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
     const value = event.target.value;
 
     if (type === "cat1") {
-      dispatch(categoryActions.categoryChange({ cat1: value, cat2: 'all', cat3: 'all' }));
+      dispatch(
+        categoryActions.categoryChange({
+          cat1: value,
+          cat2: "all",
+          cat3: "all",
+        })
+      );
       navigate(
-        `/${title}/serach?region=${region}&cat1=${value}&cat2=${cat2}&cat3=${cat3}`
+        `/${title}/serach?region=${region}&cat1=${value}&cat2=${cat2}&cat3=${cat3!}`
       );
     }
 
     if (type === "cat2") {
       dispatch(categoryActions.categoryChange({ cat1, cat2: value, cat3 }));
       navigate(
-        `/${title}/serach?region=${region}&cat1=${cat1}&cat2=${value}&cat3=${cat3}`
+        `/${title}/serach?region=${region}&cat1=${cat1}&cat2=${value}&cat3=${cat3!}`
       );
     }
 
@@ -120,13 +126,13 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
       }
       {title === "culture" && (
         <>
-          <div className="picker">
+          {/* <div className="picker">
             <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
               <option value="A0206"># 문화시설</option>
             </select>
             <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
             <FontAwesomeIcon icon={faCheck} />
-          </div>
+          </div> */}
           <div className="picker">
             <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
               <option value="A02060100"># 박물관</option>
@@ -152,8 +158,14 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
       {title === "travel" && (
         <>
           <div className="picker">
-            <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
-              <option value="all">#인문(문화/예술/역사)</option>
+            <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+              <option value="all"># 전체</option>
+              <option value="C0112"># 가족코스</option>
+              <option value="C0113"># 나홀로코스</option>
+              <option value="C0114"># 힐링코스</option>
+              <option value="C0115"># 도보코스</option>
+              <option value="C0116"># 캠핑코스</option>
+              <option value="C0117"># 맛코스</option>
             </select>
             <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
             <FontAwesomeIcon icon={faCheck} />

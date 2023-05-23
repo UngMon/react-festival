@@ -40,7 +40,7 @@ export type Region = {
 };
 
 export interface FetchParams {
-  region: string;
+  areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;

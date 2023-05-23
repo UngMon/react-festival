@@ -17,37 +17,37 @@ const cultureSlice = createSlice({
     builder
       .addCase(getTCTRData.pending, (state) => {})
       .addCase(getTCTRData.fulfilled, (state, action) => {
-        if (action.payload.type !== "14") return;
-        console.log(action.payload.data)
-        let region: Region = {
-            서울: [],
-            인천: [],
-            대전: [],
-            대구: [],
-            광주: [],
-            부산: [],
-            울산: [],
-            세종: [],
-            경기: [],
-            강원: [],
-            충북: [],
-            충남: [],
-            경북: [],
-            경남: [],
-            전북: [],
-            전남: [],
-            제주: [],
-          };
-          const dummyData = action.payload.data.response.body.items.item;
+        return;
+        // console.log(action.payload.data)
+        // let region: Region = {
+        //     서울: [],
+        //     인천: [],
+        //     대전: [],
+        //     대구: [],
+        //     광주: [],
+        //     부산: [],
+        //     울산: [],
+        //     세종: [],
+        //     경기: [],
+        //     강원: [],
+        //     충북: [],
+        //     충남: [],
+        //     경북: [],
+        //     경남: [],
+        //     전북: [],
+        //     전남: [],
+        //     제주: [],
+        //   };
+        //   const dummyData = action.payload.data.response.body.items.item;
    
-          for (const item of dummyData) {
-            if (item.firstimage === "") continue;
-            region[action.payload.parameter.region].push(item);
-          }
-          state.cultureArray![action.payload.parameter.region] =
-            region[action.payload.parameter.region];
-          state.successGetData = true;
-          state.loading = false;
+        //   for (const item of dummyData) {
+        //     if (item.firstimage === "") continue;
+        //     region[action.payload.parameter.areaCode].push(item);
+        //   }
+        //   state.cultureArray![action.payload.parameter.areaCode] =
+        //     region[action.payload.parameter.areaCode];
+        //   state.successGetData = true;
+        //   state.loading = false;
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;

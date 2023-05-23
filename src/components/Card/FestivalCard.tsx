@@ -8,10 +8,16 @@ import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dataSlice } from "../../utils/DataSlice";
 import Loading from "../ui/loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 const FestivalCard = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const state = useSelector((state: RootState) => state.festival);
+
+  const cardClickHandler = (contentId: string) => {
+    navigate(`/content/search?type=15&contentId=${contentId}`);
+  };
 
   useEffect(() => {
     if (!state.successGetData) dispatch(getFestiavalData());
@@ -80,7 +86,7 @@ const FestivalCard = () => {
         <div
           className="card-item"
           key={item.title}
-          // onClick={() => cardClickHandler(item.contentid)}
+          onClick={() => cardClickHandler(item.contentid)}
         >
           <div className="festival-image-box">
             <img
@@ -120,9 +126,7 @@ const FestivalCard = () => {
         행사시작전.push(element);
       }
     }
-    console.log(행사중)
-    console.log(행사시작전)
-    console.log(행사종료)
+
     return [...행사중, ...행사시작전, ...행사종료];
   };
 

@@ -23,13 +23,12 @@ export const getTCTRData = createAsyncThunk(
   "tour/fetchFromData",
   async (parameter: FetchParams) => {
     const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
-    const encode = encodeURIComponent(parameter.region);
-    const type = parameter.type
-    console.log(parameter)
-    const response = await fetch(
-      `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moat&_type=json&listYN=Y&arrange=Q&keyword=${encode}&contentTypeId=${type}`
-    );
-    
+    const type = parameter.type;
+    let url = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q&contentTypeId=${type}`;
+    if (type !== '25') url += `&areaCode=${parameter.areaCode}`
+    console.log(url)
+    const response = await fetch(url);
+
     const data: FetchRespon = await response.json();
     return { data, parameter, type };
   }

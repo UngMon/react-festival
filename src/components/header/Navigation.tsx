@@ -97,7 +97,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           <ul className="Nav-box">
             <li>
               <NavLink
-                to={`/tour/search?region=서울&cat1=all&cat2=all&cat3=all`}
+                to={`/tour/search?region=1&cat1=all&cat2=all&cat3=all`}
                 onClick={() => clickCategory("tour")}
                 style={({ isActive }) => {
                   return {
@@ -114,7 +114,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
             <li>
               <NavLink
-                to="culture/search?region=서울&cat1=all&cat2=all&cat3=all"
+                to="culture/search?region=1&cat1=all&cat2=all&cat3=all"
                 onClick={() => clickCategory("culture")}
                 style={({ isActive }) => {
                   return {
@@ -131,7 +131,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
             <li>
               <NavLink
-                to={`/festival/search?month=05&region=0`}
+                to={`/festival/search?month=${thisMonth}&region=0`}
                 onClick={() => clickCategory("festival")}
                 style={({ isActive }) => {
                   return {
@@ -148,8 +148,8 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
             <li>
               <NavLink
-                to={`/travelCos`}
-                onClick={() => clickCategory("festival")}
+                to={`/travel/search?region=1&cat1=all&cat2=all&cat3=all`}
+                onClick={() => clickCategory("travel")}
                 style={({ isActive }) => {
                   return {
                     color: isActive

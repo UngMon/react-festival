@@ -16,79 +16,108 @@ import { TCTRtype } from "../type/TCTRtype";
 // A0102 => A01020100 희귀동 식물, A01020200 기암괴석
 
 // A02 => A0201: 역사관광지, A0202: 휴양관광지, A0203: 체험관광지, A0204:산업관광지, A0205: 건축/조형물
-// A0201 => A02010100 고궁, A02010200 성 A02010300 문, A02010400 고택, A02010500: 생가 
+// A0201 => A02010100 고궁, A02010200 성 A02010300 문, A02010400 고택, A02010500: 생가
 // A02010600 생가, A02010600 민속마을, A02010700 유적지/사적지, A02010800 사찰
 // A02010900 종교성지, A02011000 안보관광
 
-// A0202 => A02020200 관광단지, A02020300 온천/ 육장 스파 A02020400 이색찜질방, 
+// A0202 => A02020200 관광단지, A02020300 온천/ 육장 스파 A02020400 이색찜질방,
 // A02020500 헬스투어, A02020600 테마공원 A02020700 공원 A02020800 유람선/잠수함관광
 
 //A203 => A02030100 농.산.어촌 체험, A02030200 전통체험, A02030300 산사체험, A02030600 이색거리
 
-
 // 204 => A02040400 발전소, A02040600 식음료, A02040800 기타, A02040900 전자/반도체, A02041000 자동차
-// 205=> A02050100 다리/대교, A02050200 기념탑/기념비/전망대, A02050300 분수 
+// 205=> A02050100 다리/대교, A02050200 기념탑/기념비/전망대, A02050300 분수
 // A02050400 동상 A02050500 터널 A02050600 유명건물
 const initialState: TCTRtype = {
   successGetData: false,
   touristArray: {},
-  loading: true,
+  cultureArray: {},
+  travelArray: {},
+  loading: false,
+  tourLoading: true,
+  cultrueLoading: true,
+  travelLoading: true,
 };
 
-const tourSlice = createSlice({
-  name: "tour",
+const tctsSlice = createSlice({
+  name: "tcts",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getTCTRData.pending, (state) => {
+      .addCase(getTCTRData.pending, (state, action) => {
         state.loading = true;
+        // if (action.meta.arg.type === "12") state.tourLoading = true;
+        // if (action.meta.arg.type === "14") state.cultrueLoading = true;
+        // if (action.meta.arg.type === "25") state.travelLoading = true;
       })
       .addCase(getTCTRData.fulfilled, (state, action) => {
-        if (action.payload.type !== '12') {
+        let region: Region = {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "31": [],
+          "32": [],
+          "33": [],
+          "34": [],
+          "35": [],
+          "36": [],
+          "37": [],
+          "38": [],
+          "39": [],
+        };
+
+        const dummyData = action.payload.data.response.body.items.item;
+        if (!dummyData) {
+          // 데이터를 불러왔지만, 아무런 정보가 없을 때,
+          // ex 사용자가 url를 조작할 때,
+          state.successGetData = false;
           state.loading = false;
           return;
         }
 
-        let region: Region = {
-          서울: [],
-          인천: [],
-          대전: [],
-          대구: [],
-          광주: [],
-          부산: [],
-          울산: [],
-          세종: [],
-          경기: [],
-          강원: [],
-          충북: [],
-          충남: [],
-          경북: [],
-          경남: [],
-          전북: [],
-          전남: [],
-          제주: [],
-        };
-
-        const dummyData = action.payload.data.response.body.items.item;
         console.log(action.payload.data);
-        for (const item of dummyData) {
-          if (item.firstimage === "") continue;
-          region[action.payload.parameter.region].push(item);
+        if (action.payload.type !== "25") {
+          for (const item of dummyData) {
+            if (item.firstimage === "") continue;
+            region[action.payload.parameter.areaCode].push(item);
+          }
+
+          if (action.payload.type === "12") {
+            state.touristArray![action.payload.parameter.areaCode] =
+              region[action.payload.parameter.areaCode];
+          }
+
+          if (action.payload.type === "14") {
+            state.cultureArray![action.payload.parameter.areaCode] =
+              region[action.payload.parameter.areaCode];
+          }
+        } else {
+          console.log('여행')
+          for (const item of dummyData) {
+            if (!item.firstimage) continue;
+            if (!item.areacode) continue;
+            region[item.areacode].push(item);
+          }
+          state.travelArray = region;
         }
-        state.touristArray![action.payload.parameter.region] =
-          region[action.payload.parameter.region];
+
         state.successGetData = true;
         state.loading = false;
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
-        console.log(action.error);
+        console.log(action);
       });
   },
 });
 
-export const tourActions = tourSlice.actions;
+export const tctsActions = tctsSlice.actions;
 
-export const tourReducer = tourSlice.reducer;
+export const tctsReducer = tctsSlice.reducer;

@@ -12,10 +12,16 @@ const category = createSlice({
   initialState,
   reducers: {
     clearSet(state) {
-      state.region = "서울";
+      state.region = "1";
       state.cat1 = "all";
       state.cat2 = "all";
       state.cat3 = "all";
+    },
+    setMount(state, action) {
+      state.region = action.payload.region;
+      state.cat1 = action.payload.cat1;
+      state.cat2 = action.payload.cat2;
+      state.cat3 = action.payload.cat3;
     },
     regionChange(state, action) {
       if (action.payload.region === state.region) return;

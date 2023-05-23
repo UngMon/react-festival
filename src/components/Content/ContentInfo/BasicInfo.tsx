@@ -1,24 +1,30 @@
-import { ContentDetailCommon, ContentDetailIntro } from "../../../type/FestivalType";
+import {
+  ContentDetailCommon,
+  ContentDetailIntro,
+} from "../../../type/FestivalType";
 import { dataSlice } from "../../../utils/DataSlice";
 
 interface BasicProps {
   detailIntro: ContentDetailIntro[];
   detailCommon: ContentDetailCommon[];
+  type: string;
 }
 
-const BasicInfo = ({ detailIntro, detailCommon }: BasicProps) => {
+const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
   return (
     <table className="Content-table">
       <tbody>
-        <tr key="기간">
-          <th>기간</th>
-          <td>
-            {dataSlice(
-              detailIntro[0].eventstartdate,
-              detailIntro[0].eventenddate
-            )}
-          </td>
-        </tr>
+        {type === "15" && (
+          <tr key="기간">
+            <th>기간</th>
+            <td>
+              {dataSlice(
+                detailIntro[0].eventstartdate,
+                detailIntro[0].eventenddate
+              )}
+            </td>
+          </tr>
+        )}
         <tr key="주최자 정보">
           <th>주최자 정보</th>
           <td>{detailIntro[0].sponsor1 || "정보 없음"}</td>
