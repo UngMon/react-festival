@@ -5,11 +5,12 @@
 
 .slider {
   display: flex;
-  height: 100%;
 }
+
 .slide {
   box-sizing: border-box;
-  padding: 0;
+  padding: 0 15px;
+  border-radius: 8px;
 }
 
 .slide img {
@@ -17,6 +18,7 @@
   height: 100%;
   object-fit: fill;
   object-position: center;
+  border-radius: 8px;
 }
 
 .prev,
@@ -36,11 +38,11 @@
 }
 
 .prev {
-  left: 0
+  left: 15px
 }
 
 .next {
-  right: 0
+  right: 15px
 }
 
 .prev:hover,

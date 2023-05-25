@@ -7,8 +7,9 @@ import { getFestiavalData } from "../../redux/fetch-action";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dataSlice } from "../../utils/DataSlice";
-import Loading from "../ui/loading/Loading";
 import { useNavigate } from "react-router-dom";
+import Loading from "../ui/loading/Loading";
+import { firebaseActions } from "../../redux/firebase-slice";
 
 const FestivalCard = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const FestivalCard = () => {
   const state = useSelector((state: RootState) => state.festival);
 
   const cardClickHandler = (contentId: string) => {
+    dispatch(firebaseActions.cardClicked());
     navigate(`/content/search?type=15&contentId=${contentId}`);
   };
 

@@ -32,11 +32,16 @@
 .Cotent-overview {
   grid-column-end: span 3;
   padding: 30px 40px;
+  line-height: 25px;
 }
 
 .Cotent-overview strong {
   display: block;
   margin-bottom: 20px;
+}
+
+.Cotent-overview p {
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {

@@ -33,9 +33,15 @@ const Map = ({ detailCommon }: MapProps) => {
   }, [detailCommon, kakao]);
 
   return (
-    <div id="map" style={{ width: "100%", height: "400px" }} ref={mapRef}></div>
+    <div>
+      <div>길 찾기</div>
+      <div
+        id="map"
+        style={{ width: "100%", height: "400px" }}
+        ref={mapRef}
+      ></div>
+    </div>
   );
 };
 
 export default Map;
-

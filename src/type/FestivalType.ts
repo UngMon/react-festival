@@ -3,24 +3,51 @@ import { Item, Month, Region } from "./Common";
 export type ContentDetailIntro = {
   contentid: string;
   contenttypeid: string;
-  sponsor1: string;
-  sponsor1tel: string;
-  sponsor2: string;
-  sponsor2tel: string;
-  eventenddate: string;
-  playtime: string;
-  eventplace: string;
-  eventhomepage: string;
-  agelimit: string;
-  bookingplace: string;
-  placeinfo: string;
-  subevent: string;
-  program: string;
-  eventstartdate: string;
-  usetimefestival: string;
-  discountinfofestival: string;
-  spendtimefestival: string;
-  festivalgrade: string;
+  // tour
+  infocenter?: string;
+  restdate?: string;
+  expguide?: string;
+  accomcount?: string;
+  usetime?: string;
+  parking?: string;
+  chkpet?: string;
+  // culture
+  usefee?: string;
+  scale?: string;
+  spendtime?: string;
+  discountinfo?: string;
+  parkingfee?: string;
+  infocenterculture?: string;
+  usetimeculture?: string;
+  restdateculture?: string;
+  parkingculture?: string;
+  chkpetculture?: string;
+  // fetival
+  sponsor1?: string;
+  sponsor1tel?: string;
+  sponsor2?: string;
+  sponsor2tel?: string;
+  eventenddate?: string;
+  playtime?: string;
+  eventplace?: string;
+  eventhomepage?: string;
+  agelimit?: string;
+  bookingplace?: string;
+  placeinfo?: string;
+  subevent?: string;
+  program?: string;
+  eventstartdate?: string;
+  usetimefestival?: string;
+  discountinfofestival?: string;
+  spendtimefestival?: string;
+  festivalgrade?: string;
+
+  //travel
+  infocentertourcours?: string;
+  distance?: string;
+  schedule?: string;
+  taketime?: string;
+  theme?: string;
 };
 
 export type ContentDetailCommon = {

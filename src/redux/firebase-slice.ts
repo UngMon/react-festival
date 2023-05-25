@@ -5,7 +5,7 @@ import { FirebaseState } from "../type/Firebase";
 const initialState: FirebaseState = {
   contentData: {},
   isChanged: false,
-  isLoading: false,
+  loadingState: "none",
   succesGetData: false,
   userChecking: true,
   loginedUser: false,
@@ -20,6 +20,10 @@ const firebaseSlice = createSlice({
   name: "firebase",
   initialState,
   reducers: {
+    cardClicked(state) {
+      state.succesGetData = false;
+      state.loadingState = "pending";
+    },
     notLoginUser(state) {
       state.userChecking = false;
     },
@@ -44,21 +48,28 @@ const firebaseSlice = createSlice({
       state.loginedUser = false;
       state.userSocial = "";
     },
-    setCardData(state, action) {
-      state.contentData[action.payload] = {
-        comment: [],
-        detailImage: [],
-        firstImage: "",
-        expression: {},
-      };
+    // setCardData(state, action) {
+    //   state.contentData[action.payload] = {
+    //     comment: [],
+    //     detailImage: [],
+    //     firstImage: "",
+    //     expression: {},
+    //   };
+    // },
+    failedGetData(state) {
+      state.succesGetData = false;
+      state.loadingState = "fulfilled";
     },
     updateContentData(state, action) {
       let dummyData: FirebaseData = { ...state.contentData };
+
       if (!state.contentData[action.payload.contentId]) {
         dummyData[action.payload.contentId] = action.payload.docData;
       }
+
       state.contentData = dummyData;
       state.succesGetData = true;
+      state.loadingState = "fulfilled";
     },
     updateFeelingData(state, action) {
       console.log(action.payload);

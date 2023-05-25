@@ -1,5 +1,6 @@
 .Content-box {
-  padding-top: 30px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .Content {
@@ -17,10 +18,11 @@
 }
 /* 이미지 슬라이드 */
 .slider-container {
+  width: 95%;
+  margin: 0 auto 40px;
   height: 300px;
   overflow: hidden;
   position: relative;
-  margin-bottom: 40px;
 }
 
 .Content-menu-box {

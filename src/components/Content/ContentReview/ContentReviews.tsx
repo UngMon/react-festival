@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { firebaseActions } from "../../../redux/firebase-slice";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../../firebase";
 import { RootState, useAppDispatch } from "../../../redux/store";
+import { ContentData } from "../../../type/UserData";
 import Feeling from "./Feelings";
 import Reviews from "./UserReviews";
 import Loading from "../../ui/loading/Loading";
@@ -24,48 +25,67 @@ const ContentRivews = ({
   setReportModalOpen,
 }: ReviewProps) => {
   const dispatch = useAppDispatch();
-  const firebaseState = useSelector((state: RootState) => state.firebase);
-  const uid = firebaseState.userUid || "";
+  const firebase = useSelector((state: RootState) => state.firebase);
+  const uid = firebase.userUid || "";
   const contentRef = doc(db, "content", contentId);
-
+  console.log(firebase);
   useEffect(() => {
+    if (firebase.loadingState === "pending") return;
+    console.log("contentUser rneder effect");
     const setData = async () => {
+      let docData: ContentData;
+      const contentRef = doc(db, "content", contentId);
+
       try {
-        if (!firebaseState.contentData[contentId]) {
-          // 리뷰 컴포넌트에서 contentId 키가 없다는 것은 사용자가 새로고침한 경우다..
-          const querySnapshot = await getDoc(contentRef);
-          const docData = querySnapshot.data();
+        if (!firebase.contentData[contentId]) {
+          // 사용자가 해당 콘텐츠를 처음 클릭하거나, 새로고침 했거나의 경우
+          // firestor DB에 해당 컨텐츠 id 접근하여 .data()메소드를 통해 필드 존재 여부 확인
+          const contentUserData = (await getDoc(contentRef)).data();
+
+          if (!contentUserData) {
+            docData = {
+              comment: [],
+              detailImage: [],
+              firstImage: "",
+              expression: {},
+            };
+            // 위 오브젝트를 'content' 컬렉션에 다큐먼트 필드 생성
+            await setDoc(contentRef, docData);
+          } else {
+            docData = contentUserData as ContentData;
+          }
           dispatch(firebaseActions.updateContentData({ docData, contentId }));
         }
       } catch (error: any) {
         alert(error.message);
+        dispatch(firebaseActions.failedGetData());
       }
     };
     setData();
-  });
+  }, [dispatch, contentId, firebase]);
 
   return (
     <div className="Cotent-review" ref={reviewRef}>
-      {firebaseState.isLoading && <Loading />}
-      {!firebaseState.isLoading && !firebaseState.succesGetData && (
+      {firebase.loadingState === "pending" && <Loading />}
+      {firebase.loadingState === "fulfiled" && !firebase.succesGetData && (
         <GetDataError />
       )}
-      {!firebaseState.isLoading && firebaseState.succesGetData && (
-        <Feeling
-          firebaseState={firebaseState}
-          contentRef={contentRef}
-          uid={uid}
-          contentId={contentId}
-        />
-      )}
-      {!firebaseState.isLoading && firebaseState.succesGetData && (
-        <Reviews
-          firebaseState={firebaseState}
-          contentRef={contentRef}
-          uid={uid}
-          contentId={contentId}
-          setReportModalOpen={setReportModalOpen}
-        />
+      {firebase.loadingState === "fulfilled" && firebase.succesGetData && (
+        <>
+          <Feeling
+            firebaseState={firebase}
+            contentRef={contentRef}
+            uid={uid}
+            contentId={contentId}
+          />
+          <Reviews
+            firebaseState={firebase}
+            contentRef={contentRef}
+            uid={uid}
+            contentId={contentId}
+            setReportModalOpen={setReportModalOpen}
+          />
+        </>
       )}
     </div>
   );

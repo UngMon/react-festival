@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { ContentData } from "../../type/UserData";
-import { firebaseActions } from "../../redux/firebase-slice";
+import { useSearchParams } from "react-router-dom";
 import {
   ResponImage,
   ResponDetailIntro,
@@ -27,10 +21,7 @@ type Data = {
 
 const Cotent = () => {
   const [param] = useSearchParams();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const firebase = useSelector((state: RootState) => state.firebase);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [contentData, setContentData] = useState<Data>();
   console.log(contentData);
   const [category, setCategory] = useState<string>("기본정보");
@@ -42,50 +33,20 @@ const Cotent = () => {
   const reviewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const getUserData = async (contentId: string) => {
-      let docData: ContentData;
-      const contentData = firebase.contentData;
-      const contentRef = doc(db, "content", contentId);
-
-      try {
-        if (!contentData[contentId]) {
-          // firestor contentId에 접근
-          const contentUserData = (await getDoc(contentRef)).data();
-
-          // fireStore에 해당 컨텐츠에 대한 정보가 없을 떄,
-          if (!contentUserData) {
-            docData = {
-              comment: [],
-              detailImage: [],
-              firstImage: "",
-              expression: {},
-            };
-            await setDoc(contentRef, docData);
-          } else {
-            docData = contentUserData as ContentData;
-          }
-          dispatch(firebaseActions.updateContentData({ docData, contentId }));
-        }
-      } catch (error: any) {
-        console.log(error.message);
-      }
-      navigate(
-        `/content/search?type=${param.get("type")}&contentId=${contentId}`
-      );
-    };
+    if (!isLoading) return;
+    console.log("useEFfect");
 
     const getContentData = async (type: string, contentId: string) => {
       try {
         const data = await loader(type, contentId!);
-        getUserData(contentId);
         setContentData(data);
       } catch (error) {
         console.log(error);
       }
     };
-
+    setLoading(false);
     getContentData(param.get("type")!, param.get("contentId")!);
-  }, [dispatch, firebase, param, navigate]);
+  }, [param, isLoading]);
 
   return (
     <main className="Content-box">
@@ -100,37 +61,37 @@ const Cotent = () => {
         {contentData &&
           contentData!.contentDetailCommon.response.body.items.item[0].title}
       </h2>
-      <div className="Content">
-        <div className="slider-container">
-          {!contentData && <Loading />}
-          {contentData && <Slider contentImage={contentData.contentImage} />}
-        </div>
-        <div className="Content-menu-box">
-          {contentData && (
-            <MenuBar
-              category={category}
-              setCategory={setCategory}
-              menuBarRef={menuBarRef}
-              reviewRef={reviewRef}
-            />
-          )}
-        </div>
-        <div className="Content-detatil-area" ref={menuBarRef}>
-          {!contentData && (
-            <div style={{ height: 500 }}>
-              <Loading />
-            </div>
-          )}
-          {contentData && (
-            <Detail
-              category={category}
-              contentDetailCommon={contentData.contentDetailCommon}
-              contentDetailIntro={contentData.contentDetailIntro}
-              type={param.get("type")!}
-            />
-          )}
-        </div>
+      {/* <div className="Content"> */}
+      <div className="slider-container">
+        {!contentData && <Loading />}
+        {contentData && <Slider contentImage={contentData.contentImage} />}
       </div>
+      <div className="Content-menu-box">
+        {contentData && (
+          <MenuBar
+            category={category}
+            setCategory={setCategory}
+            menuBarRef={menuBarRef}
+            reviewRef={reviewRef}
+          />
+        )}
+      </div>
+      <div className="Content-detatil-area" ref={menuBarRef}>
+        {!contentData && (
+          <div style={{ height: 500 }}>
+            <Loading />
+          </div>
+        )}
+        {contentData && (
+          <Detail
+            category={category}
+            contentDetailCommon={contentData.contentDetailCommon}
+            contentDetailIntro={contentData.contentDetailIntro}
+            type={param.get("type")!}
+          />
+        )}
+      </div>
+      {/* </div> */}
       <ContentReviews
         contentId={param.get("contentId")!}
         reviewRef={reviewRef}
@@ -153,7 +114,7 @@ async function getContentImage(id: string) {
     throw new Error("Failed to Fetch from Data");
   }
   const data: ResponImage = await response.json();
-  console.log(`getContentImage work ${data}`);
+
   return data;
 }
 
@@ -167,7 +128,6 @@ async function getContentDetailIntro(type: string, id: string) {
   }
 
   const data: ResponDetailIntro = await response.json();
-  console.log(`loader getContentDetailIntro ${data}`);
   return data;
 }
 
@@ -181,7 +141,7 @@ async function getCotentDetailCommon(type: string, id: string) {
   }
 
   const data: ResponDetailCommon = await response.json();
-  console.log(`loader getDetailCommon ${data}`);
+
   return data;
 }
 
@@ -195,6 +155,6 @@ export async function loader(type: string, contentId: string) {
       getContentDetailIntro(type, contentId!),
       getCotentDetailCommon(type, contentId!),
     ]);
-
+    console.log(contentImage, contentDetailIntro, contentDetailCommon)
   return { contentDetailIntro, contentDetailCommon, contentImage };
 }

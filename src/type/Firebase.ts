@@ -12,7 +12,7 @@ export type FirebaseData = {
 export interface FirebaseState {
   contentData: FirebaseData;
   isChanged: boolean;
-  isLoading: boolean;
+  loadingState: string;
   succesGetData: boolean;
   userChecking: boolean;
   loginedUser: boolean;

@@ -4,6 +4,7 @@ import { Item } from "../../type/Common";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { firebaseActions } from "../../redux/firebase-slice";
 import Loading from "../ui/loading/Loading";
 import GetDataError from "../error/GetDataError";
 
@@ -68,7 +69,7 @@ const AnotherCard = ({ title }: Props) => {
 
   const cardClickHandler = (contentId: string) => {
     const type = title === "tour" ? "12" : title === "culture" ? "14" : "25";
-    console.log(type)
+    dispatch(firebaseActions.cardClicked());
     naviagate(`/content/search?type=${type}&contentId=${contentId}`);
   };
 
