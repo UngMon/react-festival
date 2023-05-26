@@ -1,23 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch } from "../../../redux/store";
-import { festivalActions } from "../../../redux/festival-slice";
-import "./Selector.css";
 
 interface T {
-  month: string;
+  title: string;
+  month?: string;
   areaCode: string;
+  cat1: string;
+  cat2: string;
+  cat3: string;
 }
 
-const RegionSelector = ({ month, areaCode }: T) => {
+const RegionSelector = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    dispatch(festivalActions.setMonthAndRegion({ month, region: value }));
-    navigate(`/festival/search?month=${month}&region=${value}`);
+
+    navigate(
+      `/${title}/search?${
+        title === "festival" ? `month=${month}&` : ""
+      }areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`
+    );
   };
 
   return (
@@ -26,7 +30,6 @@ const RegionSelector = ({ month, areaCode }: T) => {
         <option value="default" disabled>
           지역을 선택하세요
         </option>
-        <option value="0">전체</option>
         <option value="1">서울특별시</option>
         <option value="2">인천광역시</option>
         <option value="3">대전광역시</option>
@@ -50,5 +53,4 @@ const RegionSelector = ({ month, areaCode }: T) => {
     </div>
   );
 };
-
 export default RegionSelector;

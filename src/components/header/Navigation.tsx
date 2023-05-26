@@ -30,7 +30,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
 
   return (
     <>
-      {
+      {/* {
         // mobile용
         <nav className="mobile-nav-bar">
           <ul className="mobile-nav-box">
@@ -86,7 +86,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
           </ul>
         </nav>
-      }
+      } */}
       {
         //pc
         <nav
@@ -97,7 +97,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           <ul className="Nav-box">
             <li>
               <NavLink
-                to={`/tour/search?region=1&cat1=all&cat2=all&cat3=all`}
+                to={`/tour/search?areaCode=1&cat1=all&cat2=all&cat3=all`}
                 onClick={() => clickCategory("tour")}
                 style={({ isActive }) => {
                   return {
@@ -114,7 +114,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
             <li>
               <NavLink
-                to="culture/search?region=1&cat1=all&cat2=all&cat3=all"
+                to="culture/search?areaCode=1&cat1=all&cat2=all&cat3=all"
                 onClick={() => clickCategory("culture")}
                 style={({ isActive }) => {
                   return {
@@ -131,7 +131,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
             <li>
               <NavLink
-                to={`/festival/search?month=${thisMonth}&region=0`}
+                to={`/festival/search?month=${thisMonth}&areaCode=0&cat1=all&cat2=all&cat3=all`}
                 onClick={() => clickCategory("festival")}
                 style={({ isActive }) => {
                   return {
@@ -143,12 +143,12 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
                   };
                 }}
               >
-                지역축제
+                축제/공연/행사
               </NavLink>
             </li>
             <li>
               <NavLink
-                to={`/travel/search?region=1&cat1=all&cat2=all&cat3=all`}
+                to={`/travel/search?areaCode=1&cat1=all&cat2=all&cat3=all`}
                 onClick={() => clickCategory("travel")}
                 style={({ isActive }) => {
                   return {

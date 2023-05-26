@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch } from "../../../redux/store";
-import { festivalActions } from "../../../redux/festival-slice";
 import "./Selector.css";
 
 interface T {
@@ -12,12 +10,12 @@ interface T {
 
 const MonthSelector = ({month, areaCode}: T) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    dispatch(festivalActions.setMonthAndRegion({month: value, region: areaCode}))
-    navigate(`/festival/serach?month=${value}&region=${areaCode}`);
+    // dispatch(festivalActions.setMonthAndRegion({month: value, region: areaCode}))
+    navigate(`/festival/serach?month=${value}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`);
   };
 
   return (

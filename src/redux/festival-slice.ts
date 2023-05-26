@@ -20,10 +20,6 @@ const initialState: FestivalState = {
   festivalArray: [],
   monthArray: {},
   regionArray: {},
-  month: nowDate().month,
-  areaCode: "0",
-  cat2: "all",
-  cat3: "all",
   행사상태: [true, false, false],
 };
 // 내가 분류해야할 것 월, 지역, 카테고리
@@ -94,14 +90,14 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedFestivalArr = true;
     },
-    setMonthAndRegion(state, action) {
-      state.month = action.payload.month;
-      state.areaCode = action.payload.region;
-    },
-    catChange(state, action) {
-      state.cat2 = action.payload.cat2;
-      state.cat3 = action.payload.cat3;
-    },
+    // setMonthAndRegion(state, action) {
+    //   state.month = action.payload.month;
+    //   state.areaCode = action.payload.region;
+    // },
+    // catChange(state, action) {
+    //   state.cat2 = action.payload.cat2;
+    //   state.cat3 = action.payload.cat3;
+    // },
     행사상태설정(state, action) {
       state.행사상태 = action.payload
     }

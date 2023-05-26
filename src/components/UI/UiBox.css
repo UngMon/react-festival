@@ -1,3 +1,8 @@
+a {
+  text-decoration: none;
+  color: #333;
+}
+
 .Ui-Box {
   position: relative;
   box-sizing: border-box;
@@ -9,13 +14,20 @@
 }
 
 #picker-box {
-  /* width: 100%; */
   height: auto;
   display: flex;
   justify-content: center;
 }
 
-
+.subnav {
+  width: 80%;
+  margin: auto;
+}
+.submenu {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
 
 @media (min-width: 1500px) {
 }

@@ -130,9 +130,9 @@ export interface FestivalState {
   festivalArray: Item[];
   monthArray: Month;
   regionArray: Region;
-  month: string;
-  areaCode: string;
-  cat2: string;
-  cat3: string;
+  // month: string;
+  // areaCode: string;
+  // cat2: string;
+  // cat3: string;
   행사상태: [boolean, boolean, boolean];
 }

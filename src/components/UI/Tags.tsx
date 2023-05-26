@@ -1,8 +1,4 @@
-// import { MouseEvent, useRef, useState } from "react";
-
-import { useAppDispatch } from "../../../redux/store";
-import { festivalActions } from "../../../redux/festival-slice";
-import "./FestivalTags.css";
+import "./Tags.css";
 
 interface T {
   cat2: string;
@@ -10,10 +6,10 @@ interface T {
 }
 
 const FestivalTags = ({ cat2, cat3 }: T) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const festivalTagClick = (va1: string, va2: string) => {
-    dispatch(festivalActions.catChange({ cat2: va1, cat3: va2 }));
+    // dispatch(festivalActions.catChange({ cat2: va1, cat3: va2 }));
   };
 
   // const scrollRef = useRef<HTMLDivElement>(null);

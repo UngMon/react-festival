@@ -7,14 +7,22 @@ import { getFestiavalData } from "../../redux/fetch-action";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dataSlice } from "../../utils/DataSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../ui/loading/Loading";
 import { firebaseActions } from "../../redux/firebase-slice";
 
 const FestivalCard = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const state = useSelector((state: RootState) => state.festival);
+  const [params] = useSearchParams();
+  
+  const month = params.get('month');
+  const areaCode = params.get('areaCode');
+  const cat2 = params.get('cat2');
+  const cat3 = params.get('cat3');
+
 
   const cardClickHandler = (contentId: string) => {
     dispatch(firebaseActions.cardClicked());
@@ -35,30 +43,30 @@ const FestivalCard = () => {
   let 행사시작전: JSX.Element[] = [];
 
   const makeFestivlaCard = () => {
-    const { year, month, date } = nowDate();
-
-    if (state.areaCode === "0") {
+    const { year, date } = nowDate();
+    console.log(areaCode, month, cat2, cat3)
+    if (areaCode === "0") {
       //O(1)
-      array = state.monthArray[state.month];
+      array = state.monthArray[month!];
     } else {
       //O(n)
-      array = state.monthArray[state.month].filter(
-        (item) => item.areacode === state.areaCode
+      array = state.monthArray[month!].filter(
+        (item) => item.areacode === areaCode
       );
     }
 
     for (let item of array) {
-      if (state.cat2 !== "all" && item.cat2 !== state.cat2) continue;
+      if (cat2 !== "all" && item.cat2 !== cat2) continue;
 
-      if (state.cat3 !== "all") {
-        if (item.cat3 !== state.cat3) continue;
+      if (cat3 !== "all") {
+        if (item.cat3 !== cat3) continue;
       }
 
       const 행사상태 = calculateDate(
         item.eventstartdate!,
         item.eventenddate!,
         year,
-        month,
+        month!,
         date
       );
 

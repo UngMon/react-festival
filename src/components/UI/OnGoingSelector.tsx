@@ -1,13 +1,11 @@
-import { festivalActions } from "../../../redux/festival-slice";
-import { useAppDispatch } from "../../../redux/store";
+import { useSelector } from "react-redux";
+import { festivalActions } from "../../redux/festival-slice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import "./OnGoingSelector.css";
 
-interface T {
-  행사상태: [boolean, boolean, boolean];
-}
-
-const OnGoingSelector = ({ 행사상태 }: T) => {
+const OnGoingSelector = () => {
   const dispatch = useAppDispatch();
+  const 행사상태 = useSelector((state: RootState) => state.festival.행사상태);
 
   const clickHandler = (num: number) => {
     if (num === 0) {

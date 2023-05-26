@@ -1,20 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { categoryActions } from "../../../redux/category-slice";
 
 interface T {
   title: string;
-  region: string;
+  month?: string;
+  areaCode: string;
   cat1: string;
   cat2: string;
   cat3?: string;
 }
 
-const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
+const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const pickerSelector = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -23,29 +21,22 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
     const value = event.target.value;
 
     if (type === "cat1") {
-      dispatch(
-        categoryActions.categoryChange({
-          cat1: value,
-          cat2: "all",
-          cat3: "all",
-        })
-      );
       navigate(
-        `/${title}/serach?region=${region}&cat1=${value}&cat2=${cat2}&cat3=${cat3!}`
+        `/${title}/serach?areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
     if (type === "cat2") {
-      dispatch(categoryActions.categoryChange({ cat1, cat2: value, cat3 }));
       navigate(
-        `/${title}/serach?region=${region}&cat1=${cat1}&cat2=${value}&cat3=${cat3!}`
+        `/${title}/serach?${
+          title === "festival" ? `month=${month}&` : ""
+        }areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=${cat3!}`
       );
     }
 
     if (type === "cat3") {
-      dispatch(categoryActions.categoryChange({ cat1, cat2, cat3: value }));
       navigate(
-        `/${title}/serach?region=${region}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${title}/serach?areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
   };
@@ -126,13 +117,6 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
       }
       {title === "culture" && (
         <>
-          {/* <div className="picker">
-            <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
-              <option value="A0206"># 문화시설</option>
-            </select>
-            <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
-            <FontAwesomeIcon icon={faCheck} />
-          </div> */}
           <div className="picker">
             <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
               <option value="A02060100"># 박물관</option>
@@ -154,6 +138,17 @@ const Category = ({ title, region, cat1, cat2, cat3 }: T) => {
             <FontAwesomeIcon icon={faCheck} />
           </div>
         </>
+      )}
+      {title === "festival" && (
+        <div className="picker">
+          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+            <option value="all"># 카테고리</option>
+            <option value="A0207"># 축제</option>
+            <option value="A0208"># 공연/행사</option>
+          </select>
+          <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
+          <FontAwesomeIcon icon={faCheck} />
+        </div>
       )}
       {title === "travel" && (
         <>

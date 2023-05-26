@@ -40,32 +40,33 @@ const AnotherCard = ({ title }: Props) => {
   const category = useSelector((state: RootState) => state.category);
 
   const [params] = useSearchParams();
+  const areaCode = params.get("areaCode")!;
+  const cat1 = params.get("cat1")!;
+  const cat2 = params.get("cat2")!;
+  const cat3 = params.get("cat3")!;
 
   useEffect(() => {
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
     if (tcts.loading) return;
     // 만약 사용자가 url의 region 매개변수의 값을 '120'과 같이 수정하면 return;
-    if (!areaCdoeArr.includes(params.get("region")!)) return;
+    if (!areaCdoeArr.includes(areaCode)) return;
 
     const parameter = {
-      areaCode: params.get("region")!,
-      cat1: params.get("cat1")!,
-      cat2: params.get("cat2")!,
-      cat3: params.get("cat3")!,
+      areaCode,
       type: title === "tour" ? "12" : title === "culture" ? "14" : "25",
     };
-    if (title === "tour" && !tcts.touristArray![parameter.areaCode]) {
+    if (title === "tour" && !tcts.touristArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
 
-    if (title === "culture" && !tcts.cultureArray![parameter.areaCode]) {
+    if (title === "culture" && !tcts.cultureArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
 
-    if (title === "travel" && !tcts.travelArray![parameter.areaCode]) {
+    if (title === "travel" && !tcts.travelArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
-  }, [dispatch, tcts, title, params]);
+  }, [dispatch, tcts, title, areaCode, cat1, cat2, cat3]);
 
   const cardClickHandler = (contentId: string) => {
     const type = title === "tour" ? "12" : title === "culture" ? "14" : "25";
@@ -74,22 +75,24 @@ const AnotherCard = ({ title }: Props) => {
   };
 
   const returnResult = () => {
+    console.log(title, areaCode, cat1, cat2, cat3)
+
     let array: Item[] = [];
 
-    if (title === "tour") array = tcts.touristArray![category.region];
+    if (title === "tour") array = tcts.touristArray![areaCode];
 
-    if (title === "culture") array = tcts.cultureArray![category.region];
+    if (title === "culture") array = tcts.cultureArray![areaCode];
 
-    if (title === "travel") array = tcts.travelArray![category.region];
+    if (title === "travel") array = tcts.travelArray![areaCode];
 
     let result: JSX.Element[] = [];
-
+    console.log(array)
     for (let item of array) {
-      if (category.cat1 !== "all" && category.cat1 !== item.cat1) continue;
+      if (cat1 !== "all" && cat1 !== item.cat1) continue;
 
-      if (category.cat2 !== "all" && category.cat2 !== item.cat2) continue;
+      if (cat2 !== "all" && cat2 !== item.cat2) continue;
 
-      if (category.cat3 !== "all" && category.cat3 !== item.cat3) continue;
+      if (cat3 !== "all" && cat3 !== item.cat3) continue;
 
       const element = (
         <div
@@ -126,15 +129,15 @@ const AnotherCard = ({ title }: Props) => {
       {title === "tour" &&
         (tcts.loading ? <Loading /> : !tcts.successGetData && <GetDataError />)}
       {title === "tour" &&
-        tcts.touristArray![category.region] &&
+        tcts.touristArray![areaCode] &&
         returnResult()}
       {title === "culture" && tcts.loading && <Loading />}
       {title === "culture" &&
-        tcts.cultureArray![category.region] &&
+        tcts.cultureArray![areaCode] &&
         returnResult()}
       {title === "travel" && tcts.loading && <Loading />}
       {title === "travel" &&
-        tcts.travelArray![category.region] &&
+        tcts.travelArray![areaCode] &&
         returnResult()}
     </>
   );
