@@ -30,6 +30,7 @@ const RegionSelector = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
         <option value="default" disabled>
           지역을 선택하세요
         </option>
+        <option value="0">전국</option>
         <option value="1">서울특별시</option>
         <option value="2">인천광역시</option>
         <option value="3">대전광역시</option>

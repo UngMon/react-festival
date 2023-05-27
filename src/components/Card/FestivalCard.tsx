@@ -8,8 +8,8 @@ import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dataSlice } from "../../utils/DataSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Loading from "../ui/loading/Loading";
 import { firebaseActions } from "../../redux/firebase-slice";
+import Loading from "../ui/loading/Loading";
 
 const FestivalCard = () => {
   const dispatch = useAppDispatch();

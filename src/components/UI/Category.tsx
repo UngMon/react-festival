@@ -30,7 +30,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
       navigate(
         `/${title}/serach?${
           title === "festival" ? `month=${month}&` : ""
-        }areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=${cat3!}`
+        }areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
     }
 
@@ -42,7 +42,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
   };
 
   return (
-    <div id="picker-box">
+    <>
       {
         // 관광지..
         title === "tour" && (
@@ -167,7 +167,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 

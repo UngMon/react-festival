@@ -5,6 +5,7 @@ import RegionSelector from "./RegionSelector";
 import Category from "./Category";
 import OnGoingSelector from "./OnGoingSelector";
 import "./UiBox.css";
+import Tags from "./Tags";
 
 interface T {
   title: string;
@@ -21,7 +22,13 @@ const UiBox = ({ title }: T) => {
 
   return (
     <div className="Ui-Box">
-      <SubMenu title={title} />
+      <SubMenu
+        title={title}
+        month={month!}
+        cat1={cat1!}
+        cat2={cat2!}
+        cat3={cat3!}
+      />
       <div id="picker-box">
         {title === "festival" && (
           <MonthSelector month={month!} areaCode={areaCode!} />
@@ -43,6 +50,16 @@ const UiBox = ({ title }: T) => {
           cat3={cat3!}
         />
       </div>
+      {(title === "tour" || title === "festival") && (
+        <Tags
+          title={title}
+          month={month!}
+          areaCode={areaCode!}
+          cat1={cat1!}
+          cat2={cat2!}
+          cat3={cat3!}
+        />
+      )}
       {title === "festival" && <OnGoingSelector />}
     </div>
   );

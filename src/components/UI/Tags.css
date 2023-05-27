@@ -27,7 +27,6 @@
   border-radius: 20px;
   height: 30px;
   line-height: 30px;
-
 }
 
 .tags button:hover {
@@ -43,4 +42,10 @@
 .category-active {
   background-color: #7a45e5;
   color: white;
+}
+
+@media (max-width: 786px) {
+  .tags {
+    width: 100%;
+  }
 }

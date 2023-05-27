@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
-import "./Selector.css";
 
 interface T {
   month: string;

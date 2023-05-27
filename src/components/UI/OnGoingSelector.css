@@ -4,7 +4,6 @@
   display: flex;
   justify-content: right;
   margin-top: 15px;
-  margin-right: 25px;
 }
 
 .OnGoing-Selector li {
@@ -29,3 +28,8 @@
   color: #7a45e5;
 }
 
+@media (min-width: 768px) and (max-width: 1500px) {
+  .OnGoing-Selector {
+    margin-right: 30px;
+  }
+}

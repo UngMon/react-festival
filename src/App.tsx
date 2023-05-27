@@ -7,7 +7,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
 import Loading from "./components/ui/loading/Loading";
 import StartPage from "./pages/Start";
-import LoadingTwo from "./components/ui/loading/LoadingTwo";
 import GetDataError from "./components/error/GetDataError";
 import CulturePage from "./pages/CulturePage";
 import Culture from "./components/main/Culture";

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "./MobileSearch.css";
 
-const MobileSearch = () => {
+const Search = () => {
   const navigate = useNavigate();
   const mobileInputRef = useRef<HTMLInputElement>(null);
   console.log("mobile");
@@ -51,4 +51,4 @@ const MobileSearch = () => {
   );
 };
 
-export default MobileSearch;
+export default Search;

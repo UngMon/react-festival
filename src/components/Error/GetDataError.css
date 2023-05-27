@@ -2,7 +2,7 @@
   width: 100%;
   text-align: center;
   padding: calc(25vh - 30px) 0;
-  grid-column-end: span 3;
+  grid-column-end: span 5;
 }
 
 .get-data-error-box p {
