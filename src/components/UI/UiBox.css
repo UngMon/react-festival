@@ -24,6 +24,14 @@ a {
   align-items: center;
 }
 
+.submenu li:nth-child(2) {
+  margin: 0 8px;
+}
+
+.submenu a {
+  font-size: 20px; 
+}
+
 /* Selector  */
 #picker-box {
   height: auto;
@@ -92,6 +100,4 @@ a {
   .picker select {
     width: 100%;
   }
-
-  
 }

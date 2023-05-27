@@ -54,6 +54,16 @@
   position: relative;
 }
 
+.magnifying {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  background-color: transparent;
+}
+
+.magnifying svg {
+  font-size: 25px;
+}
 
 @media (min-width: 1440px) {
   .Header-top {

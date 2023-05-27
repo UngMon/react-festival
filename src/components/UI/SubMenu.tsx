@@ -1,3 +1,5 @@
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 interface T {
@@ -13,8 +15,12 @@ const SubMenu = ({ title, month, cat1, cat2, cat3 }: T) => {
     <nav className="subnav">
       <ul className="submenu">
         <li>
-          <img src="/images/icons/home.png" alt="홈" width="25" />
-          <Link to="/">홈</Link>
+          <Link to="/">
+            <img src="/images/icons/home.png" alt="홈" width="25" />
+          </Link>
+        </li>
+        <li>
+          <FontAwesomeIcon icon={faChevronRight} />
         </li>
         {title === "tour" && (
           <>

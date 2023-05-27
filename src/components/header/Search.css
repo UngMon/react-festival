@@ -1,0 +1,140 @@
+@keyframes search-effect {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes option-effect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.search-box {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.search-form {
+  width: 60%;
+  height: 150px;
+  margin: 90px auto;
+  background-color: rgb(242, 247, 251);
+  border-radius: 15px;
+  position: relative;
+  animation: search-effect 0.5s ease-in-out;
+}
+
+.saerch-div {
+  margin: 0 10%;
+  padding-top: 40px;
+  width: 80%;
+  height: 50px;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.search-box button {
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  border: 0;
+  font-size: 25px;
+  z-index: 100;
+}
+
+#cancel {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  border-radius: 50%;
+}
+
+#cancel:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+.search-option-box {
+  width: 80px;
+  height: 40px;
+  font-size: 14px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.search-option-box:hover {
+  cursor: pointer;
+}
+
+.search-option-box span {
+  margin-right: 20px;
+}
+
+.search-option-box svg {
+  font-size: 16px;
+  width: 20px;
+  color: rgb(120, 120, 120);
+}
+
+.search-option-box ul {
+  position: absolute;
+  top: 40px;
+  background-color: rgb(250, 248, 246);
+  border: 0.5px solid black;
+  border-radius: 5px;
+  animation: option-effect 0.2s ease-in-out;
+}
+
+.search-option-box ul li {
+  width: 70px;
+  height: 30px;
+  margin: 5px 0;
+  line-height: 30px;
+}
+
+.search-option-box ul li:hover {
+  cursor: pointer;
+  background-color: rgb(233, 233, 248);
+}
+
+.search-form input {
+  box-sizing: border-box;
+  width: calc(100% - 80px);
+  height: 35px;
+  border: 0;
+  padding: 5px 40px 5px 10px;
+  font-size: 16px;
+}
+
+#submit {
+  position: absolute;
+  right: 1%;
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    width: 85%;
+  }
+}
+
+@media (max-width: 400px) {
+  .search-form {
+    width: 90%;
+  }
+}

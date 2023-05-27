@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navigation from "./Navigation";
 import LoginButton from "./LoginButton";
-import PcSearch from "./PcSearch";
+import Search from "./Search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
 
 const Header = () => {
@@ -43,12 +45,20 @@ const Header = () => {
           pathname === "/" && scrollY === 0 && !mouseOver
             ? "transparent"
             : "rgba(245,245,245)",
-        position: pathname.includes("content") ? "relative" : 'fixed',
+        position: pathname.includes("content") ? "relative" : "fixed",
       }}
       ref={headerRef}
       onMouseEnter={() => pathname === "/" && mouseEnter()}
       onMouseLeave={() => pathname === "/" && mouseLeave()}
     >
+      {openSearch && (
+        <Search
+          pathname={pathname}
+          scrollY={scrollY}
+          mouseOver={mouseOver}
+          setOpenSearch={setOpenSearch}
+        />
+      )}
       <div className="Header-top">
         <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
           <img src="/images/fetivalLogo.jpeg" alt="logo"></img>
@@ -65,13 +75,16 @@ const Header = () => {
           </span>
         </Link>
         <div className="page-top-interaction">
-          <PcSearch
-            pathname={pathname}
-            scrollY={scrollY}
-            mouseOver={mouseOver}
-            openSearch={openSearch}
-            setOpenSearch={setOpenSearch}
-          />
+          <button
+            className={`magnifying ${
+              pathname === "/" && scrollY === 0 && !mouseOver
+                ? "scroll-top-color"
+                : "#normal-color"
+            }`}
+            onClick={() => !openSearch && setOpenSearch(true)}
+          >
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
           <LoginButton
             pathname={pathname}
             scrollY={scrollY}
