@@ -1,13 +1,13 @@
 .main-box-content {
   box-sizing: border-box;
-  width: 100%;
-  padding: 30px 30px 100px;
+  margin: 0 auto;
+  padding: 20px 30px 100px;
 }
 
 .AllView-grid-box {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: 25px;
   row-gap: 25px;
 }
@@ -113,21 +113,25 @@
   font-weight: 500;
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1440px) {
   .main-box-content {
     box-sizing: border-box;
-    max-width: 1500px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 }
 
-@media (max-width: 1200px) {
-  .AllView-grid-box {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .main-box-content {
+    width: 1024px;
   }
 }
 
-@media (max-width: 890px) {
+@media (max-width: 1024px) {
+  .main-box-content {
+    width: 850px;
+  }
+
   .AllView-grid-box {
     grid-template-columns: 1fr 1fr 1fr;
   }

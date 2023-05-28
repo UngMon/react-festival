@@ -3,16 +3,16 @@
   height: 30px;
   display: flex;
   justify-content: right;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .OnGoing-Selector li {
   margin: 0 5px;
   width: 60px;
-  font-size: 0.95em;
+  font-size: 1em;
   font-weight: 600;
+  text-align: center;
   line-height: 30px;
-  border-radius: 5px;
 }
 
 .OnGoing-Selector li:hover {
@@ -26,10 +26,4 @@
 
 .OnGoing-active {
   color: #7a45e5;
-}
-
-@media (min-width: 768px) and (max-width: 1500px) {
-  .OnGoing-Selector {
-    margin-right: 30px;
-  }
 }

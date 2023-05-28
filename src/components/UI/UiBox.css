@@ -6,18 +6,20 @@ a {
 .Ui-Box {
   position: relative;
   box-sizing: border-box;
-  padding: 30px 0 0;
-  width: 100%;
+  margin: 0 auto;
+  padding: 30px 30px 0;
+  width: 80%;
   z-index: 5;
-  background-color: #f0f1fa;
-  text-align: center;
 }
 
 /* Submenu.tsx */
 .subnav {
-  width: 75%;
-  margin: 20px auto 40px;
+  box-sizing: border-box;
+  width: 800px;
+  padding-left: 40px;
+  margin: 20px auto 30px;
 }
+
 .submenu {
   display: flex;
   justify-content: left;
@@ -34,9 +36,12 @@ a {
 
 /* Selector  */
 #picker-box {
+  width: 750px;
+  margin: 0 auto;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  padding-bottom: 30px;
 }
 
 .picker {
@@ -76,15 +81,37 @@ a {
 
 /**/
 
-@media (min-width: 1500px) {
+@media (min-width: 1440px) {
   .Ui-Box {
-    width: 1500px;
-    margin: 0 auto;
+    width: 1200px;
   }
+
+  /* .subnav {
+    padding-left: 135px;
+  } */
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .Ui-Box {
+    width: 1024px;
+  }
+
+  /* .subnav {
+    padding-left: 135px;
+  } */
+}
+
+@media (max-width: 1024px) {
+  .Ui-Box {
+    width: 800px;
+    padding: 30px 0 0;
+  }
+
+
 }
 
 @media (max-width: 768px) {
-  .Ui-Box {
+  /* .Ui-Box {
     top: 20px;
     padding: 10px 20px 5px;
   }
@@ -99,5 +126,5 @@ a {
   }
   .picker select {
     width: 100%;
-  }
+  } */
 }

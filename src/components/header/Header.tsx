@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Navigation from "./Navigation";
 import LoginButton from "./LoginButton";
 import Search from "./Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import Top from "./Top";
 import "./Header.css";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const headerRef = useRef<HTMLDivElement>(null);
-
   const [scrollY, setScrollY] = useState<number>(0);
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
@@ -47,7 +46,6 @@ const Header = () => {
             : "rgba(245,245,245)",
         position: pathname.includes("content") ? "relative" : "fixed",
       }}
-      ref={headerRef}
       onMouseEnter={() => pathname === "/" && mouseEnter()}
       onMouseLeave={() => pathname === "/" && mouseLeave()}
     >
@@ -99,6 +97,7 @@ const Header = () => {
         mouseOver={mouseOver}
         setOpenSearch={setOpenSearch}
       />
+      <Top />
     </header>
   );
 };

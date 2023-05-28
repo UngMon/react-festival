@@ -11,8 +11,8 @@
   /* height: 30px; */
   /* display: flex; */
   /* justify-content: center; */
-  width: 80%;
-  margin: 20px auto;
+  width: 100%;
+  margin: 0 auto;
   line-height: 50px;
   text-align: center;
 }
