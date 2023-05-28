@@ -67,14 +67,8 @@
 
 @media (min-width: 1440px) {
   .Header-top {
-    width: 1300px;
+    width: 1200px;
     margin: 0 auto;
-  }
-}
-
-@media (max-width: 1440px) {
-  .Header-top {
-    padding: 0 5%;
   }
 }
 
@@ -86,8 +80,9 @@
     z-index: 99;
     height: 50px;
     font-size: 14px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.12);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
   }
+
   .Header-top {
     box-sizing: border-box;
     padding-top: 10px;
@@ -95,18 +90,12 @@
     padding: 0 20px;
   }
 
-  .Logo img{
+  .Logo img {
     width: 30px;
   }
 
   .page-top-interaction {
     position: absolute;
     right: 5%;
-  }
-}
-
-@media (max-width: 250px) {
-  .Logo span {
-    display: none;
   }
 }
