@@ -36,15 +36,12 @@
 }
 
 .saerch-div {
-  margin: 0 10%;
-  padding-top: 40px;
-  width: 80%;
-  height: 50px;
-  border-bottom: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto;
+  padding-top: 55px;
+  width: 85%;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .search-box button {
@@ -69,12 +66,16 @@
 }
 
 .search-option-box {
+  box-sizing: border-box;
+  margin-left: 1.5px;
   width: 80px;
-  height: 40px;
+  height: 37px;
   font-size: 14px;
-  position: relative;
-  text-align: center;
+  position: absolute;
+  background-color: rgb(232, 240, 253);
+  border-radius: 20px;
   display: flex;
+  text-align: center;
   align-items: center;
 }
 
@@ -83,7 +84,7 @@
 }
 
 .search-option-box span {
-  margin-right: 20px;
+  margin: 0 10px 0 15px
 }
 
 .search-option-box svg {
@@ -95,18 +96,16 @@
 .search-option-box ul {
   position: absolute;
   top: 40px;
-  left: -13px;
   background-color: rgb(250, 248, 246);
-  border: 0.5px solid black;
+  border: 1px solid rgb(176, 175, 175);
   border-radius: 5px;
   animation: option-effect 0.2s ease-in-out;
 }
 
 .search-option-box ul li {
-  width: 70px;
-  height: 30px;
-  margin: 5px 0;
-  line-height: 30px;
+  width: 80px;
+  height: 40px;
+  line-height: 40px;
 }
 
 .search-option-box ul li:hover {
@@ -116,11 +115,12 @@
 
 .search-form input {
   box-sizing: border-box;
-  width: calc(100% - 80px);
-  height: 35px;
-  border: 0;
-  padding: 5px 40px 5px 10px;
+  width: 100%;
+  height: 40px;
+  border: 1.5px solid #333;
+  padding: 5px 40px 5px 85px;
   font-size: 16px;
+  border-radius: 20px;
 }
 
 #submit {
@@ -143,7 +143,7 @@
 @media (max-width: 520px) {
   .saerch-div {
     flex-direction: column;
-    padding: 40px 0 10px;
+    padding: 70px 0 10px;
   }
 
   .search-form {
@@ -151,20 +151,26 @@
   }
 
   .search-option-box {
-    width: 98%;
-    padding-bottom: 10px;
+    position: absolute;
+    top: 30px;
+    left: -5px;
+    width: 80px;
+    background-color: rgb(220, 234, 255);
+
   }
 
   .search-option-box ul {
-    top: 25px;
+    top: 40px;
   }
 
   .saerch-div input {
     width: 100%;
+    padding-left: 10px;
+    border-radius: 5px;
   }
 
   #submit {
-    top: 62px;
+    top: 73px;
   }
 }
 
