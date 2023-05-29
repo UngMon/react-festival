@@ -1,7 +1,7 @@
 .top-button-box {
   position: fixed;
   bottom: 70px;
-  right: 50px;
+  right: calc(50vw - 660px);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -20,4 +20,17 @@
 
 .top-button-box div {
   color: white;
+}
+
+@media (max-width: 1440px) {
+  .top-button-box {
+    right: 30px;
+  }
+}
+
+@media (max-width: 880px) {
+  .top-button-box {
+    right: 40px;
+
+  }
 }

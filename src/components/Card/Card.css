@@ -160,7 +160,7 @@
     grid-template-columns: 1fr 1fr;
   }
   .AllView-grid-box {
-    column-gap: 10px;
+    column-gap: 25px;
   }
 }
 
