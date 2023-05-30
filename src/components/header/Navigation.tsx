@@ -30,7 +30,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
 
   return (
     <>
-      {/* {
+      {
         // mobile용
         <nav className="mobile-nav-bar">
           <ul className="mobile-nav-box">
@@ -86,7 +86,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
             </li>
           </ul>
         </nav>
-      } */}
+      }
       {
         //pc
         <nav

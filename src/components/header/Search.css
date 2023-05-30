@@ -26,7 +26,7 @@
 }
 
 .search-form {
-  width: 70%;
+  max-width: 750px;
   height: 150px;
   margin: 90px auto;
   background-color: rgb(242, 247, 251);
@@ -68,11 +68,10 @@
 .search-option-box {
   box-sizing: border-box;
   margin-left: 1.5px;
-  width: 80px;
+  width: 100px;
   height: 37px;
   font-size: 14px;
   position: absolute;
-  background-color: rgb(232, 240, 253);
   border-radius: 20px;
   display: flex;
   text-align: center;
@@ -84,7 +83,7 @@
 }
 
 .search-option-box span {
-  margin: 0 10px 0 15px
+  margin: 0 10px 0 15px;
 }
 
 .search-option-box svg {
@@ -118,7 +117,7 @@
   width: 100%;
   height: 40px;
   border: 1.5px solid #333;
-  padding: 5px 40px 5px 85px;
+  padding: 5px 40px 5px 90px;
   font-size: 16px;
   border-radius: 20px;
 }
@@ -154,9 +153,7 @@
     position: absolute;
     top: 30px;
     left: -5px;
-    width: 80px;
-    background-color: rgb(220, 234, 255);
-
+    width: 100px;
   }
 
   .search-option-box ul {

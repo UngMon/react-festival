@@ -3,9 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Navigation from "./Navigation";
-import LoginButton from "./LoginButton";
 import Search from "./Search";
 import Top from "./Top";
+import Nav from "./Nav";
 import "./Header.css";
 
 const Header = () => {
@@ -83,12 +83,13 @@ const Header = () => {
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
-          <LoginButton
+          <Nav />
+          {/* <LoginButton
             pathname={pathname}
             scrollY={scrollY}
             mouseOver={mouseOver}
             setOpenSearch={setOpenSearch}
-          />
+          /> */}
         </div>
       </div>
       <Navigation
