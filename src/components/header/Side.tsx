@@ -13,12 +13,14 @@ const Side = ({ setOpenNav }: T) => {
 
   const logoutHandler = () => {
     signOut(auth)
-      .then()
+      .then(() => {
+        setOpenNav(false);
+      })
       .catch((err) => {
         alert(err.message);
       });
   };
-
+  console.log(auth)
   return (
     <div className="side-box-back">
       <ul className="side-box">

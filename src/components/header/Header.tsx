@@ -6,6 +6,8 @@ import Navigation from "./Navigation";
 import Search from "./Search";
 import Top from "./Top";
 import Nav from "./Nav";
+import Side from "./Side";
+import LoginButton from "./LoginButton";
 import "./Header.css";
 
 const Header = () => {
@@ -13,6 +15,7 @@ const Header = () => {
   const [scrollY, setScrollY] = useState<number>(0);
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
+  const [openNav, setOpenNav] = useState<boolean>(false);
 
   const mouseEnter = () => {
     if (pathname !== "/") return;
@@ -22,6 +25,11 @@ const Header = () => {
   const mouseLeave = () => {
     if (pathname !== "/") return;
     setMouseOver(false);
+  };
+
+  const clickSearch = () => {
+    !openSearch && setOpenSearch(true);
+    openNav && setOpenNav(false);
   };
 
   useEffect(() => {
@@ -79,17 +87,23 @@ const Header = () => {
                 ? "scroll-top-color"
                 : "#normal-color"
             }`}
-            onClick={() => !openSearch && setOpenSearch(true)}
+            onClick={clickSearch}
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
-          <Nav />
-          {/* <LoginButton
+          <Nav
+            openNav={openNav}
+            setOpenNav={setOpenNav}
+            openSearch={openSearch}
+            setOpenSearch={setOpenSearch}
+          />
+          {openNav && <Side setOpenNav={setOpenNav} />}
+          <LoginButton
             pathname={pathname}
             scrollY={scrollY}
             mouseOver={mouseOver}
             setOpenSearch={setOpenSearch}
-          /> */}
+          />
         </div>
       </div>
       <Navigation

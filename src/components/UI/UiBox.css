@@ -21,6 +21,7 @@ a {
 }
 
 .submenu {
+  height: 40px;
   display: flex;
   justify-content: left;
   align-items: center;
@@ -32,6 +33,7 @@ a {
 
 .submenu a {
   font-size: 20px;
+  font-weight: 600;
 }
 
 /* Selector  */

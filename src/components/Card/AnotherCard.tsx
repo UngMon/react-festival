@@ -86,7 +86,7 @@ const AnotherCard = ({ title }: Props) => {
     if (title === "travel") array = tcts.travelArray![areaCode];
 
     let result: JSX.Element[] = [];
-    console.log(array)
+
     for (let item of array) {
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
 

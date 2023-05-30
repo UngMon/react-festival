@@ -23,6 +23,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 26;
 }
 
 .search-form {
@@ -50,7 +51,6 @@
   background-color: transparent;
   border: 0;
   font-size: 25px;
-  z-index: 100;
 }
 
 #cancel {

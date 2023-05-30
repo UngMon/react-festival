@@ -59,6 +59,7 @@
   height: 35px;
   border: 0;
   background-color: transparent;
+  z-index: 99;
 }
 
 .magnifying svg {

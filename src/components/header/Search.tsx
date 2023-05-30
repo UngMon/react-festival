@@ -24,8 +24,6 @@ const t: { [key: string]: string } = {
 
 const Search = ({
   pathname,
-  scrollY,
-  mouseOver,
   setOpenSearch,
 }: HeaderProps) => {
   const navigate = useNavigate();

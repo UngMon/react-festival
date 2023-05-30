@@ -8,29 +8,23 @@ import {
   AuthProvider,
 } from "firebase/auth";
 import "./Login.css";
-import { RootState, useAppDispatch } from "../redux/store";
-import { firebaseActions } from "../redux/firebase-slice";
 import { useEffect, useState } from "react";
 import Loading from "../components/ui/loading/Loading";
-import { useSelector } from "react-redux";
 import LoginAccessError from "../components/error/LoginAccessError";
 // import KakaoLogin from "../components/Login/Kakao";
 // import Naver from "../components/Login/Naver";
 
-let isFirst = true;
-
 const LoginPage = () => {
   const navigate = useNavigate();
-  const isUserLoggedIn = useSelector(
-    (state: RootState) => state.firebase.loginedUser
-  );
+  const loggedIn = auth.currentUser;
+  console.log(loggedIn);
 
-  const dispatch = useAppDispatch();
+  const [isFirst, setFirst] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
 
   const loginHandler = async (type: string) => {
     let provider: AuthProvider | null = null;
-    isFirst = false;
+    setFirst(false);
     setLoading(true);
     if (type === "Google") {
       provider = new GoogleAuthProvider();
@@ -45,25 +39,22 @@ const LoginPage = () => {
   useEffect(() => {
     getRedirectResult(auth)
       .then((credential) => {
-        const { uid, email, displayName, photoURL } = credential!.user;
-        const prevPageUrl = JSON.parse(sessionStorage.getItem("currentUrl")!);
-        dispatch(
-          firebaseActions.setUserData({ uid, email, displayName, photoURL })
-        );
-        navigate(`${prevPageUrl}`, { replace: true });
+        !credential && setLoading(false); 
+        credential && navigate(-3);
       })
       .catch((error) => {
+        console.log('???????')
         !isFirst && alert(error.message);
         !isFirst && navigate("/login", { replace: true });
         setLoading(false);
       });
-  }, [dispatch, navigate, isUserLoggedIn]);
+  }, [isFirst, loggedIn, navigate]);
 
   return (
     <>
       {loading && <Loading />}
-      {!loading && isUserLoggedIn && <LoginAccessError />}
-      {!loading && !isUserLoggedIn && (
+      {!loading && loggedIn && <LoginAccessError />}
+      {!loading && !loggedIn && (
         <form className="Login-Form">
           <h3 className="title">로그인</h3>
           <p id="p-tag">로그인 후 이용하실 수 있습니다.</p>
