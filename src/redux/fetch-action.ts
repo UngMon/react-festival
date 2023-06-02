@@ -24,12 +24,33 @@ export const getTCTRData = createAsyncThunk(
   async (parameter: FetchParams) => {
     const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
     const type = parameter.type;
-    let url = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q&contentTypeId=${type}`;
-    if (type !== '25') url += `&areaCode=${parameter.areaCode}`
-    console.log(url)
+    const title = parameter.title;
+    const areaCode = parameter.areaCode;
+    let keyword = "";
+
+    let url = `https://apis.data.go.kr/B551011/KorService1/${
+      title !== "search" ? "areaBasedList1" : "searchKeyword1"
+    }?serviceKey=${serviceKey}&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
+
+    // 네비게이션 이동
+    if (title !== "search") {
+      url += `&contentTypeId=${type}${
+        areaCode ? `&areaCode=${parameter.areaCode}` : ``
+      }`;
+      keyword = parameter.keyword!;
+    }
+
+    // 검색을 한 경우
+    if (title === "search")
+      //type === 0인 경우는 전체 키워드 검색
+      url += `&keyword=${encodeURIComponent(parameter.keyword!)}${
+        type !== "0" ? `&contentTypeId=${type}` : ""
+      }`;
+
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
-    return { data, parameter, type };
+
+    return { data, areaCode, type, title, keyword };
   }
 );

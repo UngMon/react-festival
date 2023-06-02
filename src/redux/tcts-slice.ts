@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getTCTRData } from "./fetch-action";
 import { Region } from "../type/Common";
-import { TCTRtype } from "../type/TCTRtype";
+import { TCTRtype } from "../type/TCTStype";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -33,10 +33,12 @@ const initialState: TCTRtype = {
   touristArray: {},
   cultureArray: {},
   travelArray: {},
+  searchArray: [],
   loading: false,
   tourLoading: true,
   cultrueLoading: true,
   travelLoading: true,
+  serchRecord: ["", "", ""],
 };
 
 const tctsSlice = createSlice({
@@ -47,11 +49,37 @@ const tctsSlice = createSlice({
     builder
       .addCase(getTCTRData.pending, (state, action) => {
         state.loading = true;
-        // if (action.meta.arg.type === "12") state.tourLoading = true;
-        // if (action.meta.arg.type === "14") state.cultrueLoading = true;
-        // if (action.meta.arg.type === "25") state.travelLoading = true;
+        if (action.meta.arg.title === "search")
+          state.serchRecord = [
+            "pending",
+            action.meta.arg.type,
+            action.meta.arg.keyword!,
+          ];
       })
       .addCase(getTCTRData.fulfilled, (state, action) => {
+        const dummyData = action.payload.data.response.body.items.item;
+        // console.log(dummyData);
+        if (!dummyData) {
+          // 데이터를 불러왔지만, 아무런 정보가 없을 때,
+          // ex 사용자가 url를 조작할 때,
+          state.successGetData = false;
+          state.loading = false;
+          return;
+        }
+
+        state.successGetData = true;
+        state.loading = false;
+
+        if (action.payload.title === "search") {
+          state.searchArray = dummyData;
+          state.serchRecord = [
+            "fulfiled",
+            state.serchRecord[1],
+            state.serchRecord[2],
+          ];
+          return;
+        }
+
         let region: Region = {
           "1": [],
           "2": [],
@@ -72,33 +100,22 @@ const tctsSlice = createSlice({
           "39": [],
         };
 
-        const dummyData = action.payload.data.response.body.items.item;
-        if (!dummyData) {
-          // 데이터를 불러왔지만, 아무런 정보가 없을 때,
-          // ex 사용자가 url를 조작할 때,
-          state.successGetData = false;
-          state.loading = false;
-          return;
-        }
-
-        console.log(action.payload.data);
         if (action.payload.type !== "25") {
           for (const item of dummyData) {
             if (item.firstimage === "") continue;
-            region[action.payload.parameter.areaCode].push(item);
+            region[action.payload.areaCode].push(item);
           }
 
           if (action.payload.type === "12") {
-            state.touristArray![action.payload.parameter.areaCode] =
-              region[action.payload.parameter.areaCode];
+            state.touristArray![action.payload.areaCode] =
+              region[action.payload.areaCode];
           }
 
           if (action.payload.type === "14") {
-            state.cultureArray![action.payload.parameter.areaCode] =
-              region[action.payload.parameter.areaCode];
+            state.cultureArray![action.payload.areaCode] =
+              region[action.payload.areaCode];
           }
         } else {
-          console.log('여행')
           for (const item of dummyData) {
             if (!item.firstimage) continue;
             if (!item.areacode) continue;
@@ -106,9 +123,6 @@ const tctsSlice = createSlice({
           }
           state.travelArray = region;
         }
-
-        state.successGetData = true;
-        state.loading = false;
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;

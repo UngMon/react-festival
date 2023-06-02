@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Item, Region, Month } from "../type/Common";
 import { FestivalState } from "../type/FestivalType";
 import { getFestiavalData } from "./fetch-action";
-import { nowDate } from "../utils/NowDate";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -12,6 +11,7 @@ import { nowDate } from "../utils/NowDate";
 // A208 => cat3 => A02080100: 전통공연, A02080200: 연극, A02080300: 뮤지컬, A02080400: 오페라
 // A02080500: 전시회, A02080600: 박람회, A02080800: 무용, A02080900: 클래식음악회, A02081000: 대중콘서트
 // A02081100 영화, A02081200: 스포츠, A02081300: 기타행사
+
 
 const initialState: FestivalState = {
   successGetData: false,
@@ -99,14 +99,13 @@ const festivalSlice = createSlice({
     //   state.cat3 = action.payload.cat3;
     // },
     행사상태설정(state, action) {
-      state.행사상태 = action.payload
-    }
+      state.행사상태 = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getFestiavalData.pending, (state) => {
-      })
+      .addCase(getFestiavalData.pending, (state) => {})
       .addCase(getFestiavalData.fulfilled, (state, action) => {
         const dummyData = action.payload.response.body.items.item;
         const arr: Item[] = [];

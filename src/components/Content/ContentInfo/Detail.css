@@ -9,23 +9,27 @@
   overflow-y: auto;
 }
 
+.Content-info-title {
+  padding: 0 0 30px 40px;
+}
+
 .Content-table {
   width: 100%;
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   font-size: 16px;
 }
 
 .Content-table th {
-  width: 30%;
+  width: 100px;
   padding: 10px;
-  border: 0.5px solid #dfdede;
-  background-color: rgb(244, 244, 244);
+  /* border: 0.5px solid #dfdede; */
+  /* background-color: rgb(244, 244, 244); */
 }
 
 .Content-table td {
   box-sizing: border-box;
   padding: 10px;
-  border: 0.5px solid #dfdede;
+  /* border: 0.5px solid #dfdede; */
   word-break: break-all;
 }
 

@@ -15,19 +15,16 @@ interface HeaderProps {
   setOpenSearch: (value: boolean) => void;
 }
 
-const t: { [key: string]: string } = {
-  tour: "관광지",
+const titl: { [key: string]: string } = {
+  tour: "관광",
   culture: "문화",
   festival: "축제",
   travel: "여행",
 };
 
-const Search = ({
-  pathname,
-  setOpenSearch,
-}: HeaderProps) => {
+const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>(t[pathname.split("/")[1]]);
+  const [title, setTitle] = useState<string>(titl[pathname.split("/")[1]] || '전체');
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,16 +36,27 @@ const Search = ({
       때문에 해당축제를 찾지를 못한다..
       /\s+/g=> 정규표현식으로 하나이상의 공백을 뜻한다고 한다.
     */
-    let inputText = "";
 
-    inputText = inputRef.current!.value.replace(/\s+/g, "");
+    const keyword = inputRef.current!.value.replace(/\s+/g, "");
 
-    if (inputText.length === 0) {
+    if (keyword.length === 0) {
       return alert("검색 키워드를 입력해주세요!");
     }
 
-    navigate(`/result/${inputText}`);
+    const obj: { [key: string]: string } = {
+      전체: "0",
+      관광: "12",
+      문화: "14",
+      축제: "15",
+      여행: "25",
+    };
+    console.log(title);
+    console.log(obj[title]);
+    navigate(
+      `/result/search?title=${title}&type=${obj[title]}&keyword=${keyword}`
+    );
     inputRef.current!.value = "";
+    setOpenSearch(false);
   };
 
   return (
@@ -75,10 +83,10 @@ const Search = ({
             {openKeyword && (
               <ul>
                 <li onClick={() => setTitle("전체")}>전체</li>
-                <li onClick={() => setTitle("관광지")}>관광지</li>
-                <li onClick={() => setTitle("문화")}>문화</li>
+                <li onClick={() => setTitle("관광")}>관광지</li>
+                <li onClick={() => setTitle("문화")}>문화시설</li>
                 <li onClick={() => setTitle("축제")}>축제</li>
-                <li onClick={() => setTitle("여행")}>여행</li>
+                <li onClick={() => setTitle("여행")}>여행코스</li>
               </ul>
             )}
           </div>
@@ -87,6 +95,7 @@ const Search = ({
             type="text"
             name="전체검색"
             placeholder="검색어를 입력해주세요!"
+            ref={inputRef}
           />
           <button type="submit" id="submit">
             <FontAwesomeIcon icon={faMagnifyingGlass} />

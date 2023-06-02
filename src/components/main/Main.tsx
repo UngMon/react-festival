@@ -7,7 +7,7 @@ const Main = () => {
   const { month } = nowDate();
 
   return (
-    <main className='main-page'>
+    <main className="main-page">
       {currentSeason === "spring" && (
         <>
           <div className="background spring"></div>
@@ -19,8 +19,10 @@ const Main = () => {
       )}
       {currentSeason === "summer" && (
         <div className="background summer">
-          <h2>더위를 날려버리고,</h2>
-          <h2>즐거움 가득한 여름 축제로 함께 여름을 즐겨보세요!</h2>
+          <div className="main-page-title">
+            <h2>더위를 날려버리고,</h2>
+            <h2>즐거움 가득한 여름 축제로 함께 여름을 즐겨보세요!</h2>
+          </div>
         </div>
       )}
       {currentSeason === "autumn" && (

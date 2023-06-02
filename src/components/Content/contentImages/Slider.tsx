@@ -64,13 +64,13 @@ const Slider = ({ contentImage }: SliderProps) => {
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
     // 첫 렌더링 후 모바일 너비이면 이미지 슬라이드 너비 맞춤
-    if (window.innerWidth < 769)
+    if (window.innerWidth < 1024)
       return setWidth(containerRef.current!.clientWidth);
 
     // pc 사용자가 브라우저 크기를 조절할 때,
     const resizeHandler = () => {
       setWidth(
-        window.innerWidth < 769
+        window.innerWidth < 1024
           ? containerRef.current!.clientWidth
           : containerRef.current!.clientWidth / 3
       );

@@ -61,6 +61,7 @@
   background-position: center;
   background-size: cover;
   filter: brightness(85%);
+  color: aliceblue;
 }
 
 .spring {

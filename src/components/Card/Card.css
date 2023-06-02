@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Dongle&family=Gamja+Flower&family=Hi+Melody&family=Noto+Sans+KR:wght@500;700&family=Single+Day&family=Sunflower:wght@300&display=swap");
+
 .main-box-content {
   box-sizing: border-box;
   margin: 0 auto;
@@ -27,7 +29,7 @@
 .card-item {
   position: relative;
   box-sizing: border-box;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 7px;
   text-align: center;
   transition: all 0.3s ease;
@@ -87,30 +89,39 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
-  font-weight: 600;
-  min-height: 35px;
+  font-family: "Noto Sans KR", sans-serif;
+  min-height: 55px;
+  text-align: left;
 }
 
-.card-text h3 {
+.area {
+  padding: 0 0 0 0;
+  color: #3c3c3c;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.card-text h4 {
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   position: absolute;
   left: 0;
   width: 100%;
-  padding: 10px 20px 0;
-  font-size: 1em;
-  white-space: nowrap;
+  padding: 5px 5px 0;
+  font-size: 17px;
   color: #333;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 500;
 }
 
 .card-date {
   box-sizing: border-box;
   width: 100%;
-  text-align: center;
-  font-size: 1em;
-  padding: 40px 0 10px;
-  font-weight: 500;
+  font-size: 14px;
+  padding: 35px 0 10px;
+  color: #505050;
 }
 
 @media (min-width: 1440px) {
@@ -137,17 +148,13 @@
   }
 }
 
-@media (max-width: 670px) and (min-width: 600px) {
+@media (min-width: 650px) and (max-width: 670px) {
   .main-box-content {
-    padding: 40px 20px 100px;
+    padding: 20px 20px 100px;
   }
 
   .AllView-grid-box {
     column-gap: 10px;
-  }
-
-  .card-text {
-    padding: 5px 0 10px;
   }
 
   .card-text h3 {
@@ -164,13 +171,22 @@
   }
 }
 
-
-@media (max-width: 440px) {
+@media (min-width: 425px) and (max-width: 500px) {
   .main-box-content {
-    padding: 40px 35px 100px;
+    padding: 20px 25px 100px;
+  }
+
+  .AllView-grid-box {
+    column-gap: 15px;
+  }
+}
+
+@media (max-width: 425px) {
+  .main-box-content {
+    padding: 20px 35px 100px;
   }
 
   .AllView-grid-box {
     grid-template-columns: 1fr;
   }
-} 
+}

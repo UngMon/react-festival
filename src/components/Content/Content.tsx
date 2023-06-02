@@ -23,8 +23,8 @@ const Cotent = () => {
   const [param] = useSearchParams();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [contentData, setContentData] = useState<Data>();
-  console.log(contentData);
-  console.log('content')
+  // console.log(contentData);
+  // console.log('content')
   const [category, setCategory] = useState<string>("기본정보");
   const [reportModalOpen, setReportModalOpen] = useState<
     [boolean, string, string, string, string]
@@ -35,7 +35,6 @@ const Cotent = () => {
 
   useEffect(() => {
     if (!isLoading) return;
-    console.log("useEFfect");
 
     const getContentData = async (type: string, contentId: string) => {
       try {
@@ -154,6 +153,6 @@ export async function loader(type: string, contentId: string) {
       getContentDetailIntro(type, contentId!),
       getCotentDetailCommon(type, contentId!),
     ]);
-  console.log(contentImage, contentDetailIntro, contentDetailCommon);
+  // console.log(contentImage, contentDetailIntro, contentDetailCommon);
   return { contentDetailIntro, contentDetailCommon, contentImage };
 }

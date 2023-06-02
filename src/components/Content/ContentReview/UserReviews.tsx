@@ -211,6 +211,8 @@ const UserReviews = ({
           ref={inputRef}
         ></input>
         <button type="submit">입력</button>
+        <button type='submit'>저장</button>
+        <button type='submit'>취소</button>
       </form>
       <div className="user-review-area">
         {reviewArray.length === 0 && (

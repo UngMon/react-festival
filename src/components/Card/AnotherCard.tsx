@@ -5,11 +5,13 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
+import { 지역코드, 시군코드 } from "../../type/Common";
 import Loading from "../ui/loading/Loading";
 import GetDataError from "../error/GetDataError";
 
 interface Props {
   title: string;
+  isSearch?: boolean;
 }
 
 const areaCdoeArr = [
@@ -32,18 +34,17 @@ const areaCdoeArr = [
   "39",
 ];
 
-const AnotherCard = ({ title }: Props) => {
+const AnotherCard = ({ title, isSearch }: Props) => {
   const dispatch = useAppDispatch();
   const naviagate = useNavigate();
-
+  // console.log(title)
   const tcts = useSelector((state: RootState) => state.tcts);
-  const category = useSelector((state: RootState) => state.category);
 
   const [params] = useSearchParams();
   const areaCode = params.get("areaCode")!;
-  const cat1 = params.get("cat1")!;
-  const cat2 = params.get("cat2")!;
-  const cat3 = params.get("cat3")!;
+  const cat1 = params.get("cat1") || "all";
+  const cat2 = params.get("cat2") || "all";
+  const cat3 = params.get("cat3") || "all";
 
   useEffect(() => {
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
@@ -54,6 +55,7 @@ const AnotherCard = ({ title }: Props) => {
     const parameter = {
       areaCode,
       type: title === "tour" ? "12" : title === "culture" ? "14" : "25",
+      title,
     };
     if (title === "tour" && !tcts.touristArray![areaCode]) {
       dispatch(getTCTRData(parameter));
@@ -75,7 +77,7 @@ const AnotherCard = ({ title }: Props) => {
   };
 
   const returnResult = () => {
-    console.log(title, areaCode, cat1, cat2, cat3)
+    // console.log(title, areaCode, cat1, cat2, cat3);
 
     let array: Item[] = [];
 
@@ -85,6 +87,8 @@ const AnotherCard = ({ title }: Props) => {
 
     if (title === "travel") array = tcts.travelArray![areaCode];
 
+    if (title === "result") array = tcts.searchArray!;
+    // console.log(title, array)
     let result: JSX.Element[] = [];
 
     for (let item of array) {
@@ -93,6 +97,11 @@ const AnotherCard = ({ title }: Props) => {
       if (cat2 !== "all" && cat2 !== item.cat2) continue;
 
       if (cat3 !== "all" && cat3 !== item.cat3) continue;
+
+      const 지역 = 지역코드[item.areacode] || "";
+      const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
+      const 지역표시 =
+        `${지역 && `[${지역}]`}` + " " + `${시군구 && `[${시군구}]`}`;
 
       const element = (
         <div
@@ -109,7 +118,8 @@ const AnotherCard = ({ title }: Props) => {
             ></img>
           </div>
           <div className="card-text">
-            <h3>{item.title}</h3>
+            <p className="area">{지역표시}</p>
+            <h4>{item.title}</h4>
           </div>
         </div>
       );
@@ -128,16 +138,13 @@ const AnotherCard = ({ title }: Props) => {
     <>
       {title === "tour" &&
         (tcts.loading ? <Loading /> : !tcts.successGetData && <GetDataError />)}
-      {title === "tour" &&
-        tcts.touristArray![areaCode] &&
-        returnResult()}
+      {title === "tour" && tcts.touristArray![areaCode] && returnResult()}
       {title === "culture" && tcts.loading && <Loading />}
-      {title === "culture" &&
-        tcts.cultureArray![areaCode] &&
-        returnResult()}
+      {title === "culture" && tcts.cultureArray![areaCode] && returnResult()}
       {title === "travel" && tcts.loading && <Loading />}
-      {title === "travel" &&
-        tcts.travelArray![areaCode] &&
+      {title === "travel" && tcts.travelArray![areaCode] && returnResult()}
+      {title === "result" &&
+        tcts.serchRecord[0] === "fulfiled" &&
         returnResult()}
     </>
   );

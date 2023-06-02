@@ -9,20 +9,26 @@ import { nowDate } from "../../utils/NowDate";
 import { dataSlice } from "../../utils/DataSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
+import { 지역코드, 시군코드 } from "../../type/Common";
 import Loading from "../ui/loading/Loading";
 
-const FestivalCard = () => {
+interface T {
+  isSearch?: boolean;
+}
+
+const FestivalCard = ({ isSearch }: T) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const state = useSelector((state: RootState) => state.festival);
-  const [params] = useSearchParams();
-  
-  const month = params.get('month');
-  const areaCode = params.get('areaCode');
-  const cat2 = params.get('cat2');
-  const cat3 = params.get('cat3');
+  const tcts = useSelector((state: RootState) => state.tcts);
 
+  const [params] = useSearchParams();
+
+  const month = params.get("month");
+  const areaCode = params.get("areaCode");
+  const cat2 = params.get("cat2");
+  const cat3 = params.get("cat3");
 
   const cardClickHandler = (contentId: string) => {
     dispatch(firebaseActions.cardClicked());
@@ -44,7 +50,7 @@ const FestivalCard = () => {
 
   const makeFestivlaCard = () => {
     const { year, date } = nowDate();
-    console.log(areaCode, month, cat2, cat3)
+    // console.log(areaCode, month, cat2, cat3);
     if (areaCode === "0") {
       //O(1)
       array = state.monthArray[month!];
@@ -55,6 +61,8 @@ const FestivalCard = () => {
       );
     }
 
+    if (isSearch) array = tcts.searchArray!;
+    // console.log(array)
     for (let item of array) {
       if (cat2 !== "all" && item.cat2 !== cat2) continue;
 
@@ -92,6 +100,10 @@ const FestivalCard = () => {
       //   imageUri = param.contentData[item.contentid].firstImage;
       // }
 
+      const 지역 = 지역코드[item.areacode] || "";
+      const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
+      const 지역표시 = `${지역 && `[${지역}]`}` + ' ' + `${시군구 && `[${시군구}]`}`;
+
       const element = (
         <div
           className="card-item"
@@ -118,7 +130,8 @@ const FestivalCard = () => {
             {행사상태}
           </p>
           <div className="card-text">
-            <h3 className="prevent-overflow">{item.title}</h3>
+            <p className="area">{지역표시}</p>
+            <h4 className="prevent-overflow">{item.title}</h4>
             <p className="card-date">
               {dataSlice(item.eventstartdate!, item.eventenddate!)}
             </p>

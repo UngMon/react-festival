@@ -13,6 +13,7 @@ interface BasicProps {
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
   return (
     <>
+      <h3 className="Content-info-title">기본정보</h3>
       <table className="Content-table">
         <tbody>
           {type === "15" && (
@@ -28,12 +29,6 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               </td>
             </tr>
           )}
-          {detailIntro[0].sponsor1 && (
-            <tr key="주최자 정보">
-              <th>주최자 정보</th>
-              <td>{detailIntro[0].sponsor1}</td>
-            </tr>
-          )}
           {detailCommon[0].tel && (
             <tr key="주최자 연락처">
               <th>
@@ -45,7 +40,11 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           {
             <tr key="홈페이지">
               <th>
-                <img src="/images/icons/website.png" alt="이용요금" width="40" />
+                <img
+                  src="/images/icons/website.png"
+                  alt="이용요금"
+                  width="40"
+                />
               </th>
               <td
                 dangerouslySetInnerHTML={{
@@ -74,7 +73,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img src="/images/icons/clock.png" alt="공연시간" width="40" />
               </th>
-              <td>{detailIntro[0].playtime}</td>
+              <td dangerouslySetInnerHTML={{__html: detailIntro[0].playtime}}></td>
             </tr>
           )}
           {detailCommon[0].zipcode && (
@@ -83,14 +82,6 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
                 <img src="/images/icons/postal.png" alt="우편번호" width="40" />
               </th>
               <td>{detailCommon[0].zipcode}</td>
-            </tr>
-          )}
-          {type === "15" && detailIntro[0].eventplace && (
-            <tr key="행사장소">
-              <th>
-                <img src="/images/icons/phone.png" alt="행사 장소" width="40" />
-              </th>
-              <td>{detailIntro[0].eventplace}</td>
             </tr>
           )}
           {detailCommon[0].addr1 && (
@@ -106,7 +97,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img src="/images/icons/phone.png" alt="문의 안내" width="40" />
               </th>
-              <td>{detailIntro[0].infocenter}</td>
+              <td
+                dangerouslySetInnerHTML={{ __html: detailIntro[0].infocenter }}
+              ></td>
             </tr>
           )}
           {type === "12" && detailIntro[0].restdate! && (
@@ -114,7 +107,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img src="/images/icons/Closed.png" alt="휴일" width="40"></img>
               </th>
-              <td>{detailIntro[0].restdate}</td>
+              <td
+                dangerouslySetInnerHTML={{ __html: detailIntro[0].restdate }}
+              ></td>
             </tr>
           )}
           {type === "12" && detailIntro[0].expguide! && (
@@ -126,7 +121,11 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
                   width="40"
                 ></img>
               </th>
-              <td>{detailIntro[0].expguide}</td>
+              <td
+                dangerouslySetInnerHTML={{
+                  __html: detailIntro[0].expguide,
+                }}
+              ></td>
             </tr>
           )}
           {type === "12" && detailIntro[0].accomcount! && (
@@ -146,7 +145,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img src="/images/icons/open.png" alt="개장" width="40" />
               </th>
-              <td>{detailIntro[0].usetime}</td>
+              <td
+                dangerouslySetInnerHTML={{ __html: detailIntro[0].usetime }}
+              ></td>
             </tr>
           )}
           {type === "12" && detailIntro[0].parking! && (
@@ -175,7 +176,11 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           {type === "14" && detailIntro[0].spendtime! && (
             <tr key="소요시간">
               <th>
-                <img src="/images/icons/save-time.png" alt="소요시간" width="35" />
+                <img
+                  src="/images/icons/save-time.png"
+                  alt="소요시간"
+                  width="35"
+                />
               </th>
               <td>{detailIntro[0].spendtime}</td>
             </tr>

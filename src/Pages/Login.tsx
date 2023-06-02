@@ -17,7 +17,7 @@ import LoginAccessError from "../components/error/LoginAccessError";
 const LoginPage = () => {
   const navigate = useNavigate();
   const loggedIn = auth.currentUser;
-  console.log(loggedIn);
+  // console.log(loggedIn);
 
   const [isFirst, setFirst] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);

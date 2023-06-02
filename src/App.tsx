@@ -6,12 +6,8 @@ import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
 import Loading from "./components/ui/loading/Loading";
-import StartPage from "./pages/Start";
 import GetDataError from "./components/error/GetDataError";
-import CulturePage from "./pages/CulturePage";
-import Culture from "./components/main/Culture";
 import "./App.css";
-import Travel from "./components/main/Travel";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
@@ -20,8 +16,11 @@ const Tour = lazy(() => import("./components/main/Tour"));
 const FestivalPage = lazy(() => import("./pages/FestivalPage"));
 const Festival = lazy(() => import("./components/main/Festival"));
 const ResultPage = lazy(() => import("./pages/Result"));
-const SearchPage = lazy(() => import("./pages/SearchPage"));
 const Content = lazy(() => import("./components/content/Content"));
+const StartPage = lazy(() => import("./pages/Start"));
+const CulturePage = lazy(() => import("./pages/CulturePage"));
+const Culture = lazy(() => import("./components/main/Culture"));
+const Travel = lazy(() => import("./components/main/Travel"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -118,14 +117,6 @@ function App() {
               ),
             },
           ],
-        },
-        {
-          path: "search",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <SearchPage />
-            </Suspense>
-          ),
         },
         {
           path: "result",

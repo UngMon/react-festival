@@ -29,7 +29,7 @@ const ContentRivews = ({
   const [isLoading, setLoading] = useState<boolean>(false);
   const uid = firebase.userUid || "";
   const contentRef = doc(db, "content", contentId);
-  console.log(firebase);
+  // console.log(firebase);
   useEffect(() => {
     const setData = async () => {
       let docData: ContentData;
@@ -60,7 +60,6 @@ const ContentRivews = ({
 
     // 사용자가 해당 콘텐츠를 처음 클릭하거나, 새로고침 했거나의 경우
     if (!firebase.contentData[contentId] && !isLoading) {
-      console.log("contentUser rneder effect");
       setData();
       setLoading(true);
     }

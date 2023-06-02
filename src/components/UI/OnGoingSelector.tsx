@@ -29,7 +29,7 @@ const OnGoingSelector = () => {
       );
     }
   };
-  console.log(행사상태);
+  // console.log(행사상태);
   return (
     <ul className="OnGoing-Selector">
       <li
