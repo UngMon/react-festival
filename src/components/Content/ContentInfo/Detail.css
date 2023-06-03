@@ -20,7 +20,7 @@
 }
 
 .Content-table th {
-  width: 100px;
+  width: 80x;
   padding: 10px;
   /* border: 0.5px solid #dfdede; */
   /* background-color: rgb(244, 244, 244); */
@@ -49,7 +49,15 @@
 }
 
 @media (max-width: 768px) {
+  .Cotent-overview {
+    padding: 30px 10px;
+  }
+
   .Content-info {
     padding: 10px 10px;
+  }
+
+  .Content-info-title {
+    padding-left: 10px;
   }
 }

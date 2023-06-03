@@ -162,7 +162,6 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
             <tr key="반려동물입장">
               <th>
                 <img src="/images/icons/animal.png" alt="반려동물" width="40" />
-                반려동물입장
               </th>
               <td>{detailIntro[0].chkpet}</td>
             </tr>

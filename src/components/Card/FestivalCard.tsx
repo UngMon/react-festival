@@ -25,7 +25,7 @@ const FestivalCard = ({ isSearch }: T) => {
 
   const [params] = useSearchParams();
 
-  const month = params.get("month");
+  const pickMonth = params.get("month");
   const areaCode = params.get("areaCode");
   const cat2 = params.get("cat2");
   const cat3 = params.get("cat3");
@@ -49,14 +49,14 @@ const FestivalCard = ({ isSearch }: T) => {
   let 행사시작전: JSX.Element[] = [];
 
   const makeFestivlaCard = () => {
-    const { year, date } = nowDate();
+    const { year, month, date } = nowDate();
     // console.log(areaCode, month, cat2, cat3);
     if (areaCode === "0") {
       //O(1)
-      array = state.monthArray[month!];
+      array = state.monthArray[pickMonth!];
     } else {
       //O(n)
-      array = state.monthArray[month!].filter(
+      array = state.monthArray[pickMonth!].filter(
         (item) => item.areacode === areaCode
       );
     }
@@ -74,7 +74,7 @@ const FestivalCard = ({ isSearch }: T) => {
         item.eventstartdate!,
         item.eventenddate!,
         year,
-        month!,
+        month,
         date
       );
 

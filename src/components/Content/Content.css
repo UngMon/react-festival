@@ -1,6 +1,7 @@
 .Content-box {
   width: 80%;
-  margin: 0 auto;
+  padding: 0 10%;
+  background-color: #f0f1fa;
 }
 
 .Content {
@@ -34,9 +35,10 @@
   position: relative;
 }
 
-@media (min-width: 1600px) {
-  .Content {
-    width: 1440px;
+@media (min-width: 1250px) {
+  .Content-box {
+    width: 1000px;
+    padding: 0 calc((100% - 1000px) / 2);
   }
 }
 
@@ -55,6 +57,11 @@
 }
 
 @media (max-width: 320px) {
+  .Content-box {
+    width: 320px;
+  }
+
+
   .slider-container {
     height: 200px;
   }

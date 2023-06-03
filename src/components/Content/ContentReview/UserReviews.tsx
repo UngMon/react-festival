@@ -48,7 +48,7 @@ const UserReviews = ({
     [string, string, string, string | number]
   >(["", "", "", ""]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textRef = useRef<HTMLTextAreaElement>(null);
   const saveInputRef = useRef<HTMLInputElement>(null);
   const optionRef = useRef<SVGSVGElement[]>([]);
 
@@ -103,7 +103,7 @@ const UserReviews = ({
     if (!firebaseState.loginedUser)
       return alert("로그인 하시면 이용하실 수 있습니다.");
 
-    const text = inputRef.current!.value;
+    const text = textRef.current!.value;
 
     if (text.length === 0) {
       return alert("글자를 입력해주세요!");
@@ -124,7 +124,7 @@ const UserReviews = ({
       await setDoc(contentRef, { comment: array }, { merge: true });
       setReviewArray(array);
       dispatch(firebaseActions.updateReviewData({ contentId, array }));
-      inputRef.current!.value = "";
+      textRef.current!.value = "";
     } catch (error: any) {
       alert(
         `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
@@ -201,18 +201,30 @@ const UserReviews = ({
     setReportModalOpen([true, when, userUid, name, text]);
   };
 
+  const resizeHandler = () => {
+    textRef.current!.style.height = "auto"; // heigth 초기화
+    textRef.current!.style.height = textRef.current?.scrollHeight + "px";
+  };
+
   return (
     <>
       <form className="user-input-box" onSubmit={reivewSubmitHandler}>
-        <input
-          type="text"
-          id="user-input"
-          placeholder="여러분의 소중한 리뷰를 작성해주세요!"
-          ref={inputRef}
-        ></input>
-        <button type="submit">입력</button>
-        <button type='submit'>저장</button>
-        <button type='submit'>취소</button>
+        <div className="user-input-area">
+          <label htmlFor="user-input"></label>
+          <textarea
+            id="user-input"
+            name="user-input"
+            rows={1}
+            ref={textRef}
+            onChange={resizeHandler}
+            placeholder="소중한 리뷰를 작성해보세요!"
+          ></textarea>
+          <i></i>
+        </div>
+        <div className="user-input-button">
+          <button type="submit">저장</button>
+          <button type="button">취소</button>
+        </div>
       </form>
       <div className="user-review-area">
         {reviewArray.length === 0 && (
