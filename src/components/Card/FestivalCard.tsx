@@ -20,7 +20,7 @@ const FestivalCard = ({ isSearch }: T) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const state = useSelector((state: RootState) => state.festival);
+  const festival = useSelector((state: RootState) => state.festival);
   const tcts = useSelector((state: RootState) => state.tcts);
 
   const [params] = useSearchParams();
@@ -36,12 +36,12 @@ const FestivalCard = ({ isSearch }: T) => {
   };
 
   useEffect(() => {
-    if (!state.successGetData) dispatch(getFestiavalData());
+    if (!festival.successGetData) dispatch(getFestiavalData());
 
-    if (state.successGetData && !state.sortedFestivalArr) {
+    if (festival.successGetData && !festival.sortedFestivalArr) {
       dispatch(festivalActions.sortFestivalArray());
     }
-  }, [dispatch, state]);
+  }, [dispatch, festival]);
 
   let array: Item[] = [];
   let 행사종료: JSX.Element[] = [];
@@ -53,17 +53,18 @@ const FestivalCard = ({ isSearch }: T) => {
     // console.log(areaCode, month, cat2, cat3);
     if (areaCode === "0") {
       //O(1)
-      array = state.monthArray[pickMonth!];
+      array = festival.monthArray[pickMonth!];
     } else {
       //O(n)
-      array = state.monthArray[pickMonth!].filter(
+      array = festival.monthArray[pickMonth!].filter(
         (item) => item.areacode === areaCode
       );
     }
 
     if (isSearch) array = tcts.searchArray!;
-    // console.log(array)
+
     for (let item of array) {
+      console.log("??????????????????");
       if (cat2 !== "all" && item.cat2 !== cat2) continue;
 
       if (cat3 !== "all") {
@@ -79,11 +80,11 @@ const FestivalCard = ({ isSearch }: T) => {
       );
 
       if (행사상태 === "진행중") {
-        if (!state.행사상태[0]) continue;
+        if (!festival.행사상태[0]) continue;
       } else if (행사상태 === "행사종료") {
-        if (!state.행사상태[2]) continue;
+        if (!festival.행사상태[2]) continue;
       } else {
-        if (!state.행사상태[1]) continue;
+        if (!festival.행사상태[1]) continue;
       }
 
       let firstImage = item.firstimage;
@@ -102,7 +103,8 @@ const FestivalCard = ({ isSearch }: T) => {
 
       const 지역 = 지역코드[item.areacode] || "";
       const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
-      const 지역표시 = `${지역 && `[${지역}]`}` + ' ' + `${시군구 && `[${시군구}]`}`;
+      const 지역표시 =
+        `${지역 && `[${지역}]`}` + " " + `${시군구 && `[${시군구}]`}`;
 
       const element = (
         <div
@@ -150,13 +152,21 @@ const FestivalCard = ({ isSearch }: T) => {
       }
     }
 
-    return [...행사중, ...행사시작전, ...행사종료];
+    return 행사중.length === 0 &&
+      행사시작전.length === 0 &&
+      행사종료.length === 0 ? (
+      <div className="not-found-data">
+        <p>조건에 맞는 정보가 없습니다.</p>
+      </div>
+    ) : (
+      [...행사중, ...행사시작전, ...행사종료]
+    );
   };
 
   return (
     <>
-      {!state.sortedFestivalArr && <Loading />}
-      {state.sortedFestivalArr && makeFestivlaCard()}
+      {!festival.sortedFestivalArr && <Loading />}
+      {festival.sortedFestivalArr && makeFestivlaCard()}
     </>
   );
 };

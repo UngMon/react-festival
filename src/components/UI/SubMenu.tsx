@@ -5,12 +5,9 @@ import { Link } from "react-router-dom";
 interface T {
   title: string;
   month: string;
-  cat1: string;
-  cat2: string;
-  cat3: string;
 }
 
-const SubMenu = ({ title, month, cat1, cat2, cat3 }: T) => {
+const SubMenu = ({ title, month }: T) => {
   return (
     <nav className="subnav">
       <ul className="submenu">

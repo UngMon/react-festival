@@ -25,9 +25,6 @@ const UiBox = ({ title }: T) => {
       <SubMenu
         title={title}
         month={month!}
-        cat1={cat1!}
-        cat2={cat2!}
-        cat3={cat3!}
       />
       <div id="picker-box">
         {title === "festival" && (

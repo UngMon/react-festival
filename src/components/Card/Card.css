@@ -124,6 +124,19 @@
   color: #505050;
 }
 
+.not-found-data {
+  margin: 0 auto;
+  width: 280px;
+  grid-column-end: span 4;
+}
+
+.not-found-data p {
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
 @media (min-width: 1440px) {
   .main-box-content {
     box-sizing: border-box;

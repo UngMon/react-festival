@@ -6,11 +6,6 @@ import { getFestiavalData } from "./fetch-action";
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
-// cat2 =>  A207 축제 , A208 공연/행사
-// A207 => cat3 => A02070100: 문화관광축제,  A02070200: 일반 축제
-// A208 => cat3 => A02080100: 전통공연, A02080200: 연극, A02080300: 뮤지컬, A02080400: 오페라
-// A02080500: 전시회, A02080600: 박람회, A02080800: 무용, A02080900: 클래식음악회, A02081000: 대중콘서트
-// A02081100 영화, A02081200: 스포츠, A02081300: 기타행사
 
 
 const initialState: FestivalState = {
@@ -90,14 +85,6 @@ const festivalSlice = createSlice({
       state.regionArray = region;
       state.sortedFestivalArr = true;
     },
-    // setMonthAndRegion(state, action) {
-    //   state.month = action.payload.month;
-    //   state.areaCode = action.payload.region;
-    // },
-    // catChange(state, action) {
-    //   state.cat2 = action.payload.cat2;
-    //   state.cat3 = action.payload.cat3;
-    // },
     행사상태설정(state, action) {
       state.행사상태 = action.payload;
     },

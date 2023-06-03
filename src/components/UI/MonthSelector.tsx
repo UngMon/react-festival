@@ -9,11 +9,9 @@ interface T {
 
 const MonthSelector = ({month, areaCode}: T) => {
   const navigate = useNavigate();
-  // const dispatch = useAppDispatch()
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    // dispatch(festivalActions.setMonthAndRegion({month: value, region: areaCode}))
     navigate(`/festival/serach?month=${value}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`);
   };
 

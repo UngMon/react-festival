@@ -8,26 +8,19 @@ const OnGoingSelector = () => {
   const 행사상태 = useSelector((state: RootState) => state.festival.행사상태);
 
   const clickHandler = (num: number) => {
-    if (num === 0) {
-      if (!행사상태[1] && !행사상태[2]) return;
-      dispatch(
-        festivalActions.행사상태설정([!행사상태[0], 행사상태[1], 행사상태[2]])
-      );
-    }
+    if (num === 0 && !행사상태[1] && !행사상태[2]) return;
 
-    if (num === 1) {
-      if (!행사상태[0] && !행사상태[2]) return;
-      dispatch(
-        festivalActions.행사상태설정([행사상태[0], !행사상태[1], 행사상태[2]])
-      );
-    }
+    if (num === 1 && !행사상태[0] && !행사상태[2]) return;
 
-    if (num === 2) {
-      if (!행사상태[0] && !행사상태[1]) return;
-      dispatch(
-        festivalActions.행사상태설정([행사상태[0], 행사상태[1], !행사상태[2]])
-      );
-    }
+    if (num === 2 && !행사상태[0] && !행사상태[1]) return;
+
+    dispatch(
+      festivalActions.행사상태설정([
+        num === 0 ? !행사상태[0] : 행사상태[0],
+        num === 1 ? !행사상태[1] : 행사상태[1],
+        num === 2 ? !행사상태[2] : 행사상태[2],
+      ])
+    );
   };
   // console.log(행사상태);
   return (
