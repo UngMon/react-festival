@@ -100,3 +100,9 @@
     right: 5%;
   }
 }
+
+@media (max-width: 320px) {
+  .Header-box {
+    width: 320px;
+  }
+}

@@ -25,3 +25,9 @@ select {
   -moz-appearance: none;
   border: 1px solid #333;
 }
+
+@media (max-width: 320px) {
+  body {
+    width: 320px;
+  }
+}

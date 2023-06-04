@@ -50,22 +50,22 @@ const Cotent = () => {
 
   return (
     <main className="Content-box">
-      {reportModalOpen[0] && (
-        <ReportModal
-          contentId={param.get("contentId")!}
-          reportModalOpen={reportModalOpen}
-          setReportModalOpen={setReportModalOpen}
-        />
-      )}
-      <h2 className="Content-title">
-        {contentData &&
-          contentData!.contentDetailCommon.response.body.items.item[0].title}
-      </h2>
-      <div className="slider-container">
-        {!contentData && <Loading />}
-        {contentData && <Slider contentImage={contentData.contentImage} />}
-      </div>
-      <div className="Content-menu-box">
+      <div className="Content">
+        {reportModalOpen[0] && (
+          <ReportModal
+            contentId={param.get("contentId")!}
+            reportModalOpen={reportModalOpen}
+            setReportModalOpen={setReportModalOpen}
+          />
+        )}
+        <h2 className="Content-title">
+          {contentData &&
+            contentData!.contentDetailCommon.response.body.items.item[0].title}
+        </h2>
+        <div className="slider-container">
+          {!contentData && <Loading />}
+          {contentData && <Slider contentImage={contentData.contentImage} />}
+        </div>
         {contentData && (
           <MenuBar
             category={category}
@@ -74,27 +74,27 @@ const Cotent = () => {
             reviewRef={reviewRef}
           />
         )}
+        <div className="Content-detatil-area" ref={menuBarRef}>
+          {!contentData && (
+            <div style={{ height: 500 }}>
+              <Loading />
+            </div>
+          )}
+          {contentData && (
+            <Detail
+              category={category}
+              contentDetailCommon={contentData.contentDetailCommon}
+              contentDetailIntro={contentData.contentDetailIntro}
+              type={param.get("type")!}
+            />
+          )}
+        </div>
+        <ContentReviews
+          contentId={param.get("contentId")!}
+          reviewRef={reviewRef}
+          setReportModalOpen={setReportModalOpen}
+        />
       </div>
-      <div className="Content-detatil-area" ref={menuBarRef}>
-        {!contentData && (
-          <div style={{ height: 500 }}>
-            <Loading />
-          </div>
-        )}
-        {contentData && (
-          <Detail
-            category={category}
-            contentDetailCommon={contentData.contentDetailCommon}
-            contentDetailIntro={contentData.contentDetailIntro}
-            type={param.get("type")!}
-          />
-        )}
-      </div>
-      <ContentReviews
-        contentId={param.get("contentId")!}
-        reviewRef={reviewRef}
-        setReportModalOpen={setReportModalOpen}
-      />
     </main>
   );
 };

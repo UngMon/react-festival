@@ -47,34 +47,38 @@ const MenuBar = ({
   });
 
   return (
-    <nav className={`Content-menu-nav ${isFixed ? "fixed-tab" : ""}`}>
-      <ul className='Cotent-category'>
-        <li>
-          <button
-            className={category === "기본정보" && !reviewActive ? "on" : "off"}
-            onClick={() => topBarClickHandler("기본정보")}
-          >
-            기본정보
-          </button>
-        </li>
-        <li>
-          <button
-            className={reviewActive ? "on" : "off"}
-            onClick={() => topBarClickHandler("리뷰")}
-          >
-            리뷰
-          </button>
-        </li>
-        <li>
-          <button
-            className={category === "지도" && !reviewActive ? "on" : "off"}
-            onClick={() => topBarClickHandler("지도")}
-          >
-            지도
-          </button>
-        </li>
-      </ul>
-    </nav>
+    <div className="Content-menu-box">
+      <nav className={`Content-menu-nav ${isFixed ? "fixed-tab" : ""}`}>
+        <ul className="Cotent-category">
+          <li>
+            <button
+              className={
+                category === "기본정보" && !reviewActive ? "on" : "off"
+              }
+              onClick={() => topBarClickHandler("기본정보")}
+            >
+              기본정보
+            </button>
+          </li>
+          <li>
+            <button
+              className={reviewActive ? "on" : "off"}
+              onClick={() => topBarClickHandler("리뷰")}
+            >
+              리뷰
+            </button>
+          </li>
+          <li>
+            <button
+              className={category === "지도" && !reviewActive ? "on" : "off"}
+              onClick={() => topBarClickHandler("지도")}
+            >
+              지도
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 };
 

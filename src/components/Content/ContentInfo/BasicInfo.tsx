@@ -13,7 +13,7 @@ interface BasicProps {
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
   return (
     <>
-      <h3 className="Content-info-title">기본정보</h3>
+      <strong className="Content-info-title">기본정보</strong>
       <table className="Content-table">
         <tbody>
           {type === "15" && (

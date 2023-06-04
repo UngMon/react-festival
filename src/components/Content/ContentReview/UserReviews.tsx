@@ -3,7 +3,6 @@ import {
   DocumentData,
   DocumentReference,
   setDoc,
-  arrayRemove,
   updateDoc,
 } from "firebase/firestore";
 import { nowDate } from "../../../utils/NowDate";
@@ -208,13 +207,14 @@ const UserReviews = ({
 
   return (
     <>
+      {/* <h3 className="review-title">리뷰</h3> */}
       <form className="user-input-box" onSubmit={reivewSubmitHandler}>
         <div className="user-input-area">
           <label htmlFor="user-input"></label>
           <textarea
             id="user-input"
             name="user-input"
-            rows={1}
+            rows={2}
             ref={textRef}
             onChange={resizeHandler}
             placeholder="소중한 리뷰를 작성해보세요!"

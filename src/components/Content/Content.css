@@ -1,54 +1,30 @@
 .Content-box {
-  width: 80%;
-  padding: 0 10%;
   background-color: #f0f1fa;
 }
 
 .Content {
-  width: 80%;
+  width: 940px;
+  padding: 0 20px;
   margin: 0 auto;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
 }
 
 .Content-title {
-  box-sizing: border-box;
-  padding: 40px 2%;
+  padding: 40px 0;
   width: 100%;
   text-align: center;
   font-size: 30px;
-}
-/* 이미지 슬라이드 */
-.slider-container {
-  width: 95%;
-  margin: 0 auto 40px;
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-}
-
-.Content-menu-box {
-  display: flex;
-  justify-content: center;
+  word-break: keep-all;
 }
 
 .Content-detatil-area {
   position: relative;
+  padding: 0 10px;
 }
 
-@media (min-width: 1250px) {
-  .Content-box {
-    width: 1000px;
-    padding: 0 calc((100% - 1000px) / 2);
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1023.5px) {
   .Content {
-    margin: 0 auto 0;
-    width: 96%;
-  }
-  .Content-box {
-    padding-top: 0;
+    width: 80%;
+    padding: 0 10%;
   }
 
   .Content-title {
@@ -59,10 +35,5 @@
 @media (max-width: 320px) {
   .Content-box {
     width: 320px;
-  }
-
-
-  .slider-container {
-    height: 200px;
   }
 }

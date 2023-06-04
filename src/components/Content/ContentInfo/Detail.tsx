@@ -24,27 +24,25 @@ const Detail = ({
 
   return (
     <>
-      <div className="Content-info">
-        <div className="Cotent-overview">
-          <strong>개요</strong>
-          <div className="overview-p">
-            <p
-              dangerouslySetInnerHTML={{
-                __html: detailCommon[0].overview || "등록된 정보가 없습니다.",
-              }}
-            ></p>
-          </div>
+      <div className="Cotent-overview">
+        <strong>개요</strong>
+        <div className="overview-p">
+          <p
+            dangerouslySetInnerHTML={{
+              __html: detailCommon[0].overview || "등록된 정보가 없습니다.",
+            }}
+          ></p>
         </div>
-        <div className="Cotent-deatail">
-          {category === "기본정보" && (
-            <BasicInfo
-              detailIntro={detailIntro}
-              detailCommon={detailCommon}
-              type={type}
-            />
-          )}
-          {category === "지도" && <Map detailCommon={detailCommon} />}
-        </div>
+      </div>
+      <div className="Cotent-deatail">
+        {category === "기본정보" && (
+          <BasicInfo
+            detailIntro={detailIntro}
+            detailCommon={detailCommon}
+            type={type}
+          />
+        )}
+        {category === "지도" && <Map detailCommon={detailCommon} />}
       </div>
     </>
   );
