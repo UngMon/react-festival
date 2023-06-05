@@ -12,12 +12,12 @@
   font-size: 1em;
   font-weight: 600;
   text-align: center;
-  line-height: 30px;
+  line-height: 32px;
+  border-radius: 5px;
 }
 
 .OnGoing-Selector li:hover {
   cursor: pointer;
-  color: #0080ff;
 }
 
 .null1 {
@@ -25,5 +25,6 @@
 }
 
 .OnGoing-active {
-  color: #7a45e5;
+  background-color: #7a45e5;
+  color: white;
 }

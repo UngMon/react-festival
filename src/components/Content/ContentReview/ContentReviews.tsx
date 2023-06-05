@@ -6,7 +6,7 @@ import { db } from "../../../firebase";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { ContentData } from "../../../type/UserData";
 import Feeling from "./Feelings";
-import Reviews from "./UserReviews";
+import UserReviews from "./UserReviews";
 import Loading from "../../ui/loading/Loading";
 import GetDataError from "../../error/GetDataError";
 import "./ContentReviews.css";
@@ -26,10 +26,10 @@ const ContentRivews = ({
 }: ReviewProps) => {
   const dispatch = useAppDispatch();
   const firebase = useSelector((state: RootState) => state.firebase);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const uid = firebase.userUid || "";
   const contentRef = doc(db, "content", contentId);
-  // console.log(firebase);
+
   useEffect(() => {
     const setData = async () => {
       let docData: ContentData;
@@ -59,9 +59,9 @@ const ContentRivews = ({
     };
 
     // 사용자가 해당 콘텐츠를 처음 클릭하거나, 새로고침 했거나의 경우
-    if (!firebase.contentData[contentId] && !isLoading) {
+    if (!firebase.contentData[contentId] && isLoading) {
       setData();
-      setLoading(true);
+      setLoading(false);
     }
 
   }, [dispatch, contentId, firebase, isLoading]);
@@ -80,7 +80,7 @@ const ContentRivews = ({
             uid={uid}
             contentId={contentId}
           />
-          <Reviews
+          <UserReviews
             firebaseState={firebase}
             contentRef={contentRef}
             uid={uid}

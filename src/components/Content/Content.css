@@ -23,12 +23,25 @@
 
 @media (max-width: 1023.5px) {
   .Content {
-    width: 80%;
-    padding: 0 10%;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 60px;
   }
 
   .Content-title {
     font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Content {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 425px) {
+  .Content {
+    padding: 0 15px;
   }
 }
 

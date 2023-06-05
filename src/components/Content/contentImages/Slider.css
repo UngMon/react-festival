@@ -27,7 +27,7 @@
   height: 100%;
   object-fit: fill;
   object-position: center;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .prev,
@@ -72,20 +72,20 @@
 }
 
 @media (max-width: 1023.5px) {
+  .slider-container {
+    margin: 0 auto 40px;
+    width: calc(100% - 20px);
+  }
+
   .slide {
     padding: 0;
   }
+
   .prev {
     left: 0
   }
   
   .next {
     right: 0
-  }
-}
-
-@media (max-width: 768px) {
-  .slider-container {
-    margin: 0 20px 40px;
   }
 }

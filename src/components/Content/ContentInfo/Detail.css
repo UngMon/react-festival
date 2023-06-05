@@ -1,7 +1,3 @@
-.Content-info {
-  padding: 10px 30px;
-}
-
 .Cotent-deatail {
   box-sizing: border-box;
   width: 100%;
@@ -44,16 +40,3 @@
   letter-spacing: 0.5px;
 }
 
-@media (max-width: 768px) {
-  .Cotent-overview {
-    padding: 30px 10px;
-  }
-
-  .Content-info {
-    padding: 10px 10px;
-  }
-
-  .Content-info-title {
-    padding-left: 10px;
-  }
-}

@@ -29,7 +29,6 @@
 .card-item {
   position: relative;
   box-sizing: border-box;
-  /* background-color: white; */
   border-radius: 7px;
   text-align: center;
   transition: all 0.3s ease;
@@ -90,7 +89,7 @@
   text-overflow: ellipsis;
   font-size: 16px;
   font-family: "Noto Sans KR", sans-serif;
-  min-height: 55px;
+  min-height: 75px;
   text-align: left;
 }
 
@@ -122,6 +121,13 @@
   font-size: 14px;
   padding: 35px 0 10px;
   color: #505050;
+}
+
+.card-tag {
+  padding-top: 33px;
+  color: #3c3c3c;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .not-found-data {

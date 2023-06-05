@@ -49,7 +49,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
           <>
             <div className="picker">
               <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
-                <option value="all"># 전체(대분류)</option>
+                <option value="all">#전체(Step1)</option>
                 <option value="A01">자연</option>
                 <option value="A02">인문(문화/예술/역사)</option>
               </select>
@@ -62,7 +62,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
                   value={cat2}
                   onChange={(e) => pickerSelector(e, "cat2")}
                 >
-                  <option value="all"># 전체(중분류)</option>
+                  <option value="all">#전체(Step2)</option>
                   <option value="A0101" disabled>
                     # 자연관광지
                   </option>

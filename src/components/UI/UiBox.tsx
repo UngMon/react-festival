@@ -22,10 +22,7 @@ const UiBox = ({ title }: T) => {
 
   return (
     <div className="Ui-Box">
-      <SubMenu
-        title={title}
-        month={month!}
-      />
+      <SubMenu title={title} month={month!} />
       <div id="picker-box">
         {title === "festival" && (
           <MonthSelector month={month!} areaCode={areaCode!} />
@@ -47,19 +44,20 @@ const UiBox = ({ title }: T) => {
           cat3={cat3!}
         />
       </div>
-      {(title === "tour" || title === "festival") && (
-        <Tags
-          title={title}
-          month={month!}
-          areaCode={areaCode!}
-          cat1={cat1!}
-          cat2={cat2!}
-          cat3={cat3!}
-        />
-      )}
+      <Tags
+        title={title}
+        month={month!}
+        areaCode={areaCode!}
+        cat1={cat1!}
+        cat2={cat2!}
+        cat3={cat3!}
+      />
       {title === "festival" && <OnGoingSelector />}
     </div>
   );
 };
 
 export default UiBox;
+// {(title === "tour" || title === "festival") && (
+
+//   )}

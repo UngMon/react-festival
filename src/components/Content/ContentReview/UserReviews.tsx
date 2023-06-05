@@ -12,7 +12,9 @@ import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { auth } from "../../../firebase";
 import DeleteModal from "./modal/DeleteModal";
+import { Link } from "react-router-dom";
 
 interface ReviewProps {
   firebaseState: FirebaseState;
@@ -222,8 +224,9 @@ const UserReviews = ({
           <i></i>
         </div>
         <div className="user-input-button">
-          <button type="submit">저장</button>
-          <button type="button">취소</button>
+          {!auth.currentUser && <Link to='/login' >로그인</Link>}
+          {auth.currentUser && <button type="submit">저장</button>}
+          {auth.currentUser && <button type="button">취소</button>}
         </div>
       </form>
       <div className="user-review-area">

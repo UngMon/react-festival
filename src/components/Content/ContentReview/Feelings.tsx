@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
+import { useSearchParams } from "react-router-dom";
 
 let isFirst = true;
 
@@ -20,37 +21,50 @@ interface FeelingProps {
   uid: string;
 }
 
+const 유형: { [key: string]: string } = {
+  "12": "관광지",
+  "14": "문화시설",
+  "15": "축제/공연/행사",
+  "25": "여행코스",
+};
+
 const Feelings = ({
   firebaseState,
   contentRef,
   uid,
   contentId,
 }: FeelingProps) => {
+  const [params] = useSearchParams();
+  const type = params.get("type")!;
   const dispatch = useAppDispatch();
   const [feelCount, setFeelCount] = useState<[number, number, number]>([
     0, 0, 0,
   ]);
   const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]);
+
   useEffect(() => {
     const commentData = firebaseState.contentData[contentId].expression;
-      let Good = 0;
-      let Soso = 0;
-      let Bad = 0;
-      for (let user in commentData) {
-        const { 좋아요, 그저그래요, 싫어요 } = commentData[user];
-        if (user === uid) {
-          setUserPick([좋아요, 그저그래요, 싫어요]);
-          continue;
-        }
-        Good += 좋아요;
-        Soso += 그저그래요;
-        Bad += 싫어요;
-      }
-      if (!uid) {
-        setUserPick([0, 0, 0])
-      }
-      setFeelCount([Good, Soso, Bad]);
 
+    let Good = 0;
+    let Soso = 0;
+    let Bad = 0;
+
+    for (let user in commentData) {
+      const { 좋아요, 그저그래요, 싫어요 } = commentData[user];
+      if (user === uid) {
+        setUserPick([좋아요, 그저그래요, 싫어요]);
+        continue;
+      }
+      Good += 좋아요;
+      Soso += 그저그래요;
+      Bad += 싫어요;
+    }
+
+    if (!uid) {
+      setUserPick([0, 0, 0]);
+    }
+
+    setFeelCount([Good, Soso, Bad]);
   }, [firebaseState, contentId, uid]);
 
   useEffect(() => {
@@ -61,13 +75,16 @@ const Feelings = ({
 
     if (userPick[0] === 1 || userPick[1] === 1 || userPick[2] === 1) {
       let docData: Expression = {};
+
       docData[uid] = {
         좋아요: userPick[0],
         그저그래요: userPick[1],
         싫어요: userPick[2],
       };
+
       setDoc(contentRef, { expression: docData }, { merge: true });
     }
+
     if (
       userPick[0] === 0 &&
       userPick[1] === 0 &&
@@ -100,7 +117,7 @@ const Feelings = ({
 
   return (
     <>
-      <p className="How-to-feel">이 축제/행사/공연 어떻게 생각하세요?</p>
+      <p className="How-to-feel">{`이 ${유형[type]} 어떻게 생각하세요?`}</p>
       <div className="Cotent-feeling">
         <div onClick={() => handler("좋아요")}>
           <img src="/images/Good.png" alt="Good" width="40"></img>

@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Item } from "../../type/Common";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
-import { 지역코드, 시군코드 } from "../../type/Common";
+import { Item, 지역코드, 시군코드, tagName } from "../../type/Common";
 import Loading from "../ui/loading/Loading";
 import GetDataError from "../error/GetDataError";
 
@@ -37,7 +36,7 @@ const areaCdoeArr = [
 const AnotherCard = ({ title, isSearch }: Props) => {
   const dispatch = useAppDispatch();
   const naviagate = useNavigate();
-  // console.log(title)
+
   const tcts = useSelector((state: RootState) => state.tcts);
 
   const [params] = useSearchParams();
@@ -120,6 +119,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
           <div className="card-text">
             <p className="area">{지역표시}</p>
             <h4>{item.title}</h4>
+            <p className="card-tag">{`#${tagName[item.cat3]}`}</p>
           </div>
         </div>
       );

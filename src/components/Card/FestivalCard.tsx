@@ -64,7 +64,7 @@ const FestivalCard = ({ isSearch }: T) => {
     if (isSearch) array = tcts.searchArray!;
 
     for (let item of array) {
-      console.log("??????????????????");
+
       if (cat2 !== "all" && item.cat2 !== cat2) continue;
 
       if (cat3 !== "all") {
