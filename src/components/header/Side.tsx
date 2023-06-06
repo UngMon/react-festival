@@ -5,10 +5,11 @@ import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { signOut } from "firebase/auth";
 
 interface T {
+  openNav: boolean;
   setOpenNav: (value: boolean) => void;
 }
 
-const Side = ({ setOpenNav }: T) => {
+const Side = ({ openNav, setOpenNav }: T) => {
   const month = String(new Date().getMonth() + 1).padStart(2, "0");
 
   const logoutHandler = () => {
@@ -20,10 +21,10 @@ const Side = ({ setOpenNav }: T) => {
         alert(err.message);
       });
   };
-  console.log(auth)
+
   return (
-    <div className="side-box-back">
-      <ul className="side-box">
+    <div className={`side-box-back ${openNav ? "back-on" : "back-off"}`}>
+      <ul className={`side-box ${openNav ? "side-on" : "side-off"}`}>
         {!auth.currentUser && (
           <Link
             to="/login"

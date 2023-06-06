@@ -5,7 +5,7 @@ import { auth } from "./firebase";
 import { firebaseActions } from "./redux/firebase-slice";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./pages/Root";
-import Loading from "./components/ui/loading/Loading";
+import Loading from "./components/loading/Loading";
 import GetDataError from "./components/error/GetDataError";
 import "./App.css";
 

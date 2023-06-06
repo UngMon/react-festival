@@ -10,7 +10,7 @@ import { dataSlice } from "../../utils/DataSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { 지역코드, 시군코드 } from "../../type/Common";
-import Loading from "../ui/loading/Loading";
+import Loading from "../loading/Loading";
 
 interface T {
   isSearch?: boolean;

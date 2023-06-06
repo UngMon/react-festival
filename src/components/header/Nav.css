@@ -9,10 +9,13 @@
 
 @keyframes sidebox {
   from {
-    transform: translateX(320px);
+    /* transform: translateX(320px); */
+    /* right: inherit;  */
+    right: -100%;
   }
   to {
-    transform: translateX(0);
+    right: 0;
+    /* transform: translateX(0); */
   }
 }
 
@@ -56,9 +59,11 @@
   transform: rotate(0) translate(0px, 0px);
   transition: all 0.2s linear;
 }
+
 .notfadeout {
   animation: fadeout 0.2s linear;
 }
+
 .ro-45n {
   transform: rotate(0) translate(0px, 0px);
   transition: all 0.2s linear;
@@ -67,23 +72,39 @@
 .side-box-back {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   border: 0;
+  transition: all 0.01s;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 20;
+}
+
+.back-on {
+  right: 0;
+  z-index: 50;
+}
+
+.back-off {
+  right: -100%;
+  z-index: 0;
 }
 
 .side-box {
   position: fixed;
-  right: 0;
   padding-top: 50px;
   width: 320px;
   height: 80vh;
   border: 0;
   background-color: whitesmoke;
-  animation: sidebox 0.7s ease-in-out;
+  transition: all 0.4s linear;
+}
+
+.side-on {
+  right: 0;
+}
+
+.side-off {
+  right: -100%;
 }
 
 .side-item {

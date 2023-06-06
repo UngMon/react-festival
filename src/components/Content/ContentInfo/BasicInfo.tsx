@@ -73,7 +73,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img src="/images/icons/clock.png" alt="공연시간" width="40" />
               </th>
-              <td dangerouslySetInnerHTML={{__html: detailIntro[0].playtime}}></td>
+              <td
+                dangerouslySetInnerHTML={{ __html: detailIntro[0].playtime }}
+              ></td>
             </tr>
           )}
           {detailCommon[0].zipcode && (
@@ -169,7 +171,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           {type === "14" && detailIntro[0].usefee! && (
             <tr key="입장료">
               <th>입장료</th>
-              <td>{detailIntro[0].usefee}</td>
+              <td
+                dangerouslySetInnerHTML={{ __html: detailIntro[0].usefee }}
+              ></td>
             </tr>
           )}
           {type === "14" && detailIntro[0].spendtime! && (

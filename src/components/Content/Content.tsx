@@ -10,7 +10,7 @@ import Detail from "./contentInfo/Detail";
 import ContentReviews from "./contentReview/ContentReviews";
 import MenuBar from "./contentInfo/MenuBar";
 import ReportModal from "./contentReview/modal/ReportModal";
-import Loading from "../ui/loading/Loading";
+import Loading from "../loading/Loading";
 import "./Content.css";
 
 type Data = {

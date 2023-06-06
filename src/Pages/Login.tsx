@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import "./Login.css";
 import { useEffect, useState } from "react";
-import Loading from "../components/ui/loading/Loading";
+import Loading from "../components/loading/Loading";
 import LoginAccessError from "../components/error/LoginAccessError";
 // import KakaoLogin from "../components/Login/Kakao";
 // import Naver from "../components/Login/Naver";

@@ -1,4 +1,4 @@
-import Side from "./Side";
+
 import "./Nav.css";
 
 interface T {

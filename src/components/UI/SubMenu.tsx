@@ -8,6 +8,8 @@ interface T {
 }
 
 const SubMenu = ({ title, month }: T) => {
+  console.log('???????')
+
   return (
     <nav className="subnav">
       <ul className="submenu">
@@ -48,6 +50,13 @@ const SubMenu = ({ title, month }: T) => {
           <li>
             <Link to="/travel/search?areaCode=1&cat1=all&cat2=all&cat3=all">
               여행코스
+            </Link>
+          </li>
+        )}
+        {title === "result" && (
+          <li>
+            <Link to="/travel/search?areaCode=1&cat1=all&cat2=all&cat3=all">
+              검색결과
             </Link>
           </li>
         )}

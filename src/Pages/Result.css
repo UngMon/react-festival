@@ -6,6 +6,12 @@
   font-style: normal;
 }
 
+.result-title {
+  padding: 40px 60px 20px;
+  font-size: 30px;
+  font-family: omyu_pretty;
+}
+
 .result-not-found {
   width: 100%;
   text-align: center;

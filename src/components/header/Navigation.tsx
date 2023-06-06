@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store";
+import { categoryActions } from "../../redux/category-slice";
 import { CurrentSeason } from "../../utils/CurrentSeason";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,8 +10,6 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navigation.css";
-import { useAppDispatch } from "../../redux/store";
-import { categoryActions } from "../../redux/category-slice";
 
 interface T {
   pathname: string;
@@ -19,12 +19,12 @@ interface T {
 }
 
 const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
 
   const clickCategory = (value?: string) => {
     window.scrollTo(0, 0);
-    if (value !== "festival") dispatch(categoryActions.clearSet());
+    // if (value !== "festival") dispatch(categoryActions.clearSet());
     setOpenSearch(false);
   };
 
@@ -111,61 +111,3 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
 };
 
 export default Navigation;
-
-// {
-//   // mobile용
-//   <nav className="mobile-nav-bar">
-//     <ul className="mobile-nav-box">
-//       <li>
-//         <NavLink
-//           className={`${
-//             pathname === "/" && scrollY === 0 && "no-border"
-//           }`}
-//           to={`month/${thisMonth}`}
-//           onClick={() => clickCategory("month")}
-//           style={({ isActive }) => {
-//             return { color: isActive ? "orange" : "black" };
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faCalendar} />
-//           <span>월별</span>
-//         </NavLink>
-//       </li>
-//       <li>
-//         <NavLink
-//           to="regions/0"
-//           onClick={() => clickCategory("region")}
-//           style={({ isActive }) => {
-//             return { color: isActive ? "orange" : "black" };
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faLocationDot} />
-//           <span>지역별</span>
-//         </NavLink>
-//       </li>
-//       <li>
-//         <NavLink
-//           to={`seasons/${CurrentSeason()}`}
-//           onClick={() => clickCategory("season")}
-//           style={({ isActive }) => {
-//             return { color: isActive ? "orange" : "black" };
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faWind} />
-//           <span>계절별</span>
-//         </NavLink>
-//       </li>
-//       <li>
-//         <NavLink
-//           to={"search"}
-//           style={({ isActive }) => {
-//             return { color: isActive ? "orange" : "black" };
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faMagnifyingGlass} />
-//           <span>검색</span>
-//         </NavLink>
-//       </li>
-//     </ul>
-//   </nav>
-// }

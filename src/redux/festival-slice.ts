@@ -7,7 +7,6 @@ import { getFestiavalData } from "./fetch-action";
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
 
-
 const initialState: FestivalState = {
   successGetData: false,
   sortedFestivalArr: false,
@@ -98,15 +97,11 @@ const festivalSlice = createSlice({
         const arr: Item[] = [];
 
         for (const item of dummyData) {
-          if (item.areacode === "") {
-            continue;
-          }
+          if (item.areacode === "") continue;
 
-          if (item.eventenddate! < "20230101") {
-            continue;
-          } else {
-            arr.push(item);
-          }
+          if (item.eventenddate! < "20230101") continue;
+
+          arr.push(item);
         }
         arr.sort((a, b) => (a.eventenddate! < b.eventenddate! ? -1 : 1));
         state.festivalArray = arr;

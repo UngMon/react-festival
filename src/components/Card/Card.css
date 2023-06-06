@@ -15,7 +15,7 @@
 }
 
 .not-found-category {
-  grid-column-end: span 3;
+  grid-column-end: span 4;
   text-align: center;
   height: 200px;
 }
@@ -133,7 +133,7 @@
 .not-found-data {
   margin: 0 auto;
   width: 280px;
-  grid-column-end: span 4;
+  grid-column-end: span 5;
 }
 
 .not-found-data p {

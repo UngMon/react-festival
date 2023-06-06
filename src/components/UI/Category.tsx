@@ -115,7 +115,25 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
           </>
         )
       }
-      {title === "culture" && (
+
+      {/* {title === "festival" && (
+        <div className="picker">
+          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+            <option value="all"># 카테고리</option>
+            <option value="A0207"># 축제</option>
+            <option value="A0208"># 공연/행사</option>
+          </select>
+          <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
+          <FontAwesomeIcon icon={faCheck} />
+        </div>
+      )} */}
+    </>
+  );
+};
+
+export default Category;
+
+/* {title === "culture" && (
         <>
           <div className="picker">
             <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
@@ -138,37 +156,22 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
             <FontAwesomeIcon icon={faCheck} />
           </div>
         </>
-      )}
-      {title === "festival" && (
-        <div className="picker">
-          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
-            <option value="all"># 카테고리</option>
-            <option value="A0207"># 축제</option>
-            <option value="A0208"># 공연/행사</option>
-          </select>
-          <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
-          <FontAwesomeIcon icon={faCheck} />
-        </div>
-      )}
-      {title === "travel" && (
-        <>
-          <div className="picker">
-            <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
-              <option value="all"># 전체</option>
-              <option value="C0112"># 가족코스</option>
-              <option value="C0113"># 나홀로코스</option>
-              <option value="C0114"># 힐링코스</option>
-              <option value="C0115"># 도보코스</option>
-              <option value="C0116"># 캠핑코스</option>
-              <option value="C0117"># 맛코스</option>
-            </select>
-            <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
-            <FontAwesomeIcon icon={faCheck} />
-          </div>
-        </>
-      )}
-    </>
-  );
-};
+      )} */
 
-export default Category;
+// {title === "travel" && (
+//   <>
+//     <div className="picker">
+//       <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+//         <option value="all"># 전체</option>
+//         <option value="C0112"># 가족코스</option>
+//         <option value="C0113"># 나홀로코스</option>
+//         <option value="C0114"># 힐링코스</option>
+//         <option value="C0115"># 도보코스</option>
+//         <option value="C0116"># 캠핑코스</option>
+//         <option value="C0117"># 맛코스</option>
+//       </select>
+//       <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
+//       <FontAwesomeIcon icon={faCheck} />
+//     </div>
+//   </>
+// )}

@@ -7,7 +7,7 @@ import { RootState, useAppDispatch } from "../../../redux/store";
 import { ContentData } from "../../../type/UserData";
 import Feeling from "./Feelings";
 import UserReviews from "./UserReviews";
-import Loading from "../../ui/loading/Loading";
+import Loading from "../../loading/Loading";
 import GetDataError from "../../error/GetDataError";
 import "./ContentReviews.css";
 

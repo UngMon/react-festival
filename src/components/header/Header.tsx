@@ -97,7 +97,7 @@ const Header = () => {
             openSearch={openSearch}
             setOpenSearch={setOpenSearch}
           />
-          {openNav && <Side setOpenNav={setOpenNav} />}
+          <Side openNav={openNav} setOpenNav={setOpenNav} />
           <LoginButton
             pathname={pathname}
             scrollY={scrollY}

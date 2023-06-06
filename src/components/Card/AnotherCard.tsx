@@ -5,7 +5,7 @@ import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { Item, 지역코드, 시군코드, tagName } from "../../type/Common";
-import Loading from "../ui/loading/Loading";
+import Loading from "../loading/Loading";
 import GetDataError from "../error/GetDataError";
 
 interface Props {
@@ -69,8 +69,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
     }
   }, [dispatch, tcts, title, areaCode, cat1, cat2, cat3]);
 
-  const cardClickHandler = (contentId: string) => {
-    const type = title === "tour" ? "12" : title === "culture" ? "14" : "25";
+  const cardClickHandler = (type: string, contentId: string) => {
     dispatch(firebaseActions.cardClicked());
     naviagate(`/content/search?type=${type}&contentId=${contentId}`);
   };
@@ -87,7 +86,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
     if (title === "travel") array = tcts.travelArray![areaCode];
 
     if (title === "result") array = tcts.searchArray!;
-    // console.log(title, array)
+
     let result: JSX.Element[] = [];
 
     for (let item of array) {
@@ -96,6 +95,8 @@ const AnotherCard = ({ title, isSearch }: Props) => {
       if (cat2 !== "all" && cat2 !== item.cat2) continue;
 
       if (cat3 !== "all" && cat3 !== item.cat3) continue;
+
+      if (!item.firstimage) continue;
 
       const 지역 = 지역코드[item.areacode] || "";
       const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
@@ -106,7 +107,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
         <div
           className="card-item"
           key={item.title + `${Math.random()}`}
-          onClick={() => cardClickHandler(item.contentid)}
+          onClick={() => cardClickHandler(item.contenttypeid, item.contentid)}
         >
           <div className="tour-image-box">
             <img

@@ -9,7 +9,7 @@ export const getFestiavalData = createAsyncThunk(
     const serviceKey = process.env.REACT_APP_SERVICE_KEY!;
     const key = encodeURIComponent(serviceKey);
     const response = await fetch(
-      `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${key}&numOfRows=1500&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&eventStartDate=${
+      `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${key}&numOfRows=500&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&eventStartDate=${
         year + "0101"
       }`
     );
@@ -30,7 +30,7 @@ export const getTCTRData = createAsyncThunk(
 
     let url = `https://apis.data.go.kr/B551011/KorService1/${
       title !== "search" ? "areaBasedList1" : "searchKeyword1"
-    }?serviceKey=${serviceKey}&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
+    }?serviceKey=${serviceKey}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
 
     // 네비게이션 이동
     if (title !== "search") {

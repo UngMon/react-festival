@@ -16,8 +16,8 @@ a {
 .subnav {
   box-sizing: border-box;
   width: 800px;
-  padding-left: 40px;
-  margin: 20px auto 30px;
+  /* padding-left: 40px; */
+  margin: 20px 12px 30px;
 }
 
 .submenu {
@@ -39,7 +39,7 @@ a {
 /* Selector  */
 #picker-box {
   width: 750px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   height: auto;
   display: flex;
   justify-content: left;
@@ -118,6 +118,7 @@ a {
 @media (max-width: 768px) {
   #picker-box {
     width: 95%;
+    margin: 0 auto;
     flex-direction: column;
   }
 
