@@ -86,7 +86,7 @@
 
 .back-off {
   right: -100%;
-  z-index: 0;
+  z-index: 1;
 }
 
 .side-box {
@@ -96,7 +96,7 @@
   height: 80vh;
   border: 0;
   background-color: whitesmoke;
-  transition: all 0.4s linear;
+  transition: all 0.45s linear;
 }
 
 .side-on {
@@ -104,7 +104,7 @@
 }
 
 .side-off {
-  right: -100%;
+  right: -150%;
 }
 
 .side-item {
@@ -154,5 +154,14 @@
 @media (min-width: 768px) {
   #Nav {
     display: none;
+  }
+}
+
+@media (max-width: 320px) {
+  .side-box {
+    width: 100%;
+  }
+  .side-item {
+    padding-left: 10%;
   }
 }

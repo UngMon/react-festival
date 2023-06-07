@@ -17,7 +17,7 @@
   z-index: 5;
 }
 
-.Cotent-category {
+.Cotent-menu {
   width: 100%;
   display: flex;
   align-items: center;
@@ -25,12 +25,14 @@
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.Cotent-category li {
+.Cotent-menu li {
   width: calc(100% / 3);
+
 }
 
-.Cotent-category li button {
+.Cotent-menu li button {
   box-sizing: border-box;
+  border: 0;
   width: 100%;
   min-height: 52px;
   font-size: 16px;

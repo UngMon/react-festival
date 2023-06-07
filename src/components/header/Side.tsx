@@ -47,28 +47,28 @@ const Side = ({ openNav, setOpenNav }: T) => {
           </div>
         )}
         <Link
-          to="/tour/search?areaCode=1&cat1=all&cat2=all&cat3=all"
+          to="/tour/search?type=12&areaCode=1&cat1=all&cat2=all&cat3=all"
           className="side-item"
           onClick={() => setOpenNav(false)}
         >
           관광지
         </Link>
         <Link
-          to="/culture/search?areaCode=1&cat1=all&cat2=all&cat3=all"
+          to="/culture/search?type=14&areaCode=1&cat1=A02&cat2=all&cat3=all"
           className="side-item"
           onClick={() => setOpenNav(false)}
         >
           문화시설
         </Link>
         <Link
-          to={`/festival/search?month=${month}&areaCode=0&cat1=all&cat2=all&cat3=all`}
+          to={`/festival/search?type=15&month=${month}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
           className="side-item"
           onClick={() => setOpenNav(false)}
         >
           축제/공연/행사
         </Link>
         <Link
-          to="/travel/search?areaCode=1&cat1=all&cat2=all&cat3=all"
+          to="/travel/search?type=25&areaCode=1&cat1=C01&cat2=all&cat3=all"
           className="side-item"
           onClick={() => setOpenNav(false)}
         >

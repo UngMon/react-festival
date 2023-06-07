@@ -11,11 +11,18 @@ interface BasicProps {
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
+  console.log(detailCommon)
+  console.log(detailIntro)
+
   return (
     <>
-      <strong className="Content-info-title">기본정보</strong>
       <table className="Content-table">
         <tbody>
+          {type === "12" && (
+            <tr>
+              <th><img/></th>
+            </tr>
+          )}
           {type === "15" && (
             <tr key="기간">
               <th>
@@ -30,9 +37,9 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
             </tr>
           )}
           {detailCommon[0].tel && (
-            <tr key="주최자 연락처">
+            <tr key="연락처">
               <th>
-                <img src="/images/icons/phone.png" alt="문의 안내" width="40" />
+                <img src="/images/icons/phone.png" alt="문의 및 안내" width="40" />
               </th>
               <td>{detailCommon[0].tel}</td>
             </tr>
@@ -42,7 +49,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               <th>
                 <img
                   src="/images/icons/website.png"
-                  alt="이용요금"
+                  alt="홈페이지"
                   width="40"
                 />
               </th>

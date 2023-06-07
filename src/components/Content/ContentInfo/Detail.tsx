@@ -35,14 +35,13 @@ const Detail = ({
         </div>
       </div>
       <div className="Cotent-deatail">
-        {category === "기본정보" && (
-          <BasicInfo
-            detailIntro={detailIntro}
-            detailCommon={detailCommon}
-            type={type}
-          />
-        )}
-        {category === "지도" && <Map detailCommon={detailCommon} />}
+        <strong className="Content-info-title">기본정보</strong>
+        {/* <Map detailCommon={detailCommon} /> */}
+        <BasicInfo
+          detailIntro={detailIntro}
+          detailCommon={detailCommon}
+          type={type}
+        />
       </div>
     </>
   );

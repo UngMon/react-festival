@@ -6,11 +6,7 @@
 }
 
 .tags {
-  /* width: 100%; */
-  /* padding: 5px 0; */
-  /* height: 30px; */
-  /* display: flex; */
-  /* justify-content: center; */
+  box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
   line-height: 50px;

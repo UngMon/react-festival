@@ -16,7 +16,6 @@ a {
 .subnav {
   box-sizing: border-box;
   width: 800px;
-  /* padding-left: 40px; */
   margin: 20px 12px 30px;
 }
 
@@ -25,21 +24,33 @@ a {
   display: flex;
   justify-content: left;
   align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400;
+}
+
+.submenu li {
+  height: 40px;
+  line-height: 40px;
 }
 
 .submenu li:nth-child(2) {
   margin: 0 8px;
 }
 
-.submenu a {
-  font-size: 20px;
-  font-weight: 400;
+.submenu li a {
+  height: 40px;
+  display: block;
+}
+
+.submenu li a img {
+  padding: 5px 0;
+  width: 30px;
+  height: 30px;
 }
 
 /* Selector  */
 #picker-box {
-  width: 750px;
-  /* margin: 0 auto; */
+  margin: 0 auto;
   height: auto;
   display: flex;
   justify-content: left;
@@ -91,7 +102,7 @@ a {
 
 @media (min-width: 1025px) and (max-width: 1440px) {
   .Ui-Box {
-    width: 1024px;
+    width: 1000px;
   }
 }
 
@@ -140,5 +151,11 @@ a {
 
   #before-icon {
     top: 22px;
+  }
+}
+
+@media (max-width: 500px) {
+  .Ui-Box {
+    padding: 0 25px;
   }
 }

@@ -47,7 +47,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
         // 관광지..
         title === "tour" && (
           <>
-            <div className="picker">
+            {/* <div className="picker">
               <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
                 <option value="all">#전체(Step1)</option>
                 <option value="A01">자연</option>
@@ -55,38 +55,20 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
               </select>
               <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
               <FontAwesomeIcon icon={faCheck} />
-            </div>
+            </div> */}
             <div className="picker">
-              {cat1 === "all" && (
-                <select
-                  value={cat2}
-                  onChange={(e) => pickerSelector(e, "cat2")}
-                >
-                  <option value="all">#전체(Step2)</option>
-                  <option value="A0101" disabled>
-                    # 자연관광지
-                  </option>
-                  <option value="A0102" disabled>
-                    # 관광자원
-                  </option>
-                  <option value="A0201" disabled>
-                    # 역사관광지
-                  </option>
-                  <option value="A0202" disabled>
-                    # 휴양관광지
-                  </option>
-                  <option value="A0203" disabled>
-                    # 체험관광지
-                  </option>
-                  <option value="A0204" disabled>
-                    # 산업관광지
-                  </option>
-                  <option value="A0205" disabled>
-                    # 건축/조형물
-                  </option>
-                </select>
-              )}
-              {cat1 === "A01" && (
+              <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+                <option value="all"># 전체</option>
+                <option value="A0101"># 자연관광지</option>
+                <option value="A0102"># 관광자원</option>
+                <option value="A0201"># 역사관광지</option>
+                <option value="A0202"># 휴양관광지</option>
+                <option value="A0203"># 체험관광지</option>
+                <option value="A0204"># 산업관광지</option>
+                <option value="A0205"># 건축/조형물</option>
+              </select>
+
+              {/* {cat1 === "A01" && (
                 <select
                   value={cat2}
                   onChange={(e) => pickerSelector(e, "cat2")}
@@ -108,7 +90,7 @@ const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
                   <option value="A0204"># 산업관광지</option>
                   <option value="A0205"># 건축/조형물</option>
                 </select>
-              )}
+              )} */}
               <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
               <FontAwesomeIcon icon={faCheck} />
             </div>

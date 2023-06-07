@@ -4,8 +4,8 @@ import MonthSelector from "./MonthSelector";
 import RegionSelector from "./RegionSelector";
 import Category from "./Category";
 import OnGoingSelector from "./OnGoingSelector";
-import "./UiBox.css";
 import Tags from "./Tags";
+import "./UiBox.css";
 
 interface T {
   title: string;
@@ -58,6 +58,4 @@ const UiBox = ({ title }: T) => {
 };
 
 export default UiBox;
-// {(title === "tour" || title === "festival") && (
 
-//   )}

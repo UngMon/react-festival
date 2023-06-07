@@ -51,6 +51,7 @@
   background-color: transparent;
   border: 0;
   font-size: 25px;
+  z-index: 80;
 }
 
 #cancel {

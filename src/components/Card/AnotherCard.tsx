@@ -41,6 +41,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
 
   const [params] = useSearchParams();
   const areaCode = params.get("areaCode")!;
+  const type = params.get("type")!;
   const cat1 = params.get("cat1") || "all";
   const cat2 = params.get("cat2") || "all";
   const cat3 = params.get("cat3") || "all";
@@ -48,14 +49,15 @@ const AnotherCard = ({ title, isSearch }: Props) => {
   useEffect(() => {
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
     if (tcts.loading) return;
-    // 만약 사용자가 url의 region 매개변수의 값을 '120'과 같이 수정하면 return;
+    // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCdoeArr.includes(areaCode)) return;
 
     const parameter = {
       areaCode,
-      type: title === "tour" ? "12" : title === "culture" ? "14" : "25",
+      type,
       title,
     };
+    
     if (title === "tour" && !tcts.touristArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
@@ -67,7 +69,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
     if (title === "travel" && !tcts.travelArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
-  }, [dispatch, tcts, title, areaCode, cat1, cat2, cat3]);
+  }, [dispatch, tcts, type, title, areaCode, cat1, cat2, cat3]);
 
   const cardClickHandler = (type: string, contentId: string) => {
     dispatch(firebaseActions.cardClicked());

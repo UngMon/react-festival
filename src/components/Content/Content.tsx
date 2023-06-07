@@ -23,14 +23,13 @@ const Cotent = () => {
   const [param] = useSearchParams();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [contentData, setContentData] = useState<Data>();
-  // console.log(contentData);
-  // console.log('content')
   const [category, setCategory] = useState<string>("기본정보");
   const [reportModalOpen, setReportModalOpen] = useState<
     [boolean, string, string, string, string]
   >([false, "", "", "", ""]);
 
-  const menuBarRef = useRef<HTMLHeadingElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,17 +63,23 @@ const Cotent = () => {
         </h2>
         <div className="slider-container">
           {!contentData && <Loading />}
-          {contentData && <Slider contentImage={contentData.contentImage} />}
+          {contentData && (
+            <Slider
+              imageRef={imageRef}
+              contentImage={contentData.contentImage}
+            />
+          )}
         </div>
         {contentData && (
           <MenuBar
             category={category}
             setCategory={setCategory}
-            menuBarRef={menuBarRef}
+            imageRef={imageRef}
+            infoRef={infoRef}
             reviewRef={reviewRef}
           />
         )}
-        <div className="Content-detatil-area" ref={menuBarRef}>
+        <div className="Content-detatil-area" ref={infoRef}>
           {!contentData && (
             <div style={{ height: 500 }}>
               <Loading />

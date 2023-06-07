@@ -38,7 +38,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
         <ul className="Nav-box">
           <li>
             <NavLink
-              to={`/tour/search?areaCode=1&cat1=A01&cat2=all&cat3=all`}
+              to={`/tour/search?type=12&areaCode=1&cat1=all&cat2=all&cat3=all`}
               onClick={() => clickCategory("tour")}
               style={({ isActive }) => {
                 return {
@@ -55,7 +55,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           </li>
           <li>
             <NavLink
-              to="culture/search?areaCode=1&cat1=A02&cat2=all&cat3=all"
+              to="culture/search?type=14&areaCode=1&cat1=A02&cat2=all&cat3=all"
               onClick={() => clickCategory("culture")}
               style={({ isActive }) => {
                 return {
@@ -72,7 +72,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           </li>
           <li>
             <NavLink
-              to={`/festival/search?month=${thisMonth}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
+              to={`/festival/search?type=15&month=${thisMonth}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
               onClick={() => clickCategory("festival")}
               style={({ isActive }) => {
                 return {
@@ -89,7 +89,7 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           </li>
           <li>
             <NavLink
-              to={`/travel/search?areaCode=1&cat1=C01&cat2=all&cat3=all`}
+              to={`/travel/search?type=25&areaCode=1&cat1=C01&cat2=all&cat3=all`}
               onClick={() => clickCategory("travel")}
               style={({ isActive }) => {
                 return {

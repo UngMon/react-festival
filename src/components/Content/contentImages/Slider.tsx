@@ -8,11 +8,11 @@ import SliderButton from "./SliderButton";
 import "./Slider.css";
 
 interface SliderProps {
+  imageRef: React.RefObject<HTMLDivElement>;
   contentImage: ResponImage;
 }
 
-const Slider = ({ contentImage }: SliderProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+const Slider = ({ imageRef, contentImage }: SliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const [image, setImage] = useState<ContentImage[] | ImageData[]>([]);
@@ -62,32 +62,34 @@ const Slider = ({ contentImage }: SliderProps) => {
       }
     }
     /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
-    setWidth(containerRef.current!.clientWidth / 3);
-  }, [contentImage]);
+    console.log('image Effect')
+    setWidth(imageRef.current!.clientWidth / 3);
+  }, [imageRef, contentImage]);
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
     // 첫 렌더링 후 모바일 너비이면 이미지 슬라이드 너비 맞춤
-    if (window.innerWidth < 900) setWidth(containerRef.current!.clientWidth);
+    if (window.innerWidth < 900) setWidth(imageRef.current!.clientWidth);
 
     // pc 사용자가 브라우저 크기를 조절할 때,
     const resizeHandler = () => {
       setWidth(
         window.innerWidth < 900
-          ? containerRef.current!.clientWidth
-          : containerRef.current!.clientWidth / 3
+          ? imageRef.current!.clientWidth
+          : imageRef.current!.clientWidth / 3
       );
     };
     window.addEventListener("resize", resizeHandler);
+    console.log('size effect')
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [setWidth]);
+  }, [imageRef, setWidth]);
 
   return (
     <div
       className="slider-box"
-      ref={containerRef}
+      ref={imageRef}
       onMouseEnter={() => setISMouseOver(true)}
       onMouseLeave={() => setISMouseOver(false)}
     >

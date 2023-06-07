@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { categoryObject } from "../../type/Common";
+import { tourObject, categoryObject } from "../../type/Common";
 import "./Tags.css";
 
 interface T {
@@ -22,11 +22,11 @@ const Tags = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
     url += `areaCode=${areaCode}&cat1=${cat1}&cat2=${c2}&cat3=${c3}`;
     navigate(url);
   };
-
+  const array = title === "tour" ? tourObject[cat2] : categoryObject[title];
   return (
     <div className="tags">
       <div className="hash">
-        {categoryObject[title].map((item, index) => (
+        {array.map((item, index) => (
           <button
             key={index}
             className={`${cat3 === item[2] ? "category-active" : "null"}`}

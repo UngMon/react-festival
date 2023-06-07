@@ -7,15 +7,16 @@ html {
 body {
   margin: 0;
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
-  width: 6px;
-  background-color: transparent;
+  width: 8px;
+  background-color: #f0f1fa;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: orange;
+  background: rgb(205, 205, 205);
   height: 30%;
   border-radius: 2px;
 }
