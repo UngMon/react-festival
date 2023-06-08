@@ -92,10 +92,12 @@ const tctsSlice = createSlice({
           "38": [],
           "39": [],
         };
-
+        console.log(action.payload.areaCode);
+        console.log(action.payload.type);
         if (action.payload.type !== "25") {
           for (const item of dummyData) {
             if (item.firstimage === "") continue;
+            if (!item.areacode) continue;
             region[action.payload.areaCode].push(item);
           }
 
@@ -108,14 +110,11 @@ const tctsSlice = createSlice({
             state.cultureArray![action.payload.areaCode] =
               region[action.payload.areaCode];
           }
-        } else {
-          for (const item of dummyData) {
-            if (!item.firstimage) continue;
-            if (!item.areacode) continue;
-            region[item.areacode].push(item);
+          if (action.payload.type === "25") {
+            state.travelArray![action.payload.areaCode] =
+              region[action.payload.areaCode];
           }
-          state.travelArray = region;
-        }
+        } 
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;

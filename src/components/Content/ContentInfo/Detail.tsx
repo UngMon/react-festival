@@ -1,41 +1,75 @@
 import {
-  ResponDetailCommon,
-  ResponDetailIntro,
+  ResponCommon,
+  ResponInfo,
+  ResponIntro,
 } from "../../../type/FestivalType";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import "./Detail.css";
+import { useState } from "react";
 
 interface DetailProps {
   category: string;
-  contentDetailCommon: ResponDetailCommon;
-  contentDetailIntro: ResponDetailIntro;
+  contentInfo: ResponInfo;
+  contentIntro: ResponIntro;
+  contentCommon: ResponCommon;
   type: string;
 }
 
 const Detail = ({
   category,
-  contentDetailCommon,
-  contentDetailIntro,
+  contentInfo,
+  contentIntro,
+  contentCommon,
   type,
 }: DetailProps) => {
-  const detailCommon = contentDetailCommon.response.body.items.item;
-  const detailIntro = contentDetailIntro.response.body.items.item;
+  const detailInfo = contentInfo.response.body.items.item;
+  const detailIntro = contentIntro.response.body.items.item;
+  const detailCommon = contentCommon.response.body.items.item;
+
+  const [more, setMore] = useState<boolean>(false);
+
+  let text: string[] = [];
+  const returnTextArray = () => {
+    if (!detailInfo) return;
+
+    let infotext = "";
+    let result: any = [];
+
+    for (let i = 0; i < detailInfo.length; i++) {
+      if (detailCommon[0].overview === detailInfo[i].infotext) continue;
+
+      if (!detailInfo[i].infotext) continue;
+
+      if (infotext === detailInfo[i].infotext) continue;
+
+      infotext = detailInfo[i].infotext;
+      result = detailInfo[i].infotext.split(/<br>|<br >|<br\/>|<br \/>/gm);
+      text.push(...result);
+    }
+  };
+  returnTextArray();
 
   return (
     <>
       <div className="Cotent-overview">
-        <strong>개요</strong>
+        <strong>상세정보</strong>
         <div className="overview-p">
-          <p
-            dangerouslySetInnerHTML={{
-              __html: detailCommon[0].overview || "등록된 정보가 없습니다.",
-            }}
-          ></p>
+          <p>{detailCommon[0].overview}</p>
+          {more &&
+            text.map((item, index) => (
+              <p className={item === `\n` ? "space" : ""} key={index}>
+                {item}
+              </p>
+            ))}
+          {detailInfo && (
+            <button className="more-button" onClick={() => setMore(!more)}>
+              {more ? "숨기기" : "더 보기"}
+            </button>
+          )}
         </div>
       </div>
       <div className="Cotent-deatail">
-        <strong className="Content-info-title">기본정보</strong>
         {/* <Map detailCommon={detailCommon} /> */}
         <BasicInfo
           detailIntro={detailIntro}

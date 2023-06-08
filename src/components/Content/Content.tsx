@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   ResponImage,
-  ResponDetailIntro,
-  ResponDetailCommon,
+  ResponIntro,
+  ResponInfo,
+  ResponCommon,
 } from "../../type/FestivalType";
 import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
@@ -14,9 +15,10 @@ import Loading from "../loading/Loading";
 import "./Content.css";
 
 type Data = {
-  contentDetailIntro: ResponDetailIntro;
-  contentDetailCommon: ResponDetailCommon;
   contentImage: ResponImage;
+  contentInfo: ResponInfo;
+  contentIntro: ResponIntro;
+  contentCommon: ResponCommon;
 };
 
 const Cotent = () => {
@@ -59,7 +61,7 @@ const Cotent = () => {
         )}
         <h2 className="Content-title">
           {contentData &&
-            contentData!.contentDetailCommon.response.body.items.item[0].title}
+            contentData!.contentCommon.response.body.items.item[0].title}
         </h2>
         <div className="slider-container">
           {!contentData && <Loading />}
@@ -88,8 +90,9 @@ const Cotent = () => {
           {contentData && (
             <Detail
               category={category}
-              contentDetailCommon={contentData.contentDetailCommon}
-              contentDetailIntro={contentData.contentDetailIntro}
+              contentInfo={contentData.contentInfo}
+              contentIntro={contentData.contentIntro}
+              contentCommon={contentData.contentCommon}
               type={param.get("type")!}
             />
           )}
@@ -110,54 +113,67 @@ const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
 
 async function getContentImage(id: string) {
   const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
+    `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
   );
 
   if (!response.ok) {
     throw new Error("Failed to Fetch from Data");
   }
+
   const data: ResponImage = await response.json();
+
+  return data;
+}
+
+async function getContentInfo(type: string, id: string) {
+  const response = await fetch(
+    `https://apis.data.go.kr/B551011/KorService1/detailInfo1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&numOfRows=10&pageNo=1`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to Fetch from Data");
+  }
+
+  const data: ResponInfo = await response.json();
 
   return data;
 }
 
 async function getContentDetailIntro(type: string, id: string) {
   const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&contentTypeId=${type}&numOfRows=10&pageNo=1`
+    `https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&numOfRows=10&pageNo=1`
   );
 
   if (!response.ok) {
     throw new Error("Failed to Fetch from Data");
   }
 
-  const data: ResponDetailIntro = await response.json();
+  const data: ResponIntro = await response.json();
+
   return data;
 }
 
 async function getCotentDetailCommon(type: string, id: string) {
   const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${id}&contentTypeId=${type}&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1`
+    `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1`
   );
 
   if (!response.ok) {
     throw new Error("Failed to Fetch from Data");
   }
 
-  const data: ResponDetailCommon = await response.json();
+  const data: ResponCommon = await response.json();
 
   return data;
 }
 
 export async function loader(type: string, contentId: string) {
-  // { params }: LoaderFunctionArgs
-  // console.log("loader work");
-  // const contentId = params.contentId;
-  const [contentImage, contentDetailIntro, contentDetailCommon] =
-    await Promise.all([
-      getContentImage(contentId!),
-      getContentDetailIntro(type, contentId!),
-      getCotentDetailCommon(type, contentId!),
-    ]);
-  // console.log(contentImage, contentDetailIntro, contentDetailCommon);
-  return { contentDetailIntro, contentDetailCommon, contentImage };
+  const [contentImage, contentInfo, contentIntro, contentCommon] = await Promise.all([
+    getContentImage(contentId!),
+    getContentInfo(type, contentId!),
+    getContentDetailIntro(type, contentId!),
+    getCotentDetailCommon(type, contentId!),
+  ]);
+
+  return { contentImage, contentInfo, contentIntro, contentCommon };
 }

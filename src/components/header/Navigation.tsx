@@ -1,14 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { useAppDispatch } from "../../redux/store";
-import { categoryActions } from "../../redux/category-slice";
-import { CurrentSeason } from "../../utils/CurrentSeason";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCalendar,
-  faLocationDot,
-  faWind,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
 import "./Navigation.css";
 
 interface T {
@@ -24,7 +14,6 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
 
   const clickCategory = (value?: string) => {
     window.scrollTo(0, 0);
-    // if (value !== "festival") dispatch(categoryActions.clearSet());
     setOpenSearch(false);
   };
 

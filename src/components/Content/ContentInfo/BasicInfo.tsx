@@ -1,18 +1,13 @@
-import {
-  ContentDetailCommon,
-  ContentDetailIntro,
-} from "../../../type/FestivalType";
+import { ContentCommon, ContentIntro } from "../../../type/FestivalType";
 import { dataSlice } from "../../../utils/DataSlice";
 
 interface BasicProps {
-  detailIntro: ContentDetailIntro[];
-  detailCommon: ContentDetailCommon[];
+  detailIntro: ContentIntro[];
+  detailCommon: ContentCommon[];
   type: string;
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
-  console.log(detailCommon)
-  console.log(detailIntro)
 
   return (
     <>
@@ -20,7 +15,8 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
         <tbody>
           {type === "12" && (
             <tr>
-              <th><img/></th>
+              <th></th>
+              <td></td>
             </tr>
           )}
           {type === "15" && (
@@ -39,7 +35,11 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           {detailCommon[0].tel && (
             <tr key="연락처">
               <th>
-                <img src="/images/icons/phone.png" alt="문의 및 안내" width="40" />
+                <img
+                  src="/images/icons/phone.png"
+                  alt="문의 및 안내"
+                  width="40"
+                />
               </th>
               <td>{detailCommon[0].tel}</td>
             </tr>

@@ -1,6 +1,6 @@
 import { Item, Month, Region } from "./Common";
 
-export type ContentDetailIntro = {
+export type ContentIntro = {
   contentid: string;
   contenttypeid: string;
   // tour
@@ -50,7 +50,7 @@ export type ContentDetailIntro = {
   theme?: string;
 };
 
-export type ContentDetailCommon = {
+export type ContentCommon = {
   contentid: string;
   contenttypeid: string;
   title: string;
@@ -71,6 +71,15 @@ export type ContentDetailCommon = {
   overview: string;
 };
 
+export type ContentInfo = {
+  contentid: string;
+  contenttypeid: string;
+  serialnum: string;
+  infoname: string;
+  infotext: string;
+  fldgubun: string;
+};
+
 export type ContentImage = {
   contentid: string;
   originimgurl: string;
@@ -83,21 +92,31 @@ export type ImageData = {
   originimgurl: string;
 };
 
-export type ResponDetailIntro = {
+export type ResponInfo = {
   response: {
     body: {
       items: {
-        item: ContentDetailIntro[];
+        item: ContentInfo[];
       };
     };
   };
 };
 
-export type ResponDetailCommon = {
+export type ResponIntro = {
   response: {
     body: {
       items: {
-        item: ContentDetailCommon[];
+        item: ContentIntro[];
+      };
+    };
+  };
+};
+
+export type ResponCommon = {
+  response: {
+    body: {
+      items: {
+        item: ContentCommon[];
       };
     };
   };
@@ -114,8 +133,8 @@ export type ResponImage = {
 };
 
 export type LoaderData = {
-  contentDetailIntro: ResponDetailIntro;
-  contentDetailCommon: ResponDetailCommon;
+  contentDetailIntro: ResponIntro;
+  contentDetailCommon: ResponCommon;
   contentImage: ResponImage;
 };
 
@@ -130,9 +149,5 @@ export interface FestivalState {
   festivalArray: Item[];
   monthArray: Month;
   regionArray: Region;
-  // month: string;
-  // areaCode: string;
-  // cat2: string;
-  // cat3: string;
   행사상태: [boolean, boolean, boolean];
 }

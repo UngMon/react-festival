@@ -1,7 +1,7 @@
 .Cotent-deatail {
   box-sizing: border-box;
   width: 100%;
-  margin: 30px auto 0;
+  margin: 0 auto;
   overflow-y: auto;
 }
 
@@ -29,6 +29,7 @@
   grid-column-end: span 3;
   padding: 30px 0;
   line-height: 25px;
+  position: relative;
 }
 
 .Cotent-overview strong {
@@ -38,5 +39,25 @@
 
 .Cotent-overview p {
   letter-spacing: 0.5px;
+  padding-bottom: 5px;
+}
+
+.Cotent-overview p:nth-child(1) {
+  padding-bottom: 20px;
+}
+
+.more-button {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  border: 0;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: "Noto Sans KR", sans-serif;
+  color: #3f75da;
+}
+
+.space {
+  padding: 10px 0;
 }
 
