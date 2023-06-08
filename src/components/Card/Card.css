@@ -129,13 +129,12 @@
 }
 
 .not-found-data {
-  margin: 0 auto;
-  width: 280px;
+  margin: 50px auto 0;
+  width: 300px;
   grid-column-end: span 5;
 }
 
 .not-found-data p {
-  width: 100%;
   font-size: 20px;
   text-align: center;
 }

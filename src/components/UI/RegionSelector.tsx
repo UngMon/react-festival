@@ -5,13 +5,14 @@ import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 interface T {
   title: string;
   month?: string;
+  type: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;
 }
 
-const RegionSelector = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
+const RegionSelector = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,7 +21,7 @@ const RegionSelector = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
     navigate(
       `/${title}/search?${
         title === "festival" ? `month=${month}&` : ""
-      }areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`
+      }type=${type}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`
     );
   };
 

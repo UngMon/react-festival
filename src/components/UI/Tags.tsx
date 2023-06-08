@@ -5,13 +5,14 @@ import "./Tags.css";
 interface T {
   title: string;
   month: string;
+  type: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;
 }
 
-const Tags = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
+const Tags = ({ title, type, month, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
 
   const festivalTagClick = (c2: string, c3: string) => {
@@ -19,7 +20,7 @@ const Tags = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
 
     if (title === "festival") url += `month=${month}&`;
 
-    url += `areaCode=${areaCode}&cat1=${cat1}&cat2=${c2}&cat3=${c3}`;
+    url += `type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${c2}&cat3=${c3}`;
     navigate(url);
   };
   const array = title === "tour" ? tourObject[cat2] : categoryObject[title];

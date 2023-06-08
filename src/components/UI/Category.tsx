@@ -5,38 +5,39 @@ import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
 interface T {
   title: string;
   month?: string;
+  type: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3?: string;
 }
 
-const Category = ({ title, month, areaCode, cat1, cat2, cat3 }: T) => {
+const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
 
   const pickerSelector = (
     event: React.ChangeEvent<HTMLSelectElement>,
-    type: string
+    cat: string
   ) => {
     const value = event.target.value;
 
-    if (type === "cat1") {
+    if (cat === "cat1") {
       navigate(
-        `/${title}/serach?areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
+        `/${title}/serach?type=${type}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
-    if (type === "cat2") {
+    if (cat === "cat2") {
       navigate(
         `/${title}/serach?${
           title === "festival" ? `month=${month}&` : ""
-        }areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
+        }type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
     }
 
-    if (type === "cat3") {
+    if (cat === "cat3") {
       navigate(
-        `/${title}/serach?areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${title}/serach?type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
   };

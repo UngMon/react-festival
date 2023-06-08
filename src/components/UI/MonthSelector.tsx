@@ -4,15 +4,18 @@ import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 interface T {
   month: string;
+  type: string;
   areaCode: string;
 }
 
-const MonthSelector = ({month, areaCode}: T) => {
+const MonthSelector = ({ month, type, areaCode }: T) => {
   const navigate = useNavigate();
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    navigate(`/festival/serach?month=${value}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`);
+    navigate(
+      `/festival/serach?month=${value}&type=${type}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`
+    );
   };
 
   return (

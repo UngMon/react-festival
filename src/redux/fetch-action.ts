@@ -50,7 +50,7 @@ export const getTCTRData = createAsyncThunk(
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
-
+    console.log(data);
     return { data, areaCode, type, title, keyword };
   }
 );

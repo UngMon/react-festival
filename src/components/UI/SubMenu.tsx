@@ -8,7 +8,6 @@ interface T {
 }
 
 const SubMenu = ({ title, month }: T) => {
-  console.log('???????')
 
   return (
     <nav className="subnav">

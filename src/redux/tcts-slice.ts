@@ -39,11 +39,14 @@ const tctsSlice = createSlice({
       .addCase(getTCTRData.fulfilled, (state, action) => {
         const dummyData = action.payload.data.response.body.items.item;
         // console.log(dummyData);
+
+        state.successGetData = true;
+        state.loading = false;
+        console.log('working??????')
+        console.log(dummyData)
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때,
           // ex 사용자가 url를 조작할 때,
-          state.successGetData = false;
-          state.loading = false;
           if (action.payload.title === "search")
             state.serchRecord = [
               "fulfiled",
@@ -52,9 +55,6 @@ const tctsSlice = createSlice({
             ];
           return;
         }
-
-        state.successGetData = true;
-        state.loading = false;
 
         if (action.payload.title === "search") {
           const arr: Item[] = [];
@@ -94,27 +94,27 @@ const tctsSlice = createSlice({
         };
         console.log(action.payload.areaCode);
         console.log(action.payload.type);
-        if (action.payload.type !== "25") {
-          for (const item of dummyData) {
-            if (item.firstimage === "") continue;
-            if (!item.areacode) continue;
-            region[action.payload.areaCode].push(item);
-          }
 
-          if (action.payload.type === "12") {
-            state.touristArray![action.payload.areaCode] =
-              region[action.payload.areaCode];
-          }
+        for (const item of dummyData) {
+          if (item.firstimage === "") continue;
+          if (!item.areacode) continue;
+          region[action.payload.areaCode].push(item);
+        }
 
-          if (action.payload.type === "14") {
-            state.cultureArray![action.payload.areaCode] =
-              region[action.payload.areaCode];
-          }
-          if (action.payload.type === "25") {
-            state.travelArray![action.payload.areaCode] =
-              region[action.payload.areaCode];
-          }
-        } 
+        if (action.payload.type === "12") {
+          state.touristArray[action.payload.areaCode] =
+            region[action.payload.areaCode];
+        }
+
+        if (action.payload.type === "14") {
+          state.cultureArray[action.payload.areaCode] =
+            region[action.payload.areaCode];
+        }
+
+        if (action.payload.type === "25") {
+          state.travelArray[action.payload.areaCode] =
+            region[action.payload.areaCode];
+        }
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
