@@ -45,21 +45,19 @@ const AnotherCard = ({ title, isSearch }: Props) => {
   const cat1 = params.get("cat1") || "all";
   const cat2 = params.get("cat2") || "all";
   const cat3 = params.get("cat3") || "all";
-  console.log(type)
+
   useEffect(() => {
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
     if (tcts.loading) return;
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCodeArr.includes(areaCode)) return;
 
-    console.log('????????????????????????')
-    console.log(params.get("type")!)
     const parameter = {
       areaCode,
       type,
       title,
     };
-    console.log(parameter)
+
     if (title === "tour" && !tcts.touristArray![areaCode]) {
       dispatch(getTCTRData(parameter));
     }
@@ -69,8 +67,6 @@ const AnotherCard = ({ title, isSearch }: Props) => {
     }
 
     if (title === "travel" && !tcts.travelArray![areaCode]) {
-      console.log('travel 비엇나')
-      console.log(areaCode)
       dispatch(getTCTRData(parameter));
     }
   }, [dispatch, tcts, type, title, areaCode, cat1, cat2, cat3]);

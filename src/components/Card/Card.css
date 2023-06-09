@@ -204,4 +204,8 @@
   .AllView-grid-box {
     grid-template-columns: 1fr;
   }
+
+  .not-found-category {
+    font-size: 14px;
+  }
 }

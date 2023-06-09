@@ -103,6 +103,6 @@
 
 @media (max-width: 320px) {
   .Header-box {
-    width: 100%;
+    width: 320px;
   }
 }

@@ -1,5 +1,4 @@
 import { ContentCommon, ContentIntro } from "../../../type/FestivalType";
-import { dataSlice } from "../../../utils/DataSlice";
 
 interface BasicProps {
   detailIntro: ContentIntro[];
@@ -8,285 +7,291 @@ interface BasicProps {
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
-
+  
+  console.log(detailIntro);
   return (
-    <>
-      <table className="Content-table">
-        <tbody>
-          {type === "12" && (
-            <tr>
-              <th></th>
-              <td></td>
-            </tr>
-          )}
-          {type === "15" && (
-            <tr key="기간">
-              <th>
-                <img src="/images/icons/timetable.png" alt="기간" width="40" />
-              </th>
-              <td>
-                {dataSlice(
-                  detailIntro[0].eventstartdate!,
-                  detailIntro[0].eventenddate!
-                )}
-              </td>
-            </tr>
-          )}
-          {detailCommon[0].tel && (
-            <tr key="연락처">
-              <th>
-                <img
-                  src="/images/icons/phone.png"
-                  alt="문의 및 안내"
-                  width="40"
-                />
-              </th>
-              <td>{detailCommon[0].tel}</td>
-            </tr>
-          )}
-          {
-            <tr key="홈페이지">
-              <th>
-                <img
-                  src="/images/icons/website.png"
-                  alt="홈페이지"
-                  width="40"
-                />
-              </th>
-              <td
-                dangerouslySetInnerHTML={{
-                  __html:
-                    detailIntro[0].eventhomepage ||
-                    detailCommon[0].homepage ||
-                    "정보없음",
-                }}
-              ></td>
-            </tr>
-          }
-          {detailIntro[0].usetimefestival && (
-            <tr key="이용요금">
-              <th>
-                <img src="/images/icons/money.png" alt="이용요금" width="40" />
-              </th>
-              <td
-                dangerouslySetInnerHTML={{
-                  __html: detailIntro[0].usetimefestival,
-                }}
-              ></td>
-            </tr>
-          )}
-          {type === "15" && detailIntro[0].playtime && (
-            <tr key="공연시간">
-              <th>
-                <img src="/images/icons/clock.png" alt="공연시간" width="40" />
-              </th>
-              <td
-                dangerouslySetInnerHTML={{ __html: detailIntro[0].playtime }}
-              ></td>
-            </tr>
-          )}
-          {detailCommon[0].zipcode && (
-            <tr key="우편번호">
-              <th>
-                <img src="/images/icons/postal.png" alt="우편번호" width="40" />
-              </th>
-              <td>{detailCommon[0].zipcode}</td>
-            </tr>
-          )}
-          {detailCommon[0].addr1 && (
-            <tr key="주소">
-              <th>
-                <img src="/images/icons/location.png" alt="주소" width="40" />
-              </th>
-              <td>{detailCommon[0].addr1}</td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].infocenter! && (
-            <tr key="안내">
-              <th>
-                <img src="/images/icons/phone.png" alt="문의 안내" width="40" />
-              </th>
-              <td
-                dangerouslySetInnerHTML={{ __html: detailIntro[0].infocenter }}
-              ></td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].restdate! && (
-            <tr key="휴일">
-              <th>
-                <img src="/images/icons/Closed.png" alt="휴일" width="40"></img>
-              </th>
-              <td
-                dangerouslySetInnerHTML={{ __html: detailIntro[0].restdate }}
-              ></td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].expguide! && (
-            <tr key="체험안내">
-              <th>
-                <img
-                  src="/images/icons/guide.png"
-                  alt="체험안내"
-                  width="40"
-                ></img>
-              </th>
-              <td
-                dangerouslySetInnerHTML={{
-                  __html: detailIntro[0].expguide,
-                }}
-              ></td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].accomcount! && (
-            <tr key="수용인원">
-              <th>
-                <img
-                  src="/images/icons/crowd.png"
-                  alt="수용인원"
-                  width="40"
-                ></img>
-              </th>
-              <td>{detailIntro[0].accomcount}</td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].usetime! && (
-            <tr key="개장시간">
-              <th>
-                <img src="/images/icons/open.png" alt="개장" width="40" />
-              </th>
-              <td
-                dangerouslySetInnerHTML={{ __html: detailIntro[0].usetime }}
-              ></td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].parking! && (
-            <tr key="주차">
-              <th>
-                <img src="/images/icons/parking.png" alt="주차" width="40" />
-              </th>
-              <td>{detailIntro[0].parking}</td>
-            </tr>
-          )}
-          {type === "12" && detailIntro[0].chkpet! && (
-            <tr key="반려동물입장">
-              <th>
-                <img src="/images/icons/animal.png" alt="반려동물" width="40" />
-              </th>
-              <td>{detailIntro[0].chkpet}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].usefee! && (
-            <tr key="입장료">
-              <th>입장료</th>
-              <td
-                dangerouslySetInnerHTML={{ __html: detailIntro[0].usefee }}
-              ></td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].spendtime! && (
-            <tr key="소요시간">
-              <th>
-                <img
-                  src="/images/icons/save-time.png"
-                  alt="소요시간"
-                  width="35"
-                />
-              </th>
-              <td>{detailIntro[0].spendtime}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].discountinfo! && (
-            <tr key="할인">
-              <th>
-                <img src="/images/icons/discount.png" alt="할인" width="35" />
-              </th>
-              <td>{detailIntro[0].discountinfo}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].parkingfee! && (
-            <tr key="주차료">
-              <th>
-                <img src="/images/icons/money.png" alt="주차료" width="35" />
-                주차료
-              </th>
-              <td>{detailIntro[0].parkingfee}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].infocenterculture! && (
-            <tr key="안내">
-              <th>
-                <img src="/images/icons/phone.png" alt="안내" width="35" />
-              </th>
-              <td>{detailIntro[0].infocenterculture}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].usetimeculture! && (
-            <tr key="개장시간">
-              <th>
-                <img
-                  src="/images/icons/open.png"
-                  alt="개장시간"
-                  width="40"
-                ></img>
-              </th>
-              <td>{detailIntro[0].usetimeculture}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].restdateculture! && (
-            <tr key="휴일">
-              <th>
-                <img src="/images/icons/closed.png" alt="휴일" width="40"></img>
-              </th>
-              <td>{detailIntro[0].restdateculture}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].parkingculture! && (
-            <tr key="주차여부">
-              <th>
-                <img
-                  src="/images/icons/parking.png"
-                  alt="주차여부"
-                  width="40"
-                />
-              </th>
-              <td>{detailIntro[0].parkingculture}</td>
-            </tr>
-          )}
-          {type === "14" && detailIntro[0].chkpetculture! && (
-            <tr key="반려동물입장">
-              <th>
-                <img src="/images/icons/animal.png" alt="반려동물" width="40" />
-                반려동물입장
-              </th>
-              <td>{detailIntro[0].chkpetculture}</td>
-            </tr>
-          )}
-          {type === "25" && detailIntro[0].infocentertourcours! && (
-            <tr key="안내">
-              <th>안내</th>
-              <td>{detailIntro[0].infocentertourcours}</td>
-            </tr>
-          )}
-          {type === "25" && detailIntro[0].distance! && (
-            <tr key="총 거리">
-              <th>
-                <img src="/images/icons/distance.png" alt="총거리" width="40" />
-              </th>
-              <td>{detailIntro[0].distance}</td>
-            </tr>
-          )}
-          {type === "25" && detailIntro[0].taketime! && (
-            <tr key="소요시간">
-              <th>
-                <img src="/images/icons/clock.png" alt="소요시간" width="35" />
-              </th>
-              <td>{detailIntro[0].taketime}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
+    <div className="Cotent-deatail">
+      <ul className="Content-table">
+        {detailCommon[0].tel && (
+          <li>
+            <strong>문의 및 안내</strong>
+            <span>{detailCommon[0].tel}</span>
+          </li>
+        )}
+        {detailCommon[0].addr1 && (
+          <li>
+            <strong>주소</strong>
+            <span>{detailCommon[0].addr1}</span>
+          </li>
+        )}
+        {detailCommon[0].zipcode && (
+          <li>
+            <strong>우편번호</strong>
+            <span>{detailCommon[0].zipcode}</span>
+          </li>
+        )}
+        {type === "12" && (
+          <>
+            <li>
+              <strong>문의 및 안내</strong>
+              <span>{detailIntro[0].infocenter}</span>
+            </li>
+            <li>
+              <strong>휴일</strong>
+              <span>{detailIntro[0].restdate}</span>
+            </li>
+            <li>
+              <strong>개장시간</strong>
+              <span>{detailIntro[0].usetime}</span>
+            </li>
+            <li>
+              <strong>가이드</strong>
+              <span>{detailIntro[0].expguide}</span>
+            </li>
+            <li>
+              <strong>수용인원</strong>
+              <span>{detailIntro[0].accomcount}</span>
+            </li>
+            <li>
+              <strong>주차창</strong>
+              <span>{detailIntro[0].parking}</span>
+            </li>
+            <li>
+              <strong>반려동물입장</strong>
+              <span>{detailIntro[0].chkpet}</span>
+            </li>
+          </>
+        )}
+        {type === "14" && (
+          <>
+            <li>
+              <strong>문의 및 안내</strong>
+              <span>{detailIntro[0].infocenterculture}</span>
+            </li>
+            <li>
+              <strong>규모</strong>
+              <span>{detailIntro[0].scale}</span>
+            </li>
+            <li>
+              <strong>수용인원</strong>
+              <span>{detailIntro[0].accomcountculture}</span>
+            </li>
+            <li>
+              <strong>입장료</strong>
+              <span>{detailIntro[0].usefee}</span>
+            </li>
+            <li>
+              <strong>주차 여부</strong>
+              <span>{detailIntro[0].parkingculture}</span>
+            </li>
+            <li>
+              <strong>주차비용</strong>
+              <span>{detailIntro[0].parkingfee}</span>
+            </li>
+            <li>
+              <strong>휴일</strong>
+              <span>{detailIntro[0].restdateculture}</span>
+            </li>
+            <li>
+              <strong>반려동물입장</strong>
+              <span>{detailIntro[0].chkpetculture}</span>
+            </li>
+          </>
+        )}
+        {type === "15" && (
+          <>
+            <li>
+              <strong>개최장소</strong>
+              <span>{detailIntro[0].eventplace}</span>
+            </li>
+            <li>
+              <strong>연령제한</strong>
+              <span>{detailIntro[0].agelimit}</span>
+            </li>
+            <li>
+              <strong>프로그램</strong>
+              <span>{detailIntro[0].program}</span>
+            </li>
+            <li>
+              <strong>이용료</strong>
+              <span>{detailIntro[0].usetimefestival}</span>
+            </li>
+            <li>
+              <strong>할인정보</strong>
+              <span>{detailIntro[0].discountinfofestival}</span>
+            </li>
+            <li>
+              <strong>소요시간</strong>
+              <span>{detailIntro[0].spendtimefestival}</span>
+            </li>
+          </>
+        )}
+        {type === "25" && (
+          <>
+            <li key="안내">
+              <strong>문의 및 안내</strong>
+              <span>{detailIntro[0].infocentertourcours}</span>
+            </li>
+            <li key="안내">
+              <strong>총 거리</strong>
+              <span>{detailIntro[0].distance}</span>
+            </li>
+            <li key="안내">
+              <strong>소요 시간</strong>
+              <span>{detailIntro[0].taketime}</span>
+            </li>
+          </>
+        )}
+        <li>
+          <strong>홈페이지</strong>
+          <span
+            dangerouslySetInnerHTML={{ __html: detailCommon[0].homepage }}
+          ></span>
+        </li>
+      </ul>
+    </div>
   );
 };
 
 export default BasicInfo;
+
+/* <div className="Cotent-deatail">
+<table className="Content-table">
+  <tbody>
+    {detailCommon[0].tel && (
+      <tr>
+        <th>문의 및 안내</th>
+        <td>{detailCommon[0].tel}</td>
+      </tr>
+    )}
+    {detailCommon[0].addr1 && (
+      <tr>
+        <th>주소</th>
+        <td>{detailCommon[0].addr1}</td>
+      </tr>
+    )}
+    {detailCommon[0].addr1 && (
+      <tr>
+        <th>우편번호</th>
+        <td>{detailCommon[0].zipcode}</td>
+      </tr>
+    )}
+    {type === "12" && (
+      <>
+        <tr>
+          <th>문의 및 안내</th>
+          <td>{detailIntro[0].infocenter}</td>
+        </tr>
+        <tr>
+          <th>휴일</th>
+          <td>{detailIntro[0].restdate}</td>
+        </tr>
+        <tr>
+          <th>개장시간</th>
+          <td>{detailIntro[0].usetime}</td>
+        </tr>
+        <tr>
+          <th>가이드</th>
+          <td>{detailIntro[0].expguide}</td>
+        </tr>
+        <tr>
+          <th>수용인원</th>
+          <td>{detailIntro[0].accomcount}</td>
+        </tr>
+        <tr>
+          <th>주차창</th>
+          <td>{detailIntro[0].parking}</td>
+        </tr>
+        <tr>
+          <th>반려동물입장</th>
+          <td>{detailIntro[0].chkpet}</td>
+        </tr>
+      </>
+    )}
+    {type === "14" && (
+      <>
+        <tr>
+          <th>문의 및 안내</th>
+          <td>{detailIntro[0].infocenterculture}</td>
+        </tr>
+        <tr>
+          <th>규모</th>
+          <td>{detailIntro[0].scale}</td>
+        </tr>
+        <tr>
+          <th>수용인원</th>
+          <td>{detailIntro[0].accomcountculture}</td>
+        </tr>
+        <tr>
+          <th>입장료</th>
+          <td>{detailIntro[0].usefee}</td>
+        </tr>
+        <tr>
+          <th>주차 여부</th>
+          <td>{detailIntro[0].parkingculture}</td>
+        </tr>
+        <tr>
+          <th>주차비용</th>
+          <td>{detailIntro[0].parkingfee}</td>
+        </tr>
+        <tr>
+          <th>휴일</th>
+          <td>{detailIntro[0].restdateculture}</td>
+        </tr>
+        <tr>
+          <th>반려동물입장</th>
+          <td>{detailIntro[0].chkpetculture}</td>
+        </tr>
+      </>
+    )}
+    {type === "15" && (
+      <>
+        <tr>
+          <th>개최장소</th>
+          <td>{detailIntro[0].eventplace}</td>
+        </tr>
+        <tr>
+          <th>연령제한</th>
+          <td>{detailIntro[0].agelimit}</td>
+        </tr>
+        <tr>
+          <th>프로그램</th>
+          <td>{detailIntro[0].program}</td>
+        </tr>
+        <tr>
+          <th>이용료</th>
+          <td>{detailIntro[0].usetimefestival}</td>
+        </tr>
+        <tr>
+          <th>할인정보</th>
+          <td>{detailIntro[0].discountinfofestival}</td>
+        </tr>
+        <tr>
+          <th>소요시간</th>
+          <td>{detailIntro[0].spendtimefestival}</td>
+        </tr>
+      </>
+    )}
+    {type === "25" && (
+      <>
+        <tr key="안내">
+          <th>문의 및 안내</th>
+          <td>{detailIntro[0].infocentertourcours}</td>
+        </tr>
+        <tr key="안내">
+          <th>총 거리</th>
+          <td>{detailIntro[0].distance}</td>
+        </tr>
+        <tr key="안내">
+          <th>소요 시간</th>
+          <td>{detailIntro[0].taketime}</td>
+        </tr>
+      </>
+    )}
+    <tr>
+      <th>홈페이지</th>
+      <td>{detailCommon[0].homepage}</td>
+    </tr>
+  </tbody>
+</table>
+</div> */

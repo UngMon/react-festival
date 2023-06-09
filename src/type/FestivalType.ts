@@ -17,6 +17,7 @@ export type ContentIntro = {
   spendtime?: string;
   discountinfo?: string;
   parkingfee?: string;
+  accomcountculture?: string;
   infocenterculture?: string;
   usetimeculture?: string;
   restdateculture?: string;

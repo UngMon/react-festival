@@ -24,4 +24,9 @@
   text-overflow: ellipsis;
 }
 
+@media (max-width: 320px) {
+  .footer-box {
+    width: 320px;
+  }
+}
 

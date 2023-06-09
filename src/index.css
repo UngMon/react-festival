@@ -7,7 +7,6 @@ html {
 body {
   margin: 0;
   font-family: sans-serif;
-  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -29,6 +28,6 @@ select {
 
 @media (max-width: 320px) {
   body {
-    width: 320px;
+    min-width: 100%;
   }
 }

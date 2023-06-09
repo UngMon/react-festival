@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ResponCommon,
   ResponInfo,
@@ -6,7 +7,6 @@ import {
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import "./Detail.css";
-import { useState } from "react";
 
 interface DetailProps {
   category: string;
@@ -62,21 +62,19 @@ const Detail = ({
                 {item}
               </p>
             ))}
-          {detailInfo && (
+          {text.length !== 0 && (
             <button className="more-button" onClick={() => setMore(!more)}>
               {more ? "숨기기" : "더 보기"}
             </button>
           )}
         </div>
       </div>
-      <div className="Cotent-deatail">
-        {/* <Map detailCommon={detailCommon} /> */}
-        <BasicInfo
-          detailIntro={detailIntro}
-          detailCommon={detailCommon}
-          type={type}
-        />
-      </div>
+      {/* <Map detailCommon={detailCommon} /> */}
+      <BasicInfo
+        detailIntro={detailIntro}
+        detailCommon={detailCommon}
+        type={type}
+      />
     </>
   );
 };
