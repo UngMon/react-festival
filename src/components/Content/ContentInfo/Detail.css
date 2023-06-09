@@ -52,7 +52,7 @@
 .Content-table li {
   display: flex;
   align-items: center;
-  padding: 10px 5px;
+  padding: 10px 15px 10px 0;
 }
 
 .Content-table strong {
@@ -62,7 +62,7 @@
 }
 
 .Content-table span {
-  font-size: 0.94em;
+  font-size: 0.9em;
   word-break: break-all;
 }
 

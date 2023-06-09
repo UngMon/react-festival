@@ -6,7 +6,7 @@ import { festivalActions } from "../../redux/festival-slice";
 import { getFestiavalData } from "../../redux/fetch-action";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
-import { dataSlice } from "../../utils/DataSlice";
+import { dateSlice } from "../../utils/DateSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { 지역코드, 시군코드 } from "../../type/Common";
@@ -135,7 +135,7 @@ const FestivalCard = ({ isSearch }: T) => {
             <p className="area">{지역표시}</p>
             <h4 className="prevent-overflow">{item.title}</h4>
             <p className="card-date">
-              {dataSlice(item.eventstartdate!, item.eventenddate!)}
+              {dateSlice(item.eventstartdate!, item.eventenddate!)}
             </p>
           </div>
         </div>

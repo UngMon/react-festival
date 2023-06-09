@@ -55,7 +55,7 @@ const Detail = ({
       <div className="Cotent-overview">
         <strong>상세정보</strong>
         <div className="overview-p">
-          <p>{detailCommon[0].overview}</p>
+          <p dangerouslySetInnerHTML={{__html: detailCommon[0].overview}}></p>
           {more &&
             text.map((item, index) => (
               <p className={item === `\n` ? "space" : ""} key={index}>

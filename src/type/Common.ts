@@ -248,9 +248,7 @@ export const 시군코드: { [key: string]: { [key: string]: string } } = {
 };
 
 export const tourObject: { [key: string]: string[][] } = {
-  all: [
-
-  ],
+  all: [],
   A0101: [
     ["전체", "A0101", "all"],
     ["국립공원", "A0101", "A01010100"],
@@ -592,4 +590,37 @@ export const tagName: { [key: string]: string } = {
   C01160001: "캠핑코스",
   C01170001: "맛코스",
   all: "전체",
+};
+
+export const key: { [key: string]: string[][] } = {
+  "12": [
+    ["문의 및 안내", "infocenter"],
+    ["휴일", "restdate"],
+    ["가이드", "expguide"],
+    ["수용인원", "accomcount"],
+    ["개장시간", "usetime"],
+    ["주차", "parking"],
+    ["반려동물입장", "chkpet"],
+  ],
+  "14": [
+    ["입장료", "usefee"],
+    ["면적", "scale"],
+    ["소요시간", "spendtime"],
+    ["할인정보", "discountinfo"],
+    ["주차료", "parkingfee"],
+    ["수용인원", "accomcountculture"],
+    ["문의 및 안내", "infocenterculture"],
+    ["개장시간", "usetimeculture"],
+    ["휴일", "restdateculture"],
+    ["주차", "parkingculture"],
+    ["반려동물입장", "chkpetculture"],
+  ],
+  "15": [
+    ["개최장소", "eventplace"],
+    ["연령제한", "agelimit"],
+    ["프로그램", "program"],
+    ["입장료", "usetimefestival"],
+    ["할인", "discountinfofestival"],
+    ["소요시간", "spendtimefestival"],
+  ],
 };

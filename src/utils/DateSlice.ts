@@ -1,4 +1,4 @@
-export const dataSlice = (startDate: string, endDate: string): string => {
+export const dateSlice = (startDate: string, endDate: string): string => {
   const result =
     startDate.slice(0, 4) +
     "." +

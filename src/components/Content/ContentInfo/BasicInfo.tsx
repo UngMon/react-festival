@@ -1,4 +1,6 @@
 import { ContentCommon, ContentIntro } from "../../../type/FestivalType";
+import { key } from "../../../type/Common";
+import { dateSlice } from "../../../utils/DateSlice";
 
 interface BasicProps {
   detailIntro: ContentIntro[];
@@ -7,8 +9,8 @@ interface BasicProps {
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
-  
-  console.log(detailIntro);
+  const Intro: { [key: string]: string } = detailIntro[0];
+
   return (
     <div className="Cotent-deatail">
       <ul className="Content-table">
@@ -30,117 +32,27 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
             <span>{detailCommon[0].zipcode}</span>
           </li>
         )}
-        {type === "12" && (
-          <>
-            <li>
-              <strong>문의 및 안내</strong>
-              <span>{detailIntro[0].infocenter}</span>
-            </li>
-            <li>
-              <strong>휴일</strong>
-              <span>{detailIntro[0].restdate}</span>
-            </li>
-            <li>
-              <strong>개장시간</strong>
-              <span>{detailIntro[0].usetime}</span>
-            </li>
-            <li>
-              <strong>가이드</strong>
-              <span>{detailIntro[0].expguide}</span>
-            </li>
-            <li>
-              <strong>수용인원</strong>
-              <span>{detailIntro[0].accomcount}</span>
-            </li>
-            <li>
-              <strong>주차창</strong>
-              <span>{detailIntro[0].parking}</span>
-            </li>
-            <li>
-              <strong>반려동물입장</strong>
-              <span>{detailIntro[0].chkpet}</span>
-            </li>
-          </>
-        )}
-        {type === "14" && (
-          <>
-            <li>
-              <strong>문의 및 안내</strong>
-              <span>{detailIntro[0].infocenterculture}</span>
-            </li>
-            <li>
-              <strong>규모</strong>
-              <span>{detailIntro[0].scale}</span>
-            </li>
-            <li>
-              <strong>수용인원</strong>
-              <span>{detailIntro[0].accomcountculture}</span>
-            </li>
-            <li>
-              <strong>입장료</strong>
-              <span>{detailIntro[0].usefee}</span>
-            </li>
-            <li>
-              <strong>주차 여부</strong>
-              <span>{detailIntro[0].parkingculture}</span>
-            </li>
-            <li>
-              <strong>주차비용</strong>
-              <span>{detailIntro[0].parkingfee}</span>
-            </li>
-            <li>
-              <strong>휴일</strong>
-              <span>{detailIntro[0].restdateculture}</span>
-            </li>
-            <li>
-              <strong>반려동물입장</strong>
-              <span>{detailIntro[0].chkpetculture}</span>
-            </li>
-          </>
-        )}
         {type === "15" && (
-          <>
-            <li>
-              <strong>개최장소</strong>
-              <span>{detailIntro[0].eventplace}</span>
-            </li>
-            <li>
-              <strong>연령제한</strong>
-              <span>{detailIntro[0].agelimit}</span>
-            </li>
-            <li>
-              <strong>프로그램</strong>
-              <span>{detailIntro[0].program}</span>
-            </li>
-            <li>
-              <strong>이용료</strong>
-              <span>{detailIntro[0].usetimefestival}</span>
-            </li>
-            <li>
-              <strong>할인정보</strong>
-              <span>{detailIntro[0].discountinfofestival}</span>
-            </li>
-            <li>
-              <strong>소요시간</strong>
-              <span>{detailIntro[0].spendtimefestival}</span>
-            </li>
-          </>
+          <li>
+            <strong>기간</strong>
+            <span>
+              {dateSlice(
+                detailIntro[0].eventstartdate!,
+                detailIntro[0].eventenddate!
+              )}
+            </span>
+          </li>
         )}
-        {type === "25" && (
-          <>
-            <li key="안내">
-              <strong>문의 및 안내</strong>
-              <span>{detailIntro[0].infocentertourcours}</span>
-            </li>
-            <li key="안내">
-              <strong>총 거리</strong>
-              <span>{detailIntro[0].distance}</span>
-            </li>
-            <li key="안내">
-              <strong>소요 시간</strong>
-              <span>{detailIntro[0].taketime}</span>
-            </li>
-          </>
+        {key[type].map(
+          (item) =>
+            Intro[item[1]] && (
+              <li key={item[0]}>
+                <strong>{item[0]}</strong>
+                <span
+                  dangerouslySetInnerHTML={{ __html: Intro[item[1]] }}
+                ></span>
+              </li>
+            )
         )}
         <li>
           <strong>홈페이지</strong>
@@ -154,6 +66,123 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
 };
 
 export default BasicInfo;
+
+/*{type === "12" && (
+  <>
+    <li>
+      <strong>문의 및 안내</strong>
+      <span>{detailIntro[0].infocenter}</span>
+    </li>
+    <li>
+      <strong>휴일</strong>
+      <span>{detailIntro[0].restdate}</span>
+    </li>
+    <li>
+      <strong>개장시간</strong>
+      <span>{detailIntro[0].usetime}</span>
+    </li>
+    <li>
+      <strong>가이드</strong>
+      <span>{detailIntro[0].expguide}</span>
+    </li>
+    <li>
+      <strong>수용인원</strong>
+      <span>{detailIntro[0].accomcount}</span>
+    </li>
+    <li>
+      <strong>주차창</strong>
+      <span>{detailIntro[0].parking}</span>
+    </li>
+    <li>
+      <strong>반려동물입장</strong>
+      <span>{detailIntro[0].chkpet}</span>
+    </li>
+  </>
+)}
+{type === "14" && (
+  <>
+    <li>
+      <strong>문의 및 안내</strong>
+      <span>{detailIntro[0].infocenterculture}</span>
+    </li>
+    <li>
+      <strong>규모</strong>
+      <span>{detailIntro[0].scale}</span>
+    </li>
+    <li>
+      <strong>수용인원</strong>
+      <span>{detailIntro[0].accomcountculture}</span>
+    </li>
+    <li>
+      <strong>입장료</strong>
+      <span>{detailIntro[0].usefee}</span>
+    </li>
+    <li>
+      <strong>주차 여부</strong>
+      <span>{detailIntro[0].parkingculture}</span>
+    </li>
+    <li>
+      <strong>주차비용</strong>
+      <span>{detailIntro[0].parkingfee}</span>
+    </li>
+    <li>
+      <strong>휴일</strong>
+      <span>{detailIntro[0].restdateculture}</span>
+    </li>
+    <li>
+      <strong>반려동물입장</strong>
+      <span>{detailIntro[0].chkpetculture}</span>
+    </li>
+  </>
+)}
+{type === "15" && (
+  <>
+    <li>
+      <strong>개최장소</strong>
+      <span>{detailIntro[0].eventplace}</span>
+    </li>
+    <li>
+      <strong>연령제한</strong>
+      <span>{detailIntro[0].agelimit}</span>
+    </li>
+    <li>
+      <strong>프로그램</strong>
+      <span>{detailIntro[0].program}</span>
+    </li>
+    <li>
+      <strong>시작시간</strong>
+      <span>{detailIntro[0].playtime}</span>
+    </li>
+    <li>
+      <strong>이용료</strong>
+      <span>{detailIntro[0].usetimefestival}</span>
+    </li>
+    <li>
+      <strong>할인</strong>
+      <span>{detailIntro[0].discountinfofestival}</span>
+    </li>
+    <li>
+      <strong>소요시간</strong>
+      <span>{detailIntro[0].spendtimefestival}</span>
+    </li>
+  </>
+)}
+{type === "25" && (
+  <>
+    <li key="안내">
+      <strong>문의 및 안내</strong>
+      <span>{detailIntro[0].infocentertourcours}</span>
+    </li>
+    <li key="안내">
+      <strong>총 거리</strong>
+      <span>{detailIntro[0].distance}</span>
+    </li>
+    <li key="안내">
+      <strong>소요 시간</strong>
+      <span>{detailIntro[0].taketime}</span>
+    </li>
+  </>
+)} */
 
 /* <div className="Cotent-deatail">
 <table className="Content-table">
