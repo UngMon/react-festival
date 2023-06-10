@@ -4,22 +4,27 @@ const Footer = () => {
   return (
     <footer className="footer-box">
       <div className="footer">
-        <p>제작자: &nbsp;박완웅</p>
-        <p>개인정보담당자: &nbsp;박완웅</p>
-        <p>contact: &nbsp;ungmorning9@gmail.com</p>
-        <p>
-          사진 및 정보: &nbsp;
-          <a href="https://api.visitkorea.or.kr/#/">한국관광공사</a>
-        </p>
-        <p>
-          배경화면:
-          <a href="https://www.pexels.com/ko-kr/">
-            &nbsp;&nbsp;https://www.pexels.com/ko-kr/
+        <p>제작:&nbsp;박완웅</p>
+        <p>연락처:&nbsp;ungmorning9@gmail.com</p>
+        <div className="f-3">
+          <p>@정보제공</p>
+          <a
+            href="https://api.visitkorea.or.kr/#/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src="/images/tourapi-logo.png" width="100" alt="logo" />
           </a>
-        </p>
-        <div>
-          
+          <a
+            href="https://api.visitkorea.or.kr/#/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src="/images/logo_foot_gg.png" width="100" alt="logo" />
+          </a>
         </div>
+
+        <div></div>
       </div>
     </footer>
   );

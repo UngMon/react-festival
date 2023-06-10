@@ -4,7 +4,6 @@ import "./MenuBar.css";
 interface MenuBarProps {
   category: string;
   setCategory: (text: string) => void;
-  imageRef: React.RefObject<HTMLHeadingElement>;
   infoRef: React.RefObject<HTMLHeadingElement>;
   reviewRef: React.RefObject<HTMLDivElement>;
 }
@@ -12,19 +11,14 @@ interface MenuBarProps {
 const MenuBar = ({
   category,
   setCategory,
-  imageRef,
   infoRef,
   reviewRef,
 }: MenuBarProps) => {
-  // const [reviewActive, setReviewActive] = useState<boolean>(false);
   const [isFixed, setIsFixed] = useState<boolean>(false);
 
   const topBarClickHandler = (type: string) => {
     if (type === "사진") {
-      // setCategory(type);
-      // setReviewActive(false);
-      console.log(imageRef)
-      imageRef.current!.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo({ behavior: "smooth", top: 0 });
     }
 
     if (type === "기본정보") {
@@ -32,7 +26,6 @@ const MenuBar = ({
     }
 
     if (type === "리뷰") {
-      // setReviewActive(true);
       reviewRef.current!.scrollIntoView({ behavior: "smooth" });
     }
     setCategory(type);
@@ -40,10 +33,7 @@ const MenuBar = ({
 
   useEffect(() => {
     const scrollPosition = () => {
-      if (
-        window.scrollY - 700 >=
-        reviewRef.current!.getBoundingClientRect().y
-      ) {
+      if (window.scrollY > 680) {
         setIsFixed(true);
       } else {
         setIsFixed(false);

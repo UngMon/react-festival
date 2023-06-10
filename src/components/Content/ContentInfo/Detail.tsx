@@ -28,7 +28,7 @@ const Detail = ({
   const detailCommon = contentCommon.response.body.items.item;
 
   const [more, setMore] = useState<boolean>(false);
-
+  console.log(more)
   let text: string[] = [];
   const returnTextArray = () => {
     if (!detailInfo) return;

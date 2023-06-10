@@ -137,7 +137,7 @@ const Feelings = ({
           >
             {feelCount[1] + userPick[1]}
           </p>
-          <p>그냥그래요</p>
+          <p>평범해요</p>
         </div>
         <div onClick={() => handler("싫어요")}>
           <img src="/images/Bad.png" alt="Bad" width="40"></img>

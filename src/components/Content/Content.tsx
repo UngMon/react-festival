@@ -76,7 +76,6 @@ const Cotent = () => {
           <MenuBar
             category={category}
             setCategory={setCategory}
-            imageRef={imageRef}
             infoRef={infoRef}
             reviewRef={reviewRef}
           />

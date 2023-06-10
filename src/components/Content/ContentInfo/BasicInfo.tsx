@@ -54,12 +54,14 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
               </li>
             )
         )}
-        <li>
-          <strong>홈페이지</strong>
-          <span
-            dangerouslySetInnerHTML={{ __html: detailCommon[0].homepage }}
-          ></span>
-        </li>
+        {detailCommon[0].homepage && (
+          <li>
+            <strong>홈페이지</strong>
+            <span
+              dangerouslySetInnerHTML={{ __html: detailCommon[0].homepage }}
+            ></span>
+          </li>
+        )}
       </ul>
     </div>
   );
