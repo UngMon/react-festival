@@ -59,10 +59,10 @@ const Cotent = () => {
             setReportModalOpen={setReportModalOpen}
           />
         )}
-        <h2 className="Content-title">
+        {/* <h2 className="Content-title">
           {contentData &&
             contentData!.contentCommon.response.body.items.item[0].title}
-        </h2>
+        </h2> */}
         <div className="slider-container">
           {!contentData && <Loading />}
           {contentData && (
@@ -80,7 +80,7 @@ const Cotent = () => {
             reviewRef={reviewRef}
           />
         )}
-        <div className="Content-detatil-area" ref={infoRef}>
+        <div ref={infoRef}>
           {!contentData && (
             <div style={{ height: 500 }}>
               <Loading />

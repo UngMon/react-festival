@@ -28,7 +28,7 @@ const Detail = ({
   const detailCommon = contentCommon.response.body.items.item;
 
   const [more, setMore] = useState<boolean>(false);
-  console.log(more)
+  console.log(more);
   let text: string[] = [];
   const returnTextArray = () => {
     if (!detailInfo) return;
@@ -51,11 +51,15 @@ const Detail = ({
   returnTextArray();
 
   return (
-    <>
-      <div className="Cotent-overview">
-        <strong>상세정보</strong>
-        <div className="overview-p">
-          <p dangerouslySetInnerHTML={{__html: detailCommon[0].overview}}></p>
+    <div className="Cotent-overview">
+      <div className="overview-title">
+        <strong className="o-label">제목</strong>
+        <span className="o-title">{detailCommon[0].title}</span>
+      </div>
+      <div className="overview">
+        <strong className="o-label">상세정보</strong>
+        <div>
+          <p dangerouslySetInnerHTML={{ __html: detailCommon[0].overview }}></p>
           {more &&
             text.map((item, index) => (
               <p className={item === `\n` ? "space" : ""} key={index}>
@@ -69,13 +73,13 @@ const Detail = ({
           )}
         </div>
       </div>
-      {/* <Map detailCommon={detailCommon} /> */}
+      <Map detailCommon={detailCommon} />
       <BasicInfo
         detailIntro={detailIntro}
         detailCommon={detailCommon}
         type={type}
       />
-    </>
+    </div>
   );
 };
 

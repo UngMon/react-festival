@@ -1,9 +1,3 @@
-.Cotent-deatail {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0 auto;
-}
-
 .Cotent-overview {
   grid-column-end: span 3;
   padding: 30px 0;
@@ -12,24 +6,53 @@
   font-size: 15px;
 }
 
-.Cotent-overview strong {
+.overview-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.o-label {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.o-label::after {
+  content: '';
   display: block;
-  margin-bottom: 20px;
+  width: 2px;
+  margin-top: 5px;
+  height: 16px;
+  background-color: #ddd;
 }
 
-.Cotent-overview p {
+.o-title {
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overview {
+  position: relative;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.overview strong {
+  display: flex;
+  min-width: 100px;
+}
+
+.overview p {
   letter-spacing: 0.5px;
-  padding-bottom: 5px;
-}
-
-.Cotent-overview p:nth-child(1) {
-  padding-bottom: 20px;
+  padding-left: 10px;
 }
 
 .more-button {
   position: absolute;
   right: 10px;
-  bottom: 5px;
   border: 0;
   background-color: transparent;
   font-size: 14px;
@@ -41,7 +64,16 @@
   padding: 10px 0;
 }
 
+.map {
+  display: flex;
+}
+
+.map span {
+  padding-left: 10px;
+}
+
 .Content-table {
+  padding-top: 20px;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -55,13 +87,26 @@
   padding: 10px 15px 10px 0;
 }
 
-.Content-table strong {
+.label {
   min-width: 100px;
   line-height: 100%;
   font-size: 0.96em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label::after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 14px;
+  margin-top: 1px;
+  background-color: #cfcfcf;
 }
 
 .Content-table span {
+  padding-left: 10px;
   font-size: 0.9em;
   word-break: break-all;
 }

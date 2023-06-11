@@ -16,25 +16,19 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
       <ul className="Content-table">
         {detailCommon[0].tel && (
           <li>
-            <strong>문의 및 안내</strong>
+            <strong className="label">문의 및 안내</strong>
             <span>{detailCommon[0].tel}</span>
-          </li>
-        )}
-        {detailCommon[0].addr1 && (
-          <li>
-            <strong>주소</strong>
-            <span>{detailCommon[0].addr1}</span>
           </li>
         )}
         {detailCommon[0].zipcode && (
           <li>
-            <strong>우편번호</strong>
+            <strong className="label">우편번호</strong>
             <span>{detailCommon[0].zipcode}</span>
           </li>
         )}
         {type === "15" && (
           <li>
-            <strong>기간</strong>
+            <strong className="label">기간</strong>
             <span>
               {dateSlice(
                 detailIntro[0].eventstartdate!,
@@ -47,7 +41,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           (item) =>
             Intro[item[1]] && (
               <li key={item[0]}>
-                <strong>{item[0]}</strong>
+                <strong className="label">{item[0]}</strong>
                 <span
                   dangerouslySetInnerHTML={{ __html: Intro[item[1]] }}
                 ></span>
@@ -56,7 +50,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
         )}
         {detailCommon[0].homepage && (
           <li>
-            <strong>홈페이지</strong>
+            <strong className="label">홈페이지</strong>
             <span
               dangerouslySetInnerHTML={{ __html: detailCommon[0].homepage }}
             ></span>

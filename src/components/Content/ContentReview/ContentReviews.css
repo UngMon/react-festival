@@ -18,8 +18,8 @@
 }
 
 .How-to-feel {
-  font-size: 1.25em;
-  font-weight: 600;
+  font-size: 1.1em;
+  font-weight: 500;
   margin-bottom: 40px;
 }
 
@@ -53,7 +53,7 @@
 
 .Cotent-feeling p {
   margin-top: 5px;
-  font-size: 1em;
+  font-size: 0.9em;
   font-weight: 500;
   width: 100%;
 }
@@ -112,6 +112,7 @@
 }
 
 .user-input-button {
+  padding-top: 5px;
   display: flex;
   justify-content: right;
 }

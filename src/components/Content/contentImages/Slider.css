@@ -1,7 +1,7 @@
 /* 이미지 슬라이드 */
 .slider-container {
   box-sizing: border-box;
-  margin: 0 0 40px;
+  margin: 40px 0;
   height: 300px;
   overflow: hidden;
   position: relative;
