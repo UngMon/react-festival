@@ -21,12 +21,12 @@ interface FeelingProps {
   uid: string;
 }
 
-const 유형: { [key: string]: string } = {
-  "12": "관광지",
-  "14": "문화시설",
-  "15": "축제/공연/행사",
-  "25": "여행코스",
-};
+// const 유형: { [key: string]: string } = {
+//   "12": "관광지",
+//   "14": "문화시설",
+//   "15": "축제/공연/행사",
+//   "25": "여행코스",
+// };
 
 const Feelings = ({
   firebaseState,
@@ -43,6 +43,8 @@ const Feelings = ({
   const [userPick, setUserPick] = useState<[number, number, number]>([0, 0, 0]);
 
   useEffect(() => {
+    if (!firebaseState.contentData[contentId]) return;
+    
     const commentData = firebaseState.contentData[contentId].expression;
 
     let Good = 0;
@@ -117,7 +119,7 @@ const Feelings = ({
 
   return (
     <>
-      <p className="How-to-feel">{`이 ${유형[type]} 어떻게 생각하세요?`}</p>
+      <p className="How-to-feel">{`이 컨텐츠 어떻게 생각하세요?`}</p>
       <div className="Cotent-feeling">
         <div onClick={() => handler("좋아요")}>
           <img src="/images/Good.png" alt="Good" width="40"></img>

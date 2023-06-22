@@ -151,7 +151,7 @@
   color: rgb(52, 117, 238);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1023.9px) {
   #Nav {
     display: none;
   }

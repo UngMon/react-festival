@@ -5,7 +5,7 @@ const Tour = () => {
   return (
     <main className="main-box">
       <UiBox title="tour" />
-      <Card title="tour" />
+      {/* <Card title="tour" /> */}
     </main>
   );
 };

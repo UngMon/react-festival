@@ -92,6 +92,33 @@ a {
   left: 20px;
 }
 
+.trend-top-box {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.trend-top-box img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: brightness(80%);
+  border-radius: 8px;
+  margin: 30px 0;
+}
+
+.trend-top-box p {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white; 
+  line-height: 250px;
+  font-size: 24px;
+}
 /**/
 
 @media (min-width: 1440px) {

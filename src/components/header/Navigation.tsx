@@ -31,11 +31,12 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
               onClick={() => clickCategory("tour")}
               style={({ isActive }) => {
                 return {
-                  color: isActive
-                    ? "orange"
-                    : pathname === "/" && scrollY === 0 && !mouseOver
-                    ? "white"
-                    : "#333",
+                  color: '#333'
+                  // color: isActive
+                  //   ? "orange"
+                  //   : pathname === "/" && scrollY === 0 && !mouseOver
+                  //   ? "white"
+                  //   : "#333",
                 };
               }}
             >
@@ -48,11 +49,12 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
               onClick={() => clickCategory("culture")}
               style={({ isActive }) => {
                 return {
-                  color: isActive
-                    ? "orange"
-                    : pathname === "/" && scrollY === 0 && !mouseOver
-                    ? "white"
-                    : "#333",
+                  color: '#333'
+                  // color: isActive
+                  //   ? "orange"
+                  //   : pathname === "/" && scrollY === 0 && !mouseOver
+                  //   ? "white"
+                  //   : "#333",
                 };
               }}
             >
@@ -65,11 +67,12 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
               onClick={() => clickCategory("festival")}
               style={({ isActive }) => {
                 return {
-                  color: isActive
-                    ? "orange"
-                    : pathname === "/" && scrollY === 0 && !mouseOver
-                    ? "white"
-                    : "#333",
+                  color: '#333'
+                  // color: isActive
+                  //   ? "orange"
+                  //   : pathname === "/" && scrollY === 0 && !mouseOver
+                  //   ? "white"
+                  //   : "#333",
                 };
               }}
             >
@@ -82,11 +85,12 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
               onClick={() => clickCategory("travel")}
               style={({ isActive }) => {
                 return {
-                  color: isActive
-                    ? "orange"
-                    : pathname === "/" && scrollY === 0 && !mouseOver
-                    ? "white"
-                    : "#333",
+                  color: '#333'
+                  // color: isActive
+                  //   ? "orange"
+                  //   : pathname === "/" && scrollY === 0 && !mouseOver
+                  //   ? "white"
+                  //   : "#333",
                 };
               }}
             >

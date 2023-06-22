@@ -1,24 +1,24 @@
 export type Item = {
-  addr1: string;
-  addr2: string;
-  areacode: string;
-  booktour: string;
   cat1: string;
   cat2: string;
   cat3: string;
   contentid: string;
   contenttypeid: string;
-  createdtime: string;
   eventstartdate?: string;
   eventenddate?: string;
   firstimage: string;
   firstimage2: string;
-  mapx: string;
-  mapy: string;
-  mlevel: string;
+  areacode: string;
   sigungucode: string;
-  tel: string;
   title: string;
+  // createdtime: string;
+  // addr1: string;
+  // addr2: string;
+  // booktour: string;
+  // tel: string;
+  // mapx: string;
+  // mapy: string;
+  // mlevel: string;
 };
 
 export type FetchRespon = {
@@ -392,7 +392,7 @@ export const categoryObject: { [key: string]: string[][] } = {
 };
 
 export const cat3Object = [
-  ["전체", "", "all"],
+  ["전체", "all", "all"],
   ["국립공원", "", "A01010100"],
   ["도립공원", "", "A01010200"],
   ["군립공원", "", "A01010300"],
@@ -466,7 +466,6 @@ export const cat3Object = [
   ["영화", "", "A02081100"],
   ["스포츠경기", "", "A02081200"],
   ["기타행사", "", "A02081300"],
-  ["전체", "all", "all"],
   ["박물관", "A0206", "A02060100"],
   ["기념관", "A0206", "A02060200"],
   ["전시관", "A0206", "A02060300"],
@@ -589,9 +588,76 @@ export const tagName: { [key: string]: string } = {
   C01150001: "도보코스",
   C01160001: "캠핑코스",
   C01170001: "맛코스",
+  A03010200: "수상레포츠",
+  A03010300: "항공레포츠",
+  A03020200: "수련시설",
+  A03020300: "경기장",
+  A03020400: "인라인(실내 인라인 포함)",
+  A03020500: "자전거하이킹",
+  A03020600: "카트",
+  A03020700: "골프",
+  A03020800: "경마",
+  A03020900: "경륜",
+  A03021000: "카지노",
+  A03021100: "승마",
+  A03021200: "스키/스노보드",
+  A03021300: "스케이트",
+  A03021400: "썰매장",
+  A03021500: "수렵장",
+  A03021600: "사격장",
+  A03021700: "야영장,오토캠핑장",
+  A03021800: "암벽등반",
+  A03022000: "서바이벌게임",
+  A03022100: "ATV",
+  A03022200: "MTB",
+  A03022300: "오프로드",
+  A03022400: "번지점프",
+  A03022600: "스키(보드) 렌탈샵",
+  A03022700: "트래킹",
+  A03030100: "윈드서핑/제트스키",
+  A03030200: "카약/카누",
+  A03030300: "요트",
+  A03030400: "스노쿨링/스킨스쿠버다이빙",
+  A03030500: "민물낚시",
+  A03030600: "바다낚시",
+  A03030700: "수영",
+  A03030800: "래프팅",
+  A03040100: "스카이다이빙",
+  A03040200: "초경량비행",
+  A03040300: "헹글라이딩/패러글라이딩",
+  A03040400: "열기구",
+  A03050100: "복합 레츠",
+  B02010100: "관광호텔",
+  B02010500: "콘도미니엄",
+  B02010600: "유스호스텔",
+  B02010700: "펜션",
+  B02010900: "모텔",
+  B02011000: "민박",
+  B02011100: "게스트하우스",
+  B02011200: "홈스테이",
+  B02011300: "서비스드레지던스",
+  B02011600: "한옥",
+  A04010100: "5일장",
+  A04010200: "상설시장",
+  A04010300: "백화점",
+  A04010400: "면세점",
+  A04010500: "대형마트",
+  A04010600: "전문매장/상가",
+  A04010700: "공예/공방",
+  A04010900: "특산물판매점",
+  A04011000: "사후면세점",
+  A05020100: "한식",
+  A05020200: "서양식",
+  A05020300: "일식",
+  A05020400: "중식",
+  A05020700: "이색음식점",
+  A05020900: "카페/전통찻집",
+  A05021000: "클럽",
   all: "전체",
 };
-
+//A05 , A0502 음식
+// 쇼핑 A04, A0401
+// B02, B201숙박
 export const key: { [key: string]: string[][] } = {
   "12": [
     ["문의 및 안내", "infocenter"],
@@ -622,5 +688,24 @@ export const key: { [key: string]: string[][] } = {
     ["입장료", "usetimefestival"],
     ["할인", "discountinfofestival"],
     ["소요시간", "spendtimefestival"],
+  ],
+  "25": [
+    ["문의 및 안내", "infocentertourcourse"],
+    ["총 거리", "distance"],
+    ["소요 시간", "taketime"],
+  ],
+  "28": [
+    ["개장 기간", "openperiod"],
+    ["예약 안내", "reservation"],
+    ["문의 및 안내", "infocenterleports"],
+    ["규모", "scaleleports"],
+    ["수용 인원", "accomcountleports"],
+    ["휴일", "restdateleports"],
+    ["이용 시간", "usetimeleports"],
+    ["이용료", "usefeeleports"],
+    ["주차 시설", "parkingleports"],
+    ["주차료", "parkingfeeleports"],
+    ["유모차 대여", "chkbabycarriageleports"],
+    ["반려동물 입장", "chkpetleports"],
   ],
 };

@@ -27,8 +27,12 @@ const Detail = ({
   const detailIntro = contentIntro.response.body.items.item;
   const detailCommon = contentCommon.response.body.items.item;
 
+  console.log(detailCommon)
+  console.log(detailIntro)
+  console.log(detailInfo)
+
   const [more, setMore] = useState<boolean>(false);
-  console.log(more);
+
   let text: string[] = [];
   const returnTextArray = () => {
     if (!detailInfo) return;

@@ -116,11 +116,11 @@
     grid-template-columns: 1fr;
   }
   .Content-table strong {
-    width: 30%;
+    width: 100px;
   }
 
   .Content-table span {
-    width: 70%;
+    width: auto;
   }
 }
 

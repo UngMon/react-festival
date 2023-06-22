@@ -88,13 +88,13 @@ a {
   margin-bottom: 6px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .mobile-nav-bar {
     display: none;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023.9px) {
   .pc-nav-bar {
     display: none;
   }

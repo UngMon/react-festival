@@ -48,14 +48,7 @@ const firebaseSlice = createSlice({
       state.loginedUser = false;
       state.userSocial = "";
     },
-    // setCardData(state, action) {
-    //   state.contentData[action.payload] = {
-    //     comment: [],
-    //     detailImage: [],
-    //     firstImage: "",
-    //     expression: {},
-    //   };
-    // },
+
     failedGetData(state) {
       state.succesGetData = false;
       state.loadingState = "fulfilled";

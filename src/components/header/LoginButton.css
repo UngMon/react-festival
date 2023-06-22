@@ -91,7 +91,7 @@
   border-radius: 50%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023.9px) {
   .login {
     display: none;
   }

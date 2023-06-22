@@ -11,16 +11,10 @@ import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
-const TourPage = lazy(() => import("./pages/TourPage"));
-const Tour = lazy(() => import("./components/main/Tour"));
-const FestivalPage = lazy(() => import("./pages/FestivalPage"));
-const Festival = lazy(() => import("./components/main/Festival"));
+const Main = lazy(() => import("./components/main/Main"));
 const ResultPage = lazy(() => import("./pages/Result"));
 const Content = lazy(() => import("./components/content/Content"));
-const StartPage = lazy(() => import("./pages/Start"));
-const CulturePage = lazy(() => import("./pages/CulturePage"));
-const Culture = lazy(() => import("./components/main/Culture"));
-const Travel = lazy(() => import("./components/main/Travel"));
+const Start = lazy(() => import("./components/main/Start"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,22 +39,17 @@ function App() {
       children: [
         {
           index: true,
-          element: <StartPage />,
+          element: <Start />,
         },
         {
           path: "tour",
           errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading />}>
-              <TourPage />
-            </Suspense>
-          ),
           children: [
             {
               path: ":tourKey",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <Tour />
+                  <Main title="tour" />
                 </Suspense>
               ),
             },
@@ -69,17 +58,12 @@ function App() {
         {
           path: "culture",
           errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading />}>
-              <CulturePage />
-            </Suspense>
-          ),
           children: [
             {
               path: ":cultureKey",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <Culture />
+                  <Main title="culture" />
                 </Suspense>
               ),
             },
@@ -88,17 +72,12 @@ function App() {
         {
           path: "festival",
           errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading />}>
-              <FestivalPage />
-            </Suspense>
-          ),
           children: [
             {
               path: ":festivalKey",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <Festival />
+                  <Main title="festival" />
                 </Suspense>
               ),
             },
@@ -112,7 +91,7 @@ function App() {
               path: ":travelKey",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <Travel />
+                  <Main title="travel" />
                 </Suspense>
               ),
             },
@@ -126,6 +105,20 @@ function App() {
               element: (
                 <Suspense fallback={<Loading />}>
                   <ResultPage />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: "trend",
+          errorElement: <GetDataError />,
+          children: [
+            {
+              path: ":trendKey",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <Main title="trend" />
                 </Suspense>
               ),
             },
@@ -154,11 +147,6 @@ function App() {
           <LoginPage />
         </Suspense>
       ),
-      children: [
-        {
-          path: "oauth",
-        },
-      ],
     },
     {
       path: "*",

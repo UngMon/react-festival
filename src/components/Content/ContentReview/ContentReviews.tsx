@@ -27,6 +27,7 @@ const ContentRivews = ({
   const dispatch = useAppDispatch();
   const firebase = useSelector((state: RootState) => state.firebase);
   const [isLoading, setLoading] = useState<boolean>(true);
+  
   const uid = firebase.userUid || "";
   const contentRef = doc(db, "content", contentId);
 

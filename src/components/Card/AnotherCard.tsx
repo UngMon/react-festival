@@ -5,6 +5,7 @@ import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { Item, 지역코드, 시군코드, tagName } from "../../type/Common";
+import { datas } from "../../data";
 import Loading from "../loading/Loading";
 import GetDataError from "../error/GetDataError";
 
@@ -47,6 +48,8 @@ const AnotherCard = ({ title, isSearch }: Props) => {
   const cat3 = params.get("cat3") || "all";
 
   useEffect(() => {
+    // trend는이미 데이터가 있음.
+    if (title === "trend") return;
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
     if (tcts.loading) return;
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
@@ -77,8 +80,6 @@ const AnotherCard = ({ title, isSearch }: Props) => {
   };
 
   const returnResult = () => {
-    // console.log(title, areaCode, cat1, cat2, cat3);
-
     let array: Item[] = [];
 
     if (title === "tour") array = tcts.touristArray![areaCode];
@@ -89,8 +90,10 @@ const AnotherCard = ({ title, isSearch }: Props) => {
 
     if (title === "result") array = tcts.searchArray!;
 
-    let result: JSX.Element[] = [];
+    if (title === "trend") array = datas[type];
 
+    let result: JSX.Element[] = [];
+    console.log(array);
     for (let item of array) {
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
 
@@ -149,6 +152,7 @@ const AnotherCard = ({ title, isSearch }: Props) => {
       {title === "result" &&
         tcts.serchRecord[0] === "fulfiled" &&
         returnResult()}
+      {title === "trend" && returnResult()}
     </>
   );
 };

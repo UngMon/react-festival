@@ -14,7 +14,7 @@ const SubMenu = ({ title, month }: T) => {
       <ul className="submenu">
         <li>
           <Link to="/">
-            <img src="/images/icons/home.png" alt="홈" width="25" />
+            <img src="/images/home.png" alt="홈" width="25" />
           </Link>
         </li>
         <li>

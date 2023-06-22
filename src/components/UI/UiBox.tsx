@@ -11,6 +11,18 @@ interface T {
   title: string;
 }
 
+const trendTop: { [key: string]: string[] } = {
+  gpt: ["챗 GPT에게 물어본 국내 여름 여행지", 'gpt'],
+  산성여행: ["6월 추천 산성여행", 'fortress'],
+  산책: ["매일 걷기 좋은 곳", 'walk'],
+  힐링여행: ["함께 떠나는 힐링 테마 여행", 'healing'],
+  반려동물: ["반려동물과 함께", 'pet'],
+  전통한옥: ["전통 한옥", 'tradi'],
+  웰니스: ["지친 몸을 달래는 웰니스 관광지", 'wellness'],
+  워케이션: ["일과 휴식을 동시에! 워케이션 숙소", 'workation'],
+  시골여행: ["쉼이 필요할 때, 시골로 떠나자!", 'country'],
+};
+
 const UiBox = ({ title }: T) => {
   const [params] = useSearchParams();
 
@@ -23,12 +35,45 @@ const UiBox = ({ title }: T) => {
 
   return (
     <div className="Ui-Box">
-      <SubMenu title={title} month={month!} />
-      <div id="picker-box">
-        {title === "festival" && (
-          <MonthSelector month={month} type={type} areaCode={areaCode} />
-        )}
-        <RegionSelector
+      {title !== "trend" && <SubMenu title={title} month={month!} />}
+      {title === "trend" && (
+        <div className="trend-top-box">
+          <img
+            className="trend-top"
+            src={`/images/trend/${trendTop[type][1]}Top.jpg`}
+            alt="img"
+          ></img>
+          <p>{trendTop[type][0]}</p>
+        </div>
+      )}
+      {title !== "trend" && (
+        <div id="picker-box">
+          {title === "festival" && (
+            <MonthSelector month={month} type={type} areaCode={areaCode} />
+          )}
+
+          <RegionSelector
+            title={title}
+            month={month}
+            type={type}
+            areaCode={areaCode}
+            cat1={cat1}
+            cat2={cat2}
+            cat3={cat3}
+          />
+          <Category
+            title={title}
+            month={month}
+            type={type}
+            areaCode={areaCode}
+            cat1={cat1}
+            cat2={cat2}
+            cat3={cat3}
+          />
+        </div>
+      )}
+      {title !== "trend" && (
+        <Tags
           title={title}
           month={month}
           type={type}
@@ -37,25 +82,7 @@ const UiBox = ({ title }: T) => {
           cat2={cat2}
           cat3={cat3}
         />
-        <Category
-          title={title}
-          month={month}
-          type={type}
-          areaCode={areaCode}
-          cat1={cat1}
-          cat2={cat2}
-          cat3={cat3}
-        />
-      </div>
-      <Tags
-        title={title}
-        month={month}
-        type={type}
-        areaCode={areaCode}
-        cat1={cat1}
-        cat2={cat2}
-        cat3={cat3}
-      />
+      )}
       {title === "festival" && <OnGoingSelector />}
     </div>
   );

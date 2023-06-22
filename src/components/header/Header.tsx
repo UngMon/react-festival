@@ -51,7 +51,7 @@ const Header = () => {
         backgroundColor:
           pathname === "/" && scrollY === 0 && !mouseOver
             ? "transparent"
-            : "rgba(245,245,245)",
+            : "white",
         position: pathname.includes("content") ? "relative" : "fixed",
       }}
       onMouseEnter={() => pathname === "/" && mouseEnter()}
@@ -67,28 +67,22 @@ const Header = () => {
       )}
       <div className="Header-top">
         <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
-          <img src="/images/fetivalLogo.jpeg" alt="logo"></img>
+          {/* <img src="/images/fetivalLogo.jpeg" alt="logo"></img> */}
           <span
             className="logo-title"
             style={{
-              color:
-                pathname === "/" && scrollY === 0 && !mouseOver
-                  ? "white"
-                  : "#333",
+              color: "#333",
+              // color:
+              //   pathname === "/" && scrollY === 0 && !mouseOver
+              //     ? "white"
+              //     : "#333",
             }}
           >
-            축제모아
+            여기저기
           </span>
         </Link>
         <div className="page-top-interaction">
-          <button
-            className={`magnifying ${
-              pathname === "/" && scrollY === 0 && !mouseOver
-                ? "scroll-top-color"
-                : "#normal-color"
-            }`}
-            onClick={clickSearch}
-          >
+          <button className="magnifying" onClick={clickSearch}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           <Nav
@@ -118,3 +112,8 @@ const Header = () => {
 };
 
 export default Header;
+
+// ${
+//   pathname === "/" && scrollY === 0 && !mouseOver
+//     ? "scroll-top-color"
+//     : "#normal-color"

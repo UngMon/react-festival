@@ -72,14 +72,7 @@ const LoginButton = ({
     <>
       {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
         !firebaseState.loginedUser ? ( // 로그인 안 되어 있으면,
-          <div
-            className={`login ${
-              pathname === "/" && scrollY === 0 && !mouseOver
-                ? "scroll-top-color"
-                : "#normal-color"
-            }`}
-            onClick={loginHandler}
-          >
+          <div className="login" onClick={loginHandler}>
             <FontAwesomeIcon icon={faRightToBracket} />
           </div>
         ) : (
@@ -112,3 +105,8 @@ const LoginButton = ({
 };
 
 export default LoginButton;
+
+
+            //${pathname === "/" && scrollY === 0 && !mouseOver
+            // ? "scroll-top-color"
+            // : "#normal-color"}//
