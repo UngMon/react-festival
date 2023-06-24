@@ -72,6 +72,10 @@
   padding-left: 10px;
 }
 
+#map {
+  padding-top: 10px;
+}
+
 .Content-table {
   padding-top: 20px;
   width: 100%;

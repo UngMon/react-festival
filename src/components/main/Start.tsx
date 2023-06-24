@@ -17,10 +17,12 @@ const Main = () => {
   const [count, setCount] = useState<number>(1);
   const [startX, setStartX] = useState<number>(0);
   const [clickX, setClclickX] = useState<number>(0);
-  const [scrollLeft, setScrollLeft] = useState<number>(0);
+  const [distance, setDistance] = useState<number>(0);
+  const [xp, setXp] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [stop, setStop] = useState<boolean>(false);
   const [delay, setDelay] = useState<boolean>(false);
+  const [thorttled, setThrotteld] = useState<boolean>(false);
 
   const sliderBoxRef = useRef<HTMLDivElement>(null);
   const sliderOneRef = useRef<HTMLDivElement>(null);
@@ -31,40 +33,50 @@ const Main = () => {
   };
 
   const mouseDown = (e: any, type: string) => {
-    e.preventDefault();
     let pageX;
-    if (type === "p") pageX = e.pageX;
+    if (type === "p") {
+      pageX = e.pageX;
+      e.preventDefault();
+    }
     if (type === "m") pageX = e.touches[0].pageX;
     setIsDragging(true);
-    setClclickX(pageX);
-    setStartX(pageX + scrollLeft);
+    setStartX(pageX);
   };
 
   const mouseMove = (e: any, type: string) => {
-    // console.log("move");
-    if (!isDragging) {
-      // console.log('???????')
-      if (scrollLeft < 0) {
-        setScrollLeft(0);
-      } else if (scrollLeft > 1275) {
-        setScrollLeft(1275);
-      }
-      return;
+    if (thorttled) return;
+    setThrotteld(true);
+    let pageX = type === "p" ? e.pageX : e.touches[0].pageX;
+    let result = startX - pageX;
+    let x = xp;
+    if (distance > 1275 || distance < 0) {
+      if (distance > 1275) x = 1275;
+      if (distance < 0) x = 0;
+      result = (startX - pageX) / 2;
     }
 
-    let pageX = type === "p" ? e.pageX : e.touches[0].pageX;
-
-    // console.log(`e.pageX ${pageX}`);
-    // console.log(`startX ${startX}`);
-    // console.log(`scroll ${scrollLeft}`);
-
-    setScrollLeft(startX - pageX);
-    setStartX(pageX + scrollLeft);
+    setDistance(x + result);
+    setTimeout(() => {
+      setThrotteld(false);
+    }, 100);
   };
 
-  const mouseUp = () => {
-    console.log("mouseup");
+  const mouseUp = (e: any, type: string) => {
+    let pageX;
+    if (type === "p") pageX = e.pageX;
+    if (type === "m") pageX = e.changedTouches[0].pageX;
+
+    if (distance < 0) {
+      setDistance(0);
+      setXp(0);
+    } else if (distance > 1275) {
+      setDistance(1275);
+      setXp(1275);
+    } else {
+      setXp(distance);
+    }
     setIsDragging(false);
+    setClclickX(pageX);
   };
 
   useEffect(() => {
@@ -97,7 +109,6 @@ const Main = () => {
     if (stop) return;
 
     timer = setTimeout(() => {
-      console.log("setTime working");
       setCount(count + 1);
       if (time !== 3000) time = 3000;
       sliderOneRef.current!.style.transition = "transform 500ms ease";
@@ -113,18 +124,6 @@ const Main = () => {
       clearTimeout(timer);
     };
   }, [sliderBoxRef, count, width, stop]);
-
-  useEffect(() => {
-    if (!isDragging) {
-      console.log("???????");
-      if (scrollLeft < 0) {
-        setScrollLeft(0);
-      } else if (scrollLeft > 1275) {
-        setScrollLeft(1275);
-      }
-      return;
-    }
-  }, [isDragging, scrollLeft]);
 
   const topSlidebuttonHandler = (type: string) => {
     console.log(`count button ${count}`);
@@ -156,12 +155,12 @@ const Main = () => {
   };
 
   const handler = (e: React.MouseEvent, type: string) => {
-    clickX === e.pageX && navigate(`/trend/search?type=${type}`);
+    clickX === startX && navigate(`/trend/search?type=${type}`);
   };
 
   const trendButton = (type: string) => {
-    if (scrollLeft > 1275 || scrollLeft < 0) return;
-    setScrollLeft(type === "prev" ? scrollLeft - 255 : scrollLeft + 255);
+    if (distance > 1275 || distance < 0) return;
+    setDistance(type === "prev" ? distance - 255 : distance + 255);
   };
 
   return (
@@ -221,21 +220,21 @@ const Main = () => {
         </div>
       </div>
       <div className="theme-container">
-        <h3 className="trend-title">관광 트렌드</h3>
         <div
           className="theme-box"
           ref={sliderTwoRef}
           onMouseDown={(e) => mouseDown(e, "p")}
-          onMouseMove={(e) => mouseMove(e, "p")}
-          onMouseUp={mouseUp}
-          onMouseLeave={mouseUp}
+          onMouseMove={(e) => isDragging && mouseMove(e, "p")}
+          onMouseUp={(e) => mouseUp(e, "p")}
+          onMouseLeave={(e) => mouseUp(e, "p")}
           onTouchStart={(e) => mouseDown(e, "m")}
           onTouchMove={(e) => mouseMove(e, "m")}
-          onTouchEnd={mouseUp}
+          onTouchEnd={(e) => mouseUp(e, "m")}
         >
+          <h3 className="trend-title">관광 트렌드</h3>
           <div
             className="theme"
-            style={{ transform: `translateX(${-scrollLeft}px)` }}
+            style={{ transform: `translateX(${-distance}px)` }}
           >
             {trend.map((item, index) => (
               <div
@@ -253,14 +252,14 @@ const Main = () => {
           <button
             id="left"
             onClick={() => trendButton("prev")}
-            disabled={scrollLeft <= 0 ? true : false}
+            disabled={distance <= 0 ? true : false}
           >
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <button
             id="right"
             onClick={() => trendButton("next")}
-            disabled={scrollLeft >= 1275 ? true : false}
+            disabled={distance >= 1275 ? true : false}
           >
             <FontAwesomeIcon icon={faArrowRight} />
           </button>

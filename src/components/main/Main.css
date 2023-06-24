@@ -126,14 +126,10 @@
   padding-bottom: 30px;
 }
 
-.trend-title {
-  position: absolute;
-  top: 30px;
-  left: 3%;
-  font-size: 24px;
-}
+
 
 .theme-box {
+  position: relative;
   margin: 0 auto;
   padding-top: 100px;
   width: 94%;
@@ -142,12 +138,19 @@
   overflow: hidden;
 }
 
+.trend-title {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  font-size: 24px;
+}
+
 .theme {
   width: auto;
   height: 100%;
   display: flex;
   color: #333;
-  transition: all 300ms ease;
+  transition: all 200ms ease-out;
 }
 
 .theme-item {
@@ -163,13 +166,13 @@
   width: 100%;
   height: 250px;
   overflow: hidden;
+  border-radius: 8px;
 }
 
 .th-img img {
   width: 100%;
   height: 250px;
   transition: all 500ms ease;
-  border-radius: 8px;
 }
 
 .th-img img:hover {
@@ -266,17 +269,5 @@
 
   .theme-box {
     padding: 100px 0 0;
-  }
-
-  .trend-title {
-    left: calc((100vw - 1000px) / 2);
-  }
-
-  #left {
-    right: calc((100vw - 1000px) / 2 + 50px);
-  }
-
-  #right {
-    right: calc((100vw - 1000px) / 2);
   }
 }

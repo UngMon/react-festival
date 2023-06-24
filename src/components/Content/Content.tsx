@@ -35,15 +35,13 @@ const Cotent = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
-  console.log(contentData)
-  console.log(boolean)
+
   useEffect(() => {
     if (!isLoading) return;
     boolean = true;
     const getContentData = async (type: string, contentId: string) => {
       try {
         const data = await loader(type, contentId!);
-        console.log(data)
         setContentData(data);
       } catch (error) {
         console.log(error);
@@ -173,6 +171,6 @@ export async function loader(type: string, contentId: string) {
     getContentDetailIntro(type, contentId!),
     getCotentDetailCommon(type, contentId!),
   ]);
-  console.log('loader data gettting')
+  // console.log('loader data gettting')
   return { contentImage, contentInfo, contentIntro, contentCommon };
 }
