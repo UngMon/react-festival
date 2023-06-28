@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
-  grid-column-end: span 5;
+  grid-column-end: span 4;
 }
 
 .rolling-box-two {
@@ -59,8 +59,26 @@
   }
 }
 
-
 .lds-p {
   margin-top: 10px;
   font-size: 18px;
+}
+
+@media (max-width: 1024px) {
+  .rolling-box {
+    grid-column-end: span 3;
+  }
+}
+
+@media (max-width: 650px) {
+  .rolling-box {
+    grid-column-end: span 2;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .rolling-box {
+    grid-column-end: span 1;
+  }
 }

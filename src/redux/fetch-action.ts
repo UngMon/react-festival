@@ -26,31 +26,34 @@ export const getTCTRData = createAsyncThunk(
     const type = parameter.type;
     const title = parameter.title;
     const areaCode = parameter.areaCode;
+    console.log(parameter)
+    const page = String(parameter.page![0]);
     let keyword = "";
 
     let url = `https://apis.data.go.kr/B551011/KorService1/${
-      title !== "search" ? "areaBasedList1" : "searchKeyword1"
-    }?serviceKey=${serviceKey}&numOfRows=5000&pageNo=1&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
+      title !== "result" ? "areaBasedList1" : "searchKeyword1"
+    }?serviceKey=${serviceKey}&numOfRows=50&pageNo=${page}&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
 
-    // 네비게이션 이동
-    if (title !== "search") {
+    // 네브바 클릭
+    if (title !== "result") {
       url += `&contentTypeId=${type}${
-        areaCode ? `&areaCode=${parameter.areaCode}` : ``
+        areaCode !== "0" ? `&areaCode=${parameter.areaCode}` : ``
       }`;
       keyword = parameter.keyword!;
     }
 
     // 검색을 한 경우
-    if (title === "search")
+    if (title === "result")
       //type === 0인 경우는 전체 키워드 검색
       url += `&keyword=${encodeURIComponent(parameter.keyword!)}${
         type !== "0" ? `&contentTypeId=${type}` : ""
       }`;
-
+    console.log(url)
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
     console.log(data);
+
     return { data, areaCode, type, title, keyword };
   }
 );

@@ -44,6 +44,7 @@ export interface FetchParams {
   type: string;
   title: string;
   keyword?: string;
+  page?: [number, number];
 }
 
 type It = {

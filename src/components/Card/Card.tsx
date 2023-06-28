@@ -9,18 +9,19 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const target = useRef<HTMLDivElement>(null);
 
   return (
-    <article className="main-box-content" ref={cardRef}>
+    <article className="main-box-content">
       <div className="AllView-grid-box">
         {props.title !== "festival" && (
-          <AnotherCard title={props.title} isSearch={props.isSearch} />
+          <AnotherCard title={props.title} target={target}/>
         )}
         {props.title === "festival" && (
-          <FestivalCard isSearch={props.isSearch} />
+          <FestivalCard target={target}/>
         )}
       </div>
+      <div ref={target}></div>
     </article>
   );
 };

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getTCTRData } from "../../redux/fetch-action";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -11,10 +11,11 @@ import GetDataError from "../error/GetDataError";
 
 interface Props {
   title: string;
-  isSearch?: boolean;
+  target: React.RefObject<HTMLDivElement>;
 }
 
 const areaCodeArr = [
+  "0",
   "1",
   "2",
   "3",
@@ -34,18 +35,64 @@ const areaCodeArr = [
   "39",
 ];
 
-const AnotherCard = ({ title, isSearch }: Props) => {
+const AnotherCard = ({ title, target }: Props) => {
   const dispatch = useAppDispatch();
   const naviagate = useNavigate();
 
-  const tcts = useSelector((state: RootState) => state.tcts);
-
   const [params] = useSearchParams();
   const type = params.get("type")!;
-  const areaCode = params.get("areaCode")!;
-  const cat1 = params.get("cat1") || "all";
-  const cat2 = params.get("cat2") || "all";
-  const cat3 = params.get("cat3") || "all";
+  const areaCode = params.get("areaCode")! || "0";
+  const keyword = params.get("keyword") || "";
+  const key =
+    title === "result"
+      ? "result"
+      : type === "12"
+      ? "tour"
+      : type === "14"
+      ? "culture"
+      : "travel";
+
+  const [contentType, setContentType] = useState<string>("");
+  const [page, setPage] = useState<[number, number]>([1, 1]);
+  const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
+  const tcts = useSelector((state: RootState) => state.tcts);
+
+  useEffect(() => {
+    let ref = target.current!;
+
+    const options = {
+      root: null, // 타켓 요소가 "어디에" 들어왔을때 콜백함수를 실행할 것인지 결정합니다. null이면 viewport가 root로 지정됩니다.
+      //root: document.querySelector('#scrollArea'), => 특정 요소를 선택할 수도 있습니다.
+      rootMargin: "0px", // root에 마진값을 주어 범위를 확장 가능합니다.
+      threshold: 1.0, // 타겟 요소가 얼마나 들어왔을때 콜백함수를 실행할 것인지 결정합니다. 1이면 타겟 요소 전체가 들어와야 합니다.
+    };
+
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      if (tcts.loading) return;
+      console.log(page);
+      let target = entries[0];
+
+      if (!target.isIntersecting && isIntersecting) {
+        console.log("감지 x");
+        setIsIntersecting(false);
+      }
+
+      if (target.isIntersecting && !isIntersecting) {
+        console.log("감지");
+        setIsIntersecting(true);
+        setPage([page[0] + 1, page[0]]);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => callback(entries),
+      options
+    );
+
+    observer.observe(ref);
+
+    return () => observer.unobserve(ref);
+  });
 
   useEffect(() => {
     // trend는이미 데이터가 있음.
@@ -55,46 +102,72 @@ const AnotherCard = ({ title, isSearch }: Props) => {
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCodeArr.includes(areaCode)) return;
 
+    if (contentType !== type) {
+      setPage([1, 1]);
+      setContentType(type);
+      return;
+    }
+
     const parameter = {
       areaCode,
       type,
       title,
+      page,
+      keyword,
     };
 
-    if (title === "tour" && !tcts.touristArray![areaCode]) {
+    const data = tcts[key][areaCode];
+
+    if (data && !isIntersecting) return;
+
+    if (!data) {
+      dispatch(getTCTRData(parameter));
+      console.log("hi");
+    } else if (page[0] > page[1]) {
+      console.log("hello");
+      console.log(page[0]);
+      setPage([page[0], page[0]])
       dispatch(getTCTRData(parameter));
     }
+    //data.length < page[0] * 50
+  }, [
+    dispatch,
+    tcts,
+    page,
+    contentType,
+    type,
+    title,
+    areaCode,
+    key,
+    keyword,
+    isIntersecting,
+  ]);
 
-    if (title === "culture" && !tcts.cultureArray![areaCode]) {
-      dispatch(getTCTRData(parameter));
-    }
-
-    if (title === "travel" && !tcts.travelArray![areaCode]) {
-      dispatch(getTCTRData(parameter));
-    }
-  }, [dispatch, tcts, type, title, areaCode, cat1, cat2, cat3]);
-
-  const cardClickHandler = (type: string, contentId: string) => {
-    dispatch(firebaseActions.cardClicked());
-    naviagate(`/content/search?type=${type}&contentId=${contentId}`);
-  };
+  const cardClickHandler = useCallback(
+    (type: string, contentId: string) => {
+      dispatch(firebaseActions.cardClicked());
+      naviagate(`/content/search?type=${type}&contentId=${contentId}`);
+    },
+    [dispatch, naviagate]
+  );
 
   const returnResult = () => {
+    console.log(`return result`);
+
+    const cat1 = params.get("cat1") || "all";
+    const cat2 = params.get("cat2") || "all";
+    const cat3 = params.get("cat3") || "all";
+
     let array: Item[] = [];
 
-    if (title === "tour") array = tcts.touristArray![areaCode];
-
-    if (title === "culture") array = tcts.cultureArray![areaCode];
-
-    if (title === "travel") array = tcts.travelArray![areaCode];
-
-    if (title === "result") array = tcts.searchArray!;
-
     if (title === "trend") array = datas[type];
-
+    else array = tcts[key][areaCode];
+    console.log(array)
     let result: JSX.Element[] = [];
-    console.log(array);
+
     for (let item of array) {
+      if (!item.areacode) continue;
+
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
 
       if (cat2 !== "all" && cat2 !== item.cat2) continue;
@@ -142,16 +215,10 @@ const AnotherCard = ({ title, isSearch }: Props) => {
 
   return (
     <>
-      {title === "tour" &&
-        (tcts.loading ? <Loading /> : !tcts.successGetData && <GetDataError />)}
-      {title === "tour" && tcts.touristArray![areaCode] && returnResult()}
-      {title === "culture" && tcts.loading && <Loading />}
-      {title === "culture" && tcts.cultureArray![areaCode] && returnResult()}
-      {title === "travel" && tcts.loading && <Loading />}
-      {title === "travel" && tcts.travelArray![areaCode] && returnResult()}
-      {title === "result" &&
-        tcts.serchRecord[0] === "fulfiled" &&
-        returnResult()}
+      {/* <h3 className="result-title">{`' ${keywo rd} ' 검색 결과: ${tcts.result['0'].length}개`}</h3> */}
+      {tcts[key][areaCode] && returnResult()}
+      {tcts.loading && <Loading />}
+      {!tcts.loading && !tcts.successGetData && <GetDataError/>}
       {title === "trend" && returnResult()}
     </>
   );

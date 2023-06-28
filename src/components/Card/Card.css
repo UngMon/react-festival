@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0 auto;
   padding: 20px 30px 100px;
+  position: relative;
 }
 
 .AllView-grid-box {
@@ -29,6 +30,7 @@
   position: relative;
   box-sizing: border-box;
   border-radius: 7px;
+  min-width: 150px;
   text-align: center;
   transition: all 0.3s ease;
 }

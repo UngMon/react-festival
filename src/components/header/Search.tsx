@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -15,16 +15,25 @@ interface HeaderProps {
   setOpenSearch: (value: boolean) => void;
 }
 
-const titl: { [key: string]: string } = {
-  tour: "관광",
-  culture: "문화",
-  festival: "축제",
-  travel: "여행",
+// const titl: { [key: string]: string } = {
+//   tour: "관광",
+//   culture: "문화",
+//   festival: "축제",
+//   travel: "여행",
+// };
+
+const obj: { [key: string]: string } = {
+  "0": '전체',
+  "12": '관광',
+  "14": '문화',
+  "15": '축제',
+  "25": '여행',
 };
 
 const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>(titl[pathname.split("/")[1]] || '전체');
+  const [params] = useSearchParams();
+  const [type, setType] = useState<string>(params.get("type") || "0");
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,19 +51,8 @@ const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
     if (keyword.length === 0) {
       return alert("검색 키워드를 입력해주세요!");
     }
-
-    const obj: { [key: string]: string } = {
-      전체: "0",
-      관광: "12",
-      문화: "14",
-      축제: "15",
-      여행: "25",
-    };
-    console.log(title);
-    console.log(obj[title]);
-    navigate(
-      `/result/search?title=${title}&type=${obj[title]}&keyword=${keyword}`
-    );
+    
+    navigate(`/result/search?type=${type}&areaCode=0&keyword=${keyword}`);
     inputRef.current!.value = "";
     setOpenSearch(false);
   };
@@ -73,7 +71,7 @@ const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
             className="search-option-box"
             onClick={() => setOpenKeyWord(!openKeyword)}
           >
-            <span>{title}</span>
+            <span>{obj[type]}</span>
             <FontAwesomeIcon
               icon={faAngleDown}
               style={{
@@ -82,11 +80,11 @@ const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
             />
             {openKeyword && (
               <ul>
-                <li onClick={() => setTitle("전체")}>전체</li>
-                <li onClick={() => setTitle("관광")}>관광지</li>
-                <li onClick={() => setTitle("문화")}>문화시설</li>
-                <li onClick={() => setTitle("축제")}>축제</li>
-                <li onClick={() => setTitle("여행")}>여행코스</li>
+                <li onClick={() => setType("0")}>전체</li>
+                <li onClick={() => setType("12")}>관광지</li>
+                <li onClick={() => setType("14")}>문화시설</li>
+                <li onClick={() => setType("15")}>축제</li>
+                <li onClick={() => setType("25")}>여행코스</li>
               </ul>
             )}
           </div>

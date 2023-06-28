@@ -14,9 +14,10 @@ import Loading from "../loading/Loading";
 
 interface T {
   isSearch?: boolean;
+  target: React.RefObject<HTMLDivElement>;
 }
 
-const FestivalCard = ({ isSearch }: T) => {
+const FestivalCard = ({ isSearch, target }: T) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -61,7 +62,7 @@ const FestivalCard = ({ isSearch }: T) => {
       );
     }
 
-    if (isSearch) array = tcts.searchArray!;
+    // if (isSearch) array = tcts.result!;
 
     for (let item of array) {
 

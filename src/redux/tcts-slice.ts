@@ -10,15 +10,12 @@ import { Item } from "../type/Common";
 
 const initialState: TCTRtype = {
   successGetData: false,
-  touristArray: {},
-  cultureArray: {},
-  travelArray: {},
-  searchArray: [],
+  tour: {},
+  culture: {},
+  travel: {},
+  result: {},
   loading: false,
-  tourLoading: true,
-  cultrueLoading: true,
-  travelLoading: true,
-  serchRecord: ["", "", ""],
+  serchRecord: ["", ""],
 };
 
 const tctsSlice = createSlice({
@@ -29,92 +26,48 @@ const tctsSlice = createSlice({
     builder
       .addCase(getTCTRData.pending, (state, action) => {
         state.loading = true;
-        if (action.meta.arg.title === "search")
-          state.serchRecord = [
-            "pending",
-            action.meta.arg.type,
-            action.meta.arg.keyword!,
-          ];
       })
       .addCase(getTCTRData.fulfilled, (state, action) => {
-        const dummyData = action.payload.data.response.body.items.item;
-        // console.log(dummyData);
+        let type = action.payload.type || "0";
+        let areaCode = action.payload.areaCode || "0";
+        let keyword = action.payload.keyword;
+        let title = action.payload.title;
 
-        state.successGetData = true;
-        state.loading = false;
-        console.log('working??????')
-        console.log(dummyData)
+        const dummyData = action.payload.data.response.body.items.item;
+
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때,
           // ex 사용자가 url를 조작할 때,
-          if (action.payload.title === "search")
-            state.serchRecord = [
-              "fulfiled",
-              state.serchRecord[1],
-              state.serchRecord[2],
-            ];
+          if (title === "search") state.serchRecord = [type, keyword];
+          state.loading = false;
+          state.successGetData = true;
           return;
         }
 
-        if (action.payload.title === "search") {
-          const arr: Item[] = [];
-          for (const item of dummyData) {
-            if (item.firstimage === "") continue;
-            if (!item.areacode) continue;
-            arr.push(item);
-          }
-          state.searchArray = arr;
-          state.serchRecord = [
-            "fulfiled",
-            state.serchRecord[1],
-            state.serchRecord[2],
-          ];
-          return;
-        }
+        let arr: Item[] = [];
+        let typeArray: Region = {};
 
-        let region: Region = {
-          "0": [],
-          "1": [],
-          "2": [],
-          "3": [],
-          "4": [],
-          "5": [],
-          "6": [],
-          "7": [],
-          "8": [],
-          "31": [],
-          "32": [],
-          "33": [],
-          "34": [],
-          "35": [],
-          "36": [],
-          "37": [],
-          "38": [],
-          "39": [],
-        };
-        console.log(action.payload.areaCode);
-        console.log(action.payload.type);
+        if (title === "tour") typeArray = state.tour;
 
-        for (const item of dummyData) {
-          if (item.firstimage === "") continue;
-          if (!item.areacode) continue;
-          region[action.payload.areaCode].push(item);
-        }
+        if (title === "culture") typeArray = state.culture;
 
-        if (action.payload.type === "12") {
-          state.touristArray[action.payload.areaCode] =
-            region[action.payload.areaCode];
-        }
+        if (title === "travel") typeArray = state.travel;
 
-        if (action.payload.type === "14") {
-          state.cultureArray[action.payload.areaCode] =
-            region[action.payload.areaCode];
-        }
+        if (title === "result") typeArray = state.result;
 
-        if (action.payload.type === "25") {
-          state.travelArray[action.payload.areaCode] =
-            region[action.payload.areaCode];
-        }
+        let mismatch = false;
+
+        mismatch =
+          type !== state.serchRecord[0] || keyword !== state.serchRecord[1];
+        console.log(`mismatch ${mismatch}`)
+        arr = !typeArray[areaCode] ? [] : typeArray[areaCode];
+        typeArray[areaCode] = !mismatch
+          ? [...arr, ...dummyData]
+          : [...dummyData];
+
+        state.successGetData = true;
+        state.loading = false;
+        if (title === "result") state.serchRecord = [type, keyword];
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
@@ -127,3 +80,52 @@ const tctsSlice = createSlice({
 export const tctsActions = tctsSlice.actions;
 
 export const tctsReducer = tctsSlice.reducer;
+
+        // if (action.meta.arg.title === "search")
+        //   state.serchRecord.now = [
+        //     action.meta.arg.type,
+        //     action.meta.arg.keyword!,
+        //   ];
+
+        // if (action.payload.title === "search") {
+        //   const arr: Item[] = [];
+        //   for (const item of dummyData) {
+        //     if (item.firstimage === "") continue;
+        //     if (!item.areacode) continue;
+        //     arr.push(item);
+        //   }
+        //   state.result = arr;
+        //   // state.serchRecord = [
+        //   //   "fulfiled",
+        //   //   state.serchRecord[1],
+        //   //   state.serchRecord[2],
+        //   // ];
+        //   return;
+        // }
+
+        // let region: Region = {
+        //   "0": [],
+        //   "1": [],
+        //   "2": [],
+        //   "3": [],
+        //   "4": [],
+        //   "5": [],
+        //   "6": [],
+        //   "7": [],
+        //   "8": [],
+        //   "31": [],
+        //   "32": [],
+        //   "33": [],
+        //   "34": [],
+        //   "35": [],
+        //   "36": [],
+        //   "37": [],
+        //   "38": [],
+        //   "39": [],
+        // };
+
+        // for (const item of dummyData) {
+        //   // if (item.firstimage === "") continue;
+        //   if (!item.areacode) continue;
+        //   region[areaCode].push(item);
+        // }
