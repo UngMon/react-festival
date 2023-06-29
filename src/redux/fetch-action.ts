@@ -26,7 +26,6 @@ export const getTCTRData = createAsyncThunk(
     const type = parameter.type;
     const title = parameter.title;
     const areaCode = parameter.areaCode;
-    console.log(parameter)
     const page = String(parameter.page![0]);
     let keyword = "";
 
@@ -39,21 +38,21 @@ export const getTCTRData = createAsyncThunk(
       url += `&contentTypeId=${type}${
         areaCode !== "0" ? `&areaCode=${parameter.areaCode}` : ``
       }`;
-      keyword = parameter.keyword!;
     }
 
     // 검색을 한 경우
-    if (title === "result")
+    if (title === "result") {
       //type === 0인 경우는 전체 키워드 검색
       url += `&keyword=${encodeURIComponent(parameter.keyword!)}${
         type !== "0" ? `&contentTypeId=${type}` : ""
       }`;
-    console.log(url)
+      keyword = parameter.keyword!;
+    }
+
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
-    console.log(data);
-
+    console.log(data)
     return { data, areaCode, type, title, keyword };
   }
 );

@@ -10,6 +10,6 @@ export interface TCTRtype {
   // tourLoading?: boolean;
   // cultrueLoading?: boolean;
   // travelLoading?: boolean;
-  serchRecord: [string, string];
+  serchRecord: [string, string, string];
   // serchRecord: { prev: [string, string]; now: [string, string] };
 }

@@ -15,7 +15,7 @@ const initialState: TCTRtype = {
   travel: {},
   result: {},
   loading: false,
-  serchRecord: ["", ""],
+  serchRecord: ["", "", "remaining"],
 };
 
 const tctsSlice = createSlice({
@@ -38,7 +38,8 @@ const tctsSlice = createSlice({
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때,
           // ex 사용자가 url를 조작할 때,
-          if (title === "search") state.serchRecord = [type, keyword];
+          if (title === "result")
+            state.serchRecord = [type, keyword, "complete"];
           state.loading = false;
           state.successGetData = true;
           return;
@@ -59,20 +60,25 @@ const tctsSlice = createSlice({
 
         mismatch =
           type !== state.serchRecord[0] || keyword !== state.serchRecord[1];
-        console.log(`mismatch ${mismatch}`)
+
         arr = !typeArray[areaCode] ? [] : typeArray[areaCode];
-        typeArray[areaCode] = !mismatch
+
+        if (title === "result") {
+          state.serchRecord = [type, keyword, dummyData.length < 50 ? "complete" : "remaining"];
+          typeArray[areaCode] = !mismatch
           ? [...arr, ...dummyData]
           : [...dummyData];
+        } else {
+          typeArray[areaCode] = [...arr, ...dummyData]
+        }
 
         state.successGetData = true;
         state.loading = false;
-        if (title === "result") state.serchRecord = [type, keyword];
+
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
-        console.log(action);
       });
   },
 });
@@ -81,51 +87,51 @@ export const tctsActions = tctsSlice.actions;
 
 export const tctsReducer = tctsSlice.reducer;
 
-        // if (action.meta.arg.title === "search")
-        //   state.serchRecord.now = [
-        //     action.meta.arg.type,
-        //     action.meta.arg.keyword!,
-        //   ];
+// if (action.meta.arg.title === "search")
+//   state.serchRecord.now = [
+//     action.meta.arg.type,
+//     action.meta.arg.keyword!,
+//   ];
 
-        // if (action.payload.title === "search") {
-        //   const arr: Item[] = [];
-        //   for (const item of dummyData) {
-        //     if (item.firstimage === "") continue;
-        //     if (!item.areacode) continue;
-        //     arr.push(item);
-        //   }
-        //   state.result = arr;
-        //   // state.serchRecord = [
-        //   //   "fulfiled",
-        //   //   state.serchRecord[1],
-        //   //   state.serchRecord[2],
-        //   // ];
-        //   return;
-        // }
+// if (action.payload.title === "search") {
+//   const arr: Item[] = [];
+//   for (const item of dummyData) {
+//     if (item.firstimage === "") continue;
+//     if (!item.areacode) continue;
+//     arr.push(item);
+//   }
+//   state.result = arr;
+//   // state.serchRecord = [
+//   //   "fulfiled",
+//   //   state.serchRecord[1],
+//   //   state.serchRecord[2],
+//   // ];
+//   return;
+// }
 
-        // let region: Region = {
-        //   "0": [],
-        //   "1": [],
-        //   "2": [],
-        //   "3": [],
-        //   "4": [],
-        //   "5": [],
-        //   "6": [],
-        //   "7": [],
-        //   "8": [],
-        //   "31": [],
-        //   "32": [],
-        //   "33": [],
-        //   "34": [],
-        //   "35": [],
-        //   "36": [],
-        //   "37": [],
-        //   "38": [],
-        //   "39": [],
-        // };
+// let region: Region = {
+//   "0": [],
+//   "1": [],
+//   "2": [],
+//   "3": [],
+//   "4": [],
+//   "5": [],
+//   "6": [],
+//   "7": [],
+//   "8": [],
+//   "31": [],
+//   "32": [],
+//   "33": [],
+//   "34": [],
+//   "35": [],
+//   "36": [],
+//   "37": [],
+//   "38": [],
+//   "39": [],
+// };
 
-        // for (const item of dummyData) {
-        //   // if (item.firstimage === "") continue;
-        //   if (!item.areacode) continue;
-        //   region[areaCode].push(item);
-        // }
+// for (const item of dummyData) {
+//   // if (item.firstimage === "") continue;
+//   if (!item.areacode) continue;
+//   region[areaCode].push(item);
+// }

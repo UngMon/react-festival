@@ -70,7 +70,20 @@ const AnotherCard = ({ title, target }: Props) => {
     const callback = (entries: IntersectionObserverEntry[]) => {
       if (tcts.loading) return;
       console.log(page);
+      console.log(entries)
       let target = entries[0];
+
+      // 검색 결과물에서 모든 데이터를 불러온 경우 tcts.saerchRecord[2] === 'complete'
+      // 이때, 다른 검색을 한 경우에 다시 페이지를 불러와야 하므로 아래와 같이 비교식을 작성
+      if (
+        title === "result" &&
+        type === tcts.serchRecord[0] &&
+        keyword === tcts.serchRecord[1] &&
+        tcts.serchRecord[2] === "complete"
+      ) {
+        console.log("결과 complted");
+        return;
+      }
 
       if (!target.isIntersecting && isIntersecting) {
         console.log("감지 x");
@@ -79,6 +92,7 @@ const AnotherCard = ({ title, target }: Props) => {
 
       if (target.isIntersecting && !isIntersecting) {
         console.log("감지");
+        console.log(window.scrollY)
         setIsIntersecting(true);
         setPage([page[0] + 1, page[0]]);
       }
@@ -125,8 +139,7 @@ const AnotherCard = ({ title, target }: Props) => {
       console.log("hi");
     } else if (page[0] > page[1]) {
       console.log("hello");
-      console.log(page[0]);
-      setPage([page[0], page[0]])
+      setPage([page[0], page[0]]);
       dispatch(getTCTRData(parameter));
     }
     //data.length < page[0] * 50
@@ -152,7 +165,7 @@ const AnotherCard = ({ title, target }: Props) => {
   );
 
   const returnResult = () => {
-    console.log(`return result`);
+
 
     const cat1 = params.get("cat1") || "all";
     const cat2 = params.get("cat2") || "all";
@@ -162,7 +175,7 @@ const AnotherCard = ({ title, target }: Props) => {
 
     if (title === "trend") array = datas[type];
     else array = tcts[key][areaCode];
-    console.log(array)
+    console.log(`return result ${array.length}`);
     let result: JSX.Element[] = [];
 
     for (let item of array) {
@@ -218,7 +231,7 @@ const AnotherCard = ({ title, target }: Props) => {
       {/* <h3 className="result-title">{`' ${keywo rd} ' 검색 결과: ${tcts.result['0'].length}개`}</h3> */}
       {tcts[key][areaCode] && returnResult()}
       {tcts.loading && <Loading />}
-      {!tcts.loading && !tcts.successGetData && <GetDataError/>}
+      {!tcts.loading && !tcts.successGetData && <GetDataError />}
       {title === "trend" && returnResult()}
     </>
   );

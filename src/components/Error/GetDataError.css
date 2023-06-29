@@ -11,7 +11,27 @@
   margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
+  .get-data-error-box {
+    grid-column-end: span 3;
+  }
+}
+
+@media (max-width: 650px) {
+  .get-data-error-box {
+    grid-column-end: span 2;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .get-data-error-box {
+    grid-column-end: span 1;
+  }
+}
+
+/* @media (max-width: 768px) {
   .get-data-error-box {
     padding: 0;
   }
@@ -23,4 +43,4 @@
     padding: 0;
     margin-top: 130px;
   }
-}
+} */
