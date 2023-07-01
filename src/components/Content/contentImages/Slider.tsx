@@ -62,7 +62,7 @@ const Slider = ({ imageRef, contentImage }: SliderProps) => {
       }
     }
     /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
-    console.log('image Effect')
+    // console.log('image Effect')
     setWidth(imageRef.current!.clientWidth / 3);
   }, [imageRef, contentImage]);
 
@@ -80,7 +80,7 @@ const Slider = ({ imageRef, contentImage }: SliderProps) => {
       );
     };
     window.addEventListener("resize", resizeHandler);
-    console.log('size effect')
+    // console.log('size effect')
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };

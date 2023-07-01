@@ -27,6 +27,7 @@ const ContentRivews = ({
   const dispatch = useAppDispatch();
   const firebase = useSelector((state: RootState) => state.firebase);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   
   const uid = firebase.userUid || "";
   const contentRef = doc(db, "content", contentId);
@@ -39,7 +40,7 @@ const ContentRivews = ({
       try {
         // firestor DB에 해당 컨텐츠 id 접근하여 .data()메소드를 통해 필드 존재 여부 확인
         const contentUserData = (await getDoc(contentRef)).data();
-
+ 
         if (!contentUserData) {
           docData = {
             comment: [],
@@ -55,6 +56,7 @@ const ContentRivews = ({
         dispatch(firebaseActions.updateContentData({ docData, contentId }));
       } catch (error: any) {
         alert(error.message);
+        setError(true);
         dispatch(firebaseActions.failedGetData());
       }
     };
@@ -63,17 +65,16 @@ const ContentRivews = ({
     if (!firebase.contentData[contentId] && isLoading) {
       setData();
       setLoading(false);
+      error && setError(false);
     }
 
-  }, [dispatch, contentId, firebase, isLoading]);
+  }, [dispatch, contentId, firebase, isLoading, error]);
 
   return (
     <div className="Cotent-review" ref={reviewRef}>
-      {firebase.loadingState === "pending" && <Loading />}
-      {firebase.loadingState === "fulfiled" && !firebase.succesGetData && (
-        <GetDataError />
-      )}
-      {firebase.loadingState === "fulfilled" && firebase.succesGetData && (
+      {!firebase.contentData[contentId] && !error && <Loading/>}
+      {error && <GetDataError/>}
+      {firebase.contentData[contentId] && (
         <>
           <Feeling
             firebaseState={firebase}

@@ -26,14 +26,10 @@ const Detail = ({
   const detailInfo = contentInfo.response.body.items.item;
   const detailIntro = contentIntro.response.body.items.item;
   const detailCommon = contentCommon.response.body.items.item;
-
-  console.log(detailCommon)
-  console.log(detailIntro)
-  console.log(detailInfo)
-
   const [more, setMore] = useState<boolean>(false);
 
   let text: string[] = [];
+
   const returnTextArray = () => {
     if (!detailInfo) return;
 
@@ -48,11 +44,19 @@ const Detail = ({
       if (infotext === detailInfo[i].infotext) continue;
 
       infotext = detailInfo[i].infotext;
-      result = detailInfo[i].infotext.split(/<br>|<br >|<br\/>|<br \/>/gm);
-      text.push(...result);
+      result =
+        detailInfo[i].infoname +
+        ": " +
+        detailInfo[i].infotext
+        // detailInfo[i].infotext.split(/<br>|<br >|<br\/>|<br \/>|<strong>|<\/strong>/gm);
+      text.push(result);
+      // console.log(result)
+      // console.log(detailInfo[i].infotext.split(/<br>|<br >|<br\/>|<br \/>|<strong>|<\/strong>/gm))
     }
   };
   returnTextArray();
+  console.log(text)
+  console.log(detailInfo)
 
   return (
     <div className="Cotent-overview">
@@ -62,12 +66,12 @@ const Detail = ({
       </div>
       <div className="overview">
         <strong className="o-label">상세정보</strong>
-        <div>
+        <div className="o-p">
           <p dangerouslySetInnerHTML={{ __html: detailCommon[0].overview }}></p>
           {more &&
             text.map((item, index) => (
-              <p className={item === `\n` ? "space" : ""} key={index}>
-                {item}
+              <p className={item === `\n` ? "space" : ""} key={index} dangerouslySetInnerHTML={{ __html: item }}>
+                {/* {item} */}
               </p>
             ))}
           {text.length !== 0 && (

@@ -31,7 +31,7 @@ export const getTCTRData = createAsyncThunk(
 
     let url = `https://apis.data.go.kr/B551011/KorService1/${
       title !== "result" ? "areaBasedList1" : "searchKeyword1"
-    }?serviceKey=${serviceKey}&numOfRows=50&pageNo=${page}&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
+    }?serviceKey=${serviceKey}&numOfRows=2000&pageNo=${page}&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
 
     // 네브바 클릭
     if (title !== "result") {

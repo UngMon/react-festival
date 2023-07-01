@@ -209,7 +209,6 @@ const UserReviews = ({
 
   return (
     <>
-      {/* <h3 className="review-title">리뷰</h3> */}
       <form className="user-input-box" onSubmit={reivewSubmitHandler}>
         <div className="user-input-area">
           <label htmlFor="user-input"></label>

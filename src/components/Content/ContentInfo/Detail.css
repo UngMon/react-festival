@@ -50,6 +50,15 @@
   padding-left: 10px;
 }
 
+.o-p p:nth-child(1) {
+  padding-bottom: 15px;
+}
+
+.o-p p strong {
+  display: inline;
+}
+
+
 .more-button {
   position: absolute;
   right: 10px;

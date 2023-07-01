@@ -166,7 +166,6 @@ const AnotherCard = ({ title, target }: Props) => {
 
   const returnResult = () => {
 
-
     const cat1 = params.get("cat1") || "all";
     const cat2 = params.get("cat2") || "all";
     const cat3 = params.get("cat3") || "all";
@@ -177,8 +176,9 @@ const AnotherCard = ({ title, target }: Props) => {
     else array = tcts[key][areaCode];
     console.log(`return result ${array.length}`);
     let result: JSX.Element[] = [];
-
+    let index = 0;
     for (let item of array) {
+      if (index > 49) break;
       if (!item.areacode) continue;
 
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
@@ -216,6 +216,7 @@ const AnotherCard = ({ title, target }: Props) => {
         </div>
       );
       result.push(element);
+      index += 1;
     }
     return result.length === 0 ? (
       <div className="not-found-category">

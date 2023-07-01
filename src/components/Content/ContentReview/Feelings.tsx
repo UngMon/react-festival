@@ -10,32 +10,17 @@ import {
 } from "firebase/firestore";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
-import { useSearchParams } from "react-router-dom";
 
 let isFirst = true;
 
-interface FeelingProps {
+interface T {
   firebaseState: FirebaseState;
   contentRef: DocumentReference<DocumentData>;
   contentId: string;
   uid: string;
 }
 
-// const 유형: { [key: string]: string } = {
-//   "12": "관광지",
-//   "14": "문화시설",
-//   "15": "축제/공연/행사",
-//   "25": "여행코스",
-// };
-
-const Feelings = ({
-  firebaseState,
-  contentRef,
-  uid,
-  contentId,
-}: FeelingProps) => {
-  const [params] = useSearchParams();
-  const type = params.get("type")!;
+const Feelings = ({ firebaseState, contentRef, uid, contentId }: T) => {
   const dispatch = useAppDispatch();
   const [feelCount, setFeelCount] = useState<[number, number, number]>([
     0, 0, 0,
@@ -44,7 +29,7 @@ const Feelings = ({
 
   useEffect(() => {
     if (!firebaseState.contentData[contentId]) return;
-    
+
     const commentData = firebaseState.contentData[contentId].expression;
 
     let Good = 0;

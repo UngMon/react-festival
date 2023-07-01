@@ -118,7 +118,7 @@ async function getContentImage(id: string) {
   }
 
   const data: ResponImage = await response.json();
-
+  console.log(`image ${data}`)
   return data;
 }
 
@@ -132,7 +132,7 @@ async function getContentInfo(type: string, id: string) {
   }
 
   const data: ResponInfo = await response.json();
-
+  console.log(`info  ${data}`)
   return data;
 }
 
@@ -146,7 +146,7 @@ async function getContentDetailIntro(type: string, id: string) {
   }
 
   const data: ResponIntro = await response.json();
-
+  console.log(`Intro ${data}`)
   return data;
 }
 
@@ -160,7 +160,7 @@ async function getCotentDetailCommon(type: string, id: string) {
   }
 
   const data: ResponCommon = await response.json();
-
+  console.log(`common ${data}`)
   return data;
 }
 
