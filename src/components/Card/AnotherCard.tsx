@@ -6,6 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { firebaseActions } from "../../redux/firebase-slice";
 import { Item, 지역코드, 시군코드, tagName } from "../../type/Common";
 import { datas } from "../../data";
+import { calculateDate } from "../../utils/CalculateDate";
+import { nowDate } from "../../utils/NowDate";
+import { dateSlice } from "../../utils/DateSlice";
 import Loading from "../loading/Loading";
 import GetDataError from "../error/GetDataError";
 
@@ -42,6 +45,10 @@ const AnotherCard = ({ title, target }: Props) => {
   const [params] = useSearchParams();
   const type = params.get("type")!;
   const areaCode = params.get("areaCode")! || "0";
+  const pickMonth = params.get("month") || "";
+  const cat1: string = params.get("cat1") || "all";
+  const cat2: string = params.get("cat2") || "all";
+  const cat3: string = params.get("cat3") || "all";
   const keyword = params.get("keyword") || "";
   const key =
     title === "result"
@@ -52,10 +59,12 @@ const AnotherCard = ({ title, target }: Props) => {
       ? "culture"
       : "travel";
 
-  const [contentType, setContentType] = useState<string>("");
-  const [page, setPage] = useState<[number, number]>([1, 1]);
+  const [record, setRecord] = useState<
+    [string, string, string, string, string]
+  >([type, areaCode, cat1, cat2, cat3]);
+  const [page, setPage] = useState<[number, number, boolean]>([1, 1, false]);
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
-  const tcts = useSelector((state: RootState) => state.tcts);
+  const tourData = useSelector((state: RootState) => state.tourApi);
 
   useEffect(() => {
     let ref = target.current!;
@@ -68,33 +77,31 @@ const AnotherCard = ({ title, target }: Props) => {
     };
 
     const callback = (entries: IntersectionObserverEntry[]) => {
-      if (tcts.loading) return;
-      console.log(page);
-      console.log(entries)
+      if (tourData.loading) return;
+
       let target = entries[0];
 
       // 검색 결과물에서 모든 데이터를 불러온 경우 tcts.saerchRecord[2] === 'complete'
       // 이때, 다른 검색을 한 경우에 다시 페이지를 불러와야 하므로 아래와 같이 비교식을 작성
       if (
         title === "result" &&
-        type === tcts.serchRecord[0] &&
-        keyword === tcts.serchRecord[1] &&
-        tcts.serchRecord[2] === "complete"
+        type === tourData.serchRecord[0] &&
+        keyword === tourData.serchRecord[1] &&
+        tourData.serchRecord[2] === "complete"
       ) {
-        console.log("결과 complted");
+        // console.log("결과 complted");
         return;
       }
 
       if (!target.isIntersecting && isIntersecting) {
-        console.log("감지 x");
+        // console.log("감지 x");
         setIsIntersecting(false);
       }
 
       if (target.isIntersecting && !isIntersecting) {
-        console.log("감지");
-        console.log(window.scrollY)
+        // console.log("감지");
         setIsIntersecting(true);
-        setPage([page[0] + 1, page[0]]);
+        setPage([page[0] + 1, page[0], false]);
       }
     };
 
@@ -112,45 +119,64 @@ const AnotherCard = ({ title, target }: Props) => {
     // trend는이미 데이터가 있음.
     if (title === "trend") return;
     // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
-    if (tcts.loading) return;
+    if (tourData.loading) return;
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCodeArr.includes(areaCode)) return;
 
-    if (contentType !== type) {
-      setPage([1, 1]);
-      setContentType(type);
+    if (
+      record[0] !== type ||
+      record[1] !== areaCode ||
+      record[2] !== cat1 ||
+      record[3] !== cat2 ||
+      record[4] !== cat3
+    ) {
+      setPage([1, 1, false]);
+      setRecord([type, areaCode, cat1, cat2, cat3]);
       return;
     }
 
     const parameter = {
-      areaCode,
       type,
       title,
+      areaCode,
+      cat1,
+      cat2,
+      cat3,
       page,
       keyword,
     };
 
-    const data = tcts[key][areaCode];
+    let data: any;
+    if (title === "festival") {
+      data = tourData["festival"];
+    } else {
+      data = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
+    }
 
-    if (data && !isIntersecting) return;
+    if (!isIntersecting && tourData.dataRecord[title]) return;
 
-    if (!data) {
-      dispatch(getTCTRData(parameter));
-      console.log("hi");
-    } else if (page[0] > page[1]) {
-      console.log("hello");
-      setPage([page[0], page[0]]);
+    if (data.length === 0) {
+      !page[2] && setPage([page[0], page[0], true]);
+      !page[2] && dispatch(getTCTRData(parameter));
+    } else if (
+      data.length < 50 * page[0] &&
+      page[0] > page[1] &&
+      tourData.dataRecord[title] !== "complete"
+    ) {
+      setPage([page[0], page[0], false]);
       dispatch(getTCTRData(parameter));
     }
-    //data.length < page[0] * 50
   }, [
     dispatch,
-    tcts,
+    tourData,
     page,
-    contentType,
+    record,
     type,
     title,
     areaCode,
+    cat1,
+    cat2,
+    cat3,
     key,
     keyword,
     isIntersecting,
@@ -165,20 +191,26 @@ const AnotherCard = ({ title, target }: Props) => {
   );
 
   const returnResult = () => {
-
-    const cat1 = params.get("cat1") || "all";
-    const cat2 = params.get("cat2") || "all";
-    const cat3 = params.get("cat3") || "all";
-
     let array: Item[] = [];
+    let result: JSX.Element[] = [];
+    let returnArray: JSX.Element[] = [];
+    let 행사종료: JSX.Element[] = [];
+    let 행사중: JSX.Element[] = [];
+    let 행사시작전: JSX.Element[] = [];
+
+    const { year, month, date } = nowDate();
 
     if (title === "trend") array = datas[type];
-    else array = tcts[key][areaCode];
-    console.log(`return result ${array.length}`);
-    let result: JSX.Element[] = [];
-    let index = 0;
+    else if (title === "festival") {
+      array = tourData.festival;
+    } else {
+      array = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3];
+      if (!array) return;
+    }
+
+    // console.log(`return result ${array.length}`);
+
     for (let item of array) {
-      if (index > 49) break;
       if (!item.areacode) continue;
 
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
@@ -187,12 +219,35 @@ const AnotherCard = ({ title, target }: Props) => {
 
       if (cat3 !== "all" && cat3 !== item.cat3) continue;
 
-      if (!item.firstimage) continue;
+      if (title !== "festival" && !item.firstimage) continue;
+
+      if (title === "festival") {
+        if (item.eventenddate!.slice(4, 6) < pickMonth) continue;
+        if (areaCode !== "0" && areaCode !== item.areacode) continue;
+      }
+
+      let 행사상태 = "";
+
+      if (title === "festival") {
+        행사상태 = calculateDate(
+          item.eventstartdate!,
+          item.eventenddate!,
+          year,
+          month,
+          date
+        );
+        if (행사상태 === "진행중") {
+          if (!tourData.행사상태[0]) continue;
+        } else if (행사상태 === "행사종료") {
+          if (!tourData.행사상태[2]) continue;
+        } else {
+          if (!tourData.행사상태[1]) continue;
+        }
+      }
 
       const 지역 = 지역코드[item.areacode] || "";
       const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
-      const 지역표시 =
-        `${지역 && `[${지역}]`}` + " " + `${시군구 && `[${시군구}]`}`;
+      const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
 
       const element = (
         <div
@@ -203,37 +258,77 @@ const AnotherCard = ({ title, target }: Props) => {
           <div className="tour-image-box">
             <img
               className="card-image"
-              src={item.firstimage.replace("http", "https")}
-              alt={item.title}
+              src={
+                item.firstimage.replace("http", "https") ||
+                "../images/Noimage.png"
+              }
+              alt={"img"}
               loading={"lazy"}
             ></img>
           </div>
+          {title === "festival" && (
+            <p
+              className={`cal-date ${
+                행사상태 === "진행중"
+                  ? "ing"
+                  : 행사상태 === "행사종료"
+                  ? "end"
+                  : "aft"
+              }`}
+            >
+              {행사상태}
+            </p>
+          )}
           <div className="card-text">
             <p className="area">{지역표시}</p>
             <h4>{item.title}</h4>
-            <p className="card-tag">{`#${tagName[item.cat3]}`}</p>
+            {title === "festival" && (
+              <p className="card-date">
+                {dateSlice(item.eventstartdate!, item.eventenddate!)}
+              </p>
+            )}
+            {title !== "festival" && (
+              <p className="card-tag">{`#${tagName[item.cat3]}`}</p>
+            )}
           </div>
         </div>
       );
-      result.push(element);
-      index += 1;
+
+      if (title === "festival") {
+        if (행사상태 === "행사종료") {
+          행사종료.push(element);
+          continue;
+        } else if (행사상태 === "진행중") {
+          행사중.push(element);
+          continue;
+        } else {
+          행사시작전.push(element);
+        }
+      } else {
+        result.push(element);
+      }
     }
-    return result.length === 0 ? (
+
+    if (title !== "festival") returnArray = result;
+    else returnArray = [...행사중, ...행사시작전, ...행사종료];
+
+    return returnArray.length === 0 ? (
       <div className="not-found-category">
         <p>조건에 부합하는 결과가 없습니다!</p>
       </div>
     ) : (
-      result
+      returnArray
     );
   };
 
   return (
     <>
       {/* <h3 className="result-title">{`' ${keywo rd} ' 검색 결과: ${tcts.result['0'].length}개`}</h3> */}
-      {tcts[key][areaCode] && returnResult()}
-      {tcts.loading && <Loading />}
-      {!tcts.loading && !tcts.successGetData && <GetDataError />}
-      {title === "trend" && returnResult()}
+      {returnResult()}
+      {tourData.loading && <Loading />}
+      {title !== "trend" && !tourData.loading && !tourData.successGetData && (
+        <GetDataError />
+      )}
     </>
   );
 };

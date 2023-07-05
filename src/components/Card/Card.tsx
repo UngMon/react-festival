@@ -14,12 +14,13 @@ const Card = (props: CardProps) => {
   return (
     <article className="main-box-content">
       <div className="AllView-grid-box">
-        {props.title !== "festival" && (
+        <AnotherCard title={props.title} target={target} />
+        {/* {props.title !== "festival" && (
           <AnotherCard title={props.title} target={target}/>
         )}
         {props.title === "festival" && (
           <FestivalCard target={target}/>
-        )}
+        )} */}
       </div>
       <div ref={target}></div>
     </article>

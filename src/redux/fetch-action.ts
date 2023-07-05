@@ -26,18 +26,36 @@ export const getTCTRData = createAsyncThunk(
     const type = parameter.type;
     const title = parameter.title;
     const areaCode = parameter.areaCode;
+    const cat1 = parameter.cat1;
+    const cat2 = parameter.cat2;
+    const cat3 = parameter.cat3;
     const page = String(parameter.page![0]);
     let keyword = "";
 
-    let url = `https://apis.data.go.kr/B551011/KorService1/${
-      title !== "result" ? "areaBasedList1" : "searchKeyword1"
-    }?serviceKey=${serviceKey}&numOfRows=2000&pageNo=${page}&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
+    let url = "https://apis.data.go.kr/B551011/KorService1/";
+
+    if (title === "festival") url += `searchFestival1?`;
+    else if (title === "result") url += "searchKeyword1?";
+    else url += "areaBasedList1?";
+
+    url += `serviceKey=${serviceKey}&numOfRows=${
+      title === "festival" ? "2000" : "50"
+    }&pageNo=${page}&MobileOS=ETC&MobileApp=Moa&_type=json&listYN=Y&arrange=Q`;
 
     // 네브바 클릭
-    if (title !== "result") {
+    if (title !== "result" && title !== "festival") {
       url += `&contentTypeId=${type}${
         areaCode !== "0" ? `&areaCode=${parameter.areaCode}` : ``
       }`;
+
+      if (cat2 !== "all") url += `&cat2=${cat2}`;
+      if (cat3 !== "all") url += `&cat3=${cat3}`;
+    }
+
+    if (title === "festival") {
+      let year = new Date().getFullYear();
+      year -= 1;
+      url += `&eventStartDate=${year + "0101"}`;
     }
 
     // 검색을 한 경우
@@ -48,11 +66,9 @@ export const getTCTRData = createAsyncThunk(
       }`;
       keyword = parameter.keyword!;
     }
-
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
-    console.log(data)
-    return { data, areaCode, type, title, keyword };
+    return { data, areaCode, cat1, cat2, cat3, type, title, keyword };
   }
 );

@@ -8,11 +8,11 @@
   z-index: 5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023.9px) {
   .main-box {
-    min-height: 400px;
+    min-height: calc(100vh - 150px);
     padding-top: 50px;
-  }
+  }  
 }
 
 

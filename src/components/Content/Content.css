@@ -1,5 +1,4 @@
 .Content-box {
-  /* background-color: #f0f1fa; */
   font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -22,7 +21,11 @@
   padding: 0 10px;
 }
 
-@media (max-width: 1023.5px) {
+@media (max-width: 1023.9px) {
+  .Content-box {
+    padding-top: 50px;
+  }
+
   .Content {
     box-sizing: border-box;
     width: 100%;

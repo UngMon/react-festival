@@ -5,14 +5,16 @@ import {
   ImageData,
 } from "../../../type/FestivalType";
 import SliderButton from "./SliderButton";
+import Loading from "../../loading/Loading";
 import "./Slider.css";
 
 interface SliderProps {
   imageRef: React.RefObject<HTMLDivElement>;
-  contentImage: ResponImage;
+  type: string;
+  contentId: string;
 }
 
-const Slider = ({ imageRef, contentImage }: SliderProps) => {
+const Slider = ({ imageRef, type, contentId }: SliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const [image, setImage] = useState<ContentImage[] | ImageData[]>([]);
@@ -21,50 +23,59 @@ const Slider = ({ imageRef, contentImage }: SliderProps) => {
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
 
   useEffect(() => {
-    /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
-      아예 없는 경우가 있다. 각각의 경우에 따라서 image State를 따로 정의해줘야 한다. */
+    const getImage = async (contentId: string) => {
+      try {
+        const imageData = await getContentImage(contentId);
 
-    if (!contentImage.response.body.items) {
-      /* 관광공사 api로 부터 밭은 데이터에서 해당 축제의 사진이 없을 경우 */
-      const object = {
-        originimgurl: "/images/NoImage.png",
-      };
-      setImage([object]);
-    }
+        /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
+        아예 없는 경우가 있다. 각각의 경우에 따라서 image State를 따로 정의해줘야 한다. */
 
-    if (contentImage.response.body.items) {
-      /* 해당 축제의 이미지가 있을 때, */
-      const img = contentImage.response.body.items.item;
+        if (!imageData.response.body.items) {
+          /* 관광공사 api로 부터 밭은 데이터에서 해당 축제의 사진이 없을 경우 */
 
-      /* 대신 해당 축제의 이미자가 1개만 있을 경우 */
-      if (img.length === 1) {
-        const arr = [...img, ...img, ...img];
-        setImageLength(3);
-        setImage([...arr, ...arr, ...arr]);
+          const object = {
+            originimgurl: "/images/NoImage.png",
+          };
+
+          setImage([object]);
+          setImageLength(1);
+        } else {
+          /* 해당 축제의 이미지가 있을 때, */
+          const img = imageData.response.body.items.item;
+
+          /* 대신 해당 축제의 이미자가 1개만 있을 경우 */
+          if (img.length === 1) {
+            const arr = [...img, ...img, ...img];
+            setImageLength(3);
+            setImage([...arr, ...arr, ...arr]);
+          }
+
+          /* 해당 축제의 이미지가 2개만 있는 경우*/
+          if (1 < img.length && img.length < 4) {
+            setImageLength(img.length);
+            setImage([...img, ...img, ...img]);
+          }
+
+          /* 4개 이상인 경우*/
+          if (img.length > 3) {
+            setImageLength(img.length);
+            setImage([
+              img[img.length - 2],
+              img[img.length - 1],
+              ...img,
+              img[0],
+              img[1],
+            ]);
+          }
+        }
+        /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
+        setWidth(imageRef.current!.clientWidth / 3);
+      } catch (error) {
+        console.log(error);
       }
-
-      /* 해당 축제의 이미지가 2개만 있는 경우*/
-      if (1 < img.length && img.length < 4) {
-        setImageLength(img.length);
-        setImage([...img, ...img, ...img]);
-      }
-
-      /* 4개 이상인 경우*/
-      if (img.length > 3) {
-        setImageLength(img.length);
-        setImage([
-          img[img.length - 2],
-          img[img.length - 1],
-          ...img,
-          img[0],
-          img[1],
-        ]);
-      }
-    }
-    /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
-    // console.log('image Effect')
-    setWidth(imageRef.current!.clientWidth / 3);
-  }, [imageRef, contentImage]);
+    };
+    getImage(contentId);
+  }, [type, contentId, imageRef]);
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
@@ -84,51 +95,77 @@ const Slider = ({ imageRef, contentImage }: SliderProps) => {
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [imageRef, setWidth]);
+  }, [imageRef]);
 
   return (
-    <div
-      className="slider-box"
-      ref={imageRef}
-      onMouseEnter={() => setISMouseOver(true)}
-      onMouseLeave={() => setISMouseOver(false)}
-    >
-      {image.length > 1 ? (
-        <div
-          className="slider"
-          ref={sliderRef}
-          style={{
-            transform: `translateX(${-width * currentIndex}px)`,
-            transition: "transform 250ms ease",
-          }}
-        >
-          {image.map((item, index) => (
-            <div key={index} className="slide" style={{ width: `${width}px` }}>
-              <a key={index} href={item.originimgurl.replace("http", "https")}>
-                <img
-                  src={item.originimgurl.replace("http", "https")}
-                  alt="축제 사진"
-                />
-              </a>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="Noimage">
-          <img src="/images/NoImage.png" alt="축제 이미지"></img>
-        </div>
-      )}
-      {contentImage.response.body.items && (
-        <SliderButton
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-          sliderRef={sliderRef}
-          imageLength={imageLength}
-          isMouseOver={isMouseOver}
-        />
-      )}
+    <div className="slider-container">
+      <div
+        className="slider-box"
+        ref={imageRef}
+        onMouseEnter={() => setISMouseOver(true)}
+        onMouseLeave={() => setISMouseOver(false)}
+      >
+        {image.length === 0 && <Loading />}
+        {image.length > 1 ? (
+          <div
+            className="slider"
+            ref={sliderRef}
+            style={{
+              transform: `translateX(${-width * currentIndex}px)`,
+              transition: "transform 250ms ease",
+            }}
+          >
+            {image.map((item, index) => (
+              <div
+                key={index}
+                className="slide"
+                style={{ width: `${width}px` }}
+              >
+                <a
+                  key={index}
+                  href={item.originimgurl.replace("http", "https")}
+                >
+                  <img
+                    src={item.originimgurl.replace("http", "https")}
+                    alt="축제 사진"
+                  />
+                </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="Noimage">
+            <img src="/images/NoImage.png" alt="축제 이미지"></img>
+          </div>
+        )}
+        {image.length !== 1 && (
+          <SliderButton
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            sliderRef={sliderRef}
+            imageLength={imageLength}
+            isMouseOver={isMouseOver}
+          />
+        )}
+      </div>
     </div>
   );
 };
 
 export default Slider;
+
+const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
+
+async function getContentImage(id: string) {
+  const response = await fetch(
+    `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to Fetch from Data");
+  }
+
+  const data: ResponImage = await response.json();
+  // console.log(`image ${data}`);
+  return data;
+}

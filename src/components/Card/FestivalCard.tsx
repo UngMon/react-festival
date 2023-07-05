@@ -22,10 +22,8 @@ const FestivalCard = ({ isSearch, target }: T) => {
   const navigate = useNavigate();
 
   const festival = useSelector((state: RootState) => state.festival);
-  const tcts = useSelector((state: RootState) => state.tcts);
 
   const [params] = useSearchParams();
-
   const pickMonth = params.get("month");
   const areaCode = params.get("areaCode");
   const cat2 = params.get("cat2");
@@ -51,7 +49,7 @@ const FestivalCard = ({ isSearch, target }: T) => {
 
   const makeFestivlaCard = () => {
     const { year, month, date } = nowDate();
-    // console.log(areaCode, month, cat2, cat3);
+
     if (areaCode === "0") {
       //O(1)
       array = festival.monthArray[pickMonth!];
@@ -65,12 +63,9 @@ const FestivalCard = ({ isSearch, target }: T) => {
     // if (isSearch) array = tcts.result!;
 
     for (let item of array) {
-
       if (cat2 !== "all" && item.cat2 !== cat2) continue;
 
-      if (cat3 !== "all") {
-        if (item.cat3 !== cat3) continue;
-      }
+      if (cat3 !== "all" && item.cat3 !== cat3) continue;
 
       const 행사상태 = calculateDate(
         item.eventstartdate!,
@@ -104,9 +99,7 @@ const FestivalCard = ({ isSearch, target }: T) => {
 
       const 지역 = 지역코드[item.areacode] || "";
       const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
-      const 지역표시 =
-        `${지역 && `[${지역}]`}` + " " + `${시군구 && `[${시군구}]`}`;
-
+      const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
       const element = (
         <div
           className="card-item"
@@ -153,6 +146,9 @@ const FestivalCard = ({ isSearch, target }: T) => {
       }
     }
 
+    console.log(행사중)
+    console.log(행사시작전)
+    console.log(행사종료)
     return 행사중.length === 0 &&
       행사시작전.length === 0 &&
       행사종료.length === 0 ? (

@@ -39,12 +39,21 @@ export type Region = {
   [key: string]: Item[];
 };
 
+export type Data = {
+  [key: string]: {
+    [key: string]: { [key: string]: { [key: string]: Item[] } };
+  };
+};
+
 export interface FetchParams {
   areaCode: string;
   type: string;
   title: string;
+  cat1: string;
+  cat2: string;
+  cat3: string;
   keyword?: string;
-  page?: [number, number];
+  page?: [number, number, boolean];
 }
 
 type It = {
