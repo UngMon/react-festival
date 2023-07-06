@@ -50,20 +50,14 @@ const AnotherCard = ({ title, target }: Props) => {
   const cat2: string = params.get("cat2") || "all";
   const cat3: string = params.get("cat3") || "all";
   const keyword = params.get("keyword") || "";
-  const key =
-    title === "result"
-      ? "result"
-      : type === "12"
-      ? "tour"
-      : type === "14"
-      ? "culture"
-      : "travel";
+  const key = type === "12" ? "tour" : type === "14" ? "culture" : "travel";
 
   const [record, setRecord] = useState<
-    [string, string, string, string, string]
-  >([type, areaCode, cat1, cat2, cat3]);
+    [string, string, string, string, string, string]
+  >([type, areaCode, cat1, cat2, cat3, ""]);
   const [page, setPage] = useState<[number, number, boolean]>([1, 1, false]);
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
+  const [resultLength, setLength] = useState<string>("");
   const tourData = useSelector((state: RootState) => state.tourApi);
 
   useEffect(() => {
@@ -85,21 +79,22 @@ const AnotherCard = ({ title, target }: Props) => {
       // 이때, 다른 검색을 한 경우에 다시 페이지를 불러와야 하므로 아래와 같이 비교식을 작성
       if (
         title === "result" &&
-        type === tourData.serchRecord[0] &&
-        keyword === tourData.serchRecord[1] &&
-        tourData.serchRecord[2] === "complete"
+        tourData.serchRecord[keyword][type] === "complete"
+        // type === tourData.serchRecord[0] &&
+        // keyword === tourData.serchRecord[1] &&
+        // tourData.serchRecord[2] === "complete"
       ) {
         // console.log("결과 complted");
         return;
       }
 
       if (!target.isIntersecting && isIntersecting) {
-        // console.log("감지 x");
+        console.log("감지 x");
         setIsIntersecting(false);
       }
 
       if (target.isIntersecting && !isIntersecting) {
-        // console.log("감지");
+        console.log("감지");
         setIsIntersecting(true);
         setPage([page[0] + 1, page[0], false]);
       }
@@ -123,17 +118,25 @@ const AnotherCard = ({ title, target }: Props) => {
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCodeArr.includes(areaCode)) return;
 
+    if (!isIntersecting && tourData.dataRecord[title]) return;
+
     if (
       record[0] !== type ||
       record[1] !== areaCode ||
       record[2] !== cat1 ||
       record[3] !== cat2 ||
-      record[4] !== cat3
+      record[4] !== cat3 ||
+      record[5] !== keyword
     ) {
+      console.log("???????");
       setPage([1, 1, false]);
-      setRecord([type, areaCode, cat1, cat2, cat3]);
+      setLength("");
+      setRecord([type, areaCode, cat1, cat2, cat3, keyword]);
       return;
     }
+
+    //다른 areacode일 경우, page = [1, 1, false]로 업데이트 되기전에 아래 비동기 fetch가 작동한다.
+    //그렇게 되면 page[2, 2, false]와 같이 리셋 되지 않은 page 상태가 전돨되므로 boolean으로 차단
 
     const parameter = {
       type,
@@ -147,22 +150,44 @@ const AnotherCard = ({ title, target }: Props) => {
     };
 
     let data: any;
+
     if (title === "festival") {
       data = tourData["festival"];
+    } else if (title === "result") {
+      data = tourData.result?.[keyword]?.[type] || [];
+
+      if (data.length === 0) {
+        dispatch(getTCTRData(parameter));
+        setPage([page[0], page[0], false]);
+      } else if (
+        data.length < page[0] * 50 &&
+        page[0] > page[1] &&
+        isIntersecting &&
+        tourData.serchRecord[keyword][type] !== "complete"
+      ) {
+        dispatch(getTCTRData(parameter));
+        setPage([page[0], page[0], false]);
+        console.log("effect");
+        console.log(isIntersecting);
+        console.log(page);
+        console.log("working");
+      }
+      setLength(data.length);
+      return;
     } else {
       data = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
     }
 
-    if (!isIntersecting && tourData.dataRecord[title]) return;
-
     if (data.length === 0) {
+      console.log("hi");
       !page[2] && setPage([page[0], page[0], true]);
       !page[2] && dispatch(getTCTRData(parameter));
     } else if (
       data.length < 50 * page[0] &&
       page[0] > page[1] &&
-      tourData.dataRecord[title] !== "complete"
+      tourData.dataRecord[type][areaCode][cat1][cat2][cat3] !== "complete"
     ) {
+      console.log("hello");
       setPage([page[0], page[0], false]);
       dispatch(getTCTRData(parameter));
     }
@@ -203,12 +228,14 @@ const AnotherCard = ({ title, target }: Props) => {
     if (title === "trend") array = datas[type];
     else if (title === "festival") {
       array = tourData.festival;
+      if (array.length === 0) return;
+    } else if (title === "result") {
+      array = tourData.result?.[keyword]?.[type] || [];
+      if (array.length === 0) return;
     } else {
       array = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3];
       if (!array) return;
     }
-
-    // console.log(`return result ${array.length}`);
 
     for (let item of array) {
       if (!item.areacode) continue;
@@ -311,7 +338,7 @@ const AnotherCard = ({ title, target }: Props) => {
 
     if (title !== "festival") returnArray = result;
     else returnArray = [...행사중, ...행사시작전, ...행사종료];
-
+    console.log(returnArray);
     return returnArray.length === 0 ? (
       <div className="not-found-category">
         <p>조건에 부합하는 결과가 없습니다!</p>
@@ -323,7 +350,12 @@ const AnotherCard = ({ title, target }: Props) => {
 
   return (
     <>
-      {/* <h3 className="result-title">{`' ${keywo rd} ' 검색 결과: ${tcts.result['0'].length}개`}</h3> */}
+      {title === "result" &&
+        !tourData.loading &&
+        tourData.successGetData &&
+        resultLength && (
+          <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${resultLength}개`}</h3>
+        )}
       {returnResult()}
       {tourData.loading && <Loading />}
       {title !== "trend" && !tourData.loading && !tourData.successGetData && (

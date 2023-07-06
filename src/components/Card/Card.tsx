@@ -8,19 +8,13 @@ interface CardProps {
   isSearch?: boolean; // 검색용 카드인지
 }
 
-const Card = (props: CardProps) => {
+const Card = ({ title, isSearch }: CardProps) => {
   const target = useRef<HTMLDivElement>(null);
 
   return (
-    <article className="main-box-content">
+    <article className={`main-box-content ${title === "result" && "result"}`}>
       <div className="AllView-grid-box">
-        <AnotherCard title={props.title} target={target} />
-        {/* {props.title !== "festival" && (
-          <AnotherCard title={props.title} target={target}/>
-        )}
-        {props.title === "festival" && (
-          <FestivalCard target={target}/>
-        )} */}
+        <AnotherCard title={title} target={target} />
       </div>
       <div ref={target}></div>
     </article>

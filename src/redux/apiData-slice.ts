@@ -1,8 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { getTCTRData } from "./fetch-action";
 import { TCTRtype } from "../type/TCTStype";
-import { Item, Data, Region } from "../type/Common";
-import { current } from "@reduxjs/toolkit";
+import { Item, Data } from "../type/Common";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -17,7 +16,8 @@ const initialState: TCTRtype = {
   result: {},
   loading: false,
   dataRecord: {},
-  serchRecord: ["", "", "remaining"],
+  serchRecord: {},
+  // serchRecord: ["", "", "remaining"],
   행사상태: [true, false, false],
 };
 
@@ -32,6 +32,7 @@ const apiDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTCTRData.pending, (state, action) => {
+        state.successGetData = false;
         state.loading = true;
       })
       .addCase(getTCTRData.fulfilled, (state, action) => {
@@ -51,8 +52,8 @@ const apiDataSlice = createSlice({
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때,
           // ex 사용자가 url를 조작할 때,
-          if (title === "result")
-            state.serchRecord = [type, keyword, "complete"];
+          if (title === "result") state.serchRecord[keyword][type] = "complete";
+          // state.serchRecord = [type, keyword, "complete"];
           state.loading = false;
           state.successGetData = true;
           return;
@@ -61,17 +62,18 @@ const apiDataSlice = createSlice({
         let mismatch = false;
         let criteria = title === "festival" ? 2000 : 50;
 
-        state.serchRecord = [
-          type,
-          keyword,
-          dummyData.length < criteria ? "complete" : "remaining",
-        ];
+        let dr = state.dataRecord;
 
-        if (!state.dataRecord[title]) {
-          state.dataRecord[title] =
-            dummyData.length < criteria ? "complete" : "remaining";
-        } else if (dummyData.length < criteria) {
-          state.dataRecord[title] = "complete";
+        if (title !== "result") {
+          dr[type] = dr[type] || {};
+          dr[type][areaCode] = dr[type][areaCode] || {};
+          dr[type][areaCode][cat1] = dr[type][areaCode][cat1] || {};
+          dr[type][areaCode][cat1][cat2] = dr[type][areaCode][cat1][cat2] || {};
+          dr[type][areaCode][cat1][cat2][cat3] =
+            dr[type][areaCode][cat1][cat2][cat3] || "reaming";
+
+          if (dummyData.length < criteria)
+            dr[type][areaCode][cat1][cat2][cat3] = "complete";
         }
 
         let arr: Item[] = [];
@@ -99,19 +101,32 @@ const apiDataSlice = createSlice({
 
         if (title === "travel") typeArray = state.travel;
 
-        if (title === "result") typeArray = state.result;
+        if (title === "result") {
+          state.result[keyword] = state.result?.[keyword] || {};
+          state.result[keyword][type] = state.result?.[keyword]?.[type] || [];
+          // mismatch =
+          //   type !== state.serchRecord[0] || keyword !== state.serchRecord[1];
+          // state.result[keyword!] = mismatch
+          //   ? [...dummyData]
+          //   : [...state.result[keyword!], ...dummyData];
+          state.result[keyword][type] = [
+            ...state.result[keyword][type],
+            ...dummyData,
+          ];
+
+          state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
+          state.serchRecord[keyword][type] =
+            state.serchRecord?.[keyword]?.[type] || "remaining";
+          state.serchRecord[keyword][type] =
+            dummyData.length < criteria ? "complete" : "remaining";
+          return;
+        }
 
         typeArray[areaCode] = typeArray[areaCode] || {};
         typeArray[areaCode][cat1] = typeArray[areaCode][cat1] || {};
         typeArray[areaCode][cat1][cat2] = typeArray[areaCode][cat1][cat2] || {};
         arr = typeArray[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
-
-        mismatch =
-          type !== state.serchRecord[0] || keyword !== state.serchRecord[1];
-
-        if (!mismatch)
-          typeArray[areaCode][cat1][cat2][cat3] = [...arr, ...dummyData];
-        else typeArray[areaCode][cat1][cat2][cat3] = [...dummyData];
+        typeArray[areaCode][cat1][cat2][cat3] = [...arr, ...dummyData];
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;

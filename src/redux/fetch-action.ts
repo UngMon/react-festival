@@ -69,6 +69,7 @@ export const getTCTRData = createAsyncThunk(
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
+
     return { data, areaCode, cat1, cat2, cat3, type, title, keyword };
   }
 );
