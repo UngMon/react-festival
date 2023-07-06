@@ -1,9 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
-import { useAppDispatch } from "./redux/store";
-import { auth } from "./firebase";
-import { firebaseActions } from "./redux/firebase-slice";
-import { onAuthStateChanged } from "firebase/auth";
+import { lazy, Suspense } from "react";
 import RootLayout from "./pages/Root";
 import Loading from "./components/loading/Loading";
 import GetDataError from "./components/error/GetDataError";
@@ -17,20 +13,6 @@ const Content = lazy(() => import("./components/content/Content"));
 const Start = lazy(() => import("./components/main/Start"));
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { uid, displayName, email, photoURL } = user;
-        dispatch(
-          firebaseActions.setUserData({ uid, displayName, email, photoURL })
-        );
-      } else {
-        dispatch(firebaseActions.notLoginUser());
-      }
-    });
-  }, [dispatch]);
 
   const router = createBrowserRouter([
     {

@@ -93,10 +93,10 @@ const Header = () => {
           />
           <Side openNav={openNav} setOpenNav={setOpenNav} />
           <LoginButton
-            pathname={pathname}
-            scrollY={scrollY}
-            mouseOver={mouseOver}
-            setOpenSearch={setOpenSearch}
+            // pathname={pathname}
+            // scrollY={scrollY}
+            // mouseOver={mouseOver}
+            // setOpenSearch={setOpenSearch}
           />
         </div>
       </div>

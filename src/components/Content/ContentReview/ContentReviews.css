@@ -197,7 +197,7 @@
 
 .review-option:hover {
   cursor: pointer;
-  color: orange;
+  color: lightgray;
 }
 
 .review-text {

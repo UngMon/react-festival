@@ -41,7 +41,6 @@
 .Delete-button-box button:hover {
   cursor: pointer;
   background-color: lightgray;
-  color: orange;
 }
 
 @media (max-width: 250px) {

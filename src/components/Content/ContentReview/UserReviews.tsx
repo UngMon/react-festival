@@ -207,6 +207,8 @@ const UserReviews = ({
     textRef.current!.style.height = textRef.current?.scrollHeight + "px";
   };
 
+  console.log(auth)
+
   return (
     <>
       <form className="user-input-box" onSubmit={reivewSubmitHandler}>
@@ -225,7 +227,6 @@ const UserReviews = ({
         <div className="user-input-button">
           {!auth.currentUser && <Link to='/login' >로그인</Link>}
           {auth.currentUser && <button type="submit">저장</button>}
-          {auth.currentUser && <button type="button">취소</button>}
         </div>
       </form>
       <div className="user-review-area">
@@ -274,7 +275,7 @@ const UserReviews = ({
                       item.uid === pickedComment[1] &&
                       item.when === pickedComment[2] && (
                         <div className="option-box">
-                          {item.uid === firebaseState.userUid && (
+                          {item.uid === auth.currentUser?.uid && (
                             <p
                               className="option-revise"
                               onClick={() =>
@@ -284,7 +285,7 @@ const UserReviews = ({
                               수정
                             </p>
                           )}
-                          {item.uid === firebaseState.userUid && (
+                          {item.uid === auth.currentUser?.uid && (
                             <p
                               className="option-delete"
                               onClick={() => setOpenDelete([true, index])}
@@ -292,7 +293,7 @@ const UserReviews = ({
                               삭제
                             </p>
                           )}
-                          {item.uid !== firebaseState.userUid && (
+                          {item.uid !== auth.currentUser?.uid && (
                             <p
                               onClick={() =>
                                 reportUserHandler(

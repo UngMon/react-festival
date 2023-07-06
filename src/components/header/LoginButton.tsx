@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { firebaseActions } from "../../redux/firebase-slice";
-import { RootState, useAppDispatch } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,21 +11,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./LoginButton.css";
 
-interface HeaderProps {
-  pathname: string;
-  scrollY: number;
-  mouseOver: boolean;
-  setOpenSearch: (value: boolean) => void;
-}
+// interface HeaderProps {
+//   pathname: string;
+//   scrollY: number;
+//   mouseOver: boolean;
+//   setOpenSearch: (value: boolean) => void;
+// }
 
-const LoginButton = ({
-  pathname,
-  scrollY,
-  mouseOver,
-  setOpenSearch,
-}: HeaderProps) => {
+const LoginButton = () => {
   const location = useLocation();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const firebaseState = useSelector((state: RootState) => state.firebase);
@@ -60,7 +53,6 @@ const LoginButton = ({
   const logoutHnalder = () => {
     signOut(auth)
       .then(() => {
-        dispatch(firebaseActions.logOutUser());
         sessionStorage.clear();
       })
       .catch((err) => {
