@@ -91,7 +91,7 @@
 }
 
 .timer {
-  animation: timerEffect 3.05s linear infinite;
+  animation: timerEffect 2.40s linear forwards;
 }
 
 .top-count {
@@ -271,3 +271,4 @@
     padding: 100px 0 0;
   }
 }
+

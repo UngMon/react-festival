@@ -23,10 +23,19 @@ const LoginButton = () => {
   const navigate = useNavigate();
 
   const firebaseState = useSelector((state: RootState) => state.firebase);
+  const [userChecking, setUserChecking] = useState<boolean>(true);
   const [userModalOpen, setUserModalOpen] = useState(false);
 
   const userImageRef = useRef<HTMLDivElement>(null);
   const userInfoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (userChecking) {
+      setTimeout(() => {
+        setUserChecking(false);
+      }, 150);
+    }
+  }, [userChecking]);
 
   useEffect(() => {
     const logoutModalOpen = (event: any) => {
@@ -62,8 +71,8 @@ const LoginButton = () => {
 
   return (
     <>
-      {!firebaseState.userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
-        !firebaseState.loginedUser ? ( // 로그인 안 되어 있으면,
+      {!userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
+        !auth.currentUser ? ( // 로그인 안 되어 있으면,
           <div className="login" onClick={loginHandler}>
             <FontAwesomeIcon icon={faRightToBracket} />
           </div>
@@ -98,7 +107,6 @@ const LoginButton = () => {
 
 export default LoginButton;
 
-
-            //${pathname === "/" && scrollY === 0 && !mouseOver
-            // ? "scroll-top-color"
-            // : "#normal-color"}//
+//${pathname === "/" && scrollY === 0 && !mouseOver
+// ? "scroll-top-color"
+// : "#normal-color"}//

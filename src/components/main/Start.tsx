@@ -20,6 +20,7 @@ const Main = () => {
   const [distance, setDistance] = useState<number>(0);
   const [xp, setXp] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [topMoving, setMoving] = useState<boolean>(false);
   const [stop, setStop] = useState<boolean>(false);
   const [delay, setDelay] = useState<boolean>(false);
   const [thorttled, setThrotteld] = useState<boolean>(false);
@@ -94,23 +95,24 @@ const Main = () => {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     let time = 3000;
-    console.log(`effect ${count}`);
-    if (width === 0) {
-      setWidth(sliderBoxRef.current!.clientWidth);
-    }
+    // console.log(`effect ${count}`);
+    if (width === 0) setWidth(sliderBoxRef.current!.clientWidth);
 
     if (count === 1 || count === mainTop.length - 2) {
       if (!sliderOneRef.current!.style.transition) time = 2500;
       setTimeout(() => {
         sliderOneRef.current!.style.transition = "transform 500ms ease";
-      }, 100);
+      }, 200);
     }
 
     if (stop) return;
 
     timer = setTimeout(() => {
       setCount(count + 1);
-      if (time !== 3000) time = 3000;
+      setMoving(true);
+      setTimeout(() => {
+        setMoving(false);
+      }, 500);
       sliderOneRef.current!.style.transition = "transform 500ms ease";
       if (count === mainTop.length - 2) {
         setTimeout(() => {
@@ -126,7 +128,6 @@ const Main = () => {
   }, [sliderBoxRef, count, width, stop]);
 
   const topSlidebuttonHandler = (type: string) => {
-    console.log(`count button ${count}`);
     if (delay) return;
 
     if (type === "prev") {
@@ -154,7 +155,19 @@ const Main = () => {
     }, 1000);
   };
 
-  const handler = (e: React.MouseEvent, type: string) => {
+  const stopAndPlay = (type: string) => {
+    if (type === "stop") {
+      setStop(true);
+      setMoving(true);
+    } else {
+      setStop(false);
+      setTimeout(() => {
+        setMoving(false);
+      }, 600);
+    }
+  };
+
+  const handler = (type: string) => {
     clickX === startX && navigate(`/trend/search?type=${type}`);
   };
 
@@ -166,7 +179,7 @@ const Main = () => {
   return (
     <main className="main-page">
       <div className="top-box">
-        <h2 className="top-title">6월은 호국 보훈의 달</h2>
+        <h2 className="top-title">무더운 여름 날려버릴 계곡 추천!</h2>
         <div className="top-slide-box" ref={sliderBoxRef}>
           <div
             className="top-slider"
@@ -195,12 +208,12 @@ const Main = () => {
         <div className="top-slider-ui">
           <div className="timer-bar">
             <span className="t-bar">
-              <span className={`${!stop ? "timer" : ""}`}></span>
+              <span className={`${!stop && !topMoving ? "timer" : ""}`}></span>
             </span>
           </div>
           <div className="top-count">
             <span>
-              {count === 0 ? 7 : count === mainTop.length - 1 ? 1 : count}
+              {count === 0 ? 5 : count === mainTop.length - 1 ? 1 : count}
             </span>
             <span>of</span>
             <span>{mainTop.length - 2}</span>
@@ -209,10 +222,16 @@ const Main = () => {
             <button onClick={() => topSlidebuttonHandler("prev")}>
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
-            <button onClick={() => setStop(!stop)}>
-              {!stop && <FontAwesomeIcon icon={faPause} />}
-              {stop && <FontAwesomeIcon icon={faPlay} />}
-            </button>
+            {!stop && (
+              <button onClick={() => stopAndPlay("stop")}>
+                <FontAwesomeIcon icon={faPause} />
+              </button>
+            )}
+            {stop && (
+              <button onClick={() => stopAndPlay("play")}>
+                <FontAwesomeIcon icon={faPlay} />
+              </button>
+            )}
             <button onClick={() => topSlidebuttonHandler("next")}>
               <FontAwesomeIcon icon={faArrowRight} />
             </button>
@@ -240,7 +259,7 @@ const Main = () => {
               <div
                 key={index}
                 className="theme-item"
-                onClick={(e) => handler(e, item.type)}
+                onClick={() => handler(item.type)}
               >
                 <div className="th-img">
                   <img src={item.url} alt="img" />

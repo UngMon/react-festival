@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import RootLayout from "./pages/Root";
 import Loading from "./components/loading/Loading";
 import GetDataError from "./components/error/GetDataError";
+import Start from './components/main/Start';
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
@@ -10,7 +11,6 @@ const LoginPage = lazy(() => import("./pages/Login"));
 const Main = lazy(() => import("./components/main/Main"));
 const ResultPage = lazy(() => import("./pages/Result"));
 const Content = lazy(() => import("./components/content/Content"));
-const Start = lazy(() => import("./components/main/Start"));
 
 function App() {
 
@@ -81,6 +81,7 @@ function App() {
         },
         {
           path: "result",
+          errorElement: <GetDataError />,
           children: [
             {
               path: ":keyword",

@@ -106,16 +106,17 @@ const Slider = ({ imageRef, type, contentId }: SliderProps) => {
         onMouseLeave={() => setISMouseOver(false)}
       >
         {image.length === 0 && <Loading />}
-        {image.length > 1 ? (
-          <div
-            className="slider"
-            ref={sliderRef}
-            style={{
-              transform: `translateX(${-width * currentIndex}px)`,
-              transition: "transform 250ms ease",
-            }}
-          >
-            {image.map((item, index) => (
+        <div
+          className="slider"
+          ref={sliderRef}
+          style={{
+            transform: `translateX(${-width * currentIndex}px)`,
+            transition: "transform 250ms ease",
+          }}
+        >
+          
+          {image.length !== 1 ? (
+            image.map((item, index) => (
               <div
                 key={index}
                 className="slide"
@@ -131,13 +132,24 @@ const Slider = ({ imageRef, type, contentId }: SliderProps) => {
                   />
                 </a>
               </div>
-            ))}
-          </div>
-        ) : (
+            ))
+          ) : (
+            <div className="Noimage">
+              <img src="/images/NoImage.png" alt="축제 이미지"></img>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+{
+  /* 
           <div className="Noimage">
             <img src="/images/NoImage.png" alt="축제 이미지"></img>
           </div>
-        )}
+
         {image.length !== 1 && (
           <SliderButton
             currentIndex={currentIndex}
@@ -146,11 +158,8 @@ const Slider = ({ imageRef, type, contentId }: SliderProps) => {
             imageLength={imageLength}
             isMouseOver={isMouseOver}
           />
-        )}
-      </div>
-    </div>
-  );
-};
+        )} */
+}
 
 export default Slider;
 
