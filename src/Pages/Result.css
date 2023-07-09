@@ -6,15 +6,6 @@
   font-style: normal;
 }
 
-.result-title {
-  position: absolute;
-  top: 0px;
-  padding: 40px 60px 20px;
-  font-size: 30px;
-  font-family: omyu_pretty;
-  z-index: 30;
-}
-
 .result-not-found {
   width: 100%;
   text-align: center;

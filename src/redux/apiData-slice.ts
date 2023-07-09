@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { getTCTRData } from "./fetch-action";
 import { TCTRtype } from "../type/TCTStype";
 import { Item, Data } from "../type/Common";
@@ -17,7 +17,6 @@ const initialState: TCTRtype = {
   loading: false,
   dataRecord: {},
   serchRecord: {},
-  // serchRecord: ["", "", "remaining"],
   행사상태: [true, false, false],
 };
 
@@ -50,21 +49,40 @@ const apiDataSlice = createSlice({
         let dummyData = action.payload.data.response.body.items.item;
 
         if (!dummyData) {
-          // 데이터를 불러왔지만, 아무런 정보가 없을 때,
-          // ex 사용자가 url를 조작할 때,
-          if (title === "result") state.serchRecord[keyword][type] = "complete";
-          // state.serchRecord = [type, keyword, "complete"];
+          // 데이터를 불러왔지만, 아무런 정보가 없을 때 or
+          // 사용자가 url를 조작할 때,
+          if (title === 'result') {
+            state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
+            state.serchRecord[keyword][type] = 'complete';
+          }
           state.loading = false;
           state.successGetData = true;
           return;
         }
 
-        let mismatch = false;
+        let arr: Item[] = [];
+        let fetstivalArray: Item[] = [];
+        let typeArray: Data = {};
         let criteria = title === "festival" ? 2000 : 50;
-
         let dr = state.dataRecord;
 
-        if (title !== "result") {
+        if (title === "result") {
+          state.result[keyword] = state.result?.[keyword] || {};
+          state.result[keyword][type] = state.result?.[keyword]?.[type] || [];
+          state.result[keyword][type] = [
+            ...state.result[keyword][type],
+            ...dummyData,
+          ];
+
+          state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
+          state.serchRecord[keyword][type] =
+            state.serchRecord?.[keyword]?.[type] || "remaining";
+          state.serchRecord[keyword][type] =
+            dummyData.length < criteria ? "complete" : "remaining";
+
+          return;
+
+        } else {
           dr[type] = dr[type] || {};
           dr[type][areaCode] = dr[type][areaCode] || {};
           dr[type][areaCode][cat1] = dr[type][areaCode][cat1] || {};
@@ -76,13 +94,11 @@ const apiDataSlice = createSlice({
             dr[type][areaCode][cat1][cat2][cat3] = "complete";
         }
 
-        let arr: Item[] = [];
-        let fetstivalArray: Item[] = [];
-        let typeArray: Data = {};
-
         if (title === "tour") typeArray = state.tour;
 
         if (title === "culture") typeArray = state.culture;
+
+        if (title === "travel") typeArray = state.travel;
 
         if (title === "festival") {
           for (let item of dummyData) {
@@ -99,34 +115,12 @@ const apiDataSlice = createSlice({
           return;
         }
 
-        if (title === "travel") typeArray = state.travel;
-
-        if (title === "result") {
-          state.result[keyword] = state.result?.[keyword] || {};
-          state.result[keyword][type] = state.result?.[keyword]?.[type] || [];
-          // mismatch =
-          //   type !== state.serchRecord[0] || keyword !== state.serchRecord[1];
-          // state.result[keyword!] = mismatch
-          //   ? [...dummyData]
-          //   : [...state.result[keyword!], ...dummyData];
-          state.result[keyword][type] = [
-            ...state.result[keyword][type],
-            ...dummyData,
-          ];
-
-          state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
-          state.serchRecord[keyword][type] =
-            state.serchRecord?.[keyword]?.[type] || "remaining";
-          state.serchRecord[keyword][type] =
-            dummyData.length < criteria ? "complete" : "remaining";
-          return;
-        }
-
         typeArray[areaCode] = typeArray[areaCode] || {};
         typeArray[areaCode][cat1] = typeArray[areaCode][cat1] || {};
         typeArray[areaCode][cat1][cat2] = typeArray[areaCode][cat1][cat2] || {};
         arr = typeArray[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
         typeArray[areaCode][cat1][cat2][cat3] = [...arr, ...dummyData];
+
       })
       .addCase(getTCTRData.rejected, (state, action) => {
         state.loading = false;
@@ -138,52 +132,3 @@ const apiDataSlice = createSlice({
 export const tourActions = apiDataSlice.actions;
 
 export const tourReducer = apiDataSlice.reducer;
-
-// if (action.meta.arg.title === "search")
-//   state.serchRecord.now = [
-//     action.meta.arg.type,
-//     action.meta.arg.keyword!,
-//   ];
-
-// if (action.payload.title === "search") {
-//   const arr: Item[] = [];
-//   for (const item of dummyData) {
-//     if (item.firstimage === "") continue;
-//     if (!item.areacode) continue;
-//     arr.push(item);
-//   }
-//   state.result = arr;
-//   // state.serchRecord = [
-//   //   "fulfiled",
-//   //   state.serchRecord[1],
-//   //   state.serchRecord[2],
-//   // ];
-//   return;
-// }
-
-// let region: Region = {
-//   "0": [],
-//   "1": [],
-//   "2": [],
-//   "3": [],
-//   "4": [],
-//   "5": [],
-//   "6": [],
-//   "7": [],
-//   "8": [],
-//   "31": [],
-//   "32": [],
-//   "33": [],
-//   "34": [],
-//   "35": [],
-//   "36": [],
-//   "37": [],
-//   "38": [],
-//   "39": [],
-// };
-
-// for (const item of dummyData) {
-//   // if (item.firstimage === "") continue;
-//   if (!item.areacode) continue;
-//   region[areaCode].push(item);
-// }

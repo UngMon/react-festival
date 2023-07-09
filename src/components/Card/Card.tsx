@@ -59,7 +59,6 @@ const Card = ({ title }: CardProps) => {
   >([type, areaCode, cat1, cat2, cat3, ""]);
   const [page, setPage] = useState<[number, number, boolean]>([1, 1, false]);
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
-  const [resultLength, setLength] = useState<string>("");
   const tourData = useSelector((state: RootState) => state.tourApi);
 
   useEffect(() => {
@@ -82,21 +81,14 @@ const Card = ({ title }: CardProps) => {
       if (
         title === "result" &&
         tourData.serchRecord[keyword][type] === "complete"
-        // type === tourData.serchRecord[0] &&
-        // keyword === tourData.serchRecord[1] &&
-        // tourData.serchRecord[2] === "complete"
-      ) {
-        // console.log("결과 complted");
+      )
         return;
-      }
 
       if (!target.isIntersecting && isIntersecting) {
-        console.log("감지 x");
         setIsIntersecting(false);
       }
 
       if (target.isIntersecting && !isIntersecting) {
-        console.log("감지");
         setIsIntersecting(true);
         setPage([page[0] + 1, page[0], false]);
       }
@@ -130,10 +122,12 @@ const Card = ({ title }: CardProps) => {
       record[4] !== cat3 ||
       record[5] !== keyword
     ) {
-      console.log("???????");
       setPage([1, 1, false]);
-      setLength("");
       setRecord([type, areaCode, cat1, cat2, cat3, keyword]);
+      return;
+    }
+
+    if (tourData.serchRecord?.[keyword]?.[type] === "complete") {
       return;
     }
 
@@ -157,7 +151,6 @@ const Card = ({ title }: CardProps) => {
       data = tourData["festival"];
     } else if (title === "result") {
       data = tourData.result?.[keyword]?.[type] || [];
-
       if (data.length === 0) {
         dispatch(getTCTRData(parameter));
         setPage([page[0], page[0], false]);
@@ -169,19 +162,13 @@ const Card = ({ title }: CardProps) => {
       ) {
         dispatch(getTCTRData(parameter));
         setPage([page[0], page[0], false]);
-        console.log("effect");
-        console.log(isIntersecting);
-        console.log(page);
-        console.log("working");
       }
-      setLength(data.length);
       return;
     } else {
       data = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
     }
 
     if (data.length === 0) {
-      console.log("hi");
       !page[2] && setPage([page[0], page[0], true]);
       !page[2] && dispatch(getTCTRData(parameter));
     } else if (
@@ -189,7 +176,6 @@ const Card = ({ title }: CardProps) => {
       page[0] > page[1] &&
       tourData.dataRecord[type][areaCode][cat1][cat2][cat3] !== "complete"
     ) {
-      console.log("hello");
       setPage([page[0], page[0], false]);
       dispatch(getTCTRData(parameter));
     }
@@ -233,7 +219,7 @@ const Card = ({ title }: CardProps) => {
       if (array.length === 0) return;
     } else if (title === "result") {
       array = tourData.result?.[keyword]?.[type] || [];
-      if (array.length === 0) return;
+      if (array.length === 0 && tourData.loading) return;
     } else {
       array = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3];
       if (!array) return;
@@ -251,6 +237,7 @@ const Card = ({ title }: CardProps) => {
       if (title !== "festival" && !item.firstimage) continue;
 
       if (title === "festival") {
+        if (item.eventstartdate!.slice(4, 6) > pickMonth) continue;
         if (item.eventenddate!.slice(4, 6) < pickMonth) continue;
         if (areaCode !== "0" && areaCode !== item.areacode) continue;
       }
@@ -341,24 +328,29 @@ const Card = ({ title }: CardProps) => {
     if (title !== "festival") returnArray = result;
     else returnArray = [...행사중, ...행사시작전, ...행사종료];
 
-    return returnArray.length === 0 ? (
-      <div className="not-found-category">
-        <p>조건에 부합하는 결과가 없습니다!</p>
-      </div>
-    ) : (
-      returnArray
+    return (
+      <>
+        {title === "result" && !tourData.loading && tourData.successGetData && (
+          <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${returnArray.length}개`}</h3>
+        )}
+        {returnArray.length === 0 ? (
+          <div className="not-found-category">
+            <p>
+              {title === "result"
+                ? "검색한 키워드 결과가 없습니다!"
+                : "조건에 부합하는 결과가 없습니다!"}
+            </p>
+          </div>
+        ) : (
+          returnArray
+        )}
+      </>
     );
   };
 
   return (
     <article className={`main-box-content ${title === "result" && "result"}`}>
       <div className="AllView-grid-box">
-        {title === "result" &&
-          !tourData.loading &&
-          tourData.successGetData &&
-          resultLength && (
-            <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${resultLength}개`}</h3>
-          )}
         {returnResult()}
         {tourData.loading && <Loading />}
         {title !== "trend" && !tourData.loading && !tourData.successGetData && (
