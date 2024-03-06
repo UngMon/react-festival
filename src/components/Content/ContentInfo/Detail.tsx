@@ -104,7 +104,7 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
           )}
         </div>
       </div>
-      {detailCommon && <Map detailCommon={detailCommon} />}
+      {/* {detailCommon && <Map detailCommon={detailCommon} />} */}
       {detailIntro && detailCommon && (
         <BasicInfo
           detailIntro={detailIntro}
@@ -130,7 +130,7 @@ async function getContentInfo(type: string, id: string) {
   }
 
   const data: ResponInfo = await response.json();
-  // console.log(`info  ${JSON.stringify(data)}`);
+  console.log(`info  ${JSON.stringify(data)}`);
   return data;
 }
 
@@ -144,7 +144,7 @@ async function getContentDetailIntro(type: string, id: string) {
   }
 
   const data: ResponIntro = await response.json();
-  // console.log(`Intro ${JSON.stringify(data)}`);
+  console.log(`Intro ${JSON.stringify(data)}`);
   return data;
 }
 
@@ -158,7 +158,7 @@ async function getCotentDetailCommon(type: string, id: string) {
   }
 
   const data: ResponCommon = await response.json();
-  // console.log(`common ${JSON.stringify(data)}`);
+  console.log(`common ${JSON.stringify(data)}`);
   return data;
 }
 

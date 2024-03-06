@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import RootLayout from "./pages/Root";
 import Loading from "./components/loading/Loading";
 import GetDataError from "./components/error/GetDataError";
-import Start from './components/main/Start';
+import Start from "./components/main/Start";
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
@@ -13,7 +13,6 @@ const ResultPage = lazy(() => import("./pages/Result"));
 const Content = lazy(() => import("./components/content/Content"));
 
 function App() {
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -130,6 +129,16 @@ function App() {
           <LoginPage />
         </Suspense>
       ),
+      children: [
+        {
+          path: "oauth",
+          element: (
+            <div>
+              <p>auto page</p>
+            </div>
+          ),
+        },
+      ],
     },
     {
       path: "*",

@@ -101,6 +101,7 @@ const UserReviews = ({
 
   const reivewSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(auth)
     if (!firebaseState.loginedUser)
       return alert("로그인 하시면 이용하실 수 있습니다.");
 

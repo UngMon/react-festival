@@ -8,7 +8,7 @@ interface T {
 const Festival = ({ title }: T) => {
   return (
     <main className="main-box">
-      {title !== 'result' && <UiBox title={title} />}
+      {title !== "result" && <UiBox title={title} />}
       <Card title={title} />
     </main>
   );

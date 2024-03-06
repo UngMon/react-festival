@@ -26,10 +26,10 @@
 
 .Social-Login {
   box-sizing: border-box;
-  width: 80%;
-  height: 50px;
   margin: 0 auto 30px;
   padding: 10px 15px;
+  width: 80%;
+  height: 50px;
   border: 0;
   display: flex;
   align-items: center;
@@ -38,24 +38,24 @@
   border-radius: 10px;
   box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.5s ease;
-}
 
-.Social-Login:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
 
-.Social-Login img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
 
-.Social-Login span {
-  box-sizing: border-box;
-  height: 30px;
-  padding: 5px;
-  line-height: 23px;
+  span {
+    box-sizing: border-box;
+    height: 30px;
+    padding: 5px;
+    line-height: 23px;
+  }
 }
 
 .Facebook {
@@ -66,12 +66,27 @@
 .Kakao {
   color: #000000 85%;
   background-color: #fee500;
+  
+  img {
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+  }
 }
 
-.Kakao img {
-  width: 25px;
-  height: 25px;
-  margin-right: 15px;
+.Naver {
+  background-color: #03c75a;
+  padding-left: 10px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+  }
+
+  span {
+    color: white;
+  }
 }
 
 .error-message {
@@ -81,6 +96,8 @@
   font-weight: 700;
   text-align: center;
 }
+
+
 
 @media screen and (max-width: 400px) {
   .Login-Form {

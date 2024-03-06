@@ -9,6 +9,7 @@ export const calculateDate = (
   let count = 0;
   let result = "";
   if (today < eventStartDate) {
+    console.log(today)
     const eventMonth = eventStartDate.slice(4, 6);
     const eventDate = eventStartDate.slice(6, 8);
 

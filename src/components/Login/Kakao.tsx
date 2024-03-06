@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 import { auth as firebaseAuth } from "../../firebase";
 import { signInWithCustomToken } from "firebase/auth";
 import "../../pages/Login.css";
@@ -20,58 +20,53 @@ type KakaoProps = {
 };
 
 const KakaoLogin = ({ setLoading }: KakaoProps) => {
-  const navigate = useNavigate();
-  const { Kakao } = window;
-  const searchParams = new URLSearchParams(document.location.search);
-  const code = searchParams.get("code");
-
   if (!window.Kakao.isInitialized()) {
     window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
   }
 
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(document.location.search);
+  const authorizeCode = searchParams.get("code");
+  const { Kakao } = window;
+
   useEffect(() => {
-    if (!code) {
-      return;
-    }
+    if (!authorizeCode) return;
+
     const kakaoLoginAttempt = async () => {
       try {
         setLoading(true);
-        // `${process.env.REACT_APP_SERVER_POINT}/kakao`,
-        // https://asia-northeast3-festival-5a61a.cloudfunctions.net/auth
-
-        const res: AxiosResponse<Auth> = await axios.post(
-          "http://127.0.0.1:5001/festival-5a61a/us-central1/auth/kaka",
-          { code }
+        const response: AxiosResponse<Auth> = await axios.post(
+          `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao`,
+          { code: authorizeCode }
         );
-        const { firebaseToken } = res.data;
+        const { firebaseToken } = response.data;
         await signInWithCustomToken(firebaseAuth, firebaseToken);
-        const currentUrl = sessionStorage.getItem("currentUrl");
-        if (currentUrl) {
-          navigate(-2);
-        } else {
-          navigate("/", { replace: true });
-        }
+        navigate("/", { replace: true });
       } catch (error: any) {
         alert(error.message);
         setLoading(false);
         navigate("/login", { replace: true });
       }
     };
+
     kakaoLoginAttempt();
   });
 
   const kakaoLoginHandler = () => {
+    // 카카오 버튼을 누르면 카카오 서버로부터 로그인 페이지를 요청,
+    // 로그인 성공시에 인가코드를 파라미터에 저장하여 리다이렉트 해준다.
     setLoading(true);
     Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
-      scope: "profile_nickname profile_image account_email",
     });
   };
 
   return (
-    <div className="Social-Login Kakao" onClick={kakaoLoginHandler}>
-      <img src="/images/kakao.png" alt="카카오 로그인 버튼" />
-      <span>카카오톡 로그인</span>
+    <div>
+      <button className="Social-Login Kakao" onClick={kakaoLoginHandler}>
+        <img src="/images/kakao.png" alt="카카오 로그인 버튼" />
+        <span>카카오톡 로그인</span>
+      </button>
     </div>
   );
 };

@@ -48,7 +48,6 @@ const firebaseSlice = createSlice({
       state.loginedUser = false;
       state.userSocial = "";
     },
-
     failedGetData(state) {
       state.succesGetData = false;
       state.loadingState = "fulfilled";

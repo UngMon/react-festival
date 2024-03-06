@@ -36,6 +36,8 @@
   margin: 0 10px;
 }
 
+
+
 @media (max-width: 320px) {
   .footer-box {
     width: 320px;

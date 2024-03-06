@@ -11,13 +11,12 @@ import "./Login.css";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading/Loading";
 import LoginAccessError from "../components/error/LoginAccessError";
-// import KakaoLogin from "../components/Login/Kakao";
-// import Naver from "../components/Login/Naver";
+import KakaoLogin from "../components/login/Kakao";
+import Naver from "../components/login/Naver";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const loggedIn = auth.currentUser;
-  // console.log(loggedIn);
 
   const [isFirst, setFirst] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,9 +76,9 @@ const LoginPage = () => {
             ></img>
             <span>페이스북 로그인</span>
           </div>
-          {/* <KakaoLogin setLoading={setLoading} /> */}
-          {/* <Naver /> */}
-          <Outlet />
+          <KakaoLogin setLoading={setLoading} /> 
+          <Naver />
+          {/* <Outlet /> */}
         </form>
       )}
     </>

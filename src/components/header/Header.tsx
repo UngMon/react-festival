@@ -67,7 +67,6 @@ const Header = () => {
       )}
       <div className="Header-top">
         <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
-          {/* <img src="/images/fetivalLogo.jpeg" alt="logo"></img> */}
           <span
             className="logo-title"
             style={{
@@ -93,10 +92,10 @@ const Header = () => {
           />
           <Side openNav={openNav} setOpenNav={setOpenNav} />
           <LoginButton
-            // pathname={pathname}
-            // scrollY={scrollY}
-            // mouseOver={mouseOver}
-            // setOpenSearch={setOpenSearch}
+          // pathname={pathname}
+          // scrollY={scrollY}
+          // mouseOver={mouseOver}
+          // setOpenSearch={setOpenSearch}
           />
         </div>
       </div>

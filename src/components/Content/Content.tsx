@@ -18,8 +18,8 @@ const Cotent = () => {
   const reviewRef = useRef<HTMLDivElement>(null);
 
   const [param] = useSearchParams();
-  const type = param.get("type")!;
-  const contentId = param.get("contentId")!;
+  const type: string = param.get("type")!;
+  const contentId: string = param.get("contentId")!;
 
   return (
     <main className="Content-box">
@@ -39,11 +39,11 @@ const Cotent = () => {
           reviewRef={reviewRef}
         />
         <Detail infoRef={infoRef} contentId={contentId} type={type} />
-        <ContentReviews
+        {/* <ContentReviews
           contentId={contentId}
           reviewRef={reviewRef}
           setReportModalOpen={setReportModalOpen}
-        />
+        /> */}
       </div>
     </main>
   );
