@@ -3,11 +3,13 @@ import {
   ResponCommon,
   ResponInfo,
   ResponIntro,
+  GetContentData,
 } from "../../../type/FestivalType";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
 import "./Detail.css";
+import getContentData from "../../../hooks/getContentData";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;
@@ -15,31 +17,37 @@ interface DetailProps {
   type: string;
 }
 
-type T = {
+type Datas = {
   common: ResponCommon;
   info: ResponInfo;
   intro: ResponIntro;
 };
 
 const Detail = ({ infoRef, contentId, type }: DetailProps) => {
-  const [data, setContentData] = useState<T>();
+  const [data, setContentData] = useState<Datas>();
   const detailInfo = data?.info.response.body.items.item;
   const detailIntro = data?.intro.response.body.items.item;
   const detailCommon = data?.common.response.body.items.item;
+
   const [more, setMore] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getContentData = async (type: string, contentId: string) => {
+    const settingContentData = async (type: string, contentId: string) => {
       try {
-        const common = await getCotentDetailCommon(type, contentId);
-        const info = await getContentInfo(type, contentId);
-        const intro = await getContentDetailIntro(type, contentId);
-        setContentData({ common, info, intro });
-      } catch (error) {
-        console.log(error);
+        const response: GetContentData = await getContentData(type, contentId);
+        setContentData({
+          info: response.contentInfo,
+          intro: response.contentIntro,
+          common: response.contentCommon,
+        });
+      } catch (error: any) {
+        throw Error(`error is ocurred! ${error.message}`);
       }
+
+      setLoading(false);
     };
-    getContentData(type, contentId);
+    settingContentData(type, contentId);
   }, [type, contentId]);
 
   let text: string[] = [];
@@ -60,16 +68,20 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
       infotext = detailInfo[i].infotext;
       result = detailInfo[i].infoname + ": " + detailInfo[i].infotext;
       text.push(result);
-      // console.log(detailInfo[i].infotext.split(/<br>|<br >|<br\/>|<br \/>|<strong>|<\/strong>/gm))
     }
   };
   returnTextArray();
 
   return (
-    <div className="Cotent-overview" ref={infoRef}>
-      {!detailInfo && !detailIntro && !detailCommon && (
+    <div className="Cotent-text-box" ref={infoRef}>
+      {loading && (
         <div style={{ height: 500 }}>
           <Loading />
+        </div>
+      )}
+      {!loading && !detailCommon && !detailInfo && !detailIntro && (
+        <div className="Content-get-error">
+          데이터를 불러오는데 오류가 발생했습니다.
         </div>
       )}
       {detailCommon && (
@@ -104,7 +116,7 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
           )}
         </div>
       </div>
-      {/* {detailCommon && <Map detailCommon={detailCommon} />} */}
+      {detailCommon && <Map detailCommon={detailCommon} />}
       {detailIntro && detailCommon && (
         <BasicInfo
           detailIntro={detailIntro}
@@ -117,56 +129,3 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
 };
 
 export default Detail;
-
-const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
-
-async function getContentInfo(type: string, id: string) {
-  const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailInfo1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&numOfRows=10&pageNo=1`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to Fetch from Data");
-  }
-
-  const data: ResponInfo = await response.json();
-  console.log(`info  ${JSON.stringify(data)}`);
-  return data;
-}
-
-async function getContentDetailIntro(type: string, id: string) {
-  const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&numOfRows=10&pageNo=1`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to Fetch from Data");
-  }
-
-  const data: ResponIntro = await response.json();
-  console.log(`Intro ${JSON.stringify(data)}`);
-  return data;
-}
-
-async function getCotentDetailCommon(type: string, id: string) {
-  const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&contentTypeId=${type}&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to Fetch from Data");
-  }
-
-  const data: ResponCommon = await response.json();
-  console.log(`common ${JSON.stringify(data)}`);
-  return data;
-}
-
-// export async function loader(type: string, contentId: string) {
-//   const [contentInfo, contentIntro, contentCommon] = await Promise.all([
-//     getContentInfo(type, contentId!),
-//     getContentDetailIntro(type, contentId!),
-//     getCotentDetailCommon(type, contentId!),
-//   ]);
-//   return { contentInfo, contentIntro, contentCommon };
-// }

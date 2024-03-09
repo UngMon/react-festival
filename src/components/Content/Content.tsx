@@ -13,7 +13,6 @@ const Cotent = () => {
     [boolean, string, string, string, string]
   >([false, "", "", "", ""]);
 
-  const imageRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +30,7 @@ const Cotent = () => {
             setReportModalOpen={setReportModalOpen}
           />
         )}
-        <Slider imageRef={imageRef} type={type} contentId={contentId} />
+        <Slider type={type} contentId={contentId} />
         <MenuBar
           category={category}
           setCategory={setCategory}

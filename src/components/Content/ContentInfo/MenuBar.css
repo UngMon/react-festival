@@ -5,6 +5,7 @@
 }
 
 .Content-menu-box {
+  height: 52px;
   display: flex;
   justify-content: center;
 }

@@ -9,13 +9,14 @@ import Loading from "../../loading/Loading";
 import "./Slider.css";
 
 interface SliderProps {
-  imageRef: React.RefObject<HTMLDivElement>;
   type: string;
   contentId: string;
 }
 
-const Slider = ({ imageRef, type, contentId }: SliderProps) => {
+const Slider = ({ type, contentId }: SliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+
   const [width, setWidth] = useState<number>(0);
   const [image, setImage] = useState<ContentImage[] | ImageData[]>([]);
   const [imageLength, setImageLength] = useState<number>(0);
@@ -114,7 +115,6 @@ const Slider = ({ imageRef, type, contentId }: SliderProps) => {
             transition: "transform 250ms ease",
           }}
         >
-          
           {image.length !== 1 ? (
             image.map((item, index) => (
               <div
@@ -163,7 +163,7 @@ const Slider = ({ imageRef, type, contentId }: SliderProps) => {
 
 export default Slider;
 
-const serviceKey = encodeURIComponent(process.env.REACT_APP_SERVICE_KEY!);
+const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
 
 async function getContentImage(id: string) {
   const response = await fetch(

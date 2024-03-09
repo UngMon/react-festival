@@ -21,23 +21,20 @@ const MenuBar = ({
       window.scrollTo({ behavior: "smooth", top: 0 });
     }
 
-    if (type === "기본정보") {
-      infoRef.current!.scrollIntoView({ behavior: "smooth" });
+    if (type === "기본정보" && infoRef.current) {
+      infoRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    if (type === "리뷰") {
-      reviewRef.current!.scrollIntoView({ behavior: "smooth" });
+    if (type === "리뷰" && reviewRef.current) {
+      reviewRef.current.scrollIntoView({ behavior: "smooth" });
     }
     setCategory(type);
   };
 
   useEffect(() => {
     const scrollPosition = () => {
-      if (window.scrollY > 680) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
+      if (window.scrollY > 510) setIsFixed(true);
+      else setIsFixed(false);
     };
 
     window.addEventListener("scroll", scrollPosition);

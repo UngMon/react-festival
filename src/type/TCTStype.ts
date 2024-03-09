@@ -6,7 +6,7 @@ export interface TCTRtype {
   culture: Data;
   festival: Item[];
   travel: Data;
-  result: { [key: string]: {[key: string]: Item[]} };
+  result: { [key: string]: { [key: string]: Item[] } };
   loading: boolean;
   dataRecord: {
     [key: string]: {

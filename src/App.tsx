@@ -25,16 +25,11 @@ function App() {
         {
           path: "tour",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":tourKey",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <Main title="tour" />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="tour" />
+            </Suspense>
+          ),
         },
         {
           path: "culture",

@@ -1,4 +1,4 @@
-.Cotent-overview {
+.Cotent-text-box {
   grid-column-end: span 3;
   padding: 30px 0;
   line-height: 25px;
@@ -122,6 +122,13 @@
   padding-left: 10px;
   font-size: 0.9em;
   word-break: break-all;
+}
+
+.Content-get-error {
+  font-size: 1.5em;
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
 }
 
 @media (max-width: 1023.5px) {

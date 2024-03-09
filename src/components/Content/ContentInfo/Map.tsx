@@ -12,7 +12,7 @@ const Map = ({ detailCommon }: MapProps) => {
   useEffect(() => {
     const { mapx, mapy } = detailCommon[0];
     let container = mapRef.current!; //지도를 담을 영역의 DOM 레퍼런스
-    console.log(detailCommon)
+
     let options = {
       //지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(Number(mapy), Number(mapx)), //지도의 중심좌표.
@@ -39,11 +39,11 @@ const Map = ({ detailCommon }: MapProps) => {
         <strong className="label">주소</strong>
         <span>{detailCommon[0].addr1}</span>
       </div>
-      {/* <div
+      <div
         id="map"
-        style={{ width: "100%", height: "400px" }}
+        style={{ width: "100%", height: "400px", marginTop: '15px' }}
         ref={mapRef}
-      ></div> */}
+      ></div>
     </div>
   );
 };

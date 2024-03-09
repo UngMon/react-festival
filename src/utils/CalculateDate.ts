@@ -6,32 +6,27 @@ export const calculateDate = (
   date: string
 ) => {
   const today = year + month + date;
-  let count = 0;
-  let result = "";
+
   if (today < eventStartDate) {
-    console.log(today)
+    let count = 0;
+    const eventYear = eventStartDate.slice(0, 4);
     const eventMonth = eventStartDate.slice(4, 6);
     const eventDate = eventStartDate.slice(6, 8);
 
-    for (let m = +month; m <= +eventMonth; m++) {
-      if (m === +eventMonth) {
-        count += +eventDate - +date;
-        break;
+    for (let y = +year; y <= +eventYear; y++) {
+      for (let m = +month; m <= +eventMonth; m++) {
+        if (m === +eventMonth) {
+          count += +eventDate - +date;
+          break;
+        }
+        const lastDate = new Date(+year, m, 0).getDate();
+        count += lastDate;
       }
-      const lastDate = new Date(+year, m, 0).getDate();
-      count += lastDate;
     }
 
-    result = `${count}일 후 개최`;
+    return `${count}일 후 개최`;
   } else {
-    if (today <= eventEndDate) {
-      result = "진행중";
-    }
-
-    if (today > eventEndDate) {
-      result = "행사종료";
-    }
+    if (today <= eventEndDate) return "진행중";
+    else return "행사종료";
   }
-
-  return result;
 };

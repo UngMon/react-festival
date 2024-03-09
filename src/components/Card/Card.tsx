@@ -17,6 +17,12 @@ interface CardProps {
   title: string;
 }
 
+const keyObject: { [key: string]: "tour" | "culture" | "travel" } = {
+  "12": "tour",
+  "14": "culture",
+  "25": "travel",
+};
+
 const areaCodeArr = [
   "0",
   "1",
@@ -52,7 +58,7 @@ const Card = ({ title }: CardProps) => {
   const cat2: string = params.get("cat2") || "all";
   const cat3: string = params.get("cat3") || "all";
   const keyword = params.get("keyword") || "";
-  const key = type === "12" ? "tour" : type === "14" ? "culture" : "travel";
+  const key = keyObject[type];
 
   const [record, setRecord] = useState<
     [string, string, string, string, string, string]
@@ -105,10 +111,10 @@ const Card = ({ title }: CardProps) => {
   });
 
   useEffect(() => {
-    // trend는이미 데이터가 있음.
-    if (title === "trend") return;
-    // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
-    if (tourData.loading) return;
+    if (title === "trend") return; // trend는이미 데이터가 있음.
+
+    if (tourData.loading) return; // 데이터를 받아오는 과정에서 불 필요한 렌더링 없애기 위함
+
     // 만약 사용자가 url의 region의 값을 '120'과 같이 수정하면 return;
     if (!areaCodeArr.includes(areaCode)) return;
 
@@ -203,68 +209,70 @@ const Card = ({ title }: CardProps) => {
     [dispatch, naviagate]
   );
 
+  /*
+   ***************** JSX *****************
+   */
+
   const returnResult = () => {
     let array: Item[] = [];
+
+    switch (title) {
+      case "trend":
+        array = datas[type];
+        break;
+      case "festival":
+        array = tourData.festival;
+        break;
+      case "result":
+        array = tourData.result?.[keyword]?.[type] ?? [];
+        break;
+      default:
+        array = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] ?? [];
+    }
+
+    if (array.length === 0) return; // 빈 배열에서 불 필요한 연산 생략
+
     let result: JSX.Element[] = [];
     let returnArray: JSX.Element[] = [];
     let 행사종료: JSX.Element[] = [];
     let 행사중: JSX.Element[] = [];
     let 행사시작전: JSX.Element[] = [];
-
     const { year, month, date } = nowDate();
-
-    if (title === "trend") array = datas[type];
-    else if (title === "festival") {
-      array = tourData.festival;
-      if (array.length === 0) return;
-    } else if (title === "result") {
-      array = tourData.result?.[keyword]?.[type] || [];
-      if (array.length === 0 && tourData.loading) return;
-    } else {
-      array = tourData[key]?.[areaCode]?.[cat1]?.[cat2]?.[cat3];
-      if (!array) return;
-    }
 
     for (let item of array) {
       if (!item.areacode) continue;
-
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
-
       if (cat2 !== "all" && cat2 !== item.cat2) continue;
-
       if (cat3 !== "all" && cat3 !== item.cat3) continue;
-
       if (title !== "festival" && !item.firstimage) continue;
+
+      let 축제상태 = "";
 
       if (title === "festival") {
         if (item.eventstartdate!.slice(4, 6) > pickMonth) continue;
         if (item.eventenddate!.slice(4, 6) < pickMonth) continue;
         if (areaCode !== "0" && areaCode !== item.areacode) continue;
-      }
 
-      let 행사상태 = "";
-
-      if (title === "festival") {
-        행사상태 = calculateDate(
+        축제상태 = calculateDate(
           item.eventstartdate!,
           item.eventenddate!,
           year,
           month,
           date
         );
-        if (행사상태 === "진행중") {
+
+        if (축제상태 === "진행중") {
           if (!tourData.행사상태[0]) continue;
-        } else if (행사상태 === "행사종료") {
+        } else if (축제상태 === "행사종료") {
           if (!tourData.행사상태[2]) continue;
         } else {
           if (!tourData.행사상태[1]) continue;
         }
       }
 
-      const 지역 = 지역코드[item.areacode] || "";
-      const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode] || "";
+      const 지역 = 지역코드[item.areacode];
+      const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode];
       const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
-
       const element = (
         <div
           className="card-item"
@@ -285,14 +293,14 @@ const Card = ({ title }: CardProps) => {
           {title === "festival" && (
             <p
               className={`cal-date ${
-                행사상태 === "진행중"
+                축제상태 === "진행중"
                   ? "ing"
-                  : 행사상태 === "행사종료"
+                  : 축제상태 === "행사종료"
                   ? "end"
                   : "aft"
               }`}
             >
-              {행사상태}
+              {축제상태}
             </p>
           )}
           <div className="card-text">
@@ -309,28 +317,23 @@ const Card = ({ title }: CardProps) => {
           </div>
         </div>
       );
-
       if (title === "festival") {
-        if (행사상태 === "행사종료") {
-          행사종료.push(element);
-          continue;
-        } else if (행사상태 === "진행중") {
-          행사중.push(element);
-          continue;
-        } else {
-          행사시작전.push(element);
-        }
+        if (축제상태 === "행사종료") 행사종료.push(element);
+        else if (축제상태 === "진행중") 행사중.push(element);
+        else 행사시작전.push(element);
       } else {
         result.push(element);
       }
-    }
+    } // for end
+
+    /* return React.NodeElement */
 
     if (title !== "festival") returnArray = result;
     else returnArray = [...행사중, ...행사시작전, ...행사종료];
 
     return (
       <>
-        {title === "result" && !tourData.loading && tourData.successGetData && (
+        {title === "result" && tourData.successGetData && (
           <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${returnArray.length}개`}</h3>
         )}
         {returnArray.length === 0 ? (
@@ -351,8 +354,8 @@ const Card = ({ title }: CardProps) => {
   return (
     <article className={`main-box-content ${title === "result" && "result"}`}>
       <div className="AllView-grid-box">
-        {returnResult()}
         {tourData.loading && <Loading />}
+        {!tourData.loading && returnResult()}
         {title !== "trend" && !tourData.loading && !tourData.successGetData && (
           <GetDataError />
         )}

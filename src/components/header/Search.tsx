@@ -52,7 +52,7 @@ const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
       return alert("검색 키워드를 입력해주세요!");
     }
     
-    navigate(`/result/search?type=${type}&areaCode=0&keyword=${keyword}`);
+    navigate(`/result?type=${type}&areaCode=0&keyword=${keyword}`);
     inputRef.current!.value = "";
     setOpenSearch(false);
   };
