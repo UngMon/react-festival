@@ -1,58 +1,67 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import {
   signInWithRedirect,
   getRedirectResult,
+  setPersistence,
+  browserSessionPersistence,
   GoogleAuthProvider,
   FacebookAuthProvider,
   AuthProvider,
 } from "firebase/auth";
-import "./Login.css";
-import { useEffect, useState } from "react";
 import Loading from "../components/loading/Loading";
 import LoginAccessError from "../components/error/LoginAccessError";
 import KakaoLogin from "../components/login/Kakao";
 import Naver from "../components/login/Naver";
+import "./Login.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const loggedIn = auth.currentUser;
 
-  const [isFirst, setFirst] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
+  const previouseUrl = JSON.parse(sessionStorage.getItem("previouseUrl")!);
 
   const loginHandler = async (type: string) => {
-    let provider: AuthProvider | null = null;
-    setFirst(false);
     setLoading(true);
+    let provider: AuthProvider | null = null;
+
     if (type === "Google") {
       provider = new GoogleAuthProvider();
     }
+
     if (type === "FaceBook") {
       provider = new FacebookAuthProvider();
     }
 
-    await signInWithRedirect(auth, provider!);
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return signInWithRedirect(auth, provider!);
+      })
+      .catch((error) => {
+        alert("로그인중에 오류가 발생했습니다!");
+        console.log(error);
+        navigate(previouseUrl ?? "/");
+      });
   };
 
   useEffect(() => {
     getRedirectResult(auth)
-      .then((credential) => {
-        !credential && setLoading(false); 
-        credential && navigate(-3);
-      })
-      .catch((error) => {
-        console.log('???????')
-        !isFirst && alert(error.message);
-        !isFirst && navigate("/login", { replace: true });
+      .then((userCredential) => {
         setLoading(false);
+        if (userCredential) navigate(previouseUrl);
+      })
+      .catch((error: any) => {
+        alert(`error is occured! ${error.code} ${error.message}`);
+        console.log(error);
       });
-  }, [isFirst, loggedIn, navigate]);
+  }, [navigate, previouseUrl, loading]);
 
   return (
     <>
       {loading && <Loading />}
-      {!loading && loggedIn && <LoginAccessError />}
+      {loggedIn && <LoginAccessError />}
       {!loading && !loggedIn && (
         <form className="Login-Form">
           <h3 className="title">로그인</h3>
@@ -76,9 +85,8 @@ const LoginPage = () => {
             ></img>
             <span>페이스북 로그인</span>
           </div>
-          <KakaoLogin setLoading={setLoading} /> 
+          <KakaoLogin setLoading={setLoading} />
           <Naver />
-          {/* <Outlet /> */}
         </form>
       )}
     </>

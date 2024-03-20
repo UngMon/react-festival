@@ -9,7 +9,7 @@ import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
 import "./Detail.css";
-import getContentData from "../../../hooks/getContentData";
+import getContentData from "../../../utils/getContentData";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;

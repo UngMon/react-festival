@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import "./Navigation.css";
+import { nowDate } from "../../utils/NowDate";
+import "./Menu.css";
 
 interface T {
   pathname: string;
@@ -8,10 +9,10 @@ interface T {
   setOpenSearch: (value: boolean) => void;
 }
 
-const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
-  const thisMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+const Menu = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
+  const { month } = nowDate();
 
-  const clickCategory = (value?: string) => {
+  const clickCategory = () => {
     window.scrollTo(0, 0);
     setOpenSearch(false);
   };
@@ -27,10 +28,10 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           <li>
             <NavLink
               to={`/tour?type=12&areaCode=1&cat1=all&cat2=all&cat3=all`}
-              onClick={() => clickCategory("tour")}
+              onClick={clickCategory}
               style={({ isActive }) => {
                 return {
-                  color: '#333'
+                  color: "#333",
                   // color: isActive
                   //   ? "orange"
                   //   : pathname === "/" && scrollY === 0 && !mouseOver
@@ -44,11 +45,11 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           </li>
           <li>
             <NavLink
-              to="culture?type=14&areaCode=1&cat1=A02&cat2=all&cat3=all"
-              onClick={() => clickCategory("culture")}
+              to="/culture?type=14&areaCode=1&cat1=A02&cat2=all&cat3=all"
+              onClick={clickCategory}
               style={({ isActive }) => {
                 return {
-                  color: '#333'
+                  color: "#333",
                   // color: isActive
                   //   ? "orange"
                   //   : pathname === "/" && scrollY === 0 && !mouseOver
@@ -62,11 +63,11 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           </li>
           <li>
             <NavLink
-              to={`/festival?type=15&month=${thisMonth}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
-              onClick={() => clickCategory("festival")}
+              to={`/festival?type=15&month=${month}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
+              onClick={clickCategory}
               style={({ isActive }) => {
                 return {
-                  color: '#333'
+                  color: "#333",
                   // color: isActive
                   //   ? "orange"
                   //   : pathname === "/" && scrollY === 0 && !mouseOver
@@ -81,10 +82,10 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
           <li>
             <NavLink
               to={`/travel?type=25&areaCode=1&cat1=C01&cat2=all&cat3=all`}
-              onClick={() => clickCategory("travel")}
+              onClick={clickCategory}
               style={({ isActive }) => {
                 return {
-                  color: '#333'
+                  color: "#333",
                   // color: isActive
                   //   ? "orange"
                   //   : pathname === "/" && scrollY === 0 && !mouseOver
@@ -102,4 +103,4 @@ const Navigation = ({ pathname, scrollY, mouseOver, setOpenSearch }: T) => {
   );
 };
 
-export default Navigation;
+export default Menu;

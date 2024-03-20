@@ -8,7 +8,7 @@ export const getFestiavalData = createAsyncThunk(
   async () => {
     let year = new Date().getFullYear();
     year -= 1;
-    
+
     const response = await fetch(
       `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${serviceKey}&numOfRows=2000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&eventStartDate=${
         year + "0101"
@@ -20,16 +20,10 @@ export const getFestiavalData = createAsyncThunk(
   }
 );
 
-export const getTCTRData = createAsyncThunk(
+export const getApiData = createAsyncThunk(
   "tour/fetchFromData",
   async (parameter: FetchParams) => {
-    const type = parameter.type;
-    const title = parameter.title;
-    const areaCode = parameter.areaCode;
-    const cat1 = parameter.cat1;
-    const cat2 = parameter.cat2;
-    const cat3 = parameter.cat3;
-    const page = String(parameter.page![0]);
+    const { type, title, areaCode, cat1, cat2, cat3, page } = parameter;
     let keyword = "";
 
     let url = "https://apis.data.go.kr/B551011/KorService1/";
@@ -66,6 +60,7 @@ export const getTCTRData = createAsyncThunk(
       }`;
       keyword = parameter.keyword!;
     }
+
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();

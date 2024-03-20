@@ -12,78 +12,50 @@ a {
   z-index: 5;
 }
 
-/* Submenu.tsx */
-.subnav {
-  box-sizing: border-box;
-  width: 800px;
-  margin: 20px 12px 30px;
-}
-
-.submenu {
-  height: 40px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  font-family: "Noto Sans KR", sans-serif;
-  font-weight: 400;
-}
-
-.submenu li {
-  height: 40px;
-  line-height: 40px;
-}
-
-.submenu li:nth-child(2) {
-  margin: 0 8px;
-}
-
-.submenu li a {
-  height: 40px;
-  display: block;
-}
-
-.submenu li a img {
-  padding: 5px 0;
-  width: 30px;
-  height: 30px;
-}
-
 /* Selector  */
 #picker-box {
   margin: 0 auto;
-  height: auto;
-  display: flex;
-  justify-content: left;
-  padding-bottom: 30px;
+  padding-bottom: 0px;
+
+  .option-container {
+    height: auto;
+    display: flex;
+    justify-content: left;
+    padding-bottom: 30px;
+  }
+
+  &:nth-child(1) {
+    margin-left: 50px;
+  }
 }
 
 .picker {
   position: relative;
   left: 0px;
   width: 220px;
-  margin: 0 10px;
-}
+  padding: 0 10px;
 
-.picker select {
-  width: 220px;
-  padding: 10px 0 10px 55px;
-  font-weight: 500;
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: transparent;
-}
+  select {
+    width: 220px;
+    padding: 10px 0 10px 55px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: transparent;
 
-.picker select:hover {
-  cursor: pointer;
-}
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
-.picker svg {
-  position: absolute;
-  top: 10px;
-  right: 8px;
-  width: 20px;
-  height: 20px;
-  color: rgb(11, 201, 11);
+  svg {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    color: rgb(11, 201, 11);
+  }
 }
 
 #before-icon {
@@ -115,7 +87,7 @@ a {
   left: 0;
   width: 100%;
   text-align: center;
-  color: white; 
+  color: white;
   line-height: 250px;
   font-size: 24px;
 }
@@ -145,22 +117,22 @@ a {
     width: 100%;
     padding: 30px 30px 0;
   }
-  .subnav {
+  /* .subnav {
     width: 250px;
     text-align: left;
     margin: 0;
     padding: 15px 15px 30px;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
-  #picker-box {
+  /* #picker-box {
     width: 95%;
     margin: 0 auto;
     flex-direction: column;
-  }
+  } */
 
-  .picker {
+  /* .picker {
     width: 100%;
     padding: 8px 0;
     margin: 0;
@@ -174,11 +146,31 @@ a {
   .picker svg {
     top: 22px;
     right: 15px;
+  } */
+
+  /* #before-icon {
+    top: 22px;
+  } */
+}
+
+@media (max-width: 670px) {
+  #picker-box {
+    .option-container {
+      flex-direction: column;
+      padding: 0px;
+  
+      .picker {
+        box-sizing: border-box;
+        width: 100%;
+        padding-bottom: 25px;
+  
+        select {
+          width: 100%;
+        }
+      }
+    }
   }
 
-  #before-icon {
-    top: 22px;
-  }
 }
 
 @media (max-width: 500px) {

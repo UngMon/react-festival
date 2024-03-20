@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { auth } from "../../firebase";
-import { signOut } from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faRightToBracket,
@@ -14,26 +13,28 @@ const LoginButton = () => {
   const navigate = useNavigate();
 
   const [userChecking, setUserChecking] = useState<boolean>(true);
+  const [userData, setUserData] = useState<User | null>(null);
   const [userModalOpen, setUserModalOpen] = useState(false);
+  
   const userImageRef = useRef<HTMLDivElement>(null);
-  const userInfoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (userChecking) {
-      setTimeout(() => {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        setUserData(user);
         setUserChecking(false);
-      }, 150);
-    }
-  }, [userChecking]);
+      } else {
+        logoutHnalder();
+        setUserChecking(false);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (!userModalOpen) return;
 
     const logoutModalOpen = (event: MouseEvent) => {
       if (userImageRef.current?.contains(event.target as Node)) return;
-
-      if (userInfoRef.current?.contains(event.target as Node)) return;
-
       setUserModalOpen(false);
     };
 
@@ -42,14 +43,18 @@ const LoginButton = () => {
   }, [userModalOpen]);
 
   const loginHandler = () => {
-    sessionStorage.setItem("currentUrl", JSON.stringify(location.pathname));
+    sessionStorage.setItem(
+      "previouseUrl",
+      JSON.stringify(location.pathname + location.search)
+    );
     navigate("/login");
   };
 
   const logoutHnalder = () => {
-    signOut(auth)
+    signOut(getAuth())
       .then(() => {
         sessionStorage.clear();
+        setUserData(null);
       })
       .catch((err) => {
         alert(err.message);
@@ -59,7 +64,7 @@ const LoginButton = () => {
   return (
     <>
       {!userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
-        !auth.currentUser ? ( // 로그인 안 되어 있으면,
+        !userData ? ( // 로그인 안 되어 있으면,
           <div className="login" onClick={loginHandler}>
             <FontAwesomeIcon icon={faRightToBracket} />
           </div>
@@ -70,9 +75,9 @@ const LoginButton = () => {
             ref={userImageRef}
             onClick={() => setUserModalOpen(!userModalOpen)}
           >
-            <img src={auth.currentUser.photoURL!} alt="userPhoto"></img>
+            <img src={userData.photoURL!} alt="userPhoto"></img>
             {userModalOpen && (
-              <div className="logout-box" ref={userInfoRef}>
+              <div className="logout-box">
                 <div className="arrow"></div>
                 <div className="logout" onClick={logoutHnalder}>
                   <FontAwesomeIcon icon={faArrowRightFromBracket} />
@@ -91,7 +96,3 @@ const LoginButton = () => {
 };
 
 export default LoginButton;
-
-//${pathname === "/" && scrollY === 0 && !mouseOver
-// ? "scroll-top-color"
-// : "#normal-color"}//

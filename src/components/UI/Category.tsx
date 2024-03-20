@@ -23,13 +23,13 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
 
     if (cat === "cat1") {
       navigate(
-        `/${title}/serach?type=${type}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
+        `/${title}?type=${type}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
     if (cat === "cat2") {
       navigate(
-        `/${title}/serach?${
+        `/${title}?${
           title === "festival" ? `month=${month}&` : ""
         }type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
@@ -37,7 +37,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
 
     if (cat === "cat3") {
       navigate(
-        `/${title}/serach?type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${title}?type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
   };
@@ -48,7 +48,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
         // 관광지..
         title === "tour" && (
           <>
-            {/* <div className="picker">
+            <div className="picker">
               <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
                 <option value="all">#전체(Step1)</option>
                 <option value="A01">자연</option>
@@ -56,7 +56,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
               </select>
               <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
               <FontAwesomeIcon icon={faCheck} />
-            </div> */}
+            </div>
             <div className="picker">
               <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
                 <option value="all"># 전체</option>
@@ -68,8 +68,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
                 <option value="A0204"># 산업관광지</option>
                 <option value="A0205"># 건축/조형물</option>
               </select>
-
-              {/* {cat1 === "A01" && (
+              {cat1 === "A01" && (
                 <select
                   value={cat2}
                   onChange={(e) => pickerSelector(e, "cat2")}
@@ -91,25 +90,13 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
                   <option value="A0204"># 산업관광지</option>
                   <option value="A0205"># 건축/조형물</option>
                 </select>
-              )} */}
+              )}
               <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
               <FontAwesomeIcon icon={faCheck} />
             </div>
           </>
         )
       }
-
-      {/* {title === "festival" && (
-        <div className="picker">
-          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
-            <option value="all"># 카테고리</option>
-            <option value="A0207"># 축제</option>
-            <option value="A0208"># 공연/행사</option>
-          </select>
-          <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
-          <FontAwesomeIcon icon={faCheck} />
-        </div>
-      )} */}
     </>
   );
 };

@@ -1,0 +1,82 @@
+#Nav {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 5px 5px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 99;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.bar {
+  border: 1.5px solid black;
+  margin: 4px 0;
+}
+
+.ro-m45 {
+  transform: rotate(45deg) translate(8px, 8px);
+  transition: all 0.2s linear;
+}
+.fadeout {
+  opacity: 0;
+  transition: all 0.2 linear;
+}
+.ro-45 {
+  transform: rotate(-45deg) translate(7px, -8px);
+  transition: all 0.2s linear;
+}
+
+.ro-m45n {
+  transform: rotate(0) translate(0px, 0px);
+  transition: all 0.2s linear;
+}
+
+.notfadeout {
+  animation: fadeout 0.2s linear;
+}
+
+.ro-45n {
+  transform: rotate(0) translate(0px, 0px);
+  transition: all 0.2s linear;
+}
+
+.side-box-back {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transition: all 0.01s;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.back-on {
+  right: 0;
+  z-index: 50;
+}
+
+.back-off {
+  right: -150%;
+  z-index: 50;
+}
+
+@media (min-width: 1023.9px) {
+  #Nav {
+    display: none;
+  }
+}
+
+@media (max-width: 320px) {
+  .side-box {
+    width: 100%;
+  }
+  .side-item {
+    padding-left: 10%;
+  }
+}

@@ -91,7 +91,10 @@ const festivalSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(getFestiavalData.pending, (state) => {})
+      .addCase(getFestiavalData.pending, (state) => {
+        state.loading = true;
+        state.successGetData = false;
+      })
       .addCase(getFestiavalData.fulfilled, (state, action) => {
         const dummyData = action.payload.response.body.items.item;
         const arr: Item[] = [];

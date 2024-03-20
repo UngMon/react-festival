@@ -1,21 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Dongle&family=Gamja+Flower&family=Hi+Melody&family=Noto+Sans+KR:wght@500;700&family=Single+Day&family=Sunflower:wght@300&display=swap");
 
-.main-box {
-  position: relative;
-  padding-top: 130px;
-  min-height: calc(100vh - 230px);
-  background-color: #f0f1fa;
-  z-index: 5;
-}
-
 @media (max-width: 1023.9px) {
   .main-box {
     min-height: calc(100vh - 150px);
     padding-top: 50px;
-  }  
+  }
 }
 
-
-button:hover {
-  cursor: pointer;
+@media (max-width: 320px) {
+  .app {
+    width: 320px;
+  }
 }

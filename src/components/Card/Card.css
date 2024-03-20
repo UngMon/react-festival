@@ -180,12 +180,8 @@
 }
 
 @media (min-width: 650px) and (max-width: 670px) {
-  .main-box-content {
-    padding: 20px 20px 100px;
-  }
-
   .AllView-grid-box {
-    column-gap: 10px;
+    column-gap: 13px;
   }
 
   .card-text h3 {

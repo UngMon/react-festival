@@ -9,11 +9,15 @@
   z-index: 50;
   text-align: center;
   box-shadow: 1px 1px 15px 3px rgba(0, 0, 0, 0.5);
-}
 
-.top-button-box:hover {
-  cursor: pointer;
-  background-color: rgba(2, 99, 255, 0.8);
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(2, 99, 255, 0.8);
+  }
+
+  span {
+    color: white;
+  }
 }
 
 #triangle {
@@ -21,10 +25,6 @@
   height: 16px;
   color: white;
   margin-top: 2px;
-}
-
-.top-button-box div {
-  color: white;
 }
 
 @media (max-width: 1440px) {
@@ -36,7 +36,5 @@
 @media (max-width: 880px) {
   .top-button-box {
     right: 40px;
-
   }
 }
-

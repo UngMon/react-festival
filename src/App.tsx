@@ -9,10 +9,11 @@ import "./App.css";
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const Main = lazy(() => import("./components/main/Main"));
-const ResultPage = lazy(() => import("./pages/Result"));
 const Content = lazy(() => import("./components/content/Content"));
 
 function App() {
+  console.log('App Render')
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -34,72 +35,47 @@ function App() {
         {
           path: "culture",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":cultureKey",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <Main title="culture" />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="culture" />
+            </Suspense>
+          ),
         },
         {
           path: "festival",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":festivalKey",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <Main title="festival" />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="festival" />
+            </Suspense>
+          ),
         },
         {
           path: "travel",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":travelKey",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <Main title="travel" />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="travel" />
+            </Suspense>
+          ),
         },
         {
           path: "result",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":keyword",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <ResultPage />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="result" />
+            </Suspense>
+          ),
         },
         {
           path: "trend",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":trendKey",
-              element: (
-                <Suspense fallback={<Loading />}>
-                  <Main title="trend" />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="trend" />
+            </Suspense>
+          ),
         },
         {
           path: "content",

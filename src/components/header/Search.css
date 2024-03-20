@@ -20,8 +20,9 @@
 
 .search-box {
   position: fixed;
+  top: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
 }
@@ -29,7 +30,7 @@
 .search-form {
   max-width: 750px;
   height: 150px;
-  margin: 90px auto;
+  margin: 160px auto 0;
   background-color: rgb(242, 247, 251);
   border-radius: 15px;
   position: relative;

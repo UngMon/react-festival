@@ -1,0 +1,57 @@
+.side-box {
+  position: absolute;
+  padding-top: 50px;
+  top: 0;
+  width: 320px;
+  height: 80vh;
+  border: 0;
+  background-color: whitesmoke;
+  transition: all 0.3s linear;
+}
+
+.side-item {
+  width: 100%;
+  height: 50px;
+  padding-left: 50px;
+  margin: 10px 0;
+  text-align: left;
+  font-size: 18px;
+  line-height: 50px;
+  display: block;
+  color: #333;
+}
+
+.side-box a:hover {
+  cursor: pointer;
+  color: rgb(52, 117, 238);
+  background-color: rgb(215, 223, 228);
+}
+
+.mobile-login-box {
+  text-align: center;
+  padding: 20px 0 10px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.mobile-login-box img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.mobile-login-box p {
+  margin: 10px 0;
+}
+
+.mo-logout {
+  background-color: transparent;
+  border: 0;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.mo-logout:hover {
+  cursor: pointer;
+  color: rgb(52, 117, 238);
+}

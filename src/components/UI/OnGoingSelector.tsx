@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import { tourActions } from "../../redux/apiData-slice";
+import { dataActions } from "../../redux/data-slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import "./OnGoingSelector.css";
 
 const OnGoingSelector = () => {
   const dispatch = useAppDispatch();
-  const 행사상태 = useSelector((state: RootState) => state.tourApi.행사상태);
+  const 행사상태 = useSelector((state: RootState) => state.data.행사상태);
 
   const clickHandler = (num: number) => {
     if (num === 0 && !행사상태[1] && !행사상태[2]) return;
@@ -15,14 +15,14 @@ const OnGoingSelector = () => {
     if (num === 2 && !행사상태[0] && !행사상태[1]) return;
 
     dispatch(
-      tourActions.행사상태설정([
+      dataActions.행사상태설정([
         num === 0 ? !행사상태[0] : 행사상태[0],
         num === 1 ? !행사상태[1] : 행사상태[1],
         num === 2 ? !행사상태[2] : 행사상태[2],
       ])
     );
   };
-  // console.log(행사상태);
+
   return (
     <ul className="OnGoing-Selector">
       <li

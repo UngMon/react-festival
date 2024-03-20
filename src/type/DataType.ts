@@ -1,7 +1,8 @@
 import { Region, Item, Data } from "./Common";
 
-export interface TCTRtype {
+export interface DataType {
   successGetData: boolean;
+  httpState: string;
   tour: Data;
   culture: Data;
   festival: Item[];

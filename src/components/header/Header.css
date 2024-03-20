@@ -28,41 +28,35 @@
   align-items: center;
   justify-content: space-between;
   color: inherit;
+  position: relative;
 }
 
 .Logo {
+  display: block;
+  line-height: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
   color: inherit;
-}
 
-.Logo img {
-  width: 40px;
-  margin-right: 10px;
-}
-
-.Logo span {
-  font-size: 1.3em;
+  span {
+    font-size: 1.3em;
+  }
 }
 
 .page-top-interaction {
   display: flex;
   align-items: center;
-  justify-content: right;
-  position: relative;
-}
 
-.magnifying {
-  width: 35px;
-  height: 35px;
-  border: 0;
-  background-color: transparent;
-  z-index: 99;
-}
+  .magnifying {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    background-color: transparent;
+    z-index: 99;
 
-.magnifying svg {
-  font-size: 25px;
+    svg {
+      font-size: 25px;
+    }
+  }
 }
 
 @media (min-width: 1440px) {
@@ -85,18 +79,7 @@
 
   .Header-top {
     box-sizing: border-box;
-    padding-top: 10px;
     height: 100%;
-    padding: 0 20px;
-  }
-
-  .Logo img {
-    width: 30px;
-  }
-
-  .page-top-interaction {
-    position: absolute;
-    right: 5%;
   }
 }
 

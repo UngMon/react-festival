@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTCTRData } from "./fetch-action";
-import { TCTRtype } from "../type/TCTStype";
+import { getApiData } from "./fetch-action";
+import { DataType } from "../type/DataType";
 import { Item, Data } from "../type/Common";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
 
-const initialState: TCTRtype = {
+const initialState: DataType = {
   successGetData: false,
+  httpState: "nothing",
   tour: {},
   culture: {},
   festival: [],
@@ -20,7 +21,7 @@ const initialState: TCTRtype = {
   행사상태: [true, false, false],
 };
 
-const apiDataSlice = createSlice({
+const dataSlice = createSlice({
   name: "tourApi",
   initialState,
   reducers: {
@@ -30,12 +31,14 @@ const apiDataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTCTRData.pending, (state, action) => {
+      .addCase(getApiData.pending, (state, action) => {
         state.successGetData = false;
+        state.httpState = "pending";
         state.loading = true;
       })
-      .addCase(getTCTRData.fulfilled, (state, action) => {
+      .addCase(getApiData.fulfilled, (state, action) => {
         state.successGetData = true;
+        state.httpState = "fulfilled";
         state.loading = false;
 
         let type = action.payload.type || "0";
@@ -51,9 +54,9 @@ const apiDataSlice = createSlice({
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때 or
           // 사용자가 url를 조작할 때,
-          if (title === 'result') {
+          if (title === "result") {
             state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
-            state.serchRecord[keyword][type] = 'complete';
+            state.serchRecord[keyword][type] = "complete";
           }
           state.loading = false;
           state.successGetData = true;
@@ -81,7 +84,6 @@ const apiDataSlice = createSlice({
             dummyData.length < criteria ? "complete" : "remaining";
 
           return;
-
         } else {
           dr[type] = dr[type] || {};
           dr[type][areaCode] = dr[type][areaCode] || {};
@@ -120,15 +122,15 @@ const apiDataSlice = createSlice({
         typeArray[areaCode][cat1][cat2] = typeArray[areaCode][cat1][cat2] || {};
         arr = typeArray[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
         typeArray[areaCode][cat1][cat2][cat3] = [...arr, ...dummyData];
-
       })
-      .addCase(getTCTRData.rejected, (state, action) => {
+      .addCase(getApiData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
+        state.httpState = "fulfilled";
       });
   },
 });
 
-export const tourActions = apiDataSlice.actions;
+export const dataActions = dataSlice.actions;
 
-export const tourReducer = apiDataSlice.reducer;
+export const dataReducer = dataSlice.reducer;

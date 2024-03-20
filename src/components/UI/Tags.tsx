@@ -16,13 +16,14 @@ const Tags = ({ title, type, month, areaCode, cat1, cat2, cat3 }: T) => {
   const navigate = useNavigate();
 
   const festivalTagClick = (c2: string, c3: string) => {
-    let url = `/${title}/search?`;
+    let url = `/${title}?`;
 
     if (title === "festival") url += `month=${month}&`;
 
     url += `type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${c2}&cat3=${c3}`;
     navigate(url);
   };
+  
   const array = title === "tour" ? tourObject[cat2] : categoryObject[title];
   return (
     <div className="tags">

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,34 +9,35 @@ import {
 import "./Search.css";
 
 interface HeaderProps {
-  pathname: string;
-  scrollY: number;
-  mouseOver: boolean;
   setOpenSearch: (value: boolean) => void;
 }
 
-// const titl: { [key: string]: string } = {
-//   tour: "관광",
-//   culture: "문화",
-//   festival: "축제",
-//   travel: "여행",
-// };
-
 const obj: { [key: string]: string } = {
-  "0": '전체',
-  "12": '관광',
-  "14": '문화',
-  "15": '축제',
-  "25": '여행',
+  "0": "전체",
+  "12": "관광",
+  "14": "문화",
+  "15": "축제",
+  "25": "여행",
 };
 
-const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
+const Search = ({ setOpenSearch }: HeaderProps) => {
   const navigate = useNavigate();
+  // 아래 2줄 수정바람.
   const [params] = useSearchParams();
   const [type, setType] = useState<string>(params.get("type") || "0");
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const keyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenSearch(false);
+    };
+
+    window.addEventListener("keydown", keyDown);
+
+    return window.removeEventListener("keydown", keyDown);
+  });
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +52,7 @@ const Search = ({ pathname, setOpenSearch }: HeaderProps) => {
     if (keyword.length === 0) {
       return alert("검색 키워드를 입력해주세요!");
     }
-    
+    console.log('serach working')
     navigate(`/result?type=${type}&areaCode=0&keyword=${keyword}`);
     inputRef.current!.value = "";
     setOpenSearch(false);

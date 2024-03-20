@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import Navigation from "./Navigation";
+import { useLocation } from "react-router-dom";
+import Menu from "./Menu";
 import Search from "./Search";
-import Top from "./Top";
-import Nav from "./Nav";
-import Side from "./Side";
-import LoginButton from "./LoginButton";
+import TopButton from "./TopButton";
+import HeaderTop from "./HeaderTop";
+import MobileNav from "./MobileNav";
 import "./Header.css";
 
 const Header = () => {
@@ -25,11 +22,6 @@ const Header = () => {
   const mouseLeave = () => {
     if (pathname !== "/") return;
     setMouseOver(false);
-  };
-
-  const clickSearch = () => {
-    !openSearch && setOpenSearch(true);
-    openNav && setOpenNav(false);
   };
 
   useEffect(() => {
@@ -57,62 +49,23 @@ const Header = () => {
       onMouseEnter={() => pathname === "/" && mouseEnter()}
       onMouseLeave={() => pathname === "/" && mouseLeave()}
     >
-      {openSearch && (
-        <Search
-          pathname={pathname}
-          scrollY={scrollY}
-          mouseOver={mouseOver}
-          setOpenSearch={setOpenSearch}
-        />
-      )}
-      <div className="Header-top">
-        <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
-          <span
-            className="logo-title"
-            style={{
-              color: "#333",
-              // color:
-              //   pathname === "/" && scrollY === 0 && !mouseOver
-              //     ? "white"
-              //     : "#333",
-            }}
-          >
-            여기저기
-          </span>
-        </Link>
-        <div className="page-top-interaction">
-          <button className="magnifying" onClick={clickSearch}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </button>
-          <Nav
-            openNav={openNav}
-            setOpenNav={setOpenNav}
-            openSearch={openSearch}
-            setOpenSearch={setOpenSearch}
-          />
-          <Side openNav={openNav} setOpenNav={setOpenNav} />
-          <LoginButton
-          // pathname={pathname}
-          // scrollY={scrollY}
-          // mouseOver={mouseOver}
-          // setOpenSearch={setOpenSearch}
-          />
-        </div>
-      </div>
-      <Navigation
+      <HeaderTop
+        openNav={openNav}
+        setOpenNav={setOpenNav}
+        openSearch={openSearch}
+        setOpenSearch={setOpenSearch}
+      />
+      <Menu
         pathname={pathname}
         scrollY={scrollY}
         mouseOver={mouseOver}
         setOpenSearch={setOpenSearch}
       />
-      <Top />
+      <TopButton />
+      <MobileNav openNav={openNav} setOpenNav={setOpenNav} />
+      {openSearch && <Search setOpenSearch={setOpenSearch} />}
     </header>
   );
 };
 
 export default Header;
-
-// ${
-//   pathname === "/" && scrollY === 0 && !mouseOver
-//     ? "scroll-top-color"
-//     : "#normal-color"

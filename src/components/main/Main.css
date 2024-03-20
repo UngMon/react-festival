@@ -8,6 +8,18 @@
   }
 }
 
+.main-box {
+  position: relative;
+  padding-top: 130px;
+  min-height: calc(100vh - 230px);
+  background-color: #f0f1fa;
+  z-index: 5;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
 .main-page {
   margin-top: 50px;
   padding-top: 20px;
@@ -91,7 +103,7 @@
 }
 
 .timer {
-  animation: timerEffect 2.40s linear forwards;
+  animation: timerEffect 2.4s linear forwards;
 }
 
 .top-count {
@@ -125,8 +137,6 @@
   position: relative;
   padding-bottom: 30px;
 }
-
-
 
 .theme-box {
   position: relative;
@@ -271,4 +281,3 @@
     padding: 100px 0 0;
   }
 }
-
