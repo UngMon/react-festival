@@ -37,15 +37,15 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
   });
 
   return (
-    <div>
+    <div className="side-container">
       <div
-        className={`side-box-back `}
+        className="side-background"
         style={{
           right: openNav ? "0" : "-150%",
         }}
       />
       <ul
-        className={`side-box `}
+        className="side"
         style={{
           right: openNav ? "0" : "-150%",
         }}
@@ -61,7 +61,7 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
             </Link>
           </li>
         ) : (
-          <li className="mobile-login-box">
+          <li className="user-info-box">
             <div>
               <img src={auth.currentUser.photoURL!} alt="User"></img>
             </div>

@@ -1,0 +1,150 @@
+@keyframes slideloading {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 100%;
+  }
+}
+
+.slide-active {
+  animation-name: slideloading;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+.slide-not-active {
+  width: 0;
+}
+
+.top-slide-container {
+  width: 100%;
+  height: 100vh;
+  min-height: 720px;
+  max-height: 970px;
+  position: relative;
+  font-size: 16px;
+}
+
+.top-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.source {
+  position: absolute;
+  bottom: 40px;
+  left: 5%;
+  z-index: 14;
+  color: white;
+}
+
+.top-slide-image {
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    float: center;
+    object-fit: cover;
+    filter: brightness(75%);
+  }
+}
+
+.top-text-box {
+  position: absolute;
+  padding: 50px 0 0;
+  top: 25%;
+  right: 5%;
+  width: 90%;
+  height: auto;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+
+  h2 {
+    font-size: clamp(64px, 5rem, 80px);
+    margin-bottom: 40px;
+  }
+
+  p {
+    font-size: clamp(16px, 2.5rem, 38px);
+    margin-bottom: 40px;
+  }
+
+  button {
+    height: 36px;
+    font-size: 1.4em;
+    font-weight: 700;
+  }
+}
+
+.slide-time-box {
+  position: absolute;
+  top: 70%;
+  left: 5%;
+  width: 90%;
+  height: 80px;
+  z-index: 14;
+
+  .time-bar {
+    position: relative;
+    height: 5px;
+    width: 0;
+    margin-top: 20px;
+    border-radius: 2px;
+    background-color: white;
+  }
+
+  .time-button {
+    width: 120px;
+    margin: 15px auto 0;
+
+    button {
+      width: 30px;
+      height: 30px;
+      margin: 0 5px;
+      font-size: 20px;
+    }
+
+    button:hover {
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: rgba(150, 150, 150, 0.581);
+    }
+  }
+}
+
+@media (min-width: 1334px) {
+  .source {
+    left: calc(50% - 600px);
+  }
+
+  .slide-time-box {
+    left: calc(50% - 600px);
+    width: 1200px;
+  }
+}
+
+@media (max-width: 1023.9px) {
+  .top-text-box {
+    h2 {
+      font-size: clamp(36px, 8vw, 80px);
+    }
+  
+    p {
+      font-size: clamp(18px, 4vw, 38px);
+    }
+
+    button {
+      font-size: clamp(16px, 4vw, 38px);
+    }
+  }
+}

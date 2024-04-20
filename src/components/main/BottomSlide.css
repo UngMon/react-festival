@@ -1,0 +1,156 @@
+.bottom-slide-container {
+  width: 100%;
+  padding: clamp(32px, 10%, 80px) 0 30px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+.bottom-slide-box {
+  box-sizing: border-box;
+  margin: auto;
+  width: clamp(320px, 100%, 1200px);
+  height: clamp(600px, 90vh, 1024px);
+
+  h3 {
+    box-sizing: border-box;
+    margin: 0 0 50px clamp(32px, 10%, 100px);
+    height: 80px;
+    font-size: clamp(24px, 4vw, 44px);
+    font-weight: 600;
+    line-height: 80px;
+  }
+}
+
+#소제목 {
+  box-sizing: border-box;
+  margin: 0 0 0 clamp(32px, 10%, 100px);
+  width: 100%;
+  height: 70px;
+  font-weight: 600;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+
+  div {
+    font-size: clamp(20px, 2.5vw, 24px);
+
+    &:nth-of-type(2) {
+      margin-left: 20px;
+      width: 138px;
+      height: 0px;
+      border: 1px solid black;
+    }
+  }
+}
+
+.bottom-slide {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  font-weight: 500;
+  overflow: hidden;
+  display: flex;
+
+  ul {
+    width: auto;
+    height: 270px;
+    display: flex;
+    align-items: center;
+  }
+
+  .bottom-item {
+    img {
+      display: block;
+      float: center;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .bottom-button {
+    div {
+      position: absolute;
+      top: 0;
+      width: 50px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      font-size: 20px;
+    }
+
+    div:nth-of-type(1) {
+      left: 0;
+      background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0)
+      );
+    }
+
+    div:nth-of-type(2) {
+      right: 0;
+      background-image: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0)
+      );
+    }
+  }
+}
+
+.bottom-item-text-box {
+  margin-bottom: 40px;
+
+  p {
+    font-size: clamp(18px, 4vw, 36px);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  button {
+    width: 100%;
+    height: 40px;
+    font-size: clamp(18px, 4vw, 22px);
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.count-circle {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 7px;
+    height: 7px;
+    margin: 0 5px;
+    border-radius: 50%;
+    border: 2px solid rgb(168, 168, 168);
+  }
+}
+
+@media (min-width: 1400px) {
+  .bottom-slide-box {
+    h3 {
+      box-sizing: border-box;
+      margin: 0 0 50px 0;
+    }
+  }
+
+  #소제목 {
+    margin: 20px 0 0 0;
+  }
+}

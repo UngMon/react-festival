@@ -1,21 +1,11 @@
-li {
-  list-style: none;
-  cursor: pointer;
-}
-
-a {
-  text-decoration: none;
-  list-style: none;
-  cursor: pointer;
-}
-
 /* pc */
 .pc-nav-bar {
   box-sizing: border-box;
-  width: 100%;
-  height: 50px;
-  border-top: 0.3px solid rgb(224, 223, 223);
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.12);
+  position: absolute;
+  left: calc(50% - 280px);
+  width: 560px;
+  height: 100px;
+  color: inherit;
 }
 
 .no-border {
@@ -24,11 +14,13 @@ a {
 }
 
 .Nav-box {
+  position: absolute;
   margin: 0 auto;
   font-size: 0.8em;
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .Nav-box li {
@@ -38,18 +30,35 @@ a {
   text-align: center;
   line-height: 50px;
   transition: all 0.1s ease-out;
+  position: relative;
+
+  div {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: orange;
+    transition: all 0.2s ease-in-out;
+    z-index: 50;
+  }
+
+  &:hover {
+    div {
+      left: 0%;
+      width: 140px;
+    }
+  }
 }
 
 .Nav-box li a {
   box-sizing: border-box;
+
   display: block;
   width: 140px;
   height: 50px;
   font-size: 1.1em;
-}
-
-.Nav-box li:hover {
-  border-bottom: 3px solid orange;
+  color: inherit;
 }
 
 /* 모바일 환경*/
@@ -71,11 +80,11 @@ a {
   width: 25%;
   height: 100%;
   padding: 10px;
-  font-size: 12px;
+  font-size: 1.5em;
 }
 
 .mobile-nav-box a {
-  height: 100%; 
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

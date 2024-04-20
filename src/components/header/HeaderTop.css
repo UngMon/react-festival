@@ -1,82 +1,83 @@
-#Nav {
-  box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  padding: 5px 5px;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 99;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.bar {
-  border: 1.5px solid black;
-  margin: 4px 0;
-}
-
-.ro-m45 {
-  transform: rotate(45deg) translate(8px, 8px);
-  transition: all 0.2s linear;
-}
-.fadeout {
-  opacity: 0;
-  transition: all 0.2 linear;
-}
-.ro-45 {
-  transform: rotate(-45deg) translate(7px, -8px);
-  transition: all 0.2s linear;
-}
-
-.ro-m45n {
-  transform: rotate(0) translate(0px, 0px);
-  transition: all 0.2s linear;
-}
-
-.notfadeout {
-  animation: fadeout 0.2s linear;
-}
-
-.ro-45n {
-  transform: rotate(0) translate(0px, 0px);
-  transition: all 0.2s linear;
-}
-
-.side-box-back {
-  position: fixed;
-  top: 0;
-  width: 100%;
+.Header-top {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1200px;
   height: 100%;
-  border: 0;
-  transition: all 0.01s;
-  background-color: rgba(0, 0, 0, 0.5);
-}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-.back-on {
-  right: 0;
-  z-index: 50;
-}
+  .Logo {
+    display: block;
+    line-height: 40px;
+    height: 40px;
+    color: inherit;
 
-.back-off {
-  right: -150%;
-  z-index: 50;
-}
+    span {
+      font-size: 1.3em;
+    }
+  }
 
-@media (min-width: 1023.9px) {
-  #Nav {
-    display: none;
+  .page-top-interaction {
+    display: flex;
+    align-items: center;
+
+    .magnifying {
+      width: 35px;
+      height: 35px;
+      border: 0;
+      background-color: transparent;
+      z-index: 99;
+
+      svg {
+        font-size: 1.8em;
+      }
+    }
+
+    #nav-bar {
+      box-sizing: border-box;
+      margin-left: 5px;
+      background-color: transparent;
+      padding: 0 5px;
+      width: 35px;
+      height: 35px;
+      border: 0;
+      z-index: 14;
+      color: inherit;
+      display: none;
+
+      .bar {
+        box-sizing: border-box;
+        width: 100%;
+        border: 2px solid;
+        margin: 4px 0;
+        border-color: inherit;
+        transition: transform 0.2s linear;
+      }
+
+      .ro-t45 {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+
+      .fadeout {
+        opacity: 0;
+      }
+
+      .ro-b45 {
+        transform: rotate(-45deg) translate(5px, -6px);
+      }
+    }
   }
 }
 
-@media (max-width: 320px) {
-  .side-box {
+@media (max-width: 1023.99px) {
+  .Header-top {
     width: 100%;
-  }
-  .side-item {
-    padding-left: 10%;
+
+    .page-top-interaction {
+      #nav-bar {
+        display: block;
+      }
+    }
   }
 }

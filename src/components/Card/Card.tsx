@@ -52,7 +52,7 @@ const Card = ({ title }: CardProps) => {
   const navigate = useNavigate();
 
   const params = useAllParams(title);
-  const { type, areaCode, cat1, cat2, cat3, keyword, url } = params;
+  const { type, month, areaCode, cat1, cat2, cat3, keyword, url } = params;
 
   const cotentType = titleObject[type];
 
@@ -227,7 +227,7 @@ const Card = ({ title }: CardProps) => {
     let 행사종료: JSX.Element[] = [];
     let 행사중: JSX.Element[] = [];
     let 행사시작전: JSX.Element[] = [];
-    const { year, month, date } = nowDate();
+    const { year, date } = nowDate();
 
     for (let item of array) {
       if (!item.areacode) continue;

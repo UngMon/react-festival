@@ -1,57 +1,96 @@
-.side-box {
-  position: absolute;
-  padding-top: 50px;
+.side-background {
+  position: fixed;
   top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.side {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 50px;
   width: 320px;
   height: 80vh;
-  border: 0;
-  background-color: whitesmoke;
-  transition: all 0.3s linear;
+  background-color: #f5f5f5;
+  z-index: 11;
+  transition: all 0.5s ease;
+
+  li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  li a {
+    box-sizing: border-box;
+    padding-left: 50px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #333;
+    margin: 10px 0;
+    font-size: 1.125em;
+
+    &:hover {
+      cursor: pointer;
+      color: rgb(52, 117, 238);
+      background-color: rgb(215, 223, 228);
+    }
+  }
+
+  .user-info-box {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 20px 0 0;
+    height: 160px;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+
+    div {
+      height: 40px;
+    }
+
+    div img {
+      width: 40px;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    p {
+      margin: 10px auto;
+      width: 250px;
+      height: 30px;
+      line-height: 30px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .mo-logout {
+      background-color: transparent;
+      border: 0;
+      font-size: 1.059em;
+      font-weight: bold;
+      width: 120px;
+      border-radius: 5px 5px 5px 5px;
+      height: 40px;
+    }
+
+    .mo-logout:hover {
+      cursor: pointer;
+      background-color: rgb(43, 117, 255);
+      color: #f5f5f5 ;
+    }
+  }
 }
 
-.side-item {
-  width: 100%;
-  height: 50px;
-  padding-left: 50px;
-  margin: 10px 0;
-  text-align: left;
-  font-size: 18px;
-  line-height: 50px;
-  display: block;
-  color: #333;
-}
 
-.side-box a:hover {
-  cursor: pointer;
-  color: rgb(52, 117, 238);
-  background-color: rgb(215, 223, 228);
-}
-
-.mobile-login-box {
-  text-align: center;
-  padding: 20px 0 10px;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-}
-
-.mobile-login-box img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.mobile-login-box p {
-  margin: 10px 0;
-}
-
-.mo-logout {
-  background-color: transparent;
-  border: 0;
-  font-size: 17px;
-  font-weight: bold;
-}
-
-.mo-logout:hover {
-  cursor: pointer;
-  color: rgb(52, 117, 238);
+@media (max-height: 575px) {
+  .side {
+    height: 460px;
+  }
 }

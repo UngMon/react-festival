@@ -28,14 +28,27 @@ const HeaderTop = ({ openNav, setOpenNav, openSearch, setOpenSearch }: T) => {
         <span className="logo-title">여기저기</span>
       </Link>
       <div className="page-top-interaction">
-        <button className="magnifying" onClick={saerchClickHandler}>
+        <button
+          className="magnifying"
+          onClick={saerchClickHandler}
+          style={{ color: openNav ? "black" : "inherit" }}
+        >
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
-        <div id="Nav" onClick={clickHandler}>
-          <div className={`bar ${openNav ? "ro-m45" : "ro-m45n"}`}></div>
-          <div className={`bar ${openNav ? "fadeout" : "notfadeout"}`}></div>
-          <div className={`bar ${openNav ? "ro-45" : "ro-45n"}`}></div>
-        </div>
+        <button id="nav-bar" onClick={clickHandler}>
+          <div
+            className={`bar ${openNav ? "ro-t45" : ""}`}
+            style={{ borderColor: openNav ? "black" : "inherit" }}
+          />
+          <div
+            className={`bar ${openNav ? "fadeout" : ""}`}
+            style={{ borderColor: openNav ? "black" : "inherit" }}
+          />
+          <div
+            className={`bar ${openNav ? "ro-b45" : ""}`}
+            style={{ borderColor: openNav ? "black" : "inherit" }}
+          />
+        </button>
         <LoginButton />
       </div>
     </div>

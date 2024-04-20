@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Menu from "./Menu";
 import Search from "./Search";
@@ -9,7 +9,6 @@ import "./Header.css";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const [scrollY, setScrollY] = useState<number>(0);
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [openNav, setOpenNav] = useState<boolean>(false);
@@ -24,30 +23,28 @@ const Header = () => {
     setMouseOver(false);
   };
 
-  useEffect(() => {
-    if (pathname !== "/") return;
-    const calculateScrollY = () => {
-      setScrollY(window.scrollY);
-    };
+  let fontColor: string = "";
+  let backgroundColor: string = "";
 
-    window.addEventListener("scroll", calculateScrollY);
-    return () => {
-      window.removeEventListener("scroll", calculateScrollY);
-    };
-  });
+  if (window.innerWidth >= 1024) {
+    backgroundColor =
+      pathname === "/" ? (mouseOver ? "#F5F5F5" : "transparent") : "#F5F5F5";
+    fontColor = pathname === "/" ? (mouseOver ? "#333" : "#F5F5F5") : "#333";
+  } else {
+    backgroundColor = pathname === "/" ? "transparent" : "#F5F5F5";
+    fontColor = pathname === "/" ? "#F5F5F5" : "#333";
+  }
 
   return (
     <header
       className="Header-box"
       style={{
-        backgroundColor:
-          pathname === "/" && scrollY === 0 && !mouseOver
-            ? "transparent"
-            : "white",
-        position: pathname.includes("content") ? "relative" : "fixed",
+        position: pathname === "/" ? "absolute" : "unset",
+        backgroundColor: backgroundColor,
+        color: fontColor,
       }}
-      onMouseEnter={() => pathname === "/" && mouseEnter()}
-      onMouseLeave={() => pathname === "/" && mouseLeave()}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
     >
       <HeaderTop
         openNav={openNav}
@@ -55,15 +52,10 @@ const Header = () => {
         openSearch={openSearch}
         setOpenSearch={setOpenSearch}
       />
-      <Menu
-        pathname={pathname}
-        scrollY={scrollY}
-        mouseOver={mouseOver}
-        setOpenSearch={setOpenSearch}
-      />
-      <TopButton />
+      <Menu />
       <MobileNav openNav={openNav} setOpenNav={setOpenNav} />
       {openSearch && <Search setOpenSearch={setOpenSearch} />}
+      <TopButton />
     </header>
   );
 };

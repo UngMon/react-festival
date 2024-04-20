@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import "./TopButton.css";
 
 const TopButton = () => {
@@ -31,7 +31,7 @@ const TopButton = () => {
       setThrottle(true);
       setTimeout(() => {
         setThrottle(false);
-      }, 200);
+      }, 50);
     };
 
     window.addEventListener("scroll", scroll);
@@ -40,14 +40,16 @@ const TopButton = () => {
   }, [isVisible, throttle]);
 
   return (
-    <div
+    <button
       className="top-button-box"
       onClick={movingTopView}
       style={{ display: isVisible ? "block" : "none" }}
     >
-      <FontAwesomeIcon icon={faCaretUp} id="triangle" />
-      <span>Top</span>
-    </div>
+      <FontAwesomeIcon
+        icon={faArrowUp}
+        style={{ width: "23px", height: "23px" }}
+      />
+    </button>
   );
 };
 

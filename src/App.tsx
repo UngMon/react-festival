@@ -3,16 +3,17 @@ import { lazy, Suspense } from "react";
 import RootLayout from "./pages/Root";
 import Loading from "./components/loading/Loading";
 import GetDataError from "./components/error/GetDataError";
-import Start from "./components/main/Start";
+import Test from "./components/main/Test";
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const Main = lazy(() => import("./components/main/Main"));
 const Content = lazy(() => import("./components/content/Content"));
+const Pick = lazy(() => import("./components/main/Pick"));
 
 function App() {
-  console.log('App Render')
+  console.log("App Render");
 
   const router = createBrowserRouter([
     {
@@ -21,7 +22,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Start />,
+          element: <Test />,
         },
         {
           path: "tour",
@@ -91,6 +92,14 @@ function App() {
             },
           ],
         },
+        {
+          path: "/pick",
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Pick />
+            </Suspense>
+          ),
+        },
       ],
     },
     {
@@ -111,6 +120,7 @@ function App() {
         },
       ],
     },
+
     {
       path: "*",
       element: (
