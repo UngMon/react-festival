@@ -1,11 +1,7 @@
-.Content-box {
-  font-family: 'Noto Sans KR', sans-serif;
-}
-
 .Content {
-  width: 940px;
-  padding: 0 20px;
-  margin: 0 auto;
+  width: clamp(280px, 87.5vw, 940px);
+  margin: 40px auto 0;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .Content-title {
@@ -19,38 +15,4 @@
 .Content-detatil-area {
   position: relative;
   padding: 0 10px;
-}
-
-@media (max-width: 1023.9px) {
-  .Content-box {
-    padding-top: 50px;
-  }
-
-  .Content {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 60px;
-  }
-
-  .Content-title {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .Content {
-    padding: 0 30px;
-  }
-}
-
-@media (max-width: 425px) {
-  .Content {
-    padding: 0 15px;
-  }
-}
-
-@media (max-width: 320px) {
-  .Content-box {
-    width: 320px;
-  }
 }

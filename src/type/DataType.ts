@@ -1,4 +1,4 @@
-import { Region, Item, Data } from "./Common";
+import { Item, Data } from "./Common";
 
 export interface DataType {
   successGetData: boolean;
@@ -17,6 +17,5 @@ export interface DataType {
     };
   };
   serchRecord: { [key: string]: { [key: string]: string } };
-  // serchRecord: [string, string, string];
   행사상태: [boolean, boolean, boolean];
 }

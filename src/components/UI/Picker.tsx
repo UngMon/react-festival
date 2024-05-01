@@ -5,7 +5,7 @@ import Category from "./Category";
 import OnGoingSelector from "./OnGoingSelector";
 import Tags from "./Tags";
 import useAllParams from "../hooks/useAllParams";
-import "./UiBox.css";
+import "./Picker.css";
 
 interface T {
   title: string;
@@ -18,7 +18,7 @@ const UiBox = ({ title }: T) => {
     <div className="Ui-Box">
       <SubMenu title={title} />
       {title !== "trend" && (
-        <div id="picker-box">
+        <div>
           <div className="option-container">
             {title === "festival" && (
               <MonthSelector month={month} type={type} areaCode={areaCode} />

@@ -269,9 +269,8 @@ const Card = ({ title }: CardProps) => {
           key={item.title + `${Math.random()}`}
           onClick={() => cardClickHandler(item.contenttypeid, item.contentid)}
         >
-          <div className="tour-image-box">
+          <div className="card-image-box">
             <img
-              className="card-image"
               src={
                 item.firstimage.replace("http", "https") ||
                 "../images/Noimage.png"

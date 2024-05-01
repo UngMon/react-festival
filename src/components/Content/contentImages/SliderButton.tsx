@@ -85,6 +85,7 @@ const SliderButton = ({
     if (!disabled) {
       setCurrentIndex(currentIndex + 1);
       setDisabled(true);
+      console.log('????????????')
       if (currentIndex === imageLength) {
         setTimeout(() => {
           setCurrentIndex(1);

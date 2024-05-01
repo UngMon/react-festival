@@ -1,5 +1,5 @@
 import Card from "../card/Card";
-import UiBox from "../ui/UiBox";
+import Picker from "../ui/Picker";
 
 interface T {
   title: string;
@@ -8,7 +8,7 @@ interface T {
 const Festival = ({ title }: T) => {
   return (
     <main className="main-box">
-      {title !== "result" && <UiBox title={title} />}
+      {title !== "result" && <Picker title={title} />}
       <Card title={title} />
     </main>
   );

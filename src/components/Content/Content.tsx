@@ -21,8 +21,7 @@ const Cotent = () => {
   const contentId: string = param.get("contentId")!;
 
   return (
-    <main className="Content-box">
-      <div className="Content">
+      <main className="Content">
         {reportModalOpen[0] && (
           <ReportModal
             contentId={param.get("contentId")!}
@@ -43,8 +42,7 @@ const Cotent = () => {
           reviewRef={reviewRef}
           setReportModalOpen={setReportModalOpen}
         /> */}
-      </div>
-    </main>
+      </main>
   );
 };
 

@@ -1,7 +1,7 @@
 /* 이미지 슬라이드 */
 .slider-container {
   box-sizing: border-box;
-  margin: 40px 0;
+  margin-bottom: 40px;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -17,17 +17,12 @@
   display: flex;
 }
 
-.slide {
+.slide img {
   box-sizing: border-box;
   padding: 0 10px;
-}
-
-.slide img {
-  width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
   object-position: center;
-  border-radius: 10px;
 }
 
 .prev,
@@ -47,45 +42,42 @@
 }
 
 .prev {
-  left: 9px;
+  left: 10px;
 }
 
 .next {
-  right: 9px;
+  right: 10px;
 }
 
 .prev:hover,
 .next:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .Noimage {
-  max-width: 400px;
-  max-height: 300px;
   margin: 0 auto;
 }
 
 .Noimage img {
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 300px;
 }
 
-@media (max-width: 1023.5px) {
+@media (max-width: 1024px) {
   .slider-container {
     margin: 0 auto 40px;
-    width: calc(100% - 20px);
   }
 
-  .slide {
-    padding: 0;
+  .slide img {
+    padding: 0 5px;
   }
 
   .prev {
-    left: 0
+    left: 5px;
   }
-  
+
   .next {
-    right: 0
+    right: 5px;
   }
 }

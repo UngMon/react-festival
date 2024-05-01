@@ -1,0 +1,25 @@
+.Theme {
+  height: clamp(270px, 84.375vw, 420px);
+  overflow: hidden;
+}
+
+.Theme-Slide {
+  display: flex;
+
+  div {
+    max-height: 400px;
+    margin-right: 20px;
+  }
+
+  div img {
+    width: clamp(200px, 62.5vw, 300px);
+    height: clamp(250px, 78.125vw, 400px);
+    object-fit: cover;
+    float: center;
+  }
+}
+
+.Theme-Slide-Index-Bar {
+  margin: 15px 0 0;
+  height: 5px;
+}

@@ -10,7 +10,7 @@ const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const Main = lazy(() => import("./components/main/Main"));
 const Content = lazy(() => import("./components/content/Content"));
-const Pick = lazy(() => import("./components/main/Pick"));
+const Theme = lazy(() => import("./components/main/Theme"));
 
 function App() {
   console.log("App Render");
@@ -96,7 +96,7 @@ function App() {
           path: "/pick",
           element: (
             <Suspense fallback={<Loading />}>
-              <Pick />
+              <Theme />
             </Suspense>
           ),
         },

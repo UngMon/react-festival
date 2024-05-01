@@ -34,12 +34,7 @@ img {
   overflow-x: hidden;
 }
 
-@media (max-width: 1023.9px) {
-  .main-box {
-    min-height: calc(100vh - 150px);
-    padding-top: 50px;
-  }
-}
+
 
 @media (max-width: 320px) {
   .app {
