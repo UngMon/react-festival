@@ -808,4 +808,15 @@ export const key: { [key: string]: string[][] } = {
     ["유모차 대여", "chkbabycarriageleports"],
     ["반려동물 입장", "chkpetleports"],
   ],
+  "39": [
+    ['대표 메뉴', 'firstmenu'],
+    ['취급 메뉴', 'treatmenu'],
+    ['할인 정보', 'discountinfofood'],
+    ['문의 및 안내', 'infocenterfood'],
+    ['주차 여부', 'parkingfood'],
+    ['영업 시간', 'opentimefood'],
+    ['휴일', 'restdatefood'],
+    ['포장 가능', 'packing'],
+    ['예약 가능', 'reservationfood']
+  ]
 };

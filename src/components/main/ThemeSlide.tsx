@@ -13,12 +13,16 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
   const [startX, setStartX] = useState<number>(0);
   const [cordinateX, setCordinateX] = useState<number>(0);
   const [distance, setDistance] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const imageRef = useRef<HTMLImageElement>(null);
   const slideRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
-      if (idx === index && !slideBoxRef.current[index]?.contains(e.target as Node)) {
+      if (
+        idx === index &&
+        !slideBoxRef.current[index]?.contains(e.target as Node)
+      ) {
         slideUp();
       }
     };
@@ -39,7 +43,8 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
     if (!mouse) return;
 
     let movingX: number = startX - pageX;
-    let endX = slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
+    let endX =
+      slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
 
     if (cordinateX + movingX < 0) {
       movingX = -cordinateX + (movingX + cordinateX) / 3;
@@ -53,17 +58,19 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
   };
 
   const slideUp = () => {
-    let endX = slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
-
+    let endX =
+      slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
+    let count = Math.round(distance / imageRef.current!.clientWidth);
     setMouse(false);
     if (distance < 0) {
       setDistance(0);
     } else if (distance > endX) {
       setDistance(endX);
+      count = images.length - 1;
     } else {
-      let count = Math.round(distance / imageRef.current!.clientWidth);
       setDistance(count * imageRef.current!.clientWidth + 20 * count);
     }
+    setCount(count);
   };
 
   return (
@@ -82,8 +89,8 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
         }}
         ref={slideRef}
       >
-        {images.map((item, index) => (
-          <div key={index} className="d">
+        {images.map((item, idx) => (
+          <div key={idx} className="d">
             <img
               src={`./images/theme/cafe/${item}`}
               alt="item"
@@ -92,7 +99,14 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
           </div>
         ))}
       </div>
-      <div className="Theme-Slide-Index-Bar" />
+      <div className="Theme-Slide-Index-Bar">
+        {images.map((_, idx) => (
+          <div
+            key={idx}
+            style={{ width: count === idx ? "15px" : "7px" }}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };

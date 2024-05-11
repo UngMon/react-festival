@@ -80,15 +80,11 @@ export type ContentInfo = {
 };
 
 export type ContentImage = {
-  contentid: string;
+  contentid?: string;
   originimgurl: string;
-  smallimageurl: string;
-  cpyrhtDivCd: string;
-  serialnum: string;
-};
-
-export type ImageData = {
-  originimgurl: string;
+  smallimageurl?: string;
+  cpyrhtDivCd?: string;
+  serialnum?: string;
 };
 
 export type ResponInfo = {

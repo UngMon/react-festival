@@ -4,7 +4,7 @@ import RegionSelector from "./RegionSelector";
 import Category from "./Category";
 import OnGoingSelector from "./OnGoingSelector";
 import Tags from "./Tags";
-import useAllParams from "../hooks/useAllParams";
+import useAllParams from "../../hooks/useAllParams";
 import "./Picker.css";
 
 interface T {

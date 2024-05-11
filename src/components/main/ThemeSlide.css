@@ -1,8 +1,3 @@
-.Theme {
-  height: clamp(270px, 84.375vw, 420px);
-  overflow: hidden;
-}
-
 .Theme-Slide {
   display: flex;
 
@@ -20,6 +15,20 @@
 }
 
 .Theme-Slide-Index-Bar {
-  margin: 15px 0 0;
-  height: 5px;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  bottom: 0px;
+  margin: 13px 0 0;
+  height: 7px;
+  justify-content: center;
+
+  div {
+    height: 7px;
+    border-radius: 3.5px;
+    margin-right: 10px;
+    background-color: rgb(47, 47, 47);
+    transition: all .2s ease-in-out;
+  }
 }
+

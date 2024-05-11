@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { nowDate } from "../../utils/NowDate";
+import { nowDate } from "../utils/NowDate";
 
 interface Object {
   [key: string]: string;
@@ -13,7 +13,7 @@ interface AllParams {
   cat2: string;
   cat3: string;
   keyword: string;
-  url: string;
+  requireRedirect: boolean;
 }
 
 const typeObject: { [key: string]: string } = {
@@ -24,8 +24,10 @@ const typeObject: { [key: string]: string } = {
 };
 
 const useAllParams = (title: string) => {
-  const [params] = useSearchParams();
+  // useAllParams는 사용자가 url를 수정한 경우 올바른 경로로 redirect해준다.
+  // type, month, areaCode, cat1, cat2, cat3, keyword를 return
 
+  const [params] = useSearchParams();
   const nowMonth: string = nowDate().month;
 
   const paramObject: Object = {
@@ -38,35 +40,28 @@ const useAllParams = (title: string) => {
     keyword: "",
   };
 
-  let url: string = "";
-  let object: { [key: string]: string } = {};
+  let object: Object = {};
   let deleteArray: string[] = [];
+  let requireRedirect: boolean = false;
 
-  for (let [key, value] of params) {
-    if (!paramObject[key]) {
-      deleteArray.push(key);
-      continue;
-    }
-    object[key] = value;
+  for (const [key, value] of params) {
+    if (paramObject[key]) object[key] = value;
+    else deleteArray.push(key);
   }
 
-  if (deleteArray.length !== 0) {
-    for (let param of deleteArray) {
-      params.delete(param);
-    }
-    url = `?${params.toString()}`;
+  // 1, 2번의 조건을 둘다 만족한 경우 아래 반복물을 읽고 지나간다.
+  for (const deleteKey of deleteArray) {
+    params.delete(deleteKey);
+    if (!requireRedirect) requireRedirect = true;
   }
 
   for (const key in paramObject) {
-    if (!object[key]) {
-      object[key] = "";
-      if (title !== "festival" && key === "month") continue;
-      if (title !== "result" && key === "keyword") continue;
-      if (url.length === 0) url = "locallhost:3000";
-    }
+    if (object[key]) continue;
+
+    object[key] = paramObject[key];
   }
-  console.log(url)
-  return { ...object, url } as AllParams;
+
+  return { ...object, requireRedirect } as AllParams;
 };
 
 export default useAllParams;

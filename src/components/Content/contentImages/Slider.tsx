@@ -1,9 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  ContentImage,
-  ResponImage,
-  ImageData,
-} from "../../../type/FestivalType";
+import { ContentImage, ResponImage } from "../../../type/FestivalType";
 import SliderButton from "./SliderButton";
 import Loading from "../../loading/Loading";
 import "./Slider.css";
@@ -18,78 +14,93 @@ const Slider = ({ type, contentId }: SliderProps) => {
   const sliderBoxRef = useRef<HTMLDivElement>(null);
 
   const [width, setWidth] = useState<number>(0);
-  const [image, setImage] = useState<ContentImage[] | ImageData[]>([]);
-  const [noImage, setNoImage] = useState<boolean>(false);
-  const [currentIndex, setCurrentIndex] = useState<number>(1);
+  const [image, setImage] = useState<ContentImage[]>([]);
+  const [originImages, setOriginImages] = useState<ContentImage[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isMouseOver, setISMouseOver] = useState<boolean>(false);
+  const [isVisibleButton, setIsVisibleButton] = useState<boolean>(true);
 
   useEffect(() => {
     const getImage = async (contentId: string) => {
       try {
         const imageData = await getContentImage(contentId);
-
-        /* 한구관광공사에서 받아온 데이터에서 어떤 축제는 이미지가 여러개 있고, 어떤건
+        /* 각 컨텐츠는 상세 이미지가 여러개 있고, 어떤건
         아예 없는 경우가 있다. 각각의 경우에 따라서 image State를 따로 정의해줘야 한다. */
 
-        if (!imageData.response.body.items) {
-          /* 관광공사 api로 부터 밭은 데이터에서 해당 축제의 사진이 없을 경우 */
-          const object = {
-            originimgurl: "/images/NoImage.png",
-          };
-
-          setImage([object]);
-          setNoImage(true);
+        let img = imageData.response.body.items.item ?? [
+          { originimgurl: "/images/NoImage.png" },
+        ];
+        setOriginImages(img);
+        /* 해당 축제의 이미지가 있을 때, */
+        if (img.length === 1) {
+          setImage(img);
           sliderBoxRef.current!.style.justifyContent = "center";
-        } else {
-          /* 해당 축제의 이미지가 있을 때, */
-          const img = imageData.response.body.items.item;
-
-          /* 컨텐츠 이미지 개수에 따른 img 설정 */
-          if (img.length === 1) {
-            setImage([...img]);
-            setWidth(sliderBoxRef.current!.clientWidth);
-          } else if (img.length === 2) {
-            setImage([...img, ...img, ...img]);
-            setWidth(sliderBoxRef.current!.clientWidth / 3);
-          } else {
-            setImage([img[img.length - 1], ...img, img[0]]);
-            setWidth(sliderBoxRef.current!.clientWidth / 3);
-          }
-
+        } else if (img.length === 2) {
+          setImage(img);
+          setWidth(sliderBoxRef.current!.clientWidth / 2);
           sliderBoxRef.current!.style.justifyContent = "";
+          setCurrentIndex(0);
+        } else {
+          setImage([...img, ...img, ...img]);
+          setWidth(sliderBoxRef.current!.clientWidth / 3);
+          sliderBoxRef.current!.style.justifyContent = "";
+          setCurrentIndex(img.length);
         }
+
         /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
       } catch (error) {
         const object = {
           originimgurl: "/images/NoImage.png",
         };
-
         setImage([object]);
+        setOriginImages([object]);
         sliderBoxRef.current!.style.justifyContent = "center";
       }
     };
     getImage(contentId);
-  }, [type, contentId, sliderBoxRef]);
+  }, [contentId, sliderBoxRef]);
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {
     // 첫 렌더링 후 모바일 너비이면 이미지 슬라이드 너비 맞춤
-    if (window.innerWidth < 900) setWidth(sliderBoxRef.current!.clientWidth);
+    if (image.length === 2) {
+      if (window.innerWidth <= 590) {
+        setWidth(sliderBoxRef.current!.clientWidth);
+        setIsVisibleButton(true);
+      } else {
+        setWidth(sliderBoxRef.current!.clientWidth / 2);
+        setIsVisibleButton(false);
+      }
+    }
+
+    if (image.length > 2) {
+      if (window.innerWidth > 900)
+        setWidth(sliderBoxRef.current!.clientWidth / 3);
+      else setWidth(sliderBoxRef.current!.clientWidth);
+    }
 
     // pc 사용자가 브라우저 크기를 조절할 때,
     const resizeHandler = () => {
-      setWidth(
-        window.innerWidth < 900
-          ? sliderBoxRef.current!.clientWidth
-          : sliderBoxRef.current!.clientWidth / 3
-      );
+      if (image.length === 2) {
+        if (window.innerWidth <= 590) {
+          setWidth(sliderBoxRef.current!.clientWidth);
+          setIsVisibleButton(true);
+        } else {
+          setWidth(sliderBoxRef.current!.clientWidth / 2);
+          setIsVisibleButton(false);
+        }
+      } else if (image.length >= 3) {
+        setWidth(
+          window.innerWidth > 900
+            ? sliderBoxRef.current!.clientWidth / 3
+            : sliderBoxRef.current!.clientWidth
+        );
+      }
     };
     window.addEventListener("resize", resizeHandler);
 
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, [sliderBoxRef]);
+    return () => window.removeEventListener("resize", resizeHandler);
+  }, [sliderBoxRef, image]);
 
   return (
     <div className="slider-container">
@@ -115,30 +126,37 @@ const Slider = ({ type, contentId }: SliderProps) => {
             <div key={index} className="slide">
               <a
                 key={index}
-                href={
-                  noImage
-                    ? "/images/NoImage.png"
-                    : item.originimgurl.replace("http", "https")
-                }
+                href={item.originimgurl.replace("http", "https")}
                 rel="noreferrer"
                 target="_blank"
               >
                 <img
-                  src={
-                    noImage
-                      ? "/images/NoImage.png"
-                      : item.originimgurl.replace("http", "https")
-                  }
+                  src={item.originimgurl.replace("http", "https")}
                   alt="축제 사진"
                   loading="lazy"
-                  style={{ width: noImage ? "400px" : `${width}px` }}
+                  style={{ width: image.length < 2 ? "300px" : `${width}px` }}
                 />
               </a>
             </div>
           ))}
         </div>
       </div>
-      {/* {image.length !== 1 && (
+      <div className="content-image-index">
+        {originImages.map((_, index) => (
+          <div
+            key={index}
+            style={{
+              width:
+                currentIndex % originImages.length === index ? "14px" : "7px",
+              backgroundColor:
+                currentIndex % originImages.length === index
+                  ? "rgb(131, 131, 131)"
+                  : "rgb(168, 168, 168)",
+            }}
+          />
+        ))}
+      </div>
+      {image.length > 1 && isVisibleButton && (
         <SliderButton
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
@@ -146,7 +164,7 @@ const Slider = ({ type, contentId }: SliderProps) => {
           imageLength={image.length}
           isMouseOver={isMouseOver}
         />
-      )} */}
+      )}
     </div>
   );
 };
@@ -165,6 +183,5 @@ async function getContentImage(id: string) {
   }
 
   const data: ResponImage = await response.json();
-  console.log(data);
   return data;
 }

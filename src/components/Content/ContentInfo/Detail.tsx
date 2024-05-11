@@ -42,6 +42,7 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
           common: response.contentCommon,
         });
       } catch (error: any) {
+        setLoading(false);
         throw Error(`error is ocurred! ${error.message}`);
       }
 

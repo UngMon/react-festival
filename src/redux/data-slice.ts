@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getApiData } from "./fetch-action";
+import { getTourApiData } from "./fetch-action";
 import { DataType } from "../type/DataType";
 import { Item, Data } from "../type/Common";
 
@@ -31,12 +31,12 @@ const dataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getApiData.pending, (state, action) => {
+      .addCase(getTourApiData.pending, (state, action) => {
         state.successGetData = false;
         state.httpState = "pending";
         state.loading = true;
       })
-      .addCase(getApiData.fulfilled, (state, action) => {
+      .addCase(getTourApiData.fulfilled, (state, action) => {
         state.successGetData = true;
         state.httpState = "fulfilled";
         state.loading = false;
@@ -123,7 +123,7 @@ const dataSlice = createSlice({
         arr = typeArray[areaCode]?.[cat1]?.[cat2]?.[cat3] || [];
         typeArray[areaCode][cat1][cat2][cat3] = [...arr, ...dummyData];
       })
-      .addCase(getApiData.rejected, (state, action) => {
+      .addCase(getTourApiData.rejected, (state, action) => {
         state.loading = false;
         state.successGetData = false;
         state.httpState = "fulfilled";

@@ -8,20 +8,34 @@ const slideData = [
     {
       title: "아우트로 커피산성",
       text: "청주 근교 커피가 맛있는 남성 아우트로 카페로 버섯 모양의 독특한 지붕이 손님의 시선을 화로 잡는다. 회색벽돌과 회색 지붕의 단일 컬러로 마치 이 건물이 자연에서 발견할 수 있는 아름다운 곡선의 돌 조각상으로 보여진다. 아우트로 커피는 다양한 디저트 빵이 준비되어 있다. 빵은 직접 반죽, 당일 생산, 당일 폐기를 원칙으로 한다. ",
-      images: [],
+      images: [
+        "아우트로1.jpeg",
+        "아우트로2.jpeg",
+        "아우트로3.jpeg",
+        "아우트로4.jpeg",
+        "아우트로5.jpeg",
+      ],
       sns: "@outro_coffee",
       hash: "#Natrue #Photo Zone #Cafe",
       contentId: "2766501",
       sigun: "충북 청주시 가경읍",
+      contentType: "39",
     },
     {
       title: "모이핀",
       text: "모이핀은 여수 핫플레이스 오션뷰 카페다. 오션점, 스카이점 두 곳이 있으며 건물의 전고가 높아 확 트인 개방감을 주면서 통유리에 보여지는 여수의 바다 풍경은 일품이다. 각 층마다 다른 테마의 가구와 배치로 새로운 느낌을 준다.",
-      images: [],
+      images: [
+        "모이핀1.jpeg",
+        "모이핀2.jpeg",
+        "모이핀3.jpeg",
+        "모이핀4.jpeg",
+        "모이핀5.jpeg",
+      ],
       sns: "@cafe_moifin",
       hash: "#Shop# Café",
       contentId: "2931286",
       sigun: "전남 여수시 남면",
+      contentType: "39",
     },
     // {
     //   title: "선유도원",
@@ -35,11 +49,18 @@ const slideData = [
     {
       title: "묵리459",
       text: "묵리 459는 용인을 대표하는 자연 속의 브런치 & 로스터리 카페다. 먹을 만들던 마을에서 유래된 이름 묵리, 그 이름 그대로 묵리459로 옛 선조들의 '섬김' 정신을 바탕으로 고객님들을 맞이한다. 묵리 459의 건축 디자인은 계절을 담은 창, 자연 그대로의 날 것을 보여주기 위해 내부를 비우고 시선을 외부로 자연스럽게 유도한다. 봄. 여름, 가을, 겨울 사계절마다 다른 색을 입은 자연을 바라보며 저마다 느끼는 다양한 감정을 통해 힐링하는 시간이 될 수 있다.",
-      images: [],
+      images: [
+        "묵리1.jpeg",
+        "묵리2.jpeg",
+        "묵리3.jpeg",
+        "묵리4.jpeg",
+        "묵리5.jpeg",
+      ],
       sns: "@mukri459_official",
       hash: "#Natrue #Photo Zone #Cafe",
       contentId: "2837499",
       sigun: "경기 용인시 처인구",
+      contentType: "39",
     },
     {
       title: "고요새",
@@ -55,33 +76,55 @@ const slideData = [
       hash: "#Cafe",
       contentId: "2853453",
       sigun: "제주도 제주시",
+      contentType: "39",
     },
     {
       title: "소노펠리체 델피노 더 엠브로시아",
       text: "고성의 소노 펠리체 델 피노 10층에 위치한 앰브로시아 카페는 세계적으로 유명한 설악산의 울산바위 전망을 즐길 수 있는 공간이다. 계절마다 다른 설악의 풍경과 함께 향긋한 커피와 당일 갓 구운 베이커리를 자연과 함께하는 아름다운 풍경 속에서 즐길 수 있다.",
-      images: [],
+      images: [
+        "소노펠리체1.jpeg",
+        "소노펠리체2.jpeg",
+        "소노펠리체3.jpeg",
+        "소노펠리체4.jpeg",
+        "소노펠리체5.jpeg",
+      ],
       sns: "",
       hash: "#Cafe",
       contentId: "2818350",
       sigun: "강원 고성군 토성면",
+      contentType: "39",
     },
     {
       title: "팔숲",
       text: "팔숲은 산밑 조용하고 한적한 곳에 위치해 있는 브런치 맛집, 나무들로 가득한 숲속 에서 여러분들의 지친 일상에 힐링을 전해주는 향기로운 카페다. 특히 카페 2층은 전체적인 통창으로 되어 있어서 팔숲 특유의 통창뷰 감성을 느끼기에 최적의 환경으로 이루어져 있다. 애견 동반도 가능하기 때문에 야외 테이블에서 여유로움을 느끼면서 포레스트 감성 느끼기도 좋고 같이 온 반려동물과 행복한 시간을 보내기에도 좋다.",
-      images: [],
+      images: [
+        "팔숲1.jpeg",
+        "팔숲2.jpeg",
+        "팔숲3.jpeg",
+        "팔숲4.jpeg",
+        "팔숲5.jpeg",
+      ],
       sns: "@palsoop_",
       hash: "#Natrue #Cafe",
       contentId: "2867787",
       sigun: "경기 남양주시 와부읍",
+      contentType: "39",
     },
     {
       title: "인크커피 가산점",
       text: "도심 속 여유를 즐겨볼 수 있는 카페다. 카페 안에는 큰 로스터리가 있고, 바닥부터 천장까지 유리창으로 둘러싸인 거대한 원형의 중庭이 인상적이다. 건물은 크고 지하실과 4층에 옥상 공간이 있다. 인근에는 여러 회사들이 있어 점심시간에는 사무직원으로 붐빈다.",
-      images: [],
+      images: [
+        "인크커피1.jpeg",
+        "인크커피2.jpeg",
+        "인크커피3.jpeg",
+        "인크커피4.jpeg",
+        "인크커피5.jpeg",
+      ],
       sns: "@inccoffee__",
       hash: "#Cafe",
       contentId: "2836657",
       sigun: "서울 금천구",
+      contentType: "39",
     },
     {
       title: "카페 긷",
@@ -91,6 +134,7 @@ const slideData = [
       hash: "#Cafe",
       contentId: "2913408",
       sigun: "강원 속초시 노학동",
+      contentType: "39",
     },
     {
       title: "공간태리",
@@ -106,125 +150,217 @@ const slideData = [
       hash: "#Shop #Cafe",
       contentId: "2900942",
       sigun: "대전 유성구",
+      contentType: "39",
     },
     {
       title: "논스페이스",
       text: "논스페이스 건물은 쌀알을 베고 난 논에 남아있는 쌀벼의 형태를 상징하고 있다. 건물은 세련되고 스타일리시한 분위기를 풍기고 있다. 노출된 콘크리트, 긴 커피 바, 그리고 나무 가구는 조화를 이루어 특별한 가치를 더해주며, 공간을 더욱 돋보이게 한다.",
-      images: [],
+      images: [
+        "논스페이스1.jpeg",
+        "논스페이스2.jpeg",
+        "논스페이스3.jpeg",
+        "논스페이스4.jpeg",
+        "논스페이스5.jpeg",
+      ],
       sns: "@nonspace_2000",
       hash: "#Cafe",
       contentId: "2847961",
       sigun: "경기 이천시 호법면",
+      contentType: "39",
     },
     {
       title: "무지개펜션에스프레소",
       text: "거제도의 최남단에 위치해 있는 조용하고 한적한 홍포마을의 카페, '무지개펜션에스프레소'이다. 거제도 관광지도에, 전망대로 네이버지도에 표시될 만큼 아름다운 '여차홍포해안비경'이 한눈에 들어오는 '무지개펜션'을 리뉴얼하여 카페로 운영하고 있다. 푸른 다도해의 아름다운 비경과 함께 즐기는 커피 한 잔의 여유, 바쁜일상에서 벗어나 여유롭게 바다와 음악을 감상하는 공간이기에 노키즈존으로 운영한다.",
-      images: [],
+      images: [
+        "무지개1.jpeg",
+        "무지개2.jpeg",
+        "무지개3.jpeg",
+        "무지개4.jpeg",
+        "무지개5.jpeg",
+      ],
       sns: "@mujigaepension",
       hash: "#Photo Zone #Cafe",
       contentId: "3060359",
       sigun: "경기 이천시 호법면",
+      contentType: "39",
     },
     {
       title: "꼬스뗀뇨",
       text: "코스테뇨(Costeño)는 제주의 구좌읍에 오픈한 카페로 구좌 해안도로를 따라 운전하는 도중 볼 수 있다. 제주 분위기 가득한 야외 정원의 야자수나무들이 여러분을 환영할 것이다. 노출된 콘크리트 벽이 특징인 인테리어는 숯색으로 가득 차 있다. 카페는 본관과 갤러리용 두 건물을 사한다. 내부는 바 테이블과 창가 테이블을 공유하는 넓은 공간으로, 음료를 즐기기 위한 갤러리 좌석도 찾을 수 있다. 이 카페는 커피를 즐기고 책을 읽거나 노트북으로 작업할 장소를 찾는 이들에게 좋은 선택지다.",
-      images: [],
+      images: [
+        "꼬스뗀뇨1.jpeg",
+        "꼬스뗀뇨2.jpeg",
+        "꼬스뗀뇨3.jpeg",
+        "꼬스뗀뇨4.jpeg",
+        "꼬스뗀뇨5.jpeg",
+      ],
       sns: "@_costeno",
       hash: "#Cafe #Dessert/Bakery",
       contentId: "2877801",
       sigun: "제주 제주시 구좌읍",
+      contentType: "39",
     },
     {
       title: "스위밍터틀",
       text: "스위밍터틀은 강원도 고성의 아야진 해변에 위치한 아름다운 파노라마 오션뷰 카페다. 동해 바다의 일출, 해질녘의 분홍 노을이 함께 어우러지는 풍경을 모든 좌석에서 편안하게 보실 수 있으며, 바다를 배경으로 한 바다정원에서 바라보는 노을도 매력적이다. 미술관과 같은 복도를 지나 푸른 바다를 마주하면 시간이 멈춘 것 같은 착각이 들기도 한다. 루프탑을 비롯하여 세련되고 깔끔한 인테리어로 편안한 분위기에서 평화로운 아야진 해변을 바라보며 편안한 휴식과 감성 충전을 할 수 있다.",
-      images: [],
+      images: [
+        "스위밍터틀1.jpeg",
+        "스위밍터틀2.jpeg",
+        "스위밍터틀3.jpeg",
+        "스위밍터틀4.jpeg",
+        "스위밍터틀5.jpeg",
+      ],
       sns: "@swimming.turtle.cafe",
       hash: "#Cafe",
       contentId: "2837878",
       sigun: "강원군 고성군 토성면",
+      contentType: "39",
     },
     {
       title: "에이프레임",
       text: "에이프레임(A∙Frame)은 관광 명소 수준의 시네마틱 한적한 바다 경관과 서핑 보드로 장식된 인상적인 벽 장식을 볼 수 있다. 내부 공간은 외부에서 예상한 것보다 크며, 다양한 유형의 좌석이 방문객들이 억제 없는 바다 경관을 즐길 수 있다. 카페가 해변 클럽의 분위기를 건물 안으로 적절하게 가져와 방문객이 실제 여행을 갔다온 듯한 느낌을 받을 수 있도록 한 것이 인상적이다.",
-      images: [],
+      images: [
+        "에이프레임1.jpeg",
+        "에이프레임2.jpeg",
+        "에이프레임3.jpeg",
+        "에이프레임4.jpeg",
+        "에이프레임5.jpeg",
+      ],
       sns: "@aframe_cafe",
       hash: "#Photo Zone #Cafe",
       contentId: "2807083",
       sigun: "강원 고성 죽왕면",
+      contentType: "39",
     },
     {
       title: "케이프라운지",
       text: "포항의 호미곶에 위치한 이 풀 빌라와 카페는 Cape Lounge로 불린다. Cape Lounge는 초목 위의 휴식 라운지를 의미하는데 이곳에서 일출과 일몰을 감상할 수 있다. 또한 개방된 공간에서는 맑은 바다와 수영장의 광활한 전망을 즐길 수 있다.",
-      images: [],
+      images: [
+        "케이프라운지1.jpeg",
+        "케이프라운지2.jpeg",
+        "케이프라운지3.jpeg",
+        "케이프라운지4.jpeg",
+        "케이프라운지5.jpeg",
+      ],
       sns: "@capelounge_official",
       hash: "#Photo Zone #Cafe",
       contentId: "2842615",
       sigun: "경북 포항시 남구",
+      contentType: "39",
     },
     {
       title: "오른",
       text: "orrrn은 성산에 위치한 이 바다 전망 카페다. 외관은 탁월한 건축 미학을 보여줍니다. 노출된 콘크리트의 단순함이 깊은 푸른 제주 바다와 잘 어울린다. 물이 건물 주변을 흐르고, 풀은 바람에 흔들리며, 봄에는 유채꽃, 여름에는 해바라기, 가을에는 아름다운 억새가 무성히 피는 꽃으로 가득하다. 유리벽을 통해 카페의 모든 코너에서 광활한 바다 전망을 즐길 수 있으며, 야외 테라스와 옥상에 앉아있는 좌석은 성산 지역에서 이 카페를 특별하게 만든다.",
-      images: [],
+      images: [
+        "오른1.jpeg",
+        "오른2.jpeg",
+        "오른3.jpeg",
+        "오른4.jpeg",
+        "오른5.jpeg",
+      ],
       sns: "@orrrn_official",
       hash: "#Cafe",
       contentId: "2845353",
       sigun: "부산 사상구",
+      contentType: "39",
     },
     {
       title: "코랄라니",
       text: "코랄라니는 부산 기장에 위치한 새로 오픈한 대형 오션 뷰 카페다. 지하 1층부터 옥상까지 총 4층의 실내 층과 옥상 공간이 있습니다. 각 층마다 있는 야외 테라스는 오션 뷰를 즐기기에 최적의 장소다. 실내 공간은 불필요한 장식 없이 간결하고 현대적으로 제공되어 편안한 시간을 보낼 수 있다.",
-      images: [],
+      images: [
+        "코랄라니1.jpeg",
+        "코랄라니2.jpeg",
+        "코랄라니3.jpeg",
+        "코랄라니4.jpeg",
+        "코랄라니5.jpeg",
+      ],
       sns: "@cafecoralani",
       hash: "#Photo Zone #Cafe",
       contentId: "2832636",
       sigun: "부산 기장군",
+      contentType: "39",
     },
     {
       title: "온더버튼",
       text: "무남 해변에 위치한 이 카페는 바다 전망으로 유명하다. 1층은 실내 공간이고 2층은 옥상 공간이며 깔끔하고 아늑한 실내 공간에서 바다 전망을 즐길 수 있다. 카페 건물 옆 바다를 볼 수 있는 공간은 사진 촬영 존으로 활용된다. 카운터부터 내부 공간까지 많은 테이블을 찾을 수 있다. 조용한 시간을 즐기고 싶다면 일찍 방문하는 것을 추천한다.",
-      images: [],
+      images: [
+        "온더버튼1.jpeg",
+        "온더버튼2.jpeg",
+        "온더버튼3.jpeg",
+        "온더버튼4.jpeg",
+        "온더버튼5.jpeg",
+      ],
       sns: "",
       hash: "#Photo Zone #Cafe",
       contentId: "2839753",
       sigun: "강원 고성군 죽왕면",
+      contentType: "39",
     },
   ],
   [
     {
       title: "mrnw",
       text: "mrnw는 누구나 마음속으로 꿈꾸는 이상적인 공간 하지만, 어디에도 존재하지 않는 공간을 현실로 만들고자 하는 생각에서 시작합니다. 자연속에서 mrnw와 함께 전시, 문화, 예술, f&b등 다양한 컨텐츠를 만나실 수 있습니다.",
-      images: [],
+      images: [
+        "mrnw1.jpeg",
+        "mrnw2.jpeg",
+        "mrnw3.jpeg",
+        "mrnw4.jpeg",
+        "mrnw5.jpeg",
+      ],
       sns: "@miraenongwon",
       hash: "#Culture Complex #Cafe #Exhibition #Museum",
       contentId: "",
       sigun: "대구 북구",
+      contentType: "14",
     },
     {
       title: "리움미술관",
       text: "리움미술관은 한국 고유의 미를 담고 있는 전통미술과 생동하는 현대미술, 시대적 가치를 반영한 국제미술이 함께 공존하는 세계를 향한 열린 미술관입니다. 리움은 과거와 현재를 바탕으로 미래를 함께 모색하고, 시대와 장르를 초월한 융합미술관으로 관객과 함께 향유하고 소통하는 문화적 공간이 되고자 합니다.",
-      images: [],
+      images: [
+        "리움1.jpeg",
+        "리움2.jpeg",
+        "리움3.jpeg",
+        "리움4.jpeg",
+        "리움5.jpeg",
+      ],
       sns: "@leeummuseumofart",
       hash: "#Culture Complex #Cafe #Exhibition #Museum",
       contentId: "",
       sigun: "서울 용산구",
+      contentType: "14",
     },
     {
       title: "코스모 40",
       text: "거대한 폐공장을 리모델링하여 탄생한 코스모40은 커피와 베이커리 등의 식음 경험과 전시, 공연, 퍼포먼스, 워크숍, 커뮤니티 이벤트 등을 통해 문화와 예술을 총체적으로 경험하고 일상을 새롭게 감각하는 영감의 공간입니다.",
-      images: [],
+      images: [
+        "코스모1.jpeg",
+        "코스모2.jpeg",
+        "코스모3.jpeg",
+        "코스모4.jpeg",
+        "코스모5.jpeg",
+      ],
       sns: "@cosmo.40",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
       contentId: "",
       sigun: "인천 서구",
+      contentType: "14",
     },
     {
       title: "밀락더마켓",
       text: "밀락더마켓(Millac the Market)은 키친보리에가 부산의 랜드마크 '더베이101', 다대포 '올드트리마켓'에 이어 세번째로 선보이는 워터프론트 복합문화공간입니다. 기존 복합쇼핑 공간과는 차별화된 열린 광장형 체험 공간을 지향하고, 사람과 사람, 아티스트와 관객, 맛있는 음식과 소비자, 로컬과 문화를 연결하는 가교의 역할로 지역 커뮤니티 활성화에 새로운 활력이 될 것입니다.",
-      images: [],
+      images: [
+        "밀락더마켓1.jpeg",
+        "밀락더마켓2.jpeg",
+        "밀락더마켓3.jpeg",
+        "밀락더마켓4.jpeg",
+        "밀락더마켓5.jpeg",
+      ],
       sns: "@millac_the_market_official",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
       contentId: "",
       sigun: "부산 수영구",
+      contentType: "14",
     },
     {
       title: "바우자움조각미술관",
@@ -234,6 +370,7 @@ const slideData = [
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
       contentId: "",
       sigun: "강원 고성군",
+      contentType: "14",
     },
     {
       title: "사운즈한남",
@@ -243,6 +380,7 @@ const slideData = [
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Tourist Destination",
       contentId: "",
       sigun: "서울 용산구",
+      contentType: "14",
     },
     {
       title: "아유 스페이스",
@@ -252,6 +390,7 @@ const slideData = [
       hash: "#Culture Complex #Cafe",
       contentId: "",
       sigun: "경기 남양주시",
+      contentType: "14",
     },
     {
       title: "수풍석 뮤지엄",
@@ -261,6 +400,7 @@ const slideData = [
       hash: "#Exhibition #Museum",
       contentId: "",
       sigun: "제주 서귀포시",
+      contentType: "14",
     },
 
     {
@@ -271,6 +411,7 @@ const slideData = [
       hash: "#Culture Complex #Library #Exhibition #Museum",
       contentId: "",
       sigun: "경기 의정부 민락동",
+      contentType: "14",
     },
     {
       title: "사유원",
@@ -280,6 +421,7 @@ const slideData = [
       hash: "#Exhibition #Museum",
       contentId: "",
       sigun: "대구 군위군",
+      contentType: "14",
     },
     {
       title: "청운문학도서관",
@@ -289,6 +431,7 @@ const slideData = [
       hash: "#Exhibition #Museum",
       contentId: "",
       sigun: "서울 종로구",
+      contentType: "14",
     },
     {
       title: "양천공원 책쉼터",
@@ -298,6 +441,7 @@ const slideData = [
       hash: "#Nature #Library",
       contentId: "",
       sigun: "서울 양천구",
+      contentType: "14",
     },
     {
       title: "송은",
@@ -307,6 +451,7 @@ const slideData = [
       hash: "#Nature #Library",
       contentId: "",
       sigun: "서울 강남구",
+      contentType: "14",
     },
   ],
   [
@@ -318,6 +463,7 @@ const slideData = [
       sns: "@graphic.fan",
       hash: "#Shop #Bookstore",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "LCDC",
@@ -327,6 +473,7 @@ const slideData = [
       sns: "@lcdc.seoul",
       hash: "#Culture Complex #Shop #Cafe #Restaurant #Exhibition #Museum #Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "팬암 성수플래그쉽스토어",
@@ -336,6 +483,7 @@ const slideData = [
       sns: "@lcdc.seoul",
       hash: "#Shop",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "DIOR 성수",
@@ -345,6 +493,7 @@ const slideData = [
       sns: "",
       hash: "#Shop# Cafe",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "콤포트",
@@ -354,6 +503,7 @@ const slideData = [
       sns: "@comfort.seoul",
       hash: "#Culture Complex #Shop #Cafe #Dessert /Bakery",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "아더에러 신사 스페이스",
@@ -363,6 +513,7 @@ const slideData = [
       sns: "@ader_error",
       hash: "#Photo Zone #Culture Complex #Shop #Cafe #Exhibition #Museum",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "북촌 설화수의 집",
@@ -372,6 +523,7 @@ const slideData = [
       sns: "",
       hash: "#Photo Zone #Culture Complex #Shop #Cafe #Exhibition #Museum",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "북촌 설화수의 집",
@@ -381,6 +533,7 @@ const slideData = [
       sns: "",
       hash: "#Nature #Photo Zone #Culture Complex #Shop #Exhibition #Museum",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "현대카드 아트 라이브러리",
@@ -390,6 +543,7 @@ const slideData = [
       sns: "https://dive.hyundaicard.com",
       hash: "#Culture Complex #Music",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "탬버린즈 성수 플래그십스토어",
@@ -399,6 +553,7 @@ const slideData = [
       sns: "@tamburinsofficial",
       hash: "#Culture Complex #Music",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "무신사 스탠다드 홍대",
@@ -408,6 +563,7 @@ const slideData = [
       sns: "",
       hash: "#Culture Complex #Music",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "1유로프로젝트 코끼리빌라",
@@ -417,6 +573,7 @@ const slideData = [
       sns: "@1_euro_projects",
       hash: "#Shopping Mall #Photo Zone #Culture Complex #Cafe #Restaurant #Dessert/Bakery #Tourist Destination",
       contentId: "",
+      contentType: "14",
     },
   ],
   [
@@ -428,6 +585,7 @@ const slideData = [
       sns: "@musicspacecamerata",
       hash: "#Cafe",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "뮤직컴플렉스서울",
@@ -437,6 +595,7 @@ const slideData = [
       sns: "@music.complex.seoul",
       hash: "#Culture Complex #Cafe #Music",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "평균율",
@@ -446,6 +605,7 @@ const slideData = [
       sns: "@pky_seoul",
       hash: "#Shop #Cafe #Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "내도음악상가",
@@ -455,6 +615,7 @@ const slideData = [
       sns: "@recordbar.naedo",
       hash: "#Music #Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "현대카드 뮤직 라이브러리",
@@ -464,6 +625,7 @@ const slideData = [
       sns: "https://dive.hyundaicard.com/web/musiclibrary/spaceMain.hdc",
       hash: "#Culture Complex",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "힐즈 앤 유로파",
@@ -473,6 +635,7 @@ const slideData = [
       sns: "@hillsandeuropa",
       hash: "#Cafe #Restaurant #Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "로스트 앤 파운드",
@@ -482,6 +645,7 @@ const slideData = [
       sns: "@lostandfound_bourbonbar",
       hash: "#Cafe #Restaurant #Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "콩치노 콘크리트",
@@ -491,6 +655,7 @@ const slideData = [
       sns: "@lostandfound_bourbonbar",
       hash: "#Music #Exhibition #Museum",
       contentId: "",
+      contentType: "14",
     },
   ],
   [
@@ -502,6 +667,7 @@ const slideData = [
       sns: "@bar.swallow",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "BAR CHAM",
@@ -511,6 +677,7 @@ const slideData = [
       sns: "@bar.cham",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "숙희",
@@ -520,6 +687,7 @@ const slideData = [
       sns: "@soowonopa_sookhee",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "르챔버",
@@ -529,6 +697,7 @@ const slideData = [
       sns: "@le_chamber",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "베스퍼",
@@ -538,6 +707,7 @@ const slideData = [
       sns: "@vesper_seoul",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "마하 한남",
@@ -547,6 +717,7 @@ const slideData = [
       sns: "@maha.hannam",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "포시즌스 호텔 서울 찰스 H.",
@@ -556,6 +727,7 @@ const slideData = [
       sns: "@charleshseoul",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
     {
       title: "코블러 연희",
@@ -565,6 +737,7 @@ const slideData = [
       sns: "@cobbler_yeonhee",
       hash: "#Bar",
       contentId: "",
+      contentType: "14",
     },
   ],
 ];
@@ -591,7 +764,10 @@ const Theme = () => {
               <h2 className="item-title">{item.title}</h2>
               <p>{item.hash}</p>
             </div>
-            <div className="Theme" ref={(el) => slideBoxRef.current[index] = el}>
+            <div
+              className="Theme"
+              ref={(el) => (slideBoxRef.current[index] = el)}
+            >
               <ThemeSlide
                 images={item.images}
                 index={index}
@@ -601,7 +777,15 @@ const Theme = () => {
             <div className="item-text">
               <p>{item.sns}</p>
               <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
-              <button onClick={() => navigate(``)}>더 보기</button>
+              <button
+                onClick={() =>
+                  navigate(
+                    `/content/search?type=${item.contentType}&contentId=${item.contentId}`
+                  )
+                }
+              >
+                더 보기
+              </button>
             </div>
           </div>
         ))}

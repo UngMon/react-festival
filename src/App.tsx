@@ -70,15 +70,6 @@ function App() {
           ),
         },
         {
-          path: "trend",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="trend" />
-            </Suspense>
-          ),
-        },
-        {
           path: "content",
           errorElement: <GetDataError />,
           children: [

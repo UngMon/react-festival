@@ -46,7 +46,6 @@ const TopSlide = () => {
   const [stop, setStop] = useState<boolean>(false);
   const imageRef = useRef<Array<HTMLDivElement | null>>([]);
   const timeBarRef = useRef<HTMLDivElement>(null);
-  console.log(`Rendering count = ${count}`);
 
   useEffect(() => {
     if (stop) return;
@@ -167,23 +166,13 @@ const TopSlide = () => {
       <div className="slide-time-box">
         <div className="time-bar" ref={timeBarRef}></div>
         <div className="time-button">
-          <button
-            className="prev"
-            onClick={() => sideButtonClickHandler("prev")}
-          >
+          <button onClick={() => sideButtonClickHandler("prev")}>
             <FontAwesomeIcon icon={faCaretLeft} />
           </button>
-          <button className="pause" onClick={pauseClickHandler}>
-            {stop ? (
-              <FontAwesomeIcon icon={faPlay} />
-            ) : (
-              <FontAwesomeIcon icon={faPause} />
-            )}
+          <button onClick={pauseClickHandler}>
+            <FontAwesomeIcon icon={stop ? faPlay : faPause} />
           </button>
-          <button
-            className="next"
-            onClick={() => sideButtonClickHandler("next")}
-          >
+          <button onClick={() => sideButtonClickHandler("next")}>
             <FontAwesomeIcon icon={faCaretRight} />
           </button>
         </div>

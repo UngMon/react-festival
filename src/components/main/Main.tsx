@@ -2,7 +2,7 @@ import Card from "../card/Card";
 import Picker from "../ui/Picker";
 
 interface T {
-  title: string;
+  title: "tour" | "culture" | "travel" | 'result' | 'festival';
 }
 
 const Festival = ({ title }: T) => {
