@@ -50,7 +50,7 @@ const LoginPage = () => {
     getRedirectResult(auth)
       .then((userCredential) => {
         setLoading(false);
-        if (userCredential) navigate(previouseUrl);
+        if (userCredential) navigate(-2);
       })
       .catch((error: any) => {
         alert(`error is occured! ${error.code} ${error.message}`);

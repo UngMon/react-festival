@@ -64,6 +64,13 @@ export type Sigun = {
   };
 };
 
+export const Category: { [key: string]: string } = {
+  "12": "toure",
+  "14": "cultrue",
+  "15": "festival",
+  "25": "travel",
+};
+
 export const 지역코드: { [key: string]: string } = {
   "0": "전국",
   "1": "서울",
@@ -304,7 +311,7 @@ export const 시군코드: { [key: string]: { [key: string]: string } } = {
     "17": "하동군",
     "18": "함안군",
     "19": "함양군",
-    "20": "합천군"
+    "20": "합천군",
   },
   전라북도: {
     "1": "고창군",
@@ -809,14 +816,14 @@ export const key: { [key: string]: string[][] } = {
     ["반려동물 입장", "chkpetleports"],
   ],
   "39": [
-    ['대표 메뉴', 'firstmenu'],
-    ['취급 메뉴', 'treatmenu'],
-    ['할인 정보', 'discountinfofood'],
-    ['문의 및 안내', 'infocenterfood'],
-    ['주차 여부', 'parkingfood'],
-    ['영업 시간', 'opentimefood'],
-    ['휴일', 'restdatefood'],
-    ['포장 가능', 'packing'],
-    ['예약 가능', 'reservationfood']
-  ]
+    ["대표 메뉴", "firstmenu"],
+    ["취급 메뉴", "treatmenu"],
+    ["할인 정보", "discountinfofood"],
+    ["문의 및 안내", "infocenterfood"],
+    ["주차 여부", "parkingfood"],
+    ["영업 시간", "opentimefood"],
+    ["휴일", "restdatefood"],
+    ["포장 가능", "packing"],
+    ["예약 가능", "reservationfood"],
+  ],
 };

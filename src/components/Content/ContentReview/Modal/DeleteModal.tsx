@@ -15,15 +15,13 @@ interface DeleteProps {
   setOpenDelete: React.Dispatch<React.SetStateAction<[boolean, number]>>;
 }
 
-const DeleteModal = (props: DeleteProps) => {
-  const {
-    contentRef,
-    reviewArray,
-    setReviewArray,
-    openDelete,
-    setOpenDelete,
-  } = props;
-
+const DeleteModal = ({
+  contentRef,
+  reviewArray,
+  setReviewArray,
+  openDelete,
+  setOpenDelete,
+}: DeleteProps) => {
   const deleteReviewHandler = async (index: number) => {
     try {
       updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
@@ -32,14 +30,11 @@ const DeleteModal = (props: DeleteProps) => {
         ...reviewArray.slice(index + 1),
       ]);
       setOpenDelete([false, 0]);
-    } catch (error) {
-      console.log(error);
-      alert(
-        `리뷰 삭제에 오류가 발생했습니다! 에러가 계속 발생한다면 문의해주세요!`
-      );
+      console.log('Delete comment')
+    } catch (error: any) {
+      console.log(error.message);
+      alert(`오류가 발생했습니다. 지속적인 오류가 발생한다면 문의해주세요!`);
     }
-
-    updateDoc(contentRef, { comment: arrayRemove(reviewArray[index]) });
   };
 
   return (

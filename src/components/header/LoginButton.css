@@ -14,6 +14,7 @@
 }
 
 .userPhoto-box {
+  position: relative;
   margin-left: 10px;
   width: 35px;
   height: 35px;
@@ -32,9 +33,9 @@
 .logout-box {
   position: absolute;
   z-index: 7;
+  top: 55px;
+  right: 0px;
   width: 80px;
-  top: 75px;
-  right: 65px;
   padding: 10px;
   font-size: 0.77em;
   text-align: center;
@@ -75,7 +76,7 @@
 }
 
 .logout span {
-  font-size: 0.66em;
+  font-size: 0.9em;
 }
 
 .logout:hover {

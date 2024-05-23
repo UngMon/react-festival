@@ -1,28 +1,39 @@
-#report-modal {
+.report-container {
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#report-modal {
   box-sizing: border-box;
-  top: calc((100vh - 300px) / 2);
-  left: calc((100vw - 300px) / 2);
-  width: 300px;
-  height: 300px;
+  width: 80%;
+  max-width: 300px;
+  height: 290px;
   background-color: rgb(247, 247, 247);
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
-  z-index: 11;
+  z-index: 100;
 }
 
 .report-modal-title {
   width: 100%;
-  height: 30px;
+  height: 35px;
   text-align: center;
   background-color: rgb(228, 228, 228);
   margin-bottom: 10px;
   border-radius: 10px 10px 0 0;
-  line-height: 30px;
+  line-height: 35px;
 }
 
 #report-modal label {
-  padding: 10px;
+  padding: 10px 20px;
   line-height: 30px;
   display: flex;
   align-items: center;
@@ -41,31 +52,36 @@
 }
 
 #report-button-box {
-  position: absolute;
-  right: 10px;
-  bottom: 25px;
   text-align: right;
-  width: 120px;
+  width: 90%;
+  padding: 5px 5% 0;
 }
 
 #report-button-box button {
   width: 40px;
   height: 30px;
+  margin-left: 15px;
   border: 0;
   border-radius: 5px;
   font-weight: 600;
-  margin: 7px 7px 0;
-  background-color: rgb(227, 227, 227);
+  color: #333;
 }
 
 #report-button-box button:hover {
   cursor: pointer;
-  background-color: aliceblue;
+  color: white;
+  background-color: rgb(70, 98, 253);
 }
 
-@media (max-width: 340px) {
+/* @media (max-width: 375px) {
   #report-modal {
     left: calc((100vw - 80%) / 2);
-    width: 80%;
   }
 }
+
+
+@media (max-width: 320px) {
+  #report-modal {
+    left: 32px;
+  }
+} */

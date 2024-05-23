@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useAppDispatch } from "../../redux/store";
 import { useNavigate, useLocation } from "react-router-dom";
 import { signOut, getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,28 +8,35 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import "./LoginButton.css";
+import { firebaseActions } from "../../redux/firebase-slice";
 
 const LoginButton = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [userChecking, setUserChecking] = useState<boolean>(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [userModalOpen, setUserModalOpen] = useState(false);
-  
+
   const userImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), (user) => {
       if (user) {
         setUserData(user);
-        setUserChecking(false);
-      } else {
-        logoutHnalder();
-        setUserChecking(false);
+        dispatch(
+          firebaseActions.login({
+            userUid: user.uid,
+            userName: user.displayName || "",
+            userEmail: user.email || "",
+            userPhoto: user.photoURL || "",
+          })
+        );
       }
     });
-  }, []);
+    setUserChecking(false);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!userModalOpen) return;
@@ -40,7 +48,7 @@ const LoginButton = () => {
 
     window.addEventListener("click", logoutModalOpen);
     return () => window.removeEventListener("click", logoutModalOpen);
-  }, [userModalOpen]);
+  });
 
   const loginHandler = () => {
     sessionStorage.setItem(
@@ -63,33 +71,33 @@ const LoginButton = () => {
 
   return (
     <>
-      {!userChecking ? ( // onAuthState에서 유저 정보를 확인했고,
-        !userData ? ( // 로그인 안 되어 있으면,
-          <div className="login" onClick={loginHandler}>
-            <FontAwesomeIcon icon={faRightToBracket} />
-          </div>
-        ) : (
-          // 로그인 상태일 때
-          <div
-            className="userPhoto-box"
-            ref={userImageRef}
-            onClick={() => setUserModalOpen(!userModalOpen)}
-          >
-            <img src={userData.photoURL!} alt="userPhoto"></img>
-            {userModalOpen && (
-              <div className="logout-box">
-                <div className="arrow"></div>
-                <div className="logout" onClick={logoutHnalder}>
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                  <span>로그아웃</span>
+      {userChecking && <div className="not-Login" />}
+      {!userChecking && (
+        <div>
+          {!userData && (
+            <div className="login" onClick={loginHandler}>
+              <FontAwesomeIcon icon={faRightToBracket} />
+            </div>
+          )}
+          {userData && (
+            <div
+              className="userPhoto-box"
+              ref={userImageRef}
+              onClick={() => setUserModalOpen(!userModalOpen)}
+            >
+              <img src={userData!.photoURL!} alt="userPhoto"></img>
+              {userModalOpen && (
+                <div className="logout-box">
+                  <div className="arrow"></div>
+                  <div className="logout" onClick={logoutHnalder}>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                    <span>로그아웃</span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )
-      ) : (
-        // 새로고침시 잠깐동안 다른 ui보여줌
-        <div className="not-Login"></div>
+              )}
+            </div>
+          )}
+        </div>
       )}
     </>
   );

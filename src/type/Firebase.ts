@@ -13,7 +13,7 @@ export interface FirebaseState {
   contentData: FirebaseData;
   isChanged: boolean;
   loadingState: string;
-  succesGetData: boolean;
+  succesGetContentData: boolean;
   userChecking: boolean;
   loginedUser: boolean;
   userUid: string;
@@ -21,4 +21,12 @@ export interface FirebaseState {
   userEmail: string;
   userPhoto: string;
   userSocial: string;
+}
+
+export interface Report {
+  open: boolean;
+  when: string;
+  userUid: string;
+  name: string;
+  text: string;
 }

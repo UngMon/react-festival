@@ -1,3 +1,4 @@
+import { Report } from "../../type/Firebase";
 import { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Slider from "./contentImages/Slider";
@@ -9,9 +10,13 @@ import "./Content.css";
 
 const Cotent = () => {
   const [category, setCategory] = useState<string>("기본정보");
-  const [reportModalOpen, setReportModalOpen] = useState<
-    [boolean, string, string, string, string]
-  >([false, "", "", "", ""]);
+  const [reportModal, setReportModal] = useState<Report>({
+    open: false,
+    when: "",
+    userUid: "",
+    name: "",
+    text: "",
+  });
 
   const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
@@ -21,28 +26,29 @@ const Cotent = () => {
   const contentId: string = param.get("contentId")!;
 
   return (
-      <main className="Content">
-        {reportModalOpen[0] && (
-          <ReportModal
-            contentId={param.get("contentId")!}
-            reportModalOpen={reportModalOpen}
-            setReportModalOpen={setReportModalOpen}
-          />
-        )}
-        <Slider type={type} contentId={contentId} />
-        <MenuBar
-          category={category}
-          setCategory={setCategory}
-          infoRef={infoRef}
-          reviewRef={reviewRef}
+    <main className="Content">
+      {reportModal.open && (
+        <ReportModal
+          contentId={param.get("contentId")!}
+          reportModal={reportModal}
+          setReportModal={setReportModal}
         />
-        <Detail infoRef={infoRef} contentId={contentId} type={type} />
-        {/* <ContentReviews
-          contentId={contentId}
-          reviewRef={reviewRef}
-          setReportModalOpen={setReportModalOpen}
-        /> */}
-      </main>
+      )}
+      <Slider type={type} contentId={contentId} />
+      <MenuBar
+        category={category}
+        setCategory={setCategory}
+        infoRef={infoRef}
+        reviewRef={reviewRef}
+      />
+      <Detail infoRef={infoRef} contentId={contentId} type={type} />
+      <ContentReviews
+        type={type}
+        contentId={contentId}
+        reviewRef={reviewRef}
+        setReportModal={setReportModal}
+      />
+    </main>
   );
 };
 

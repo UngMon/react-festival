@@ -43,9 +43,10 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
         await signInWithCustomToken(firebaseAuth, firebaseToken);
         navigate("/", { replace: true });
       } catch (error: any) {
+        console.log(error)
         alert(error.message);
         setLoading(false);
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
       }
     };
 

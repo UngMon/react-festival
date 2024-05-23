@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "firebase/auth";
 import { FirebaseData } from "../type/Firebase";
 import { FirebaseState } from "../type/Firebase";
 
@@ -6,7 +7,7 @@ const initialState: FirebaseState = {
   contentData: {},
   isChanged: false,
   loadingState: "none",
-  succesGetData: false,
+  succesGetContentData: false,
   userChecking: true,
   loginedUser: false,
   userUid: "",
@@ -20,36 +21,50 @@ const firebaseSlice = createSlice({
   name: "firebase",
   initialState,
   reducers: {
-    cardClicked(state) {
-      state.succesGetData = false;
-      state.loadingState = "pending";
-    },
-    notLoginUser(state) {
-      state.userChecking = false;
-    },
-    setUserData(state, action) {
-      if (state.loginedUser) {
-        return;
-      }
+    login(state, action) {
       state.userUid = action.payload.uid;
-      state.userName = action.payload.displayName;
-      state.userEmail = action.payload.email;
-      state.userPhoto = action.payload.photoURL;
+      state.userName = action.payload.userName;
+      state.userEmail = action.payload.userEmail;
+      state.userPhoto = action.payload.userPhoto;
       state.loginedUser = true;
-      state.userChecking = false;
-      const whatIsSocial = state.userUid.split(":");
-      state.userSocial = whatIsSocial.length > 1 ? whatIsSocial[0] : "";
     },
-    logOutUser(state) {
-      state.userName = "";
+    logout(state) {
       state.userUid = "";
+      state.userName = "";
       state.userEmail = "";
       state.userPhoto = "";
       state.loginedUser = false;
-      state.userSocial = "";
     },
+    // cardClicked(state) {
+    //   state.succesGetData = false;
+    //   state.loadingState = "pending";
+    // },
+    // notLoginUser(state) {
+    //   state.userChecking = false;
+    // },
+    // setUserData(state, action) {
+    //   if (state.loginedUser) {
+    //     return;
+    //   }
+    //   state.userUid = action.payload.uid;
+    //   state.userName = action.payload.displayName;
+    //   state.userEmail = action.payload.email;
+    //   state.userPhoto = action.payload.photoURL;
+    //   state.loginedUser = true;
+    //   state.userChecking = false;
+    //   const whatIsSocial = state.userUid.split(":");
+    //   state.userSocial = whatIsSocial.length > 1 ? whatIsSocial[0] : "";
+    // },
+    // logOutUser(state) {
+    //   state.userName = "";
+    //   state.userUid = "";
+    //   state.userEmail = "";
+    //   state.userPhoto = "";
+    //   state.loginedUser = false;
+    //   state.userSocial = "";
+    // },
     failedGetData(state) {
-      state.succesGetData = false;
+      state.succesGetContentData = false;
       state.loadingState = "fulfilled";
     },
     updateContentData(state, action) {
@@ -60,7 +75,7 @@ const firebaseSlice = createSlice({
       }
 
       state.contentData = dummyData;
-      state.succesGetData = true;
+      state.succesGetContentData = true;
       state.loadingState = "fulfilled";
     },
     updateFeelingData(state, action) {
@@ -69,8 +84,7 @@ const firebaseSlice = createSlice({
       const userPicked = action.payload.userPicked;
       dummyData[action.payload.contentId].expression[action.payload.uid] = {
         좋아요: userPicked[0],
-        그저그래요: userPicked[1],
-        싫어요: userPicked[2],
+        싫어요: userPicked[1],
       };
       state.contentData = dummyData;
     },

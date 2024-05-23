@@ -1,46 +1,49 @@
+import { ContentData } from "../../../type/UserData";
+import { Category } from "../../../type/Common";
+import { Report } from "../../../type/Firebase";
 import { useEffect, useState } from "react";
 import { firebaseActions } from "../../../redux/firebase-slice";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../../firebase";
 import { RootState, useAppDispatch } from "../../../redux/store";
-import { ContentData } from "../../../type/UserData";
 import Feeling from "./Feelings";
 import UserReviews from "./UserReviews";
 import Loading from "../../loading/Loading";
 import GetDataError from "../../error/GetDataError";
 import "./ContentReviews.css";
 
-interface ReviewProps {
-  setReportModalOpen: React.Dispatch<
-    React.SetStateAction<[boolean, string, string, string, string]>
-  >;
+interface T {
+  type: string;
+  setReportModal:  React.Dispatch<React.SetStateAction<Report>>;
   reviewRef: React.RefObject<HTMLDivElement>;
   contentId: string;
 }
 
 const ContentRivews = ({
+  type,
   reviewRef,
   contentId,
-  setReportModalOpen,
-}: ReviewProps) => {
+  setReportModal,
+}: T) => {
   const dispatch = useAppDispatch();
   const firebase = useSelector((state: RootState) => state.firebase);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  
+  const Collection = Category[type];
+
   const uid = firebase.userUid || "";
-  const contentRef = doc(db, "content", contentId);
+  const contentRef = doc(db, Collection, contentId);
 
   useEffect(() => {
     const setData = async () => {
       let docData: ContentData;
-      const contentRef = doc(db, "content", contentId);
+      const contentRef = doc(db, Collection, contentId);
 
       try {
         // firestor DB에 해당 컨텐츠 id 접근하여 .data()메소드를 통해 필드 존재 여부 확인
         const contentUserData = (await getDoc(contentRef)).data();
- 
+
         if (!contentUserData) {
           docData = {
             comment: [],
@@ -57,6 +60,7 @@ const ContentRivews = ({
       } catch (error: any) {
         alert(error.message);
         setError(true);
+        setLoading(false);
         dispatch(firebaseActions.failedGetData());
       }
     };
@@ -65,15 +69,13 @@ const ContentRivews = ({
     if (!firebase.contentData[contentId] && isLoading) {
       setData();
       setLoading(false);
-      error && setError(false);
     }
-
-  }, [dispatch, contentId, firebase, isLoading, error]);
+  }, [dispatch, contentId, firebase, isLoading, error, Collection]);
 
   return (
-    <div className="Cotent-review" ref={reviewRef}>
-      {!firebase.contentData[contentId] && !error && <Loading/>}
-      {error && <GetDataError/>}
+    <section className="Cotent-review" ref={reviewRef}>
+      {!firebase.contentData[contentId] && !error && <Loading />}
+      {error && <GetDataError />}
       {firebase.contentData[contentId] && (
         <>
           <Feeling
@@ -85,13 +87,12 @@ const ContentRivews = ({
           <UserReviews
             firebaseState={firebase}
             contentRef={contentRef}
-            uid={uid}
             contentId={contentId}
-            setReportModalOpen={setReportModalOpen}
+            setReportModal={setReportModal}
           />
         </>
       )}
-    </div>
+    </section>
   );
 };
 

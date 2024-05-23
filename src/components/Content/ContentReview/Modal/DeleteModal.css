@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
 }
 
@@ -17,7 +17,7 @@
   max-width: 250px;
   min-height: 110px;
   border-radius: 8px;
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(246, 246, 246);
 }
 
 .Delete-Modal p {
@@ -35,27 +35,12 @@
   height: 30px;
   border: 0;
   border-radius: 5px;
-  background-color: rgb(224, 224, 224);
+  color: #333;
+  font-weight: 500;
 }
 
 .Delete-button-box button:hover {
   cursor: pointer;
-  background-color: lightgray;
-}
-
-@media (max-width: 250px) {
-  .Delete-Modal {
-    width: 90%;
-    left: 5%;
-  }
-}
-
-@media (max-width: 170px) {
-  .Delete-button-box {
-    text-align: center;
-  }
-
-  .Delete-button-box button{
-    margin: 0 0 10px;
-  }
+  color: white;
+  background-color: rgb(70, 98, 253);
 }

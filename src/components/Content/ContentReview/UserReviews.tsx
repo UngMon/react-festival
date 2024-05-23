@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   DocumentData,
   DocumentReference,
@@ -11,113 +11,98 @@ import { Comment } from "../../../type/UserData";
 import { useAppDispatch } from "../../../redux/store";
 import { firebaseActions } from "../../../redux/firebase-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { auth } from "../../../firebase";
-import DeleteModal from "./modal/DeleteModal";
 import { Link } from "react-router-dom";
+import { Report } from "../../../type/Firebase";
+import DeleteModal from "./modal/DeleteModal";
+import "./UserReviews.css";
 
 interface ReviewProps {
   firebaseState: FirebaseState;
   contentRef: DocumentReference<DocumentData>;
-  uid: string;
   contentId: string;
-  setReportModalOpen: React.Dispatch<
-    React.SetStateAction<[boolean, string, string, string, string]>
-  >;
+  setReportModal:  React.Dispatch<React.SetStateAction<Report>>;
 }
 
 const UserReviews = ({
   firebaseState,
   contentRef,
-  uid,
   contentId,
-  setReportModalOpen,
+  setReportModal,
 }: ReviewProps) => {
   const dispatch = useAppDispatch();
 
-  const [visibleOption, setVisibleOption] = useState<[boolean, number]>([
-    false,
-    0,
-  ]);
+  const [option, setOption] = useState<{ isVisible: boolean; index: number }>({
+    isVisible: false,
+    index: -100,
+  });
+  const [reviseReview, setReviseReview] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState<number>(0);
   const [openDelete, setOpenDelete] = useState<[boolean, number]>([false, 0]);
   const [reviewArray, setReviewArray] = useState<Comment[]>([]);
-  const [isOpenOption, setOpenOption] = useState<boolean>(false);
-  const [clickedElement, setClickedElement] = useState<HTMLElement | null>(
-    null
-  );
-  const [pickedComment, setPickedComment] = useState<
-    [string, string, string, string | number]
-  >(["", "", "", ""]);
+  const [openOption, setOpenOption] = useState<boolean>(false);
+  const [pickedCommentInfo, setPickedCommentInfo] = useState<{
+    userName: string;
+    userUid: string;
+    when: string;
+    index: number;
+  }>({ userName: "", userUid: "", when: "", index: -100 });
 
   const textRef = useRef<HTMLTextAreaElement>(null);
   const saveInputRef = useRef<HTMLInputElement>(null);
-  const optionRef = useRef<SVGSVGElement[]>([]);
+  const optionRef = useRef<{ [key: string]: SVGSVGElement | null }>({});
+  const clickedElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (firebaseState.succesGetData) {
+    if (firebaseState.succesGetContentData) {
       setReviewArray(firebaseState.contentData[contentId].comment);
+      console.log("RE New User Reviews");
     }
   }, [firebaseState, contentId]);
 
-  const closeOptionModal = useCallback((event: any) => {
-    let isIn = false;
-
-    for (const divItem of optionRef.current) {
-      if (!divItem) {
-        continue;
-      }
-
-      if (divItem.contains(event.target)) {
-        isIn = true;
-        break;
-      } else {
-        isIn = false;
-      }
-    }
-
-    if (!isIn) {
-      setClickedElement(null);
-      setOpenOption(false);
-      setVisibleOption([false, 0]);
-    }
-  }, []);
-
   useEffect(() => {
-    if (isOpenOption) {
-      // Option창이 켜져있을 경우, 사용자가 스크롤을 못하게 방지.
-      document.body.style.cssText = "overflow: hidden";
-    } else {
-      document.body.style.cssText = "";
-    }
+    if (!openOption) return;
 
-    if (clickedElement) {
-      window.addEventListener("click", closeOptionModal);
-    }
+    const toggleOptionModal = (e: MouseEvent) => {
+      if (!optionRef.current[option.index]?.contains(e.target as Node)) {
+        clickedElement.current = null;
+        setOpenOption(false);
+        setOption({ isVisible: false, index: -100 });
+        setScrollY(0);
+      }
+    };
+
+    const scrollHandler = () => window.scrollTo(0, scrollY);
+
+    window.addEventListener("click", toggleOptionModal);
+    window.addEventListener("scroll", scrollHandler);
 
     return () => {
-      window.removeEventListener("click", closeOptionModal);
+      window.removeEventListener("click", toggleOptionModal);
+      window.removeEventListener("scroll", scrollHandler);
     };
-  }, [isOpenOption, closeOptionModal, clickedElement]);
+  }, [openOption, scrollY, option]);
 
-  const reivewSubmitHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log(auth)
-    if (!firebaseState.loginedUser)
-      return alert("로그인 하시면 이용하실 수 있습니다.");
+  const reivewSubmitHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const User = auth.currentUser;
+
+    if (!User?.displayName || !User?.uid)
+      return alert("비정상적인 접근입니다.");
 
     const text = textRef.current!.value;
 
-    if (text.length === 0) {
-      return alert("글자를 입력해주세요!");
-    }
+    if (text.length === 0) return alert("글자를 입력해주세요!");
+
     const { year, month, date, time } = nowDate();
 
     const fieldData = {
-      name: firebaseState.userName,
-      uid: uid,
-      when: year + "-" + month + "-" + date + " " + time,
+      name: User.displayName,
+      uid: User.uid,
+      when: year + "-" + month + "-" + date + "/" + time,
       text,
-      userPhoto: firebaseState.userPhoto,
+      userPhoto: User.photoURL ?? "",
     };
 
     const array = [fieldData, ...reviewArray];
@@ -126,64 +111,70 @@ const UserReviews = ({
       await setDoc(contentRef, { comment: array }, { merge: true });
       setReviewArray(array);
       dispatch(firebaseActions.updateReviewData({ contentId, array }));
-      textRef.current!.value = "";
     } catch (error: any) {
       alert(
         `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
       );
     }
+
+    textRef.current!.value = "";
   };
 
   const optionClickHandler = (
-    event: any,
+    e: React.MouseEvent,
     userName: string,
     userUid: string,
-    userWhen: string
+    when: string
   ) => {
-    if (clickedElement?.contains(event.target)) {
-      // 사용자가 전에 클릭했던 Element('review-option')와 같은 태그를 클릭했을 시,
+    e.stopPropagation();
+
+    if (clickedElement.current?.contains(e.target as Node)) {
+      // 사용자가 전에 클릭했던 Element('review-option')와 같은 옵션 아이콘을 클릭했을 시,
       setOpenOption(false);
-      setClickedElement(null);
-      setPickedComment(["", "", "", ""]);
+      clickedElement.current = null;
+      setPickedCommentInfo({
+        userName: "",
+        userUid: "",
+        when: "",
+        index: -100,
+      });
     } else {
       // 다른 태그('review-option')를 클릭했을 시,
       setOpenOption(true);
-      setClickedElement(event.target);
-      setPickedComment([userName, userUid, userWhen, ""]);
+      clickedElement.current = e.target as HTMLDivElement;
+      setPickedCommentInfo({ userName, userUid, when, index: -100 });
     }
   };
 
   const reviseButtonHandler = (itemUid: string, index: number) => {
-    if (!firebaseState.loginedUser) {
-      return alert("로그인 하시면 이용하실 수 있습니다.");
-    }
-
-    if (itemUid !== uid) {
-      return;
-    }
+    if (itemUid !== auth.currentUser!.uid) return;
 
     setOpenOption(false);
-    setPickedComment([
-      pickedComment[0],
-      pickedComment[1],
-      pickedComment[2],
+    setReviseReview(true);
+    setPickedCommentInfo({
+      userName: pickedCommentInfo.userName,
+      userUid: pickedCommentInfo.userUid,
+      when: pickedCommentInfo.when,
       index,
-    ]);
+    });
   };
 
   const reviseReviewHandler = async () => {
     const { year, month, date, time } = nowDate();
-    const newArray = [...reviewArray];
-    const index = pickedComment[3] as number;
+    let newArray = [...reviewArray];
+    const index: number = pickedCommentInfo.index;
+    newArray.splice(index, 1);
     const changedData = {
-      name: pickedComment[0],
+      name: pickedCommentInfo.userName,
       text: saveInputRef.current!.value,
-      uid: pickedComment[1],
+      uid: pickedCommentInfo.userUid,
       when: year + "-" + month + "-" + date + " " + time,
-      userPhoto: firebaseState.userPhoto,
+      userPhoto: auth.currentUser?.photoURL || "",
     };
-    newArray[index] = changedData;
-    setPickedComment(["", "", "", ""]);
+
+    newArray = [changedData, ...newArray];
+
+    setPickedCommentInfo({ userName: "", userUid: "", when: "", index: -100 });
     try {
       await updateDoc(contentRef, { comment: newArray });
       setReviewArray(newArray);
@@ -200,7 +191,7 @@ const UserReviews = ({
     name: string,
     text: string
   ) => {
-    setReportModalOpen([true, when, userUid, name, text]);
+    setReportModal({ open: true, when, userUid, name, text });
   };
 
   const resizeHandler = () => {
@@ -208,13 +199,11 @@ const UserReviews = ({
     textRef.current!.style.height = textRef.current?.scrollHeight + "px";
   };
 
-  console.log(auth)
-
   return (
-    <>
-      <form className="user-input-box" onSubmit={reivewSubmitHandler}>
-        <div className="user-input-area">
-          <label htmlFor="user-input"></label>
+    <div>
+      <form className="comment-input-box" onSubmit={reivewSubmitHandler}>
+        <div className="comment-text-box">
+          <label htmlFor="user-input" />
           <textarea
             id="user-input"
             name="user-input"
@@ -222,114 +211,121 @@ const UserReviews = ({
             ref={textRef}
             onChange={resizeHandler}
             placeholder="소중한 리뷰를 작성해보세요!"
-          ></textarea>
-          <i></i>
+          />
+          <i />
         </div>
-        <div className="user-input-button">
-          {!auth.currentUser && <Link to='/login' >로그인</Link>}
+        <div className="comment-button-box">
+          {!auth.currentUser && (
+            <button type="button">
+              <Link to="/login">로그인</Link>
+            </button>
+          )}
           {auth.currentUser && <button type="submit">저장</button>}
         </div>
       </form>
-      <div className="user-review-area">
-        {reviewArray.length === 0 && (
-          <div>
-            <p>등록된 리뷰가 없습니다!</p>
-          </div>
-        )}
+      <div className="user-comments">
+        {reviewArray.length === 0 && <p>등록된 리뷰가 없습니다!</p>}
         {reviewArray.length !== 0 &&
           reviewArray.map((item, index) => (
             <div
               key={index}
-              className="user-review-box"
-              onMouseEnter={() => setVisibleOption([true, index])}
-              onMouseLeave={() => !isOpenOption && setVisibleOption([false, 0])}
+              className="user-comment-box"
+              onMouseEnter={() =>
+                !openOption && setOption({ isVisible: true, index })
+              }
+              onMouseLeave={() =>
+                !openOption && setOption({ isVisible: false, index: -100 })
+              }
             >
               <div className="user-icon">
-                {item.userPhoto ? (
-                  <img src={`${item.userPhoto}`} alt="userPhoto"></img>
-                ) : (
+                {item.userPhoto.length !== 0 && (
+                  <img src={`${item.userPhoto}`} alt="userPhoto" />
+                )}
+                {item.userPhoto.length === 0 && item.name.length !== 0 && (
                   <p>{item.name[0].toUpperCase()}</p>
                 )}
               </div>
-              {index !== pickedComment[3] && (
-                <>
-                  <div className="user-reivew-top">
-                    <span className="user-name">{item.name}</span>
-                    {visibleOption[0] && index === visibleOption[1] && (
-                      <FontAwesomeIcon
-                        className="review-option"
-                        onClick={(event) =>
-                          optionClickHandler(
-                            event,
-                            item.name,
-                            item.uid,
-                            item.when
-                          )
-                        }
-                        ref={(el: SVGSVGElement) =>
-                          (optionRef.current[`${index}`] = el)
-                        }
-                        icon={faGear}
-                      />
-                    )}
-                    {isOpenOption &&
-                      item.uid === pickedComment[1] &&
-                      item.when === pickedComment[2] && (
-                        <div className="option-box">
-                          {item.uid === auth.currentUser?.uid && (
-                            <p
-                              className="option-revise"
-                              onClick={() =>
-                                reviseButtonHandler(item.uid, index)
-                              }
-                            >
-                              수정
-                            </p>
-                          )}
-                          {item.uid === auth.currentUser?.uid && (
-                            <p
-                              className="option-delete"
-                              onClick={() => setOpenDelete([true, index])}
-                            >
-                              삭제
-                            </p>
-                          )}
-                          {item.uid !== auth.currentUser?.uid && (
-                            <p
-                              onClick={() =>
-                                reportUserHandler(
-                                  item.when,
-                                  item.uid,
-                                  item.name,
-                                  item.text
-                                )
-                              }
-                            >
-                              신고
-                            </p>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                  <div className="review-text">{item.text}</div>
-                  {openDelete[0] && (
-                    <DeleteModal
-                      contentRef={contentRef}
-                      reviewArray={reviewArray}
-                      setReviewArray={setReviewArray}
-                      openDelete={openDelete}
-                      setOpenDelete={setOpenDelete}
+              {pickedCommentInfo.index !== index && (
+                <div className="top">
+                  <span className="name">{item.name}</span>
+                  {option.isVisible && index === option.index && (
+                    <FontAwesomeIcon
+                      className="comment-option"
+                      onClick={(event) =>
+                        optionClickHandler(
+                          event,
+                          item.name,
+                          item.uid,
+                          item.when
+                        )
+                      }
+                      ref={(el: SVGSVGElement) =>
+                        (optionRef.current[`${index}`] = el)
+                      }
+                      icon={faEllipsisVertical}
                     />
                   )}
-                </>
+                  {openOption &&
+                    item.uid === pickedCommentInfo.userUid &&
+                    item.when === pickedCommentInfo.when && (
+                      <div className="option-box">
+                        {item.uid === auth.currentUser?.uid && (
+                          <p
+                            className="option-revise"
+                            onClick={() => reviseButtonHandler(item.uid, index)}
+                          >
+                            수정
+                          </p>
+                        )}
+                        {item.uid === auth.currentUser?.uid && (
+                          <p
+                            className="option-delete"
+                            onClick={() => setOpenDelete([true, index])}
+                          >
+                            삭제
+                          </p>
+                        )}
+                        {item.uid !== auth.currentUser?.uid && (
+                          <p
+                            onClick={() =>
+                              reportUserHandler(
+                                item.when,
+                                item.uid,
+                                item.name,
+                                item.text
+                              )
+                            }
+                          >
+                            신고
+                          </p>
+                        )}
+                      </div>
+                    )}
+                </div>
               )}
-              {index === pickedComment[3] && (
+              {pickedCommentInfo.index !== index && (
+                <div className="comment-text">
+                  <p>{item.text}</p>
+                </div>
+              )}
+              {index === pickedCommentInfo.index && reviseReview && (
                 <>
-                  <div className="revise-input">
+                  <div className="revise-input-box">
                     <input placeholder={item.text} ref={saveInputRef}></input>
+                    <i />
                   </div>
-                  <div className="review-button-box">
-                    <button onClick={() => setPickedComment(["", "", "", ""])}>
+                  <div className="revise-button-box">
+                    <button
+                      onClick={() => {
+                        setPickedCommentInfo({
+                          userName: "",
+                          userUid: "",
+                          when: "",
+                          index: -100,
+                        });
+                        setReviseReview(false);
+                      }}
+                    >
                       취소
                     </button>
                     <button onClick={reviseReviewHandler}>저장</button>
@@ -338,8 +334,17 @@ const UserReviews = ({
               )}
             </div>
           ))}
+        {openDelete[0] && (
+          <DeleteModal
+            contentRef={contentRef}
+            reviewArray={reviewArray}
+            setReviewArray={setReviewArray}
+            openDelete={openDelete}
+            setOpenDelete={setOpenDelete}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

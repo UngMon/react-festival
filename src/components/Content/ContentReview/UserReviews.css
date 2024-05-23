@@ -1,0 +1,227 @@
+.comment-input-box {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  margin: 40px 0 20px;
+  padding: 40px 15px 10px;
+  border: 1.5px solid rgb(227, 227, 227);
+  background-color: #f7f7f7;
+  font-size: 16px;
+}
+
+.comment-text-box {
+  position: relative;
+  width: 100%;
+
+  label {
+    height: 0;
+  }
+
+  textarea {
+    box-sizing: border-box;
+    padding: 15px 15px;
+    width: 100%;
+    resize: none;
+    outline: none;
+    font-size: 16px;
+    background-color: white;
+    border: 2px solid rgb(238, 237, 237);
+    overflow-y: hidden;
+
+    &:focus + i {
+      left: 0;
+      right: 0;
+    }
+  }
+
+  i {
+    position: absolute;
+    display: block;
+    top: 90%;
+    left: 50%;
+    right: 50%;
+    border-bottom: 2px solid #6480fadd;
+    transition: all 0.3s;
+    padding: 0;
+  }
+}
+
+.comment-button-box {
+  padding-top: 5px;
+  display: flex;
+  justify-content: right;
+
+  button {
+    width: 50px;
+    height: 40px;
+    background-color: transparent;
+    color: #333;
+    border-radius: 10px;
+    margin-right: 10px;
+    font-weight: 600;
+
+    a {
+      color: inherit;
+    }
+
+    &:hover {
+      color: white;
+      background-color: rgb(70, 98, 253);
+    }
+  }
+}
+
+.user-comments {
+  margin-top: 50px;
+  width: 100%;
+}
+
+/* Elemenet of User Comment*/
+.user-comment-box {
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  padding: 0px 10px 35px;
+  font-size: 1em;
+
+  .user-icon {
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    grid-column-start: 0;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 3;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .top {
+    height: 25px;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .top svg {
+    font-size: 20px;
+  }
+
+  .name {
+    display: block;
+    font-weight: 600;
+    font-size: 1em;
+  }
+
+  .comment-option {
+    width: 20px;
+    color: #333;
+
+    &:hover {
+      cursor: pointer;
+      color: lightgray;
+    }
+  }
+
+  .comment-text {
+    min-height: 25px;
+    text-align: left;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: 1em;
+    font-weight: 450;
+  }
+}
+
+/* Element of Revise(Comment) */
+.revise-input-box {
+  position: relative;
+  min-height: 25px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-bottom: 1.5px solid rgb(169, 169, 169);
+    font-size: 1em;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus + i {
+      left: 0;
+      right: 0;
+    }
+  }
+
+  i {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 50%;
+    right: 50%;
+    border-bottom: 2px solid #7a7a7add;
+    transition: all 0.3s;
+    padding: 0;
+  }
+}
+
+.revise-button-box {
+  height: 35px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align: right;
+
+  button {
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 40px;
+    height: 30px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #333;
+
+    &:hover {
+      color: white;
+      background-color: rgb(70, 98, 253);
+    }
+
+
+  }
+}
+
+.option-box {
+  position: absolute;
+  z-index: 4;
+  top: 15px;
+  right: 30px;
+  padding: 5px;
+  background-color: rgb(247, 247, 247);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.option-box p {
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.option-box p:hover {
+  background-color: rgb(225, 225, 225);
+}

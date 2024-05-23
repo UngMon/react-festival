@@ -3,7 +3,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { getTourApiData } from "../../redux/fetch-action";
 import { useNavigate } from "react-router-dom";
-import { firebaseActions } from "../../redux/firebase-slice";
+// import { firebaseActions } from "../../redux/firebase-slice";
 import { Item, 지역코드, 시군코드, tagName, Data } from "../../type/Common";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
@@ -89,10 +89,10 @@ const Card = ({ title }: CardProps) => {
 
   const cardClickHandler = useCallback(
     (type: string, contentId: string) => {
-      dispatch(firebaseActions.cardClicked());
+      // dispatch(firebaseActions.cardClicked());
       navigate(`/content/search?type=${type}&contentId=${contentId}`);
     },
-    [dispatch, navigate]
+    [navigate]
   );
 
   const returnResult = () => {

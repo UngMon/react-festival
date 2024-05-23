@@ -45,7 +45,7 @@ const Naver = () => {
         await signInWithCustomToken(firebaseAuth, firebaseToken);
         navigate("/", { replace: true });
       } catch (error: any) {
-        navigate("/");
+        navigate("/", { replace: true });
         alert("네이버 로그인중에 오류가 발생했습니다.");
       }
     };
