@@ -8,8 +8,9 @@ import {
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
-import "./Detail.css";
 import getContentData from "../../../utils/getContentData";
+import { convertText } from "../../../utils/convertText";
+import "./Detail.css";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;
@@ -29,7 +30,13 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
   const detailIntro = data?.intro.response.body.items.item;
   const detailCommon = data?.common.response.body.items.item;
 
-  const [more, setMore] = useState<boolean>(false);
+  console.log(`detailInfo`);
+  console.log(detailInfo);
+  console.log(`detailIntro`);
+  console.log(detailIntro);
+  console.log(`detailCommon`);
+  console.log(detailCommon);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -51,28 +58,6 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
     settingContentData(type, contentId);
   }, [type, contentId]);
 
-  let text: string[] = [];
-
-  const returnTextArray = () => {
-    if (!detailInfo || !detailCommon) return;
-
-    let infotext = "";
-    let result: any = [];
-
-    for (let i = 0; i < detailInfo.length; i++) {
-      if (detailCommon[0].overview === detailInfo[i].infotext) continue;
-
-      if (!detailInfo[i].infotext) continue;
-
-      if (infotext === detailInfo[i].infotext) continue;
-
-      infotext = detailInfo[i].infotext;
-      result = detailInfo[i].infoname + ": " + detailInfo[i].infotext;
-      text.push(result);
-    }
-  };
-  returnTextArray();
-
   return (
     <div className="Cotent-text-box" ref={infoRef}>
       {loading && (
@@ -86,36 +71,19 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
         </div>
       )}
       {detailCommon && (
-        <div className="overview-title">
-          <strong className="o-label">제목</strong>
-          <span className="o-title">{detailCommon[0].title}</span>
+        <div className="info">
+          <strong className="infoname">제목</strong>
+          <p className="infotext">{detailCommon[0].title}</p>
         </div>
       )}
       <div className="overview">
-        {detailCommon && <strong className="o-label">상세정보</strong>}
-        <div className="o-p">
-          {detailCommon && (
-            <p
-              dangerouslySetInnerHTML={{ __html: detailCommon[0].overview }}
-            ></p>
-          )}
-          {more && detailInfo && (
-            <>
-              {text.map((item, index) => (
-                <p
-                  className={item === `\n` ? "space" : ""}
-                  key={index}
-                  dangerouslySetInnerHTML={{ __html: item }}
-                ></p>
-              ))}
-              {text.length !== 0 && (
-                <button className="more-button" onClick={() => setMore(!more)}>
-                  {more ? "숨기기" : "더 보기"}
-                </button>
-              )}
-            </>
-          )}
-        </div>
+        {detailInfo &&
+          detailInfo.map((data, index) => (
+            <div className="info" key={index}>
+              <strong className="infoname">{data.infoname}</strong>
+              <p className="infotext">{convertText(data.infotext)}</p>
+            </div>
+          ))}
       </div>
       {detailCommon && <Map detailCommon={detailCommon} />}
       {detailIntro && detailCommon && (

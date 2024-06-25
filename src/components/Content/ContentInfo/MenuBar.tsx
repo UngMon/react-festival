@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import "./MenuBar.css";
 
 interface MenuBarProps {
-  category: string;
-  setCategory: (text: string) => void;
   infoRef: React.RefObject<HTMLHeadingElement>;
   reviewRef: React.RefObject<HTMLDivElement>;
 }
 
 const MenuBar = ({
-  category,
-  setCategory,
   infoRef,
   reviewRef,
 }: MenuBarProps) => {
+  const [category, setCategory] = useState<string>("기본정보")
   const [isFixed, setIsFixed] = useState<boolean>(false);
 
   const topBarClickHandler = (type: string) => {

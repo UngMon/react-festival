@@ -1,16 +1,24 @@
-import { ContentData } from "./UserData";
+import { FieldValue } from "firebase/firestore";
 
-export type FirebaseImage = {
-  firstImage: string;
-  images: [];
+export type Comment = {
+  name: string;
+  uid: string;
+  when: string;
+  text: string;
+  userPhoto: string;
+  createdAt: FieldValue;
 };
 
-export type FirebaseData = {
-  [key: string]: ContentData;
-};
+export interface Feel {
+  [key: string]: string | number;
+}
 
-export interface FirebaseState {
-  contentData: FirebaseData;
+export interface Count {
+  like: number;
+  dislike: number;
+}
+
+export interface UserData {
   isChanged: boolean;
   loadingState: string;
   succesGetContentData: boolean;

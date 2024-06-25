@@ -33,7 +33,7 @@ const LoginButton = () => {
             userPhoto: user.photoURL || "",
           })
         );
-      }
+      } else dispatch(firebaseActions.nonExistUserData());
     });
     setUserChecking(false);
   }, [dispatch]);
@@ -63,6 +63,7 @@ const LoginButton = () => {
       .then(() => {
         sessionStorage.clear();
         setUserData(null);
+        dispatch(firebaseActions.logout());
       })
       .catch((err) => {
         alert(err.message);

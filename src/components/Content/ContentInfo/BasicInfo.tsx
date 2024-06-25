@@ -1,6 +1,7 @@
 import { ContentCommon, ContentIntro } from "../../../type/FestivalType";
-import { key } from "../../../type/Common";
+import { basicInfoObject } from "../../../type/Common";
 import { dateSlice } from "../../../utils/DateSlice";
+import { convertText } from "../../../utils/convertText";
 
 interface BasicProps {
   detailIntro: ContentIntro[];
@@ -11,55 +12,71 @@ interface BasicProps {
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
   const Intro: { [key: string]: string } = detailIntro[0];
 
+  const convertHtmlToText = (text: string) => {
+    let result: [string, string][] = [];
+
+    const anchorTagText = convertText(text).split("\n");
+
+    for (const text of anchorTagText) {
+      if (text.length === 0) continue;
+      // '홈페이지 : <a href="https://~~~~"></a>애서 : 이전 텍스트와 href만을 구분하는 정규표현식.
+      const match = text.match(/([^:]+) : <a href="([^"]+)"/);
+
+      if (match) result.push([match[1], match[2]]);
+    }
+
+    return result;
+  };
+
   return (
     <div className="Cotent-deatail">
       <ul className="Content-table">
         {detailCommon[0].tel && (
           <li>
             <strong className="label">문의 및 안내</strong>
-            <span
-              dangerouslySetInnerHTML={{ __html: detailCommon[0].tel }}
-            ></span>
+            <span>{convertText(detailCommon[0].tel)}</span>
           </li>
         )}
         {detailCommon[0].zipcode && (
           <li>
             <strong className="label">우편번호</strong>
-            <span
-              dangerouslySetInnerHTML={{ __html: detailCommon[0].zipcode }}
-            ></span>
+            <span>{convertText(detailCommon[0].zipcode)}</span>
           </li>
         )}
         {type === "15" && (
           <li>
             <strong className="label">기간</strong>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: dateSlice(
-                  detailIntro[0].eventstartdate!,
-                  detailIntro[0].eventenddate!
-                ),
-              }}
-            ></span>
+            <span>
+              {dateSlice(
+                detailIntro[0].eventstartdate!,
+                detailIntro[0].eventenddate!
+              )}
+            </span>
           </li>
         )}
-        {key[type].map(
+        {basicInfoObject[type].map(
           (item) =>
             Intro[item[1]] && (
               <li key={item[0]}>
                 <strong className="label">{item[0]}</strong>
-                <span
-                  dangerouslySetInnerHTML={{ __html: Intro[item[1]] }}
-                ></span>
+                <span>{convertText(Intro[item[1]])}</span>
               </li>
             )
         )}
         {detailCommon[0].homepage && (
           <li>
             <strong className="label">홈페이지</strong>
-            <span
-              dangerouslySetInnerHTML={{ __html: detailCommon[0].homepage }}
-            ></span>
+            <span>
+              {convertHtmlToText(detailCommon[0].homepage).map(
+                (item, index) => (
+                  <div key={index}>
+                    <a href={item[1]} target="_blank" rel="noreferrer">
+                      {item[0]}
+                    </a>
+                  </div>
+                )
+              )}
+            </span>
           </li>
         )}
       </ul>

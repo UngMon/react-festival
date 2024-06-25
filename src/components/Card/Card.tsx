@@ -35,7 +35,7 @@ const Card = ({ title }: CardProps) => {
   const cotentType = titleObject[type];
   const tourData = useSelector((state: RootState) => state.data);
 
-  const [targetRef, intersecting, SetIntersecting] = useIntersectionObserver(tourData.loading);
+  const [targetRef, intersecting, setIntersecting] = useIntersectionObserver(tourData.loading);
   
   useEffect(() => {
     switch (true) {
@@ -70,11 +70,11 @@ const Card = ({ title }: CardProps) => {
     };
 
     dispatch(getTourApiData(parameter));
-    SetIntersecting(false);
+    setIntersecting(false);
   }, [
     dispatch,
     navigate,
-    SetIntersecting,
+    setIntersecting,
     requireRedirect,
     areaCode,
     cat1,

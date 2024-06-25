@@ -1,0 +1,137 @@
+@keyframes dislikeimg {
+  0% {
+    transform: scale(0.5);
+  }
+
+  25% {
+    transform: scale(1.3);
+  }
+
+  50% {
+    transform: scale(0.7);
+  }
+
+  75% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dislikediv {
+  0% {
+    background-color: lightgray;
+  }
+
+  25% {
+    transform: scale(1.5);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgb(61, 61, 250);
+  }
+}
+
+.How-to-feel {
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+}
+
+.Cotent-feeling {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+}
+
+.feel-box {
+  width: 100px;
+  position: relative;
+}
+
+.like {
+  width: 100px;
+  height: 100px;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png"),
+    no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+
+  &.is-active {
+    transition-duration: 1s;
+    background-position: -2800px 0;
+  }
+  z-index: 14;
+}
+
+.dislike {
+  width: 100px;
+  height: 100px;
+  background: url("../../../../public/images/dislike.png");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dislike div {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.active {
+    animation-name: dislikediv;
+    animation-timing-function: linear;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+}
+
+.dislike div img {
+  width: 25px;
+  display: block;
+  transition: width 0.2s 0s linear;
+
+  &.is-active-two {
+    animation-name: dislikeimg;
+    animation-timing-function: linear;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+}
+
+.feeling-count {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.Cotent-feeling p {
+  position: absolute;
+  text-align: center;
+  z-index: 15;
+  left: 0;
+  bottom: 0;
+  font-size: 0.9em;
+  font-weight: 500;
+  width: 100%;
+}

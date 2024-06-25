@@ -1,12 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "firebase/auth";
-import { FirebaseData } from "../type/Firebase";
-import { FirebaseState } from "../type/Firebase";
+import { UserData } from "../type/UserDataType";
 
-const initialState: FirebaseState = {
-  contentData: {},
+const initialState: UserData = {
   isChanged: false,
-  loadingState: "none",
+  loadingState: "pending",
   succesGetContentData: false,
   userChecking: true,
   loginedUser: false,
@@ -22,10 +19,12 @@ const firebaseSlice = createSlice({
   initialState,
   reducers: {
     login(state, action) {
-      state.userUid = action.payload.uid;
+      state.loadingState = "fulfilled";
+      state.userUid = action.payload.userUid;
       state.userName = action.payload.userName;
       state.userEmail = action.payload.userEmail;
       state.userPhoto = action.payload.userPhoto;
+      state.succesGetContentData = true;
       state.loginedUser = true;
     },
     logout(state) {
@@ -35,63 +34,8 @@ const firebaseSlice = createSlice({
       state.userPhoto = "";
       state.loginedUser = false;
     },
-    // cardClicked(state) {
-    //   state.succesGetData = false;
-    //   state.loadingState = "pending";
-    // },
-    // notLoginUser(state) {
-    //   state.userChecking = false;
-    // },
-    // setUserData(state, action) {
-    //   if (state.loginedUser) {
-    //     return;
-    //   }
-    //   state.userUid = action.payload.uid;
-    //   state.userName = action.payload.displayName;
-    //   state.userEmail = action.payload.email;
-    //   state.userPhoto = action.payload.photoURL;
-    //   state.loginedUser = true;
-    //   state.userChecking = false;
-    //   const whatIsSocial = state.userUid.split(":");
-    //   state.userSocial = whatIsSocial.length > 1 ? whatIsSocial[0] : "";
-    // },
-    // logOutUser(state) {
-    //   state.userName = "";
-    //   state.userUid = "";
-    //   state.userEmail = "";
-    //   state.userPhoto = "";
-    //   state.loginedUser = false;
-    //   state.userSocial = "";
-    // },
-    failedGetData(state) {
-      state.succesGetContentData = false;
+    nonExistUserData(state) {
       state.loadingState = "fulfilled";
-    },
-    updateContentData(state, action) {
-      let dummyData: FirebaseData = { ...state.contentData };
-
-      if (!state.contentData[action.payload.contentId]) {
-        dummyData[action.payload.contentId] = action.payload.docData;
-      }
-
-      state.contentData = dummyData;
-      state.succesGetContentData = true;
-      state.loadingState = "fulfilled";
-    },
-    updateFeelingData(state, action) {
-      console.log(action.payload);
-      let dummyData: FirebaseData = { ...state.contentData };
-      const userPicked = action.payload.userPicked;
-      dummyData[action.payload.contentId].expression[action.payload.uid] = {
-        좋아요: userPicked[0],
-        싫어요: userPicked[1],
-      };
-      state.contentData = dummyData;
-    },
-    updateReviewData(state, action) {
-      let dummyData: FirebaseData = { ...state.contentData };
-      dummyData[action.payload.contentId].comment = action.payload.array;
-      state.contentData = dummyData;
     },
   },
 });

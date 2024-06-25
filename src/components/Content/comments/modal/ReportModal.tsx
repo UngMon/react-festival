@@ -1,4 +1,4 @@
-import { Report } from "../../../../type/Firebase";
+import { Report } from "../../../../type/UserDataType";
 import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import "./ReportModal.css";

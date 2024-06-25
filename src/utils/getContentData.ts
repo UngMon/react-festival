@@ -27,9 +27,7 @@ const getContentData = async (
     const response = await fetch(makeUrl(category));
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
-
     const data: ResponInfo = await response.json();
-
     return data;
   };
 
@@ -41,7 +39,6 @@ const getContentData = async (
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
     const data: ResponIntro = await response.json();
-
     return data;
   };
 

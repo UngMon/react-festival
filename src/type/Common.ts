@@ -765,7 +765,7 @@ export const tagName: { [key: string]: string } = {
   all: "전체",
 };
 
-export const key: { [key: string]: string[][] } = {
+export const basicInfoObject: { [key: string]: string[][] } = {
   "12": [
     ["문의 및 안내", "infocenter"],
     ["휴일", "restdate"],

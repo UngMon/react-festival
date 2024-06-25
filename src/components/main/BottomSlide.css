@@ -1,6 +1,6 @@
 .bottom-slide-container {
   width: 100%;
-  padding: clamp(32px, 10%, 80px) 0 30px;
+  padding-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 16px;
   color: #333;
@@ -10,25 +10,19 @@
   box-sizing: border-box;
   margin: auto;
   width: clamp(320px, 100%, 1200px);
-  height: clamp(600px, 90vh, 1024px);
 
   h3 {
     box-sizing: border-box;
     margin: 0 0 50px clamp(32px, 10%, 100px);
-    height: 80px;
-    font-size: clamp(24px, 4vw, 44px);
+    font-size: clamp(24px, 4vw, 42px);
     font-weight: 600;
-    line-height: 80px;
   }
 }
 
 #소제목 {
-  box-sizing: border-box;
-  margin: 0 0 0 clamp(32px, 10%, 100px);
+  padding: clamp(32px, 10%, 80px) 0 30px clamp(32px, 10%, 100px);
   width: 100%;
-  height: 70px;
   font-weight: 600;
-  line-height: 30px;
   display: flex;
   align-items: center;
 
@@ -142,15 +136,45 @@
   }
 }
 
-@media (min-width: 1400px) {
-  .bottom-slide-box {
-    h3 {
-      box-sizing: border-box;
-      margin: 0 0 50px 0;
+@keyframes ani1 {
+  0% {
+    li {
+      width: 100px;
     }
   }
 
-  #소제목 {
-    margin: 20px 0 0 0;
+  100% {
+    li {
+      width: 300px;
+    }
   }
+}
+
+@media (min-width: 1024px) {
+  .bottom-slide {
+    justify-content: center;
+  }
+
+  #slide-box {
+    animation-name: ani1;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    height: auto;
+  }
+
+  .bottom-slide li {
+    margin: 0 5px ;
+    height: 100%;
+  }
+
+  .bottom-slide li div {
+    width: 100px;
+    height: 300px;
+    transition: all 0.1s linear;
+    cursor: pointer;
+    &:hover {width: 250px}
+  }
+
+  
 }

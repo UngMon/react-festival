@@ -6,58 +6,44 @@
   font-size: 15px;
 }
 
-.overview-title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 40px;
+.overview {
+  position: relative;
 }
 
-.o-label {
+.info {
+  margin-bottom: 40px;
+  display: flex;
+
+  strong {
+    display: flex;
+    min-width: 100px;
+  }
+
+  p {
+    letter-spacing: 0.5px;
+    padding-left: 10px;
+    white-space: pre-wrap;
+
+    string {
+      display: inline;
+    }
+  }
+}
+
+.infoname {
   width: 100px;
   display: flex;
   justify-content: space-between;
-}
 
-.o-label::after {
-  content: '';
-  display: block;
-  width: 2px;
-  margin-top: 5px;
-  height: 16px;
-  background-color: #ddd;
+  &::after {
+    content: "";
+    display: block;
+    width: 2px;
+    margin-top: 5px;
+    height: 16px;
+    background-color: #ddd;
+  }
 }
-
-.o-title {
-  padding-left: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.overview {
-  position: relative;
-  display: flex;
-  margin-bottom: 40px;
-}
-
-.overview strong {
-  display: flex;
-  min-width: 100px;
-}
-
-.overview p {
-  letter-spacing: 0.5px;
-  padding-left: 10px;
-}
-
-.o-p p:nth-child(1) {
-  padding-bottom: 15px;
-}
-
-.o-p p strong {
-  display: inline;
-}
-
 
 .more-button {
   position: absolute;
@@ -75,14 +61,11 @@
 
 .map {
   display: flex;
-}
+  margin-bottom: 20px;
 
-.map span {
-  padding-left: 10px;
-}
-
-#map {
-  padding-top: 10px;
+  span {
+    padding-left: 10px;
+  }
 }
 
 .Content-table {
@@ -122,6 +105,15 @@
   padding-left: 10px;
   font-size: 0.9em;
   word-break: break-all;
+  white-space: pre-line;
+
+  a {
+    color: #333;
+
+    &:hover {
+      color: #3f75da;
+    }
+  }
 }
 
 .Content-get-error {

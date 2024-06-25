@@ -8,22 +8,18 @@ const useIntersectionObserver = (
   React.Dispatch<React.SetStateAction<boolean>>
 ] => {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [intersecting, SetIntersecting] = useState<boolean>(false);
-
+  const [intersecting, setIntersecting] = useState<boolean>(false);
+  console.log(dataLoading);
   useEffect(() => {
+    if (dataLoading) return;
+
     let target = targetRef.current!;
 
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        if (dataLoading) return;
+        if (!entries[0].isIntersecting && intersecting) setIntersecting(false);
 
-        if (!entries[0].isIntersecting && intersecting) SetIntersecting(false);
-
-        //   console.log("IS Not INTERSECTING");
-
-        if (entries[0].isIntersecting && !intersecting) SetIntersecting(true);
-
-        //   console.log("IS INTERSECTING");
+        if (entries[0].isIntersecting && !intersecting) setIntersecting(true);
       },
       {
         // options
@@ -40,7 +36,7 @@ const useIntersectionObserver = (
     };
   }, [intersecting, dataLoading]);
 
-  return [targetRef, intersecting, SetIntersecting];
+  return [targetRef, intersecting, setIntersecting];
 };
 
 export default useIntersectionObserver;

@@ -48,6 +48,8 @@ const BottomSlide = () => {
   const imageBoxRef = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
+    if (window.innerWidth >= 1024) return;
+
     const slideBoxWidth: number =
       window.innerWidth >= 1200 ? 1200 : window.innerWidth;
 
@@ -60,10 +62,10 @@ const BottomSlide = () => {
 
   useEffect(() => {
     const resizeHandler = () => {
-      if (window.innerWidth > 1400) return;
+      if (window.innerWidth > 1024) return;
 
-      const slideBoxWidth: number =
-        window.innerWidth >= 1200 ? 1200 : window.innerWidth;
+      const slideBoxWidth: number = window.innerWidth;
+      // window.innerWidth >= 1200 ? 1200 : window.innerWidth;
 
       let pickedCardWidth = 0.5625 * window.innerWidth + 60;
       if (pickedCardWidth > 280) pickedCardWidth = 280;
@@ -121,13 +123,19 @@ const BottomSlide = () => {
     }
   };
 
+  const defineStyle = (index: number) => {
+    const style = {
+      marginTop: "0px",
+    };
+
+    if (index % 2 === 0) {
+    }
+
+    return {};
+  };
+
   return (
-    <section
-      className="bottom-slide-container"
-      // style={{
-      //   backgroundImage: JSXArray[cardNumber].color,
-      // }}
-    >
+    <section className="bottom-slide-container">
       <div className="bottom-slide-box">
         <div id="소제목">
           <div>
@@ -135,8 +143,8 @@ const BottomSlide = () => {
           </div>
           <div />
         </div>
-        <h3>혼자 가기엔 아까운 장소!</h3>
-        <div className="bottom-item-text-box">
+        {/* <h3>혼자 가기엔 아까운 장소!</h3> */}
+        {/* <div className="bottom-item-text-box">
           <p>{bottom[cardNumber % bottom.length].text}</p>
           <button
             onClick={() =>
@@ -145,154 +153,97 @@ const BottomSlide = () => {
           >
             더 보기
           </button>
-        </div>
+        </div> */}
         <div className="bottom-slide">
           <ul
             id="slide-box"
             ref={slideRef}
             style={{
-              transform: `translateX(${-distance}px)`,
+              transform:
+                window.innerWidth < 1024 ? `translateX(${-distance}px)` : "",
             }}
           >
-            {JSXArray.map((item, index) => {
-              return (
-                <li
-                  key={index}
-                  ref={liRef}
-                  onClick={() => cardClickHandler(index)}
-                >
+            {window.innerWidth >= 1024 &&
+              bottom.map((item, index) => (
+                <li key={index} ref={liRef}>
                   <div
                     className="bottom-item"
                     ref={(el: HTMLDivElement) =>
                       (imageBoxRef.current![index] = el)
                     }
                     style={{
-                      padding: index !== cardNumber ? "10px" : "0 30px",
-                      opacity: index !== cardNumber ? "0.6" : "1",
-                      width:
-                        index !== cardNumber
-                          ? "clamp(120px, 37.5vw, 170px)"
-                          : "clamp(180px, 56.25vw, 220px)",
-                      height:
-                        index !== cardNumber
-                          ? "clamp(170px, 53.125vw, 220px)"
-                          : "clamp(220px, 68.75vw, 270px)",
+                      marginTop: index % 2 === 0 ? "0" : "20px",
                     }}
                   >
                     <img src={item.url} alt={item.title} />
                   </div>
                 </li>
-              );
-            })}
+              ))}
+            {window.innerWidth < 1024 &&
+              JSXArray.map((item, index) => {
+                return (
+                  <li
+                    key={index}
+                    ref={liRef}
+                    onClick={() => cardClickHandler(index)}
+                  >
+                    <div
+                      className="bottom-item"
+                      ref={(el: HTMLDivElement) =>
+                        (imageBoxRef.current![index] = el)
+                      }
+                      style={{
+                        padding: index !== cardNumber ? "10px" : "0 30px",
+                        opacity: index !== cardNumber ? "0.6" : "1",
+                        width:
+                          index !== cardNumber
+                            ? "clamp(120px, 37.5vw, 170px)"
+                            : "clamp(180px, 56.25vw, 220px)",
+                        height:
+                          index !== cardNumber
+                            ? "clamp(170px, 53.125vw, 220px)"
+                            : "clamp(220px, 68.75vw, 270px)",
+                      }}
+                    >
+                      <img src={item.url} alt={item.title} />
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
-          <div className="bottom-button">
-            <div>
-              <button onClick={() => cardClickHandler(cardNumber - 1)}>
-                {"<"}
-              </button>
+          {window.innerWidth < 1024 && (
+            <div className="bottom-button">
+              <div>
+                <button onClick={() => cardClickHandler(cardNumber - 1)}>
+                  {"<"}
+                </button>
+              </div>
+              <div>
+                <button onClick={() => cardClickHandler(cardNumber + 1)}>
+                  {">"}
+                </button>
+              </div>
             </div>
-            <div>
-              <button onClick={() => cardClickHandler(cardNumber + 1)}>
-                {">"}
-              </button>
-            </div>
+          )}
+        </div>
+        {window.innerWidth < 1024 && (
+          <div className="count-circle">
+            {bottom.map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor:
+                    index === cardNumber % bottom.length
+                      ? "rgb(168, 168, 168)"
+                      : "",
+                }}
+              ></div>
+            ))}
           </div>
-        </div>
-        <div className="count-circle">
-          {bottom.map((_, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor:
-                  index === cardNumber % bottom.length
-                    ? "rgb(168, 168, 168)"
-                    : "",
-              }}
-            ></div>
-          ))}
-        </div>
+        )}
       </div>
     </section>
   );
 };
 
 export default BottomSlide;
-
-// const [mouse, setMouse] = useState<boolean>(false);
-// const [startX, setStartX] = useState<number>(0);
-// const [cordinateX, setCordinateX] = useState<number>(0);
-
-// onMouseDown={(e) => slideDown(e.pageX)}
-// onMouseMove={(e) => slideMove(e.pageX)}
-// onMouseUp={slideUp}
-// onTouchStart={(e) => slideDown(e.targetTouches[0].pageX)}
-// onTouchMove={(e) => slideMove(e.targetTouches[0].pageX)}
-// onTouchEnd={(e) => touchEnd(e.changedTouches[0].pageX)}
-
-// const slideDown = (pageX: number) => {
-//   setMouse(true);
-//   setStartX(pageX);
-//   setCordinateX(distance);
-// };
-
-// const slideMove = (pageX: number) => {
-//   if (!mouse) return;
-
-//   let movingX: number = startX - pageX;
-
-//   if (cordinateX + movingX < 0) {
-//     movingX = -cordinateX + (movingX + cordinateX) / 3;
-//   }
-
-//   if (cordinateX + movingX > bottom.length * 450 - window.innerWidth + 7) {
-//     let end = bottom.length * 450 - window.innerWidth + 7;
-//     movingX = end - cordinateX + (movingX - (end - cordinateX)) / 3;
-//   }
-
-//   setDistance(cordinateX + movingX);
-// };
-
-// const slideUp = () => {
-//   setMouse(false);
-//   if (distance < 0) setDistance(0);
-
-//   if (distance > bottom.length * 450 - window.innerWidth + 7)
-//     setDistance(bottom.length * 450 - window.innerWidth + 7);
-// };
-
-// const touchEnd = (pageX: number) => {
-//   setMouse(false);
-//   const cardWidth = liRef.current!.clientWidth;
-//   let newDistance = 0,
-//     newCardNumber = 0;
-
-//   if (distance < 0) {
-//     newDistance = 0;
-//     newCardNumber = 0;
-//   } else if (distance > bottom.length * cardWidth) {
-//     newDistance = (bottom.length - 1) * cardWidth;
-//     newCardNumber = bottom.length - 1;
-//   } else {
-//     let cardIndex: number = 0,
-//       fraction: string = (distance / cardWidth)
-//         .toFixed(1)
-//         .toString()
-//         .split(".")[1];
-
-//     if (startX - pageX >= 0) {
-//       if (fraction > "2") cardIndex = Math.ceil(distance / cardWidth);
-//       else cardIndex = Math.floor(distance / cardWidth);
-//     }
-
-//     if (startX - pageX < 0) {
-//       if (fraction < "8") cardIndex = Math.floor(distance / cardWidth);
-//       else cardIndex = Math.ceil(distance / cardWidth);
-//     }
-
-//     newDistance = cardIndex * cardWidth;
-//     newCardNumber = cardIndex;
-//   }
-
-//   setDistance(newDistance);
-//   setCardNumber(newCardNumber);
-// };
