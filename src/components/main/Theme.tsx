@@ -310,7 +310,7 @@ const slideData = [
       ],
       sns: "@miraenongwon",
       hash: "#Culture Complex #Cafe #Exhibition #Museum",
-      contentId: "",
+      contentId: "2864490",
       sigun: "대구 북구",
       contentType: "14",
     },
@@ -318,15 +318,15 @@ const slideData = [
       title: "리움미술관",
       text: "리움미술관은 한국 고유의 미를 담고 있는 전통미술과 생동하는 현대미술, 시대적 가치를 반영한 국제미술이 함께 공존하는 세계를 향한 열린 미술관입니다. 리움은 과거와 현재를 바탕으로 미래를 함께 모색하고, 시대와 장르를 초월한 융합미술관으로 관객과 함께 향유하고 소통하는 문화적 공간이 되고자 합니다.",
       images: [
-        "리움1.jpeg",
-        "리움2.jpeg",
-        "리움3.jpeg",
-        "리움4.jpeg",
-        "리움5.jpeg",
+        "리움미술관1.jpeg",
+        "리움미술관2.jpeg",
+        "리움미술관3.jpeg",
+        "리움미술관4.jpeg",
+        "리움미술관5.jpeg",
       ],
       sns: "@leeummuseumofart",
       hash: "#Culture Complex #Cafe #Exhibition #Museum",
-      contentId: "",
+      contentId: "130525",
       sigun: "서울 용산구",
       contentType: "14",
     },
@@ -342,7 +342,7 @@ const slideData = [
       ],
       sns: "@cosmo.40",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
-      contentId: "",
+      contentId: "2780342",
       sigun: "인천 서구",
       contentType: "14",
     },
@@ -358,34 +358,52 @@ const slideData = [
       ],
       sns: "@millac_the_market_official",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
-      contentId: "",
+      contentId: "2862152",
       sigun: "부산 수영구",
       contentType: "14",
     },
     {
-      title: "바우자움조각미술관",
+      title: "조각미술관 바우지움",
       text: "바우지움조각미술관은 현대 조각의 대중화와 발전에 기여하기 위해 치과의사 안정모 박사와 조각가 김명숙 관장 부부가 2015년에 건립한 조각 전문 사립미술관 입니다. 바우지움은 다양한 전시와 교육 프로그램, 분위기 있는 커피와 작가들의 아트상품을 만날 수 있는 복합문화 공간을 지향합니다. 아름다운 자연과 건축, 예술이 어우러진 바우지움에서 마음이 정화되는 특별한 경험을 하시기 바랍니다.",
-      images: [],
+      images: [
+        "바우지움1.jpeg",
+        "바우지움2.jpeg",
+        "바우지움3.jpeg",
+        "바우지움4.jpeg",
+        "바우지움5.jpeg",
+      ],
       sns: "@bauzium",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Museum",
-      contentId: "",
+      contentId: "2514838",
       sigun: "강원 고성군",
       contentType: "14",
     },
     {
       title: "사운즈한남",
       text: "사운즈는 한적한 바닷가 까지 멀리 떠나지 않아도 우리가 생활하는 도시 안에서 충분한 쉼과 행복감을 얻을 수 있는 어반 리조트입니다. 도심 안에서 가능한 작지만 의미 있는 변화들을 모색하며 도시의 삶에 꼭 필요한 본질에 귀 기울이고, 시간이 지나도 변함 없을 가치들을 고민하여 새로운 도심 라이프스타일을 제안합니다. 한식과 양식을 아우르는 F&B 브랜드들과 관점있는 중형 서점, 갤러리, 플라워숍 등 문화, 라이프스타일에 집중한 리테일 브랜드들이 입점되어 있습니다.",
-      images: [],
+      images: [
+        "사운즈한남1.jpeg",
+        "사운즈한남2.jpeg",
+        "사운즈한남3.jpeg",
+        "사운즈한남4.jpeg",
+        "사운즈한남5.jpeg",
+      ],
       sns: "@sounds.hannam",
       hash: "#Culture Complex #Cafe #Restaurant #Exhibition #Tourist Destination",
-      contentId: "",
+      contentId: "3060939",
       sigun: "서울 용산구",
       contentType: "14",
     },
     {
       title: "아유 스페이스",
       text: "낮과 밤이 매우 아름다운 3,500평의 AYU SPACE는 현대적 한국 정원 (아유 가든), 한옥 갤러리 (아유 갤러리), 이탈리안 식당 (아유 재벌 별장), 스페셜티 커피 & 천연 발효 베이커리 공간 (아유 카페)와 북한강 보트 선착장을 갖춘 자연 속 복합 문화 공간입니다. 45여년간 한 재벌가의 여름 별장으로 사용되었던 이 공간은 한국을 대표하는 세계적인 건축가 조병수의 설계와 디자인으로 아유 스페이스로 재탄생 하였습니다. 아유 스페이스는 유럽의 귀족 가문 설립자가 유럽의 어느 곳과 비교하여도 손색이 없는 한국적 문화 휴식 랜드마크를 만들어 전시, 공연, 조경, 건축 예술, 오감 체험 등을 경험할 수 있도록 3년에 걸친 투자와 노력으로 완성한 고품격 복합 문화 공간입니다.",
-      images: [],
+      images: [
+        "아유1.jpeg",
+        "아유2.jpeg",
+        "아유3.jpeg",
+        "아유4.jpeg",
+        "아유5.jpeg",
+      ],
       sns: "@ayu.space",
       hash: "#Culture Complex #Cafe",
       contentId: "",
@@ -395,48 +413,77 @@ const slideData = [
     {
       title: "수풍석 뮤지엄",
       text: "수(水)·풍(風)·석(石)뮤지엄은 22만평 드넓은 대지 위에 조성된 주택단지 내에 물·바람·돌을 각각의 테마로 삼고 있는 뮤지엄입니다. 이타미 준이 지향하는 바가 가장 잘 드러난 수풍석 뮤지엄은 미술품이 전시 된 일반적인 곳이 아닌 ‘명상의 공간으로서의 뮤지엄’을 제시하고 있습니다. 자연과 어울어진 이 무릉도원을 함께 느끼고자 2015년 9월부터 비오토피아 주민회에서 개방하여 안내하고 있습니다.",
-      images: [],
+      images: [
+        "수풍석1.jpeg",
+        "수풍석2.jpeg",
+        "수풍석3.jpeg",
+        "수풍석4.jpeg",
+        "수풍석5.jpeg",
+      ],
       sns: "@sounds.hannam",
       hash: "#Exhibition #Museum",
       contentId: "",
       sigun: "제주 서귀포시",
       contentType: "14",
     },
-
     {
       title: "의정부 미술 도서관",
       text: `UIJEONGBU의 아트 도서관은 의정부시 밀악동에 위치한 아트 도서관입니다. 의정부 미술 도서관은 사용자들을 위한 실용성을 강조한 디자인으로 구성되어 있습니다.도서관의 주요 키워드는 "연결"입니다. 도서관의 높은 천장과 낮은 책장은 인상적인 가시성을 제공하며 개방감을 극대화한 공간 디자인은 도서관의 매력을 높입니다. 1층은 아트 그라운드로, 주로 건축, 회화, 공예 및 사진과 관련된 책들로 구성되어 있습니다. 2층은 일반 그라운드로, 어린이와 성인이 함께 즐길 수 있는 공간으로 명확한 목적을 가지고 있습니다. 3층의 멀티 그라운드는 체험과 커뮤니티를 위한 공간으로, 카페가 있습니다. 의정부 미술 도서관 아트 도서관에 어울리는 음악은 무음입니다. 공간을 리뷰할 때, 가끔 음악이 없는 것이 공간에 어울리는 음악이라고 말하기도 합니다. 의정부 미술 도서관은 그런 공간 중 하나입니다.`,
-      images: [],
+      images: [
+        "의정부미술도서관1.jpeg",
+        "의정부미술도서관2.jpeg",
+        "의정부미술도서관3.jpeg",
+        "의정부미술도서관4.jpeg",
+        "의정부미술도서관5.jpeg",
+      ],
       sns: "@artlibrary_ujb",
       hash: "#Culture Complex #Library #Exhibition #Museum",
-      contentId: "",
+      contentId: "2705299",
       sigun: "경기 의정부 민락동",
       contentType: "14",
     },
     {
       title: "사유원",
       text: `나를 마주하다, 내안의 숲 사유원 '사유원'은 오랜 풍상을 이겨낸 나무와 마음을 빚은 석상, 아름다운 건축물이 함께하는 고요한 사색의 공간입니다. 단순한 수목원 관람에서 한발 더 나아가 원내를 거닐며 자아를 돌아보고 깊이 생각하게 하는, 진정한 '사유'의 정원입니다.`,
-      images: [],
+      images: [
+        "사유원1.jpeg",
+        "사유원2.jpeg",
+        "사유원3.jpeg",
+        "사유원4.jpeg",
+        "사유원5.jpeg",
+      ],
       sns: "@sayuwon",
       hash: "#Exhibition #Museum",
-      contentId: "",
+      contentId: "2815446",
       sigun: "대구 군위군",
       contentType: "14",
     },
     {
       title: "청운문학도서관",
       text: ` 청운문학도서관은 한옥으로 지어진 종로구 16번째 도서관으로 독서와 사색, 휴식이 가능한 매력적인공간입니다. 시, 소설, 수필 위주의 다양한 문학 도서를 소장하고 있으며 주민들에게 각종 독서모임 장소를 제공하는 것은 물론 국내 문학 작품 및 작가 중심의 기획전시와 인문학 강연, 시 창작교실 등을 운영하고 있습니다 `,
-      images: [],
+      images: [
+        "청운문학도서관1.jpeg",
+        "청운문학도서관2.jpeg",
+        "청운문학도서관3.jpeg",
+        "청운문학도서관4.jpeg",
+        "청운문학도서관5.jpeg",
+      ],
       sns: "https://lib.jongno.go.kr/",
       hash: "#Exhibition #Museum",
-      contentId: "",
+      contentId: "2692866",
       sigun: "서울 종로구",
       contentType: "14",
     },
     {
       title: "양천공원 책쉼터",
       text: `양천공원 책쉼터는 자연과 사람, 책이 한 데 어우러진 커뮤니티 쉼터입니다. 아이들이 책을 읽으면서도 마음껏 뛰어놀 수 있는 공간, 어른들에게는 정신없는 도시생활 중 마음 편히 쉬어갈 수 있는 공간, 도심 속 오아시스 같은 싱그러운 공간을 꿈꾸고 있습니다.`,
-      images: [],
+      images: [
+        "양천공원책쉼터1.jpeg",
+        "양천공원책쉼터2.jpeg",
+        "양천공원책쉼터3.jpeg",
+        "양천공원책쉼터4.jpeg",
+        "양천공원책쉼터5.jpeg",
+      ],
       sns: "@ycbookshelter23",
       hash: "#Nature #Library",
       contentId: "",
@@ -446,10 +493,16 @@ const slideData = [
     {
       title: "송은",
       text: `헤르조그 & 드 뫼롱이 한국에서 진행한 첫 번째 건축물인 송은문화재단 신사옥 '송은'은 도산대로에 위치한 비영리 전시 공간입니다. 청담동 중심부에 위치한 송은 한국 작가들과 더불어 국제 동시대 미술을 조명하는 문화의 중심지가 되고자 합니다.`,
-      images: [],
+      images: [
+        "송은1.jpeg",
+        "송은2.jpeg",
+        "송은3.jpeg",
+        "송은4.jpeg",
+        "송은5.jpeg",
+      ],
       sns: "@ycbookshelter23",
       hash: "#Nature #Library",
-      contentId: "",
+      contentId: "2782156",
       sigun: "서울 강남구",
       contentType: "14",
     },
@@ -522,16 +575,6 @@ const slideData = [
       sigun: "",
       sns: "",
       hash: "#Photo Zone #Culture Complex #Shop #Cafe #Exhibition #Museum",
-      contentId: "",
-      contentType: "14",
-    },
-    {
-      title: "북촌 설화수의 집",
-      text: `서울에서 가장 잘 알려진 한옥 마을 중 하나인 북촌에는 1930년대의 한옥과 1960년대의 서양식 주택이 결합된 공간이 있습니다. Sulwhasoo를 위한 이 공간은 한옥 스타일의 기둥, 가로보, 지붕을 보존하여 영원한 아름다움과 현대적인 우아함을 함께 느끼게 합니다. 한국 문화의 본격적인 매력과 한옥과 서양 주택 스타일의 조화로운 공존을 경험하고 싶다면 꼭 방문해야 할 곳입니다. 한국적인 가치와 아름다움을 동시대적 해석으로 담아낸 설화수의 집, 전통과 현대의 미감이 공간 곳곳에 펼쳐진 설화수의 집에서 아름다운 여정을 시작해보세요.`,
-      images: [],
-      sigun: "",
-      sns: "",
-      hash: "#Nature #Photo Zone #Culture Complex #Shop #Exhibition #Museum",
       contentId: "",
       contentType: "14",
     },
@@ -761,8 +804,9 @@ const Theme = () => {
         slideData[Number(theme_number)].map((item, index) => (
           <div className="theme-item-box" key={index}>
             <div className="item-title">
-              <h2 className="item-title">{item.title}</h2>
+              <h2>{item.title}</h2>
               <p>{item.hash}</p>
+              <p>{item.sigun}</p>
             </div>
             <div
               className="Theme"
@@ -772,11 +816,12 @@ const Theme = () => {
                 images={item.images}
                 index={index}
                 slideBoxRef={slideBoxRef}
+                theme_number={theme_number}
               />
             </div>
             <div className="item-text">
               <p>{item.sns}</p>
-              <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
+              <p>{item.text}</p>
               <button
                 onClick={() =>
                   navigate(

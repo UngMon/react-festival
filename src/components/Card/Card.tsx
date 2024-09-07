@@ -3,8 +3,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { getTourApiData } from "../../redux/fetch-action";
 import { useNavigate } from "react-router-dom";
-// import { firebaseActions } from "../../redux/firebase-slice";
-import { Item, 지역코드, 시군코드, tagName, Data } from "../../type/Common";
+import { Item, 지역코드, 시군코드, cat3Code, Data } from "../../type/Common";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dateSlice } from "../../utils/DateSlice";
@@ -15,51 +14,71 @@ import useIntersectionObserver from "../../hooks/useIntersectionObserver";
 import "./Card.css";
 
 interface CardProps {
-  title: "tour" | "culture" | "travel" | "result" | "festival";
+  title:
+    | "관광지"
+    | "문화시설"
+    | "여행코스"
+    | "검색"
+    | "축제/공연/행사"
+    | "레포츠";
 }
 
-const titleObject: { [key: string]: "tour" | "culture" | "travel" } = {
-  "12": "tour",
-  "14": "culture",
-  "25": "travel",
+const titleObject: {
+  [key: string]: "관광지" | "문화시설" | "여행코스" | "레포츠";
+} = {
+  "12": "관광지",
+  "14": "문화시설",
+  "25": "여행코스",
+  "28": "레포츠",
 };
 
 const Card = ({ title }: CardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const params = useAllParams(title);
-  const { type, month, areaCode, cat1, cat2, cat3, keyword, requireRedirect } =
-    params;
+  const {
+    contentTypeId,
+    month,
+    areaCode,
+    cat1,
+    cat2,
+    cat3,
+    keyword,
+    requireRedirect,
+  } = useAllParams(title);
 
-  const cotentType = titleObject[type];
+  const cotentType = titleObject[contentTypeId];
   const tourData = useSelector((state: RootState) => state.data);
 
-  const [targetRef, intersecting, setIntersecting] = useIntersectionObserver(tourData.loading);
-  
+  const [targetRef, intersecting, setIntersecting] = useIntersectionObserver(
+    tourData.loading
+  );
+
   useEffect(() => {
     switch (true) {
-      case requireRedirect:
-        navigate("/");
+      case requireRedirect !== "":
+        navigate(requireRedirect);
         return;
-      case !intersecting || tourData.loading:
+      case !intersecting || tourData.httpState === "pending":
         return;
-      case title === "festival" && tourData.festival.length !== 0:
+      case title === "축제/공연/행사" &&
+        tourData["축제/공연/행사"].length !== 0:
         return;
-      case title === "result" &&
-        tourData.serchRecord?.[keyword]?.[type] === "complete":
-        return;
-      case tourData.dataRecord?.[type]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] ===
-        "complete":
+      // case title === "검색" &&
+      //   tourData.serchRecord?.[keyword]?.[type] === "complete":
+      //   return;
+      case tourData.dataRecord?.[contentTypeId]?.[areaCode]?.[cat1]?.[cat2]?.[
+        cat3
+      ] === "complete":
         return;
     }
     console.log("USEEFFECT PASS");
-    const result = tourData.result[keyword]?.[type];
+    const result = tourData.검색[keyword]?.[contentTypeId];
     let d = tourData[title] as Data;
     const data = d[areaCode]?.[cat1]?.[cat2]?.[cat3];
-    const pageNumber = title === "result" ? result : data;
+    const pageNumber = title === "검색" ? result : data;
     const parameter = {
-      type,
+      contentTypeId,
       title,
       areaCode,
       cat1,
@@ -81,7 +100,7 @@ const Card = ({ title }: CardProps) => {
     cat2,
     cat3,
     keyword,
-    type,
+    contentTypeId,
     intersecting,
     tourData,
     title,
@@ -89,7 +108,6 @@ const Card = ({ title }: CardProps) => {
 
   const cardClickHandler = useCallback(
     (type: string, contentId: string) => {
-      // dispatch(firebaseActions.cardClicked());
       navigate(`/content/search?type=${type}&contentId=${contentId}`);
     },
     [navigate]
@@ -99,17 +117,17 @@ const Card = ({ title }: CardProps) => {
     let array: Item[] = [];
 
     switch (title) {
-      case "festival":
-        array = tourData.festival;
+      case "축제/공연/행사":
+        array = tourData["축제/공연/행사"];
         break;
-      case "result":
-        array = tourData.result?.[keyword!]?.[type] ?? [];
-        break;
+      // case "검색":
+      //   array = tourData.result?.[keyword]?.["0"] ?? [];
+      //   break;
       default:
         array = tourData[cotentType]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] ?? [];
     }
 
-    if (array.length === 0) return; // 빈 배열에서 불 필요한 연산 생략
+    if (array.length === 0) return; // 빈 배열에서 불 필요한 연산 생략}
 
     let result: JSX.Element[] = [];
     let returnArray: JSX.Element[] = [];
@@ -123,11 +141,11 @@ const Card = ({ title }: CardProps) => {
       if (cat1 !== "all" && cat1 !== item.cat1) continue;
       if (cat2 !== "all" && cat2 !== item.cat2) continue;
       if (cat3 !== "all" && cat3 !== item.cat3) continue;
-      if (title !== "festival" && !item.firstimage) continue;
+      if (title !== "축제/공연/행사" && !item.firstimage) continue;
 
       let 축제상태 = "";
 
-      if (title === "festival") {
+      if (title === "축제/공연/행사") {
         if (item.eventstartdate!.slice(4, 6) > month) continue;
         if (item.eventenddate!.slice(4, 6) < month) continue;
         if (areaCode !== "0" && areaCode !== item.areacode) continue;
@@ -168,7 +186,7 @@ const Card = ({ title }: CardProps) => {
               loading={"lazy"}
             ></img>
           </div>
-          {title === "festival" && (
+          {title === "축제/공연/행사" && (
             <p
               className={`cal-date ${
                 축제상태 === "진행중"
@@ -184,18 +202,18 @@ const Card = ({ title }: CardProps) => {
           <div className="card-text">
             <p className="area">{지역표시}</p>
             <h4>{item.title}</h4>
-            {title === "festival" && (
+            {title === "축제/공연/행사" && (
               <p className="card-date">
                 {dateSlice(item.eventstartdate!, item.eventenddate!)}
               </p>
             )}
-            {title !== "festival" && (
-              <p className="card-tag">{`#${tagName[item.cat3]}`}</p>
+            {title !== "축제/공연/행사" && (
+              <p className="card-tag">{`#${cat3Code[item.cat3]}`}</p>
             )}
           </div>
         </div>
       );
-      if (title === "festival") {
+      if (title === "축제/공연/행사") {
         if (축제상태 === "행사종료") 행사종료.push(element);
         else if (축제상태 === "진행중") 행사중.push(element);
         else 행사시작전.push(element);
@@ -204,18 +222,18 @@ const Card = ({ title }: CardProps) => {
       }
     } // for end
 
-    if (title !== "festival") returnArray = result;
+    if (title !== "축제/공연/행사") returnArray = result;
     else returnArray = [...행사중, ...행사시작전, ...행사종료];
 
     return (
       <>
-        {title === "result" && tourData.successGetData && (
+        {/* {title === "검색" && tourData.successGetData && (
           <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${returnArray.length}개`}</h3>
-        )}
+        )} */}
         {returnArray.length === 0 ? (
           <div className="not-found-category">
             <p>
-              {title === "result"
+              {title === "검색"
                 ? "검색한 키워드 결과가 없습니다!"
                 : "조건에 부합하는 결과가 없습니다!"}
             </p>
@@ -228,7 +246,7 @@ const Card = ({ title }: CardProps) => {
   };
 
   return (
-    <article className={`main-box-content ${title === "result" && "result"}`}>
+    <article className={`main-box-content ${title === "검색" && "result"}`}>
       <div className="AllView-grid-box">
         {returnResult()}
         {tourData.loading && <Loading />}

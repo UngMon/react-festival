@@ -1,8 +1,12 @@
+:root {
+  --font-color: rgb(246, 246, 246);
+}
+
 @keyframes slideloading {
   from {
     width: 0;
   }
-  
+
   to {
     width: 100%;
   }
@@ -20,11 +24,11 @@
 }
 
 .top-slide-container {
+  position: relative;
   width: 100%;
   height: 100vh;
   min-height: 720px;
   max-height: 970px;
-  position: relative;
   font-size: 16px;
 }
 
@@ -39,20 +43,31 @@
 
 .source {
   position: absolute;
-  bottom: 40px;
+  bottom: 60px;
   left: 5%;
   z-index: 14;
-  color: white;
+  color: var(--font-color);
+  font-size: clamp(14px, 4.375vw, 16px);
+}
+
+.top-slide-page {
+  position: absolute;
+  right: 5%;
+  bottom: 60px;
+  color: var(--font-color);
+  font-size: clamp(14px, 4.375vw, 16px);
 }
 
 .top-slide-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 
   img {
     width: 100%;
     height: 100%;
-    float: center;
     object-fit: cover;
     filter: brightness(75%);
   }
@@ -60,29 +75,37 @@
 
 .top-text-box {
   position: absolute;
-  padding: 50px 0 0;
-  top: 25%;
-  right: 5%;
+  bottom: 33%;
+  left: 5%;
   width: 90%;
-  height: auto;
   color: white;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
 
   h2 {
-    font-size: clamp(64px, 5rem, 80px);
-    margin-bottom: 40px;
+    font-size: clamp(26px, 6vw, 52px);
+    margin-bottom: clamp(10px, 2vw, 18px);
   }
 
   p {
-    font-size: clamp(16px, 2.5rem, 38px);
-    margin-bottom: 40px;
+    font-size: clamp(16px, 3vw, 32px);
+    margin-bottom: clamp(10px, 2vw, 22px);
   }
 
-  button {
-    height: 36px;
-    font-size: 1.4em;
-    font-weight: 700;
+  a {
+    display: inline-block;
+    font-size: clamp(14px, 3vw, 18px);
+    font-weight: 400;
+    cursor: pointer;
+    text-align: center;
+    color: var(--font-color);
+    
+    &:after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: white;
+    }
   }
 }
 
@@ -92,7 +115,7 @@
   left: 5%;
   width: 90%;
   height: 80px;
-  z-index: 14;
+  z-index: 5;
 
   .time-bar {
     height: 5px;
@@ -119,15 +142,30 @@
 
     button:hover {
       border-radius: 50%;
-      cursor: pointer;
+
       background-color: rgba(150, 150, 150, 0.581);
     }
   }
 }
 
+@media (max-width: 450px) {
+  .top-slide-page {
+    bottom: 10px;
+  }
+}
+
 @media (min-width: 1334px) {
+  .top-text-box {
+    left: calc(50% - 600px);
+    width: 1200px;
+  }
+
   .source {
     left: calc(50% - 600px);
+  }
+
+  .top-slide-page {
+    right: calc(50% - 600px);
   }
 
   .slide-time-box {
@@ -136,18 +174,10 @@
   }
 }
 
-@media (max-width: 1023.9px) {
+/* @media (max-width: 1023.9px) {
   .top-text-box {
-    h2 {
-      font-size: clamp(36px, 8vw, 80px);
-    }
-  
-    p {
-      font-size: clamp(18px, 4vw, 38px);
-    }
-
     button {
       font-size: clamp(16px, 4vw, 38px);
     }
   }
-}
+} */

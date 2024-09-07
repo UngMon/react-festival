@@ -12,7 +12,8 @@ interface T {
 }
 
 const UiBox = ({ title }: T) => {
-  const { type, month, areaCode, cat1, cat2, cat3 } = useAllParams(title);
+  const { contentTypeId, month, areaCode, cat1, cat2, cat3 } =
+    useAllParams(title);
 
   return (
     <div className="Ui-Box">
@@ -21,12 +22,16 @@ const UiBox = ({ title }: T) => {
         <div>
           <div className="option-container">
             {title === "festival" && (
-              <MonthSelector month={month} type={type} areaCode={areaCode} />
+              <MonthSelector
+                month={month}
+                type={contentTypeId}
+                areaCode={areaCode}
+              />
             )}
             <RegionSelector
               title={title}
               month={month}
-              type={type}
+              contentTypeId={contentTypeId}
               areaCode={areaCode}
               cat1={cat1}
               cat2={cat2}
@@ -35,7 +40,7 @@ const UiBox = ({ title }: T) => {
             <Category
               title={title}
               month={month}
-              type={type}
+              contentTypeId={contentTypeId}
               areaCode={areaCode}
               cat1={cat1}
               cat2={cat2}
@@ -45,7 +50,7 @@ const UiBox = ({ title }: T) => {
           <Tags
             title={title}
             month={month}
-            type={type}
+            contentTypeId={contentTypeId}
             areaCode={areaCode}
             cat1={cat1}
             cat2={cat2}

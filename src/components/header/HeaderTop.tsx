@@ -7,11 +7,18 @@ import "./HeaderTop.css";
 interface T {
   openNav: boolean;
   setOpenNav: (value: boolean) => void;
+  setMouseOver: (value: boolean) => void;
   openSearch: boolean;
   setOpenSearch: (value: boolean) => void;
 }
 
-const HeaderTop = ({ openNav, setOpenNav, openSearch, setOpenSearch }: T) => {
+const HeaderTop = ({
+  openNav,
+  setOpenNav,
+  setMouseOver,
+  openSearch,
+  setOpenSearch,
+}: T) => {
   const clickHandler = () => {
     if (openSearch) return;
     setOpenNav(!openNav);
@@ -20,6 +27,7 @@ const HeaderTop = ({ openNav, setOpenNav, openSearch, setOpenSearch }: T) => {
 
   const saerchClickHandler = () => {
     setOpenSearch(!openSearch);
+    setMouseOver(false);
   };
 
   return (

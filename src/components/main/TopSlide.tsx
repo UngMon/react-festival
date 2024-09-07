@@ -7,37 +7,80 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./TopSlide.css";
+import { Link } from "react-router-dom";
 
 const top = [
   {
-    title: "렛츠런파크 서울 벚꽃축제",
-    text: "‘나만 알고 싶은’ 숨은 벚꽃 명소 렛츠런파크, 야갼경마와 함께 벚꽃야경을 즐길 수 있는 특별한 축제",
-    url: "./images/test/letsrun.webp",
-    source: "ⓒYoutube seoul_4k",
+    title: "초곡 용굴 촛대바위길",
+    text: "삼척의 시원하고 아늑한 초곡항의 길",
+    url: "./images/top/cho.jpg",
+    source: "ⓒ한국관광공사 포토코리아-강원지사 모먼트스튜디오",
+    type: '28',
+    contentId: "2633902",
   },
   {
-    title: "낙동강유채축제",
-    text: "'자연과 사람의 만남' 나비와 벌이 꽃처럼 가득한 낙동강유채단지의 아름다움",
-    url: "./images/test/nakdong.webp",
-    source: "ⓒ한국관광공사 사진갤러리-홍길동",
+    title: "삼척 장호항",
+    text: "흰 모래사장과 기암괴석으로 둘러싸인 아름다운 해변",
+    url: "./images/top/janghohang.jpg",
+    source: "ⓒ한국관광공사 포토코리아-허흥무",
+    type: '12',
+    contentId: "128965",
   },
   {
-    title: "팜월드",
-    text: "'대자연 속에서 보내는 하루', 다양한 체험을 즐길 수 있는 안성 팜랜드의 유채꽃밭",
-    url: "./images/test/farmworld.webp",
-    source: "ⓒ한국관광공사 사진갤러리-권기대",
+    title: "월출산",
+    text: "멋진 절경을 가진 아름다운 산",
+    url: "./images/top/wolchulsan.jpg",
+    source: "ⓒ한국관광공사 포토코리아-김한중",
+    type: '12',
+    contentId: "2759617",
   },
   {
-    title: "고창 읍성",
-    text: "읍성의 봄은 아름답다",
-    url: "./images/test/gochang.webp",
-    source: "ⓒ한국관광공사 사진갤러리-신원철",
+    title: "수주팔봉",
+    text: "한 폭의 동양화를 펼처 놓은 듯한 풍경",
+    url: "./images/top/sujupalbong.jpg",
+    source: "ⓒ한국관광공사 포토코리아-윤진호",
+    type: '28',
+    contentId: "2761699",
+  },
+  // {
+  //   title: "울릉도",
+  //   text: "동남쪽 뱃길따라 이백리",
+  //   url: "./images/top/ulleungdo.jpg",
+  //   source: "ⓒYoutube Vagabond Jose",
+  //   type: '',
+  //   contentId: "",
+  // },
+  {
+    title: "섭지코지",
+    text: "제주도의 아름다운 바다 절경을 감상할 수 있는 곳",
+    url: "./images/top/seopjikoji.jpg",
+    source: "ⓒ한국관광공사 포토코리아-라이브스튜디오",
+    type: '12',
+    contentId: "127813",
   },
   {
-    title: "태안 세계튤립꽃박람회",
-    text: "코리아플라워파크에서 펼쳐지는 태안 세계튤립꽃박람회",
-    url: "./images/test/tean.webp",
-    source: "ⓒYoutube Vagabond Jose",
+    title: "코난해변",
+    text: "코발트빛보다 더 나은 해변",
+    url: "./images/top/konan.jpg",
+    source: "ⓒ한국관광공사 포토코리아-한국관광공사 이범수",
+    type: '12',
+    contentId: "2837222",
+  },
+  {
+    title: "매봉산 바람의 언덕",
+    text: "백두대간의 함백산에서 서쪽으로 갈라지는 능선상 최고봉",
+    url: "./images/top/maebongsan.jpg",
+    source: "ⓒ한국관광공사 포토코리아-서보선",
+    type: '12',
+    contentId: "127824",
+  },
+  {
+    title: "해운대 블루라인파크",
+    text: "해운대 관광특구의 핵심 관광 시설",
+    url: "./images/top/blueline.jpg",
+    source: "ⓒ한국관광공사 포토코리아-디자인글꼴",
+    type: '12',
+    contentId: "2672393",
   },
 ];
 
@@ -152,14 +195,19 @@ const TopSlide = () => {
             opacity: index === 0 ? 1 : 0,
           }}
         >
-          <div className="source">{item.source}</div>
+          <div className="source">
+            <span>{item.source}</span>
+          </div>
           <div className="top-slide-image">
             <img src={item.url} alt={item.title} />
           </div>
           <div className="top-text-box">
             <h2>{item.title}</h2>
             <p>{item.text}</p>
-            <button>더보기</button>
+            <Link to={`/content/search?type=${item.type}&contentId=${item.contentId}`}>자세히 보기</Link>
+          </div>
+          <div className="top-slide-page">
+            <span>{`${index + 1} of ${top.length}`}</span>
           </div>
         </div>
       ))}

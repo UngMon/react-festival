@@ -4,7 +4,7 @@ import {
   ResponInfo,
   ResponIntro,
   GetContentData,
-} from "../../../type/FestivalType";
+} from "../../../type/ContentType";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";

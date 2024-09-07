@@ -6,7 +6,7 @@ import { 지역코드 } from "../../type/Common";
 interface T {
   title: string;
   month?: string;
-  type: string;
+  contentTypeId: string;
   areaCode: string;
   cat1: string;
   cat2: string;
@@ -16,7 +16,7 @@ interface T {
 const RegionSelector = ({
   title,
   month,
-  type,
+  contentTypeId,
   areaCode,
   cat1,
   cat2,
@@ -29,7 +29,7 @@ const RegionSelector = ({
 
     let url = '?';
     if (title === "festival") url += `month=${month}&`;
-    url += `type=${type}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
+    url += `type=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
     
     navigate(url);
   };

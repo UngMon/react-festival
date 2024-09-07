@@ -1,18 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { TitleEnglishName } from "../../type/Common";
 
 interface T {
   title: string;
   month?: string;
-  type: string;
+  contentTypeId: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3?: string;
 }
 
-const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
+const Category = ({
+  title,
+  month,
+  contentTypeId,
+  areaCode,
+  cat1,
+  cat2,
+  cat3,
+}: T) => {
   const navigate = useNavigate();
 
   const pickerSelector = (
@@ -23,28 +32,28 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
 
     if (cat === "cat1") {
       navigate(
-        `/${title}?type=${type}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
+        `/${TitleEnglishName[title]}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
     if (cat === "cat2") {
       navigate(
-        `/${title}?${
-          title === "festival" ? `month=${month}&` : ""
-        }type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
+        `/${TitleEnglishName[title]}?${
+          title === "축제/공연/행사" ? `month=${month}&` : ""
+        }contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
     }
 
     if (cat === "cat3") {
       navigate(
-        `/${title}?type=${type}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${TitleEnglishName[title]}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
   };
 
   return (
     <>
-      {title === "tour" && (
+      {title === "관광지" && (
         <>
           <div className="picker">
             <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
@@ -82,7 +91,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
           )}
         </>
       )}
-      {title === "culture" && (
+      {title === "문화시설" && (
         <div className="picker">
           <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
             <option value="all"># 전체</option>
@@ -105,7 +114,7 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
           <FontAwesomeIcon icon={faCheck} />
         </div>
       )}
-      {title === "travel" && (
+      {title === "여행코스" && (
         <div className="picker">
           <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
             <option value="all"># 전체</option>
@@ -115,6 +124,20 @@ const Category = ({ title, month, type, areaCode, cat1, cat2, cat3 }: T) => {
             <option value="C0115"># 도보코스</option>
             <option value="C0116"># 캠핑코스</option>
             <option value="C0117"># 맛코스</option>
+          </select>
+          <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
+          <FontAwesomeIcon icon={faCheck} />
+        </div>
+      )}
+      {title === "레포츠" && (
+        <div className="picker">
+          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+            <option value="all"># 전체</option>
+            <option value="A0301"># 레포츠소개</option>
+            <option value="A0302"># 육상 레포츠</option>
+            <option value="A0303"># 수상 레포츠</option>
+            <option value="A0304"># 항공 레포츠</option>
+            <option value="A0305"># 복합 레포츠</option>
           </select>
           <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
           <FontAwesomeIcon icon={faCheck} />

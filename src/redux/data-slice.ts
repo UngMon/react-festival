@@ -10,11 +10,12 @@ import { Item, Data } from "../type/Common";
 const initialState: DataType = {
   successGetData: false,
   httpState: "nothing",
-  tour: {},
-  culture: {},
-  festival: [],
-  travel: {},
-  result: {},
+  "관광지": {},
+  "문화시설": {},
+  "축제/공연/행사": [],
+  "여행코스": {},
+  "레포츠": {},
+  "검색": {},
   loading: false,
   dataRecord: {},
   serchRecord: {},
@@ -41,7 +42,7 @@ const dataSlice = createSlice({
         state.httpState = "fulfilled";
         state.loading = false;
 
-        let type = action.payload.type || "0";
+        let contentTypeId = action.payload.contentTypeId || "0";
         let areaCode = action.payload.areaCode || "0";
         let cat1 = action.payload.cat1 || "all";
         let cat2 = action.payload.cat2 || "all";
@@ -50,13 +51,13 @@ const dataSlice = createSlice({
         let title = action.payload.title;
 
         let dummyData = action.payload.data.response.body.items.item;
-
+        console.log(dummyData);
         if (!dummyData) {
           // 데이터를 불러왔지만, 아무런 정보가 없을 때 or
           // 사용자가 url를 조작할 때,
-          if (title === "result") {
+          if (title === "검색") {
             state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
-            state.serchRecord[keyword][type] = "complete";
+            state.serchRecord[keyword][contentTypeId] = "complete";
           }
           state.loading = false;
           state.successGetData = true;
@@ -66,52 +67,56 @@ const dataSlice = createSlice({
         let arr: Item[] = [];
         let fetstivalArray: Item[] = [];
         let typeArray: Data = {};
-        let criteria = title === "festival" ? 2000 : 50;
+        let criteria = title === "축제/공연/행사" ? 2000 : 50;
         let dr = state.dataRecord;
 
-        if (title === "result") {
-          state.result[keyword] = state.result?.[keyword] || {};
-          state.result[keyword][type] = state.result?.[keyword]?.[type] || [];
-          state.result[keyword][type] = [
-            ...state.result[keyword][type],
+        if (title === "검색") {
+          state.검색[keyword] = state.검색[keyword] ?? {};
+          // state.result[keyword][type] = state.result[keyword][type] ?? [];
+          console.log(contentTypeId)
+          state.검색[keyword][contentTypeId] = [
+            ...(state.검색[keyword][contentTypeId] ?? []),
             ...dummyData,
           ];
 
-          state.serchRecord[keyword] = state.serchRecord?.[keyword] || {};
-          state.serchRecord[keyword][type] =
-            state.serchRecord?.[keyword]?.[type] || "remaining";
-          state.serchRecord[keyword][type] =
+          state.serchRecord[keyword] = state.serchRecord[keyword] ?? {};
+          state.serchRecord[keyword][contentTypeId] =
+            state.serchRecord[keyword][contentTypeId] ?? "remaining";
+          state.serchRecord[keyword][contentTypeId] =
             dummyData.length < criteria ? "complete" : "remaining";
 
           return;
         } else {
-          dr[type] = dr[type] || {};
-          dr[type][areaCode] = dr[type][areaCode] || {};
-          dr[type][areaCode][cat1] = dr[type][areaCode][cat1] || {};
-          dr[type][areaCode][cat1][cat2] = dr[type][areaCode][cat1][cat2] || {};
-          dr[type][areaCode][cat1][cat2][cat3] =
-            dr[type][areaCode][cat1][cat2][cat3] || "reaming";
+          dr[contentTypeId] = dr[contentTypeId] || {};
+          dr[contentTypeId][areaCode] = dr[contentTypeId][areaCode] || {};
+          dr[contentTypeId][areaCode][cat1] = dr[contentTypeId][areaCode][cat1] || {};
+          dr[contentTypeId][areaCode][cat1][cat2] = dr[contentTypeId][areaCode][cat1][cat2] || {};
+          dr[contentTypeId][areaCode][cat1][cat2][cat3] =
+            dr[contentTypeId][areaCode][cat1][cat2][cat3] || "reaming";
 
           if (dummyData.length < criteria)
-            dr[type][areaCode][cat1][cat2][cat3] = "complete";
+            dr[contentTypeId][areaCode][cat1][cat2][cat3] = "complete";
         }
 
-        if (title === "tour") typeArray = state.tour;
+        if (title === "관광지") typeArray = state.관광지;
 
-        if (title === "culture") typeArray = state.culture;
+        if (title === "문화시설") typeArray = state.문화시설;
 
-        if (title === "travel") typeArray = state.travel;
+        if (title === "여행코스") typeArray = state.여행코스;
 
-        if (title === "festival") {
+        if (title === "레포츠") typeArray = state.레포츠;
+
+        if (title === "축제/공연/행사") {
           for (let item of dummyData) {
             if (item.areacode === "") continue;
 
-            if (item.eventenddate! < "20230101") continue;
+            if (item.eventenddate! < `${new Date().getFullYear()}0101`)
+              continue;
 
             fetstivalArray.push(item);
           }
 
-          state.festival = fetstivalArray.sort((a, b) =>
+          state['축제/공연/행사'] = fetstivalArray.sort((a, b) =>
             a.eventenddate! < b.eventenddate! ? -1 : 1
           );
           return;

@@ -1,12 +1,17 @@
-import Bottom from "./BottomSlide";
 import TopSlide from "./TopSlide";
-import "./Test.css";
+import BottomSlide from "./BottomSlide";
+
+const style: React.CSSProperties = {
+  width: "100%",
+  overflowX: 'hidden',
+  fontSize: "16px",
+};
 
 const Test = () => {
   return (
-    <main className="start-page">
+    <main style={style}>  
       <TopSlide />
-      <Bottom />
+      <BottomSlide />
     </main>
   );
 };

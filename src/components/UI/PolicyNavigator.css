@@ -1,0 +1,145 @@
+.PolicyNavigator-Container {
+  box-sizing: border-box;
+  width: 100%;
+  height: 60px;
+  background: rgb(26, 50, 154);
+}
+
+.PolicyNavigator-Box {
+  margin: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: clamp(300px, 90vw, 1060px);
+  height: 100%;
+  color: rgb(228, 228, 228);
+}
+
+.PolicyNavigator-Home {
+  height: 100%;
+  margin-right: 5px;
+
+  img {
+    display: inline-flex;
+    padding: calc((60px - 25px) / 2) 10px;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.PolicyNavigator-Box li {
+  cursor: pointer;
+}
+
+.PolicyNavigator-Box > li:nth-child(2) {
+  height: 60%;
+  border: 2px solid rgb(182, 182, 182);
+}
+
+.PolicyNavigator-Nav {
+  width: 190px;
+  height: 80%;
+
+  div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  div span {
+    display: block;
+    width: 150px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.navi-open {
+  display: block;
+}
+
+.navi-off {
+  display: none;
+}
+
+.PolicyNavigator-Nav ul {
+  margin-top: 5px;
+  z-index: 10;
+  background: rgb(19, 29, 75);
+  width: 190px;
+
+  li {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 20px 15px;
+
+    &:hover {
+      background: rgb(129, 129, 129);
+    }
+  }
+}
+
+.icons {
+  display: none;
+  position: absolute;
+  width: 50px;
+  height: 40px;
+
+  svg {
+    padding: 12.5px 7.5px;
+    width: 25px;
+    display: block;
+    margin: auto;
+    font-size: 20px;
+  }
+}
+
+.PolicyNavigator-Box > li:nth-child(4) {
+  right: 50px;
+}
+
+.PolicyNavigator-Box > li:nth-child(5) {
+  right: 0px;
+}
+
+@media (min-width: 1024px) {
+  .PolicyNavigator-Container {
+    margin: 40px auto 0;
+    padding: 0 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 1100px;
+    height: 70px;
+  }
+
+  .PolicyNavigator-Box {
+    width: 100%;
+  }
+
+  .PolicyNavigator-Home img {
+    padding: calc((70px - 30px) / 2) 15px calc((70px - 30px) / 2) 0;
+    width: 30px;
+    height: 30px;
+  }
+
+  .PolicyNavigator-Nav {
+    div span {
+      width: 140px;
+      padding: 0 15px;
+      font-size: 20px;
+    }
+
+    svg {
+      height: 20px;
+    }
+  }
+
+  .PolicyNavigator-Box > li:nth-child(4) {
+    display: block;
+  }
+  .PolicyNavigator-Box > li:nth-child(5) {
+    display: block;
+  }
+}

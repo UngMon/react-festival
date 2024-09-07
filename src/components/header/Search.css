@@ -1,4 +1,4 @@
-@keyframes search-effect {
+@keyframes form-ani {
   from {
     opacity: 0;
     transform: translateY(-50px);
@@ -18,154 +18,131 @@
   }
 }
 
-.search-box {
+.search-container {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
 }
 
-.search-form {
-  max-width: 750px;
+.search-box {
+  width: clamp(270px, 84.375vw, 750px);
+  height: clamp(100px, 31.25vw, 150px);
   height: 150px;
-  margin: 160px auto 0;
-  background-color: rgb(242, 247, 251);
-  border-radius: 15px;
-  position: relative;
-  animation: search-effect 0.5s ease-in-out;
+  margin: 20vh auto 0;
+  animation-name: form-ani;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
-.saerch-div {
-  margin: 0 auto;
-  padding-top: 55px;
-  width: 90%;
+.search-box form {
   position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.search-box button {
-  width: 35px;
-  height: 35px;
-  background-color: transparent;
-  border: 0;
-  font-size: 1.39em;
-  z-index: 80;
+.search-input-box {
+  position: relative;
+  width: 100%;
+  height: clamp(40px, 12.5vw, 60px);
 }
 
-#cancel {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  border-radius: 50%;
-}
-
-#cancel:hover {
-  cursor: pointer;
-  background-color: lightgray;
-}
-
-.search-option-box {
-  box-sizing: border-box;
-  margin-left: 1.5px;
-  width: 100px;
-  height: 37px;
-  font-size: 1.286em;
-  position: absolute;
-  border-radius: 20px;
+.search-category {
+  z-index: 5;
   display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
   text-align: center;
-  align-items: center;
+  font-size: clamp(14px, 4.375vw, 18px);
+
+  .category {
+    width: clamp(60px, 18.75vw, 80px);
+    line-height: clamp(40px, 12.5vw, 60px);
+  }
+
+  ul {
+    position: absolute;
+    left: 0;
+    top: clamp(40px, 12.5vw, 60px);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  ul li {
+    width: clamp(60px, 18.75vw, 80px);
+    height: calc(100% - 10px);
+    line-height: clamp(40px, 12.5vw, 60px);
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  svg {
+    width: clamp(14px, 4.375vw, 18px);
+    height: 100%;
+  }
 }
 
-.search-option-box:hover {
-  cursor: pointer;
+.category-off {
+  overflow: unset;
 }
 
-.search-option-box span {
-  margin: 0 10px 0 15px;
+.category-off {
+  overflow: hidden;
 }
 
-.search-option-box svg {
-  font-size: 1.25em;
-  width: 20px;
-  color: rgb(120, 120, 120);
-}
-
-.search-option-box ul {
-  position: absolute;
-  top: 40px;
-  background-color: rgb(250, 248, 246);
-  border: 1px solid rgb(176, 175, 175);
-  border-radius: 5px;
-  animation: option-effect 0.2s ease-in-out;
-}
-
-.search-option-box ul li {
-  width: 80px;
-  height: 40px;
-  line-height: 40px;
-}
-
-.search-option-box ul li:hover {
-  cursor: pointer;
-  background-color: rgb(233, 233, 248);
-}
-
-.search-form input {
+.search-input-box input {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
-  border: 1.5px solid #333;
-  padding: 5px 40px 5px 90px;
-  font-size: 1.125em;
-  border-radius: 20px;
+  height: 100%;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1.5px solid white;
+  color: white;
+  font-size: clamp(16px, 5vw, 24px);
+  padding: 5px 40px 5px clamp(84px, 26.25vw, 108px);
+
+  &::placeholder {
+    color: white;
+    font-size: clamp(16px, 5vw, 24px);
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 
-#submit {
+.search-input-box button {
   position: absolute;
-  right: 1%;
+  height: 100%;
+  width: 40px;
+  font-size: clamp(18px, 5.625vw, 26px);
+  top: 0%;
+  right: 0;
+  cursor: pointer;
 }
 
-@media (min-width: 1200px) {
-  .search-form {
-    width: 1000px;
-  }
+.search-box form #cancel {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 0px;
+  right: 0px;
+  font-size: 35px;
+  cursor: pointer;
 }
-
-@media (max-width: 800px) {
-  .search-form {
-    width: 95%;
-  }
-}
-
-@media (max-width: 520px) {
-  .saerch-div {
-    flex-direction: column;
-    padding: 70px 0 10px;
-  }
-
-  .search-option-box {
-    position: absolute;
-    top: 30px;
-    left: -5px;
-    width: 100px;
-  }
-
-  .search-option-box ul {
-    top: 40px;
-  }
-
-  .saerch-div input {
-    width: 100%;
-    padding-left: 10px;
-    border-radius: 5px;
-  }
-
-  #submit {
-    top: 73px;
-  }
-}
-

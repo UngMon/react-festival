@@ -25,16 +25,16 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
   }
 
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(document.location.search);
-  const authorizeCode = searchParams.get("code");
   const { Kakao } = window;
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(document.location.search);
+    const authorizeCode = searchParams.get("code");
+
     if (!authorizeCode) return;
 
     const kakaoLoginAttempt = async () => {
       try {
-        setLoading(true);
         const response: AxiosResponse<Auth> = await axios.post(
           `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao`,
           { code: authorizeCode }

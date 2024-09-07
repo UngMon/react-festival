@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <header
-      className="Header-box"
+      className="Header-box no-print"
       style={{
         position: pathname === "/" ? "absolute" : "unset",
         backgroundColor: backgroundColor,
@@ -49,12 +49,13 @@ const Header = () => {
       <HeaderTop
         openNav={openNav}
         setOpenNav={setOpenNav}
+        setMouseOver={setMouseOver}
         openSearch={openSearch}
         setOpenSearch={setOpenSearch}
       />
       <Menu />
       <MobileNav openNav={openNav} setOpenNav={setOpenNav} />
-      {openSearch && <Search setOpenSearch={setOpenSearch} />}
+      {openSearch && <Search openSearch={openSearch} setOpenSearch={setOpenSearch} />}
       <TopButton />
     </header>
   );

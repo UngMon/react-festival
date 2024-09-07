@@ -11,10 +11,13 @@ const LoginPage = lazy(() => import("./pages/Login"));
 const Main = lazy(() => import("./components/main/Main"));
 const Content = lazy(() => import("./components/content/Content"));
 const Theme = lazy(() => import("./components/main/Theme"));
+const EtcLayout = lazy(() => import("./pages/EtcLayout"));
+const About = lazy(() => import("./pages/About"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Service = lazy(() => import("./pages/Service"));
+const Question = lazy(() => import("./pages/Question"));
 
 function App() {
-  console.log("App Render");
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -29,7 +32,7 @@ function App() {
           errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading />}>
-              <Main title="tour" />
+              <Main title="관광지" />
             </Suspense>
           ),
         },
@@ -38,7 +41,7 @@ function App() {
           errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading />}>
-              <Main title="culture" />
+              <Main title="문화시설" />
             </Suspense>
           ),
         },
@@ -47,7 +50,7 @@ function App() {
           errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading />}>
-              <Main title="festival" />
+              <Main title="축제/공연/행사" />
             </Suspense>
           ),
         },
@@ -56,7 +59,16 @@ function App() {
           errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading />}>
-              <Main title="travel" />
+              <Main title="여행코스" />
+            </Suspense>
+          ),
+        },
+        {
+          path: "leports",
+          errorElement: <GetDataError />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Main title="레포츠" />
             </Suspense>
           ),
         },
@@ -65,7 +77,7 @@ function App() {
           errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading />}>
-              <Main title="result" />
+              <Main title="검색" />
             </Suspense>
           ),
         },
@@ -91,6 +103,48 @@ function App() {
             </Suspense>
           ),
         },
+        {
+          path: "/etc",
+          element: (
+            <Suspense fallback={<Loading />}>
+              <EtcLayout />
+            </Suspense>
+          ),
+          children: [
+            {
+              path: "about",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <About />
+                </Suspense>
+              ),
+            },
+            {
+              path: "privacypolicy",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <PrivacyPolicy />
+                </Suspense>
+              ),
+            },
+            {
+              path: "service",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <Service />
+                </Suspense>
+              ),
+            },
+            {
+              path: "question",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <Question />
+                </Suspense>
+              ),
+            },
+          ],
+        },
       ],
     },
     {
@@ -103,15 +157,10 @@ function App() {
       children: [
         {
           path: "oauth",
-          element: (
-            <div>
-              <p>auto page</p>
-            </div>
-          ),
+          // element: <div></div>,
         },
       ],
     },
-
     {
       path: "*",
       element: (

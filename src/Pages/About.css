@@ -1,0 +1,17 @@
+.About-Container {
+  margin: 50px auto 100px;
+  width: clamp(280px, 87.5vw, 1100px);
+  font-family: Noto Sans KR, sans-serif;
+}
+
+.About-Container h2 {
+  font-size: clamp(24px, 5.625vw, 32px);
+  margin-bottom: 30px;
+}
+
+.About-Container p {
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 500; 
+  margin-bottom: 35px;
+  letter-spacing: 1px;
+}

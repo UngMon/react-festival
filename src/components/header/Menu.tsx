@@ -14,7 +14,7 @@ const Menu = () => {
       <ul className="Nav-box">
         <li>
           <NavLink
-            to={`/tour?type=12&areaCode=0&cat1=all&cat2=all&cat3=all`}
+            to={`/tour?contentTypeId=12&areaCode=0&cat1=all&cat2=all&cat3=all`}
             onClick={clickCategory}
           >
             관광지
@@ -23,7 +23,7 @@ const Menu = () => {
         </li>
         <li>
           <NavLink
-            to="/culture?type=14&areaCode=0&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=14&areaCode=0&cat1=A02&cat2=all&cat3=all"
             onClick={clickCategory}
           >
             문화시설
@@ -32,7 +32,7 @@ const Menu = () => {
         </li>
         <li>
           <NavLink
-            to={`/festival?type=15&month=${month}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
+            to={`/festival?contentTypeId=15&month=${month}&areaCode=0&cat1=A02&cat2=all&cat3=all`}
             onClick={clickCategory}
           >
             축제/공연/행사
@@ -41,7 +41,7 @@ const Menu = () => {
         </li>
         <li>
           <NavLink
-            to={`/travel?type=25&areaCode=0&cat1=C01&cat2=all&cat3=all`}
+            to={`/travel?contentTypeId=25&areaCode=0&cat1=C01&cat2=all&cat3=all`}
             onClick={clickCategory}
           >
             여행코스

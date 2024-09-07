@@ -1,67 +1,68 @@
 import { useSearchParams } from "react-router-dom";
 import { nowDate } from "../utils/NowDate";
 
-interface Object {
-  [key: string]: string;
-}
-
 interface AllParams {
-  type: string;
+  contentTypeId: string;
   month: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;
   keyword: string;
-  requireRedirect: boolean;
+  requireRedirect: string;
 }
 
-const typeObject: { [key: string]: string } = {
-  tour: "12",
-  culture: "14",
-  festival: "15",
-  travel: "25",
+const catOneObject: { [key: string]: string } = {
+  관광지: "all",
+  문화시설: "A02",
+  "축제/공연/행사": "A02",
+  여행코스: "all",
 };
 
 const useAllParams = (title: string) => {
-  // useAllParams는 사용자가 url를 수정한 경우 올바른 경로로 redirect해준다.
-  // type, month, areaCode, cat1, cat2, cat3, keyword를 return
-
   const [params] = useSearchParams();
   const nowMonth: string = nowDate().month;
 
-  const paramObject: Object = {
-    type: typeObject[title],
-    month: nowMonth,
-    areaCode: "0",
-    cat1: title === "festival" || title === "culture" ? "A02" : "all",
-    cat2: "all",
-    cat3: "all",
-    keyword: "",
+  const paramObject: Record<string, string> = {
+    contentTypeId: params.get("contentTypeId") ?? "0",
+    month: params.get("month") ?? nowMonth,
+    areaCode: params.get("areaCode") ?? "0",
+    cat1: params.get("cat1") ?? catOneObject[title],
+    cat2: params.get("cat2") ?? "all",
+    cat3: params.get("cat3") ?? "all",
+    keyword: params.get("keyword") ?? "",
   };
 
-  let object: Object = {};
   let deleteArray: string[] = [];
-  let requireRedirect: boolean = false;
+  let requireRedirect: string = "";
 
-  for (const [key, value] of params) {
-    if (paramObject[key]) object[key] = value;
-    else deleteArray.push(key);
+  // (1) 주어진 url에 필요한 parameter가 없는 경우 navigate('/') 로
+  if (title === "검색" && !params.get("keyword")) requireRedirect = "/";
+
+  if (title !== "검색") {
+    for (const key in paramObject) {
+      if (key === "keyword") continue;
+      if (title !== "축제/공연/행사" && key === "month") continue;
+      if (!params.get(key)) {
+        console.log(key)
+        requireRedirect = "/";
+      }
+    }
   }
 
-  // 1, 2번의 조건을 둘다 만족한 경우 아래 반복물을 읽고 지나간다.
-  for (const deleteKey of deleteArray) {
-    params.delete(deleteKey);
-    if (!requireRedirect) requireRedirect = true;
+  // (2) 주어진 url에 불필요한 parameter가 있는 경우 navigate('알맞은 url로')
+  if (requireRedirect === "") {
+    for (const [key, _] of params) {
+      if (!paramObject[key]) deleteArray.push(key);
+    }
+
+    for (const key of deleteArray) {
+      params.delete(key);
+    }
   }
-
-  for (const key in paramObject) {
-    if (object[key]) continue;
-
-    object[key] = paramObject[key];
-  }
-
-  return { ...object, requireRedirect } as AllParams;
+  console.log(requireRedirect)
+  console.log(paramObject)
+  return { ...paramObject, requireRedirect } as AllParams;
 };
 
 export default useAllParams;

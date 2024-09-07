@@ -5,9 +5,15 @@ interface T {
   images: string[];
   index: number;
   slideBoxRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
+  theme_number: string | null;
 }
 
-const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
+const themeObject: { [key: string]: string } = {
+  "0": "cafe",
+  "1": "culture",
+};
+
+const ThemeSlide = ({ images, index, slideBoxRef, theme_number }: T) => {
   const [mouse, setMouse] = useState<boolean>(false);
   const [idx, setIdx] = useState<number>(1000);
   const [startX, setStartX] = useState<number>(0);
@@ -92,7 +98,7 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
         {images.map((item, idx) => (
           <div key={idx} className="d">
             <img
-              src={`./images/theme/cafe/${item}`}
+              src={`./images/theme/${themeObject[theme_number!]}/${item}`}
               alt="item"
               ref={imageRef}
             />
@@ -112,35 +118,3 @@ const ThemeSlide = ({ images, index, slideBoxRef }: T) => {
 };
 
 export default ThemeSlide;
-
-// const touchEnd = (pageX: number) => {
-//   setMouse(false);
-//   const cardWidth = liRef.current!.clientWidth;
-//   let newDistance = 0,
-
-//   if (distance < 0) {
-//     newDistance = 0;
-//   } else if (distance > images.length * cardWidth) {
-//     newDistance = (images.length - 1) * cardWidth;
-//   } else {
-//     let cardIndex: number = 0,
-//       fraction: string = (distance / cardWidth)
-//         .toFixed(1)
-//         .toString()
-//         .split(".")[1];
-
-//     if (startX - pageX >= 0) {
-//       if (fraction > "2") cardIndex = Math.ceil(distance / cardWidth);
-//       else cardIndex = Math.floor(distance / cardWidth);
-//     }
-
-//     if (startX - pageX < 0) {
-//       if (fraction < "8") cardIndex = Math.floor(distance / cardWidth);
-//       else cardIndex = Math.ceil(distance / cardWidth);
-//     }
-
-//     newDistance = cardIndex * cardWidth;
-//   }
-
-//   setDistance(newDistance);
-// };

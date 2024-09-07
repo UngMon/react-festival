@@ -1,5 +1,5 @@
-import { ContentCommon, ContentIntro } from "../../../type/FestivalType";
-import { basicInfoObject } from "../../../type/Common";
+import { ContentCommon, ContentIntro } from "../../../type/ContentType";
+import { BasicInfoList } from "../../../type/Common";
 import { dateSlice } from "../../../utils/DateSlice";
 import { convertText } from "../../../utils/convertText";
 
@@ -54,7 +54,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
             </span>
           </li>
         )}
-        {basicInfoObject[type].map(
+        {BasicInfoList[type].map(
           (item) =>
             Intro[item[1]] && (
               <li key={item[0]}>

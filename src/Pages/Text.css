@@ -1,0 +1,58 @@
+.Text-Container {
+  margin: 30px auto 150px;
+  width: clamp(280px, 87.5vw, 1100px);
+  font-family: Noto Sans KR, sans-serif;
+}
+
+.Text-Container h2 {
+  font-size: clamp(26px, 5vw, 36px);
+}
+
+.Text-Container h3 {
+  font-size: clamp(18px, 3.8vw, 20px);
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.Text-Container p {
+  font-size: clamp(14px, 2.85vw, 16px);
+  margin-bottom: 5px;
+}
+
+.Text-Container ol {
+  padding-left: 20px;
+  line-height: 24px;
+}
+
+.Text-Container > ol li {
+  list-style: decimal;
+  overflow-wrap: break-word;
+  font-size: clamp(14px, 2.85vw, 16px);
+  display: list-item;
+  text-align: -webkit-match-parent;
+  unicode-bidi: isolate;
+  margin-top: 7px;
+
+  &::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
+  }
+}
+
+.Text-Container ol li > ol > li {
+  list-style: hangul;
+}
+
+@page {
+  margin: 30px 0;
+}
+
+@media print {
+  header, footer, .no-print { display:none };
+  
+
+}

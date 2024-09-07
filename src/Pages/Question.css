@@ -1,0 +1,10 @@
+.Question-Container {
+  width: 100%;
+  min-height: calc(100vh - 120px);
+}
+
+@media (min-width: 1024px) {
+  .Question-Container {
+    min-height: calc(100vh - 150px);
+  }
+}

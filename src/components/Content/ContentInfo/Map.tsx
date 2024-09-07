@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ContentCommon } from "../../../type/FestivalType";
+import { ContentCommon } from "../../../type/ContentType";
 
 interface MapProps {
   detailCommon: ContentCommon[];

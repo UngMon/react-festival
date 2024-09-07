@@ -7,8 +7,8 @@ import {
   faRightToBracket,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import "./LoginButton.css";
 import { firebaseActions } from "../../redux/firebase-slice";
+import "./LoginButton.css";
 
 const LoginButton = () => {
   const dispatch = useAppDispatch();

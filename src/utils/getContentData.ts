@@ -3,7 +3,7 @@ import {
   ResponInfo,
   ResponIntro,
   GetContentData,
-} from "../type/FestivalType";
+} from "../type/ContentType";
 
 const getContentData = async (
   id: string,

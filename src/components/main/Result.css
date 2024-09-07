@@ -1,0 +1,81 @@
+.Result-Container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  background-color: #f0f1fa;
+}
+
+.Result-Box {
+  margin: 0 auto;
+  width: clamp(320px, 100vw, 1200px);
+  font-size: clamp(16px, 5vw, 32px);
+}
+
+.Result-Cards {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 30px;
+}
+
+.Result-Cards article {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.Result-Card-Image {
+  grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 2;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.Result-Card-Title {
+  padding: 5px 15px;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  font-size: 20px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: no-wrap;
+}
+
+.Result-Card-Sigun {
+  padding-left: 15px;
+  font-size: 15px;
+  color: rgb(102, 102, 102);
+}
+
+.Result-Card-Hash {
+  padding-left: 15px;
+  font-size: 15px;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  
+  span {
+    display: inline-block;
+    padding: 0 5px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .Result-Cards {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+}
