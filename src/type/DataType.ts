@@ -19,4 +19,5 @@ export interface DataType {
   };
   serchRecord: { [key: string]: { [key: string]: string } };
   행사상태: [boolean, boolean, boolean];
+  contentTitle: string | undefined;
 }

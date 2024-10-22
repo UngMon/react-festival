@@ -10,6 +10,8 @@ const MenuBar = ({
   infoRef,
   reviewRef,
 }: MenuBarProps) => {
+
+  console.log('MenuBar Component Render')
   const [category, setCategory] = useState<string>("기본정보")
   const [isFixed, setIsFixed] = useState<boolean>(false);
 

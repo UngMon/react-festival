@@ -15,7 +15,7 @@ const top = [
     text: "삼척의 시원하고 아늑한 초곡항의 길",
     url: "./images/top/cho.jpg",
     source: "ⓒ한국관광공사 포토코리아-강원지사 모먼트스튜디오",
-    type: '28',
+    type: "28",
     contentId: "2633902",
   },
   {
@@ -23,7 +23,7 @@ const top = [
     text: "흰 모래사장과 기암괴석으로 둘러싸인 아름다운 해변",
     url: "./images/top/janghohang.jpg",
     source: "ⓒ한국관광공사 포토코리아-허흥무",
-    type: '12',
+    type: "12",
     contentId: "128965",
   },
   {
@@ -31,7 +31,7 @@ const top = [
     text: "멋진 절경을 가진 아름다운 산",
     url: "./images/top/wolchulsan.jpg",
     source: "ⓒ한국관광공사 포토코리아-김한중",
-    type: '12',
+    type: "12",
     contentId: "2759617",
   },
   {
@@ -39,23 +39,15 @@ const top = [
     text: "한 폭의 동양화를 펼처 놓은 듯한 풍경",
     url: "./images/top/sujupalbong.jpg",
     source: "ⓒ한국관광공사 포토코리아-윤진호",
-    type: '28',
+    type: "28",
     contentId: "2761699",
   },
-  // {
-  //   title: "울릉도",
-  //   text: "동남쪽 뱃길따라 이백리",
-  //   url: "./images/top/ulleungdo.jpg",
-  //   source: "ⓒYoutube Vagabond Jose",
-  //   type: '',
-  //   contentId: "",
-  // },
   {
     title: "섭지코지",
     text: "제주도의 아름다운 바다 절경을 감상할 수 있는 곳",
     url: "./images/top/seopjikoji.jpg",
     source: "ⓒ한국관광공사 포토코리아-라이브스튜디오",
-    type: '12',
+    type: "12",
     contentId: "127813",
   },
   {
@@ -63,7 +55,7 @@ const top = [
     text: "코발트빛보다 더 나은 해변",
     url: "./images/top/konan.jpg",
     source: "ⓒ한국관광공사 포토코리아-한국관광공사 이범수",
-    type: '12',
+    type: "12",
     contentId: "2837222",
   },
   {
@@ -71,7 +63,7 @@ const top = [
     text: "백두대간의 함백산에서 서쪽으로 갈라지는 능선상 최고봉",
     url: "./images/top/maebongsan.jpg",
     source: "ⓒ한국관광공사 포토코리아-서보선",
-    type: '12',
+    type: "12",
     contentId: "127824",
   },
   {
@@ -79,7 +71,7 @@ const top = [
     text: "해운대 관광특구의 핵심 관광 시설",
     url: "./images/top/blueline.jpg",
     source: "ⓒ한국관광공사 포토코리아-디자인글꼴",
-    type: '12',
+    type: "12",
     contentId: "2672393",
   },
 ];
@@ -204,7 +196,11 @@ const TopSlide = () => {
           <div className="top-text-box">
             <h2>{item.title}</h2>
             <p>{item.text}</p>
-            <Link to={`/content/search?type=${item.type}&contentId=${item.contentId}`}>자세히 보기</Link>
+            <Link
+              to={`/content/search?type=${item.type}&contentId=${item.contentId}`}
+            >
+              자세히 보기
+            </Link>
           </div>
           <div className="top-slide-page">
             <span>{`${index + 1} of ${top.length}`}</span>

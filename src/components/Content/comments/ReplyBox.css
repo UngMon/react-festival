@@ -1,0 +1,22 @@
+.reply-area {
+  margin-left: 55px;
+  width: calc(100% - 55px);
+}
+
+.reply-count {
+    width: 130px;
+  text-align: left;
+  font-size: 14px;
+  color: rgb(47, 90, 233);
+  cursor: pointer;
+
+  svg {
+    margin-right: 10px;
+
+  }
+
+  span {
+    font-weight: 500;
+    cursor: pointer;
+  }
+}

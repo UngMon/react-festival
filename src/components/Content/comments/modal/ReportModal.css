@@ -72,16 +72,3 @@
   color: white;
   background-color: rgb(70, 98, 253);
 }
-
-/* @media (max-width: 375px) {
-  #report-modal {
-    left: calc((100vw - 80%) / 2);
-  }
-}
-
-
-@media (max-width: 320px) {
-  #report-modal {
-    left: 32px;
-  }
-} */

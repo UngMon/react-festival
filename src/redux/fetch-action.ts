@@ -31,8 +31,6 @@ export const getTourApiData = createAsyncThunk(
     const response = await fetch(url);
 
     const data: FetchRespon = await response.json();
-    console.log(url);
-    console.log(data);
     return { data, areaCode, cat1, cat2, cat3, contentTypeId, title, keyword };
   }
 );

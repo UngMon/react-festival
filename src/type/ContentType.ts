@@ -134,9 +134,9 @@ export type LoaderData = {
   contentImage: ResponImage;
 };
 
-export type Params = {
-  contentId: string;
-};
+// export type Params = {
+//   contentId: string;
+// };
 
 export interface FestivalState {
   successGetData: boolean;

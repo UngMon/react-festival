@@ -10,16 +10,17 @@ import { Item, Data } from "../type/Common";
 const initialState: DataType = {
   successGetData: false,
   httpState: "nothing",
-  "관광지": {},
-  "문화시설": {},
+  관광지: {},
+  문화시설: {},
   "축제/공연/행사": [],
-  "여행코스": {},
-  "레포츠": {},
-  "검색": {},
+  여행코스: {},
+  레포츠: {},
+  검색: {},
   loading: false,
   dataRecord: {},
   serchRecord: {},
   행사상태: [true, false, false],
+  contentTitle: undefined,
 };
 
 const dataSlice = createSlice({
@@ -28,6 +29,9 @@ const dataSlice = createSlice({
   reducers: {
     행사상태설정(state, action) {
       state.행사상태 = action.payload;
+    },
+    setConentInfo(state, action) {
+      state.contentTitle = action.payload.title;
     },
   },
   extraReducers: (builder) => {
@@ -73,7 +77,7 @@ const dataSlice = createSlice({
         if (title === "검색") {
           state.검색[keyword] = state.검색[keyword] ?? {};
           // state.result[keyword][type] = state.result[keyword][type] ?? [];
-          console.log(contentTypeId)
+          console.log(contentTypeId);
           state.검색[keyword][contentTypeId] = [
             ...(state.검색[keyword][contentTypeId] ?? []),
             ...dummyData,
@@ -89,8 +93,10 @@ const dataSlice = createSlice({
         } else {
           dr[contentTypeId] = dr[contentTypeId] || {};
           dr[contentTypeId][areaCode] = dr[contentTypeId][areaCode] || {};
-          dr[contentTypeId][areaCode][cat1] = dr[contentTypeId][areaCode][cat1] || {};
-          dr[contentTypeId][areaCode][cat1][cat2] = dr[contentTypeId][areaCode][cat1][cat2] || {};
+          dr[contentTypeId][areaCode][cat1] =
+            dr[contentTypeId][areaCode][cat1] || {};
+          dr[contentTypeId][areaCode][cat1][cat2] =
+            dr[contentTypeId][areaCode][cat1][cat2] || {};
           dr[contentTypeId][areaCode][cat1][cat2][cat3] =
             dr[contentTypeId][areaCode][cat1][cat2][cat3] || "reaming";
 
@@ -116,7 +122,7 @@ const dataSlice = createSlice({
             fetstivalArray.push(item);
           }
 
-          state['축제/공연/행사'] = fetstivalArray.sort((a, b) =>
+          state["축제/공연/행사"] = fetstivalArray.sort((a, b) =>
             a.eventenddate! < b.eventenddate! ? -1 : 1
           );
           return;

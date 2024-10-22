@@ -2,69 +2,71 @@ import React, { useRef } from "react";
 import { db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { nowDate } from "../../../utils/NowDate";
-import { serverTimestamp } from "firebase/firestore";
 import { Comment, UserData } from "../../../type/UserDataType";
 import { convertText } from "../../../utils/convertText";
 
 interface T {
-  comments: Comment[];
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  collectionName: string;
+  contentTitle?: string;
+  contentType: string;
   contentId: string;
   userData: UserData;
   dispatch: (value: { type: "pending" | "fulfiled" | "reject" }) => void;
 }
 
 const UserCommentForm = ({
-  comments,
   setComments,
-  collectionName,
+  contentTitle,
+  contentType,
   contentId,
   userData,
   dispatch,
 }: T) => {
+  console.log("UserCommentForm Component Render");
   const { userName, userUid, userPhoto, loginedUser } = userData;
-
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    if (!contentTitle)
+      return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
     if (!userUid) return alert("비정상적인 접근입니다.");
 
-    let text = convertText(textRef.current!.value);
+    let content = convertText(textRef.current!.value);
 
-    if (text.length === 0) return alert("글자를 입력해주세요!");
+    if (content.length === 0) return alert("글자를 입력해주세요!");
 
     dispatch({ type: "pending" });
 
-    const { year, month, date, time } = nowDate();
+    const timestamp = new Date();
+    timestamp.setHours(timestamp.getHours() + 9);
 
     const fieldData: Comment = {
-      name: userName,
+      contentType,
+      contentId,
+      contentTitle,
+      content,
       uid: userUid,
-      when: year + "-" + month + "-" + date + "-" + time,
-      text: `${text}`,
+      name: userName,
       userPhoto: userPhoto,
-      createdAt: serverTimestamp(),
+      createdAt: timestamp.toISOString(),
+      originUid: null,
+      parentUid: null,
+      parentName: null,
+      like_count: 0,
+      disLike_count: 0,
+      reply_count: 0,
+      isRevised: false,
+      deepth: 0,
     };
 
-    const documentId = fieldData.when + "=" + fieldData.uid;
+    const documentId = fieldData.createdAt + fieldData.uid;
 
-    const commentRef = doc(
-      db,
-      collectionName,
-      contentId,
-      "comment",
-      documentId
-    );
-
-    const array = [fieldData, ...comments];
+    const commentRef = doc(db, "comments", documentId);
 
     try {
       await setDoc(commentRef, fieldData);
-      setComments(array);
+      setComments((prevArray) => [{ ...fieldData, replies: [] }, ...prevArray]);
       dispatch({ type: "fulfiled" });
     } catch (error: any) {
       dispatch({ type: "reject" });

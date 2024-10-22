@@ -1,17 +1,5 @@
 import React, { useReducer } from "react";
 import { useState } from "react";
-// import {
-//   collection,
-//   getDocs,
-//   limit,
-//   orderBy,
-//   query,
-//   DocumentData,
-//   startAfter,
-//   Query,
-// } from "firebase/firestore";
-// import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
-// import { db } from "../../../firebase";
 import { useSelector } from "react-redux";
 import { Comment } from "../../../type/UserDataType";
 import { RootState } from "../../../redux/store";
@@ -20,9 +8,10 @@ import UserCommentForm from "./UserCommentForm";
 import CommentBox from "./CommentBox";
 import ReportModal from "./modal/ReportModal";
 import "./UserReviews.css";
+import { auth } from "../../../firebase";
 
 interface ReviewProps {
-  collectionName: string;
+  contentType: string;
   contentId: string;
   reviewRef: React.RefObject<HTMLDivElement>;
 }
@@ -47,49 +36,47 @@ const reducer = (
   }
 };
 
-const UserReviews = React.memo(
-  ({ collectionName, contentId, reviewRef }: ReviewProps) => {
-    const userData = useSelector((state: RootState) => state.firebase);
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [reportModal, setReportModal] = useState<Report>({
-      open: false,
-      when: "",
-      userUid: "",
-      name: "",
-      text: "",
-    });
+const UserReviews = ({ contentType, contentId, reviewRef }: ReviewProps) => {
+  const userData = useSelector((state: RootState) => state.firebase);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [reportModal, setReportModal] = useState<Report>({
+    open: false,
+    when: "",
+    userUid: "",
+    name: "",
+    text: "",
+  });
+  console.log("UserReviews Component Render", userData, state, auth.currentUser?.email);
+  // reportModal을 coomentBox로 옮길생각은 어떤가?
 
-    return (
-      <div ref={reviewRef}>
-        {reportModal.open && (
-          <ReportModal
-            contentId={contentId}
-            reportModal={reportModal}
-            setReportModal={setReportModal}
-          />
-        )}
-        <UserCommentForm
-          comments={comments}
-          setComments={setComments}
-          collectionName={collectionName}
-          contentId={contentId}
-          userData={userData}
-          dispatch={dispatch}
-        />
-        <CommentBox
-          comments={comments}
-          setComments={setComments}
-          collectionName={collectionName}
-          contentId={contentId}
-          state={state}
-          dispatch={dispatch}
-          userData={userData}
+  return (
+    <div ref={reviewRef}>
+      {/* {reportModal.open && (
+        <ReportModal
+          contentId={contentData.contentId}
+          reportModal={reportModal}
           setReportModal={setReportModal}
         />
-      </div>
-    );
-  }
-);
+      )} */}
+      <UserCommentForm
+        setComments={setComments}
+        contentType={contentType}
+        contentId={contentId}
+        userData={userData}
+        dispatch={dispatch}
+      />
+      <CommentBox
+        comments={comments}
+        setComments={setComments}
+        contentId={contentId}
+        state={state}
+        dispatch={dispatch}
+        userData={userData}
+        setReportModal={setReportModal}
+      />
+    </div>
+  );
+};
 
 export default UserReviews;

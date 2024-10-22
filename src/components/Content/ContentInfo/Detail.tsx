@@ -5,11 +5,13 @@ import {
   ResponIntro,
   GetContentData,
 } from "../../../type/ContentType";
+import { useAppDispatch } from "../../../redux/store";
+import { dataActions } from "../../../redux/data-slice";
+import { convertText } from "../../../utils/convertText";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
 import getContentData from "../../../utils/getContentData";
-import { convertText } from "../../../utils/convertText";
 import "./Detail.css";
 
 interface DetailProps {
@@ -25,17 +27,12 @@ type Datas = {
 };
 
 const Detail = ({ infoRef, contentId, type }: DetailProps) => {
+  console.log("Detail Component Render");
+  const dispatch = useAppDispatch();
   const [data, setContentData] = useState<Datas>();
   const detailInfo = data?.info.response.body.items.item;
   const detailIntro = data?.intro.response.body.items.item;
   const detailCommon = data?.common.response.body.items.item;
-
-  console.log(`detailInfo`);
-  console.log(detailInfo);
-  console.log(`detailIntro`);
-  console.log(detailIntro);
-  console.log(`detailCommon`);
-  console.log(detailCommon);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -48,6 +45,11 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
           intro: response.contentIntro,
           common: response.contentCommon,
         });
+        dispatch(
+          dataActions.setConentInfo({
+            title: response.contentCommon.response.body.items.item[0].title,
+          })
+        );
       } catch (error: any) {
         setLoading(false);
         throw Error(`error is ocurred! ${error.message}`);
@@ -56,7 +58,7 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
       setLoading(false);
     };
     settingContentData(type, contentId);
-  }, [type, contentId]);
+  }, [dispatch, type, contentId]);
 
   return (
     <div className="Cotent-text-box" ref={infoRef}>

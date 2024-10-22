@@ -1,0 +1,21 @@
+.option-box {
+  position: absolute;
+  z-index: 4;
+  top: 15px;
+  right: 30px;
+  padding: 5px;
+  background-color: rgb(247, 247, 247);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.option-box p {
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.option-box p:hover {
+  background-color: rgb(225, 225, 225);
+}

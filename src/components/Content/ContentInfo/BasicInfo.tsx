@@ -10,6 +10,7 @@ interface BasicProps {
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
+  console.log('BasicInfo Component Render');
   const Intro: { [key: string]: string } = detailIntro[0];
 
   const convertHtmlToText = (text: string) => {

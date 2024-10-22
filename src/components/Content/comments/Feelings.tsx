@@ -22,6 +22,7 @@ interface T {
 }
 
 const Feelings = React.memo(({ collectionName, contentId }: T) => {
+  console.log("Feelings Component Render");
   const firebaseState = useSelector((state: RootState) => state.firebase);
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,7 +41,6 @@ const Feelings = React.memo(({ collectionName, contentId }: T) => {
         db,
         collectionName,
         contentId,
-        "userpick",
         firebaseState.userUid
       );
 
@@ -160,7 +160,7 @@ const Feelings = React.memo(({ collectionName, contentId }: T) => {
               {like_count}
             </p>
           )}
-          {loading && <LoadingSpinnerTwo width="15px" padding="6px"/>}
+          {loading && <LoadingSpinnerTwo width="15px" padding="6px" />}
         </div>
         <div className="feel-box" onClick={() => handler("dislike")}>
           <div className="dislike">

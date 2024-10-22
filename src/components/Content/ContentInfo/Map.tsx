@@ -6,6 +6,7 @@ interface MapProps {
 }
 
 const Map = ({ detailCommon }: MapProps) => {
+  console.log('Map Component Render')
   const { kakao } = window;
   const mapRef = useRef<HTMLDivElement>(null);
 

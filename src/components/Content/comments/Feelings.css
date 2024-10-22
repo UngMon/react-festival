@@ -128,7 +128,6 @@
 .Cotent-feeling p {
   position: absolute;
   text-align: center;
-  z-index: 15;
   left: 0;
   bottom: 0;
   font-size: 0.9em;
