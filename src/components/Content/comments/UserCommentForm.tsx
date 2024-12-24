@@ -1,81 +1,83 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import { db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { Comment, UserData } from "../../../type/UserDataType";
+import { Comment } from "../../../type/UserDataType";
 import { convertText } from "../../../utils/convertText";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import LoadingSpinnerTwo from "../../loading/LoadingSpinnerTwo";
+import "./UserCommentForm.css";
 
 interface T {
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  contentTitle?: string;
-  contentType: string;
-  contentId: string;
-  userData: UserData;
-  dispatch: (value: { type: "pending" | "fulfiled" | "reject" }) => void;
+  content_type: string;
+  content_id: string;
 }
 
-const UserCommentForm = ({
-  setComments,
-  contentTitle,
-  contentType,
-  contentId,
-  userData,
-  dispatch,
-}: T) => {
+const UserCommentForm = ({ setComments, content_type, content_id }: T) => {
   console.log("UserCommentForm Component Render");
-  const { userName, userUid, userPhoto, loginedUser } = userData;
+
+  const contentTitle = useSelector(
+    (state: RootState) => state.data.contentTitle
+  );
+
+  const userData = useSelector((state: RootState) => state.firebase);
+  const { user_id, user_name, user_photo, loginedUser, loadingState } =
+    userData;
+
+  const [loading, setLoading] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contentTitle)
-      return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
-    if (!userUid) return alert("비정상적인 접근입니다.");
+    // if (!contentTitle)
+    //   return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
 
-    let content = convertText(textRef.current!.value);
+    if (user_id === "") return alert("비정상적인 접근입니다.");
+
+    let content = textRef.current!.value;
 
     if (content.length === 0) return alert("글자를 입력해주세요!");
 
-    dispatch({ type: "pending" });
+    setLoading(true);
 
     const timestamp = new Date();
     timestamp.setHours(timestamp.getHours() + 9);
 
     const fieldData: Comment = {
-      contentType,
-      contentId,
-      contentTitle,
-      content,
-      uid: userUid,
-      name: userName,
-      userPhoto: userPhoto,
+      content_type,
+      content_id,
+      content_title: "",
+      content: [content, '', ''],
+      user_id,
+      user_name,
+      user_photo,
       createdAt: timestamp.toISOString(),
-      originUid: null,
-      parentUid: null,
-      parentName: null,
+      origin_id: null,
+      parent_id: null,
+      parent_name: null,
       like_count: 0,
-      disLike_count: 0,
+      dislike_count: 0,
       reply_count: 0,
       isRevised: false,
-      deepth: 0,
+      emotion: {},
     };
 
-    const documentId = fieldData.createdAt + fieldData.uid;
+    const documentId = fieldData.createdAt + fieldData.user_id;
 
     const commentRef = doc(db, "comments", documentId);
 
     try {
       await setDoc(commentRef, fieldData);
       setComments((prevArray) => [{ ...fieldData, replies: [] }, ...prevArray]);
-      dispatch({ type: "fulfiled" });
     } catch (error: any) {
-      dispatch({ type: "reject" });
       alert(
         `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
       );
     }
 
-    textRef.current!.value = "";
+    setLoading(false);
   };
 
   const resizeHandler = () => {
@@ -84,30 +86,41 @@ const UserCommentForm = ({
   };
 
   return (
-    <form className="comment-input-box" onSubmit={reivewSubmitHandler}>
-      <div className="comment-text-box">
-        <label htmlFor="user-input" />
-        <textarea
-          id="user-input"
-          name="user-input"
-          rows={2}
-          ref={textRef}
-          onChange={resizeHandler}
-          placeholder="소중한 리뷰를 작성해보세요!"
-        />
-        <i />
-      </div>
-      <div className="comment-button-box">
-        {!loginedUser && userUid.length === 0 && (
-          <button type="button">
-            <Link to="/login">로그인</Link>
-          </button>
-        )}
-        {loginedUser && userUid.length !== 0 && (
-          <button type="submit">저장</button>
-        )}
-      </div>
-    </form>
+    <>
+      {!loading ? (
+        <form className="comment-form-box" onSubmit={reivewSubmitHandler}>
+          <div className="comment-text-box">
+            <label htmlFor="user-input" />
+            <textarea
+              id="user-input"
+              name="user-input"
+              rows={2}
+              ref={textRef}
+              onChange={resizeHandler}
+              placeholder="소중한 리뷰를 작성해보세요!"
+            />
+            <i />
+          </div>
+          <div className="comment-button-box">
+            {loadingState === "fulfilled" && (
+              <>
+                {!loginedUser ? (
+                  <button type="button">
+                    <Link to="/login">로그인</Link>
+                  </button>
+                ) : (
+                  <button type="submit">저장</button>
+                )}
+              </>
+            )}
+          </div>
+        </form>
+      ) : (
+        <div style={{ margin: "116.5px 0" }}>
+          <LoadingSpinnerTwo width="25px" padding="8px" />
+        </div>
+      )}
+    </>
   );
 };
 

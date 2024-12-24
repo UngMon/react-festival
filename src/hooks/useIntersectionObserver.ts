@@ -14,12 +14,18 @@ const useIntersectionObserver = (
     if (dataLoading) return;
 
     let target = targetRef.current!;
-
+    console.log(dataLoading);
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        if (!entries[0].isIntersecting && intersecting) setIntersecting(false);
+        if (!entries[0].isIntersecting && intersecting) {
+          console.log('here One')
+          setIntersecting(false);
+        }
 
-        if (entries[0].isIntersecting && !intersecting) setIntersecting(true);
+        if (entries[0].isIntersecting && !intersecting) {
+          console.log("here Two");
+          setIntersecting(true);
+        }
       },
       {
         // options

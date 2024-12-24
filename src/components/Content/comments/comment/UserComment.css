@@ -1,10 +1,8 @@
-
 .comment-container {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
-  margin: 0px 10px 20px;
   font-size: 1em;
 
   .top {
@@ -53,6 +51,16 @@
     grid-column-end: 3;
     font-size: 0.875em;
     font-weight: 500;
-    font-family: monospace;
+
+    span {
+      text-wrap-mode: wrap;
+      white-space-collapse: preserve;
+      overflow-wrap: break-word;
+
+      span {
+        color: rgb(47, 90, 233);
+        background-color: rgba(223, 223, 223, 0.4);
+      }
+    }
   }
 }

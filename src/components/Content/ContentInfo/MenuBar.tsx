@@ -6,14 +6,10 @@ interface MenuBarProps {
   reviewRef: React.RefObject<HTMLDivElement>;
 }
 
-const MenuBar = ({
-  infoRef,
-  reviewRef,
-}: MenuBarProps) => {
-
-  console.log('MenuBar Component Render')
-  const [category, setCategory] = useState<string>("기본정보")
-  const [isFixed, setIsFixed] = useState<boolean>(false);
+const MenuBar = ({ infoRef, reviewRef }: MenuBarProps) => {
+  console.log("MenuBar Component Render");
+  const [category, setCategory] = useState<string>("기본정보");
+  const [isFixed, setIsFixed] = useState<string>("");
 
   const topBarClickHandler = (type: string) => {
     if (type === "사진") {
@@ -32,8 +28,8 @@ const MenuBar = ({
 
   useEffect(() => {
     const scrollPosition = () => {
-      if (window.scrollY > 510) setIsFixed(true);
-      else setIsFixed(false);
+      if (window.scrollY > 510) setIsFixed("fixed-tab");
+      else setIsFixed("");
     };
 
     window.addEventListener("scroll", scrollPosition);
@@ -44,7 +40,7 @@ const MenuBar = ({
 
   return (
     <div className="Content-menu-box">
-      <nav className={`Content-menu-nav ${isFixed ? "fixed-tab" : ""}`}>
+      <nav className={`Content-menu-nav ${isFixed}`}>
         <ul className="Cotent-menu">
           <li>
             <button

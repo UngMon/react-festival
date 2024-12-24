@@ -5,7 +5,7 @@ import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
 import MenuBar from "./contentInfo/MenuBar";
 import UserReviews from "./comments/UserReviews"; 
-import Feelings from "./comments/Feelings";
+import Feelings from "./feel/Feelings";
 import "./Content.css";
 
 const Cotent = () => {
@@ -15,9 +15,9 @@ const Cotent = () => {
 
   const [param] = useSearchParams();
   const type: string = param.get("type")!;
-  const contentId: string = param.get("contentId")!;
+  const content_id: string = param.get("contentId")!;
   // const collectionName = ContentIdCode[type];
-  const contentType: string = param.get('type')!;
+  const content_type: string = param.get('type')!;
 
   return (
     <main className="Content">
@@ -28,8 +28,8 @@ const Cotent = () => {
         {/* <Feelings collectionName={collectionName} contentId={contentId} /> */}
         <UserReviews
           reviewRef={reviewRef}
-          contentType={contentType}
-          contentId={contentId}
+          content_type={content_type}
+          content_id={content_id}
         />
       </section>
     </main>

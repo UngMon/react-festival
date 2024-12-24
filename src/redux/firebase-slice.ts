@@ -2,16 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { UserData } from "../type/UserDataType";
 
 const initialState: UserData = {
-  isChanged: false,
   loadingState: "pending",
   succesGetContentData: false,
-  userChecking: true,
   loginedUser: false,
-  userUid: "",
-  userName: "",
-  userEmail: "",
-  userPhoto: "",
-  userSocial: "",
+  user_id: "",
+  user_name: "",
+  user_email: "",
+  user_photo: "",
 };
 
 const firebaseSlice = createSlice({
@@ -19,23 +16,28 @@ const firebaseSlice = createSlice({
   initialState,
   reducers: {
     login(state, action) {
+      const { user_id, user_name, user_email, user_photo } = action.payload;
+
       state.loadingState = "fulfilled";
-      state.userUid = action.payload.userUid;
-      state.userName = action.payload.userName;
-      state.userEmail = action.payload.userEmail;
-      state.userPhoto = action.payload.userPhoto;
       state.succesGetContentData = true;
       state.loginedUser = true;
+      state.user_id = user_id;
+      state.user_name = user_name;
+      state.user_email = user_email;
+      state.user_photo = user_photo;
     },
     logout(state) {
-      state.userUid = "";
-      state.userName = "";
-      state.userEmail = "";
-      state.userPhoto = "";
-      state.loginedUser = false;
-    },
-    nonExistUserData(state) {
       state.loadingState = "fulfilled";
+      state.succesGetContentData = true;
+      state.loginedUser = false;
+      state.user_id = "";
+      state.user_name = "";
+      state.user_email = "";
+      state.user_photo = "";
+    },
+    userDataNotFound(state) {
+      state.loadingState = "fulfilled";
+      state.succesGetContentData = false;
     },
   },
 });

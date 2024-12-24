@@ -1,54 +1,58 @@
 export interface Comment {
-  contentType: string;
-  contentId: string;
-  contentTitle: string;
-  content: string;
-  uid: string;
-  name: string;
-  userPhoto: string;
+  content_type: string;
+  content_id: string;
+  content_title: string;
+  content: [string, string, string];
+  user_id: string;
+  user_name: string;
+  user_photo: string;
   createdAt: string;
-  originUid: null | string;
-  parentUid: null | string;
-  parentName: null | string;
+  origin_id: null | string;
+  parent_id: null | string;
+  parent_name: null | string;
   like_count: number;
-  disLike_count: number;
+  dislike_count: number;
   reply_count: number;
   isRevised: boolean;
-  deepth: number;
-  replies?: Comment[];
+  emotion: Record<string, string>;
 }
 
 export interface Feel {
-  [key: string]: string | number;
-}
-
-export interface Count {
   like: number;
   dislike: number;
+  users: Record<string, { reaction: string; time: number }>;
 }
 
 export interface UserData {
-  isChanged: boolean;
   loadingState: string;
   succesGetContentData: boolean;
-  userChecking: boolean;
   loginedUser: boolean;
-  userUid: string;
-  userName: string;
-  userEmail: string;
-  userPhoto: string;
-  userSocial: string;
-}
-
-export interface Report {
-  open: boolean;
-  when: string;
-  userUid: string;
-  name: string;
-  text: string;
+  user_id: string;
+  user_name: string;
+  user_email: string;
+  user_photo: string;
 }
 
 export interface PickComment {
-  open: string;
-  [key: string]: string;
+  originIndex: number | undefined;
+  replyIndex: number | undefined;
+  openOption: string;
+  commentId: string;
+  commentData: Comment | null;
+  type: string;
+  [key: string]: Comment | string | number | null | undefined;
+}
+
+export interface ReportType {
+  open: boolean;
+  contentType: string;
+  contentId: string;
+  contentTitle: string;
+  createdAt: string;
+  content: string;
+  reportForReason: string;
+  reportedUserUid: string;
+  reportedUserName: string;
+  reporterUid: string;
+  reporterName: string;
 }

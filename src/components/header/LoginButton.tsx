@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { firebaseActions } from "../../redux/firebase-slice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { useNavigate, useLocation } from "react-router-dom";
-import { signOut, getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faRightToBracket,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { firebaseActions } from "../../redux/firebase-slice";
 import "./LoginButton.css";
 
 const LoginButton = () => {
@@ -15,8 +16,7 @@ const LoginButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [userChecking, setUserChecking] = useState<boolean>(true);
-  const [userData, setUserData] = useState<User | null>(null);
+  const userData = useSelector((state: RootState) => state.firebase);
   const [userModalOpen, setUserModalOpen] = useState(false);
 
   const userImageRef = useRef<HTMLDivElement>(null);
@@ -24,18 +24,16 @@ const LoginButton = () => {
   useEffect(() => {
     onAuthStateChanged(getAuth(), (user) => {
       if (user) {
-        setUserData(user);
         dispatch(
           firebaseActions.login({
-            userUid: user.uid,
-            userName: user.displayName || "",
-            userEmail: user.email || "",
-            userPhoto: user.photoURL || "",
+            user_id: user.uid,
+            user_name: user.displayName || "",
+            user_email: user.email || "",
+            user_photo: user.photoURL || "",
           })
         );
-      } else dispatch(firebaseActions.nonExistUserData());
+      } else dispatch(firebaseActions.userDataNotFound());
     });
-    setUserChecking(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -62,7 +60,6 @@ const LoginButton = () => {
     signOut(getAuth())
       .then(() => {
         sessionStorage.clear();
-        setUserData(null);
         dispatch(firebaseActions.logout());
       })
       .catch((err) => {
@@ -72,21 +69,20 @@ const LoginButton = () => {
 
   return (
     <>
-      {userChecking && <div className="not-Login" />}
-      {!userChecking && (
-        <div>
-          {!userData && (
+      {userData.loadingState === "pending" && <div className="not-Login" />}
+      {userData.loadingState === "fulfilled" && (
+        <>
+          {userData.loginedUser === false ? (
             <div className="login" onClick={loginHandler}>
               <FontAwesomeIcon icon={faRightToBracket} />
             </div>
-          )}
-          {userData && (
+          ) : (
             <div
               className="userPhoto-box"
               ref={userImageRef}
               onClick={() => setUserModalOpen(!userModalOpen)}
             >
-              <img src={userData!.photoURL!} alt="userPhoto"></img>
+              <img src={userData.user_photo} alt="userPhoto"></img>
               {userModalOpen && (
                 <div className="logout-box">
                   <div className="arrow"></div>
@@ -98,7 +94,7 @@ const LoginButton = () => {
               )}
             </div>
           )}
-        </div>
+        </>
       )}
     </>
   );

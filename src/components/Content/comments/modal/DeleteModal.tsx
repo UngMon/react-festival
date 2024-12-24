@@ -1,33 +1,47 @@
 import { useEffect } from "react";
 import { Comment, PickComment } from "../../../../type/UserDataType";
 import { db } from "../../../../firebase";
-import { deleteDoc, doc, writeBatch } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  increment,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 import "./DeleteModal.css";
 
 interface DeleteProps {
-  item: Comment;
-  originIndex: number;
-  replyIndex?: number;
-  index: number;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  pickedComment: PickComment;
   setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   setReplyComments: React.Dispatch<
     React.SetStateAction<Record<string, Comment[]>>
+  >;
+  setMyReply: React.Dispatch<
+    React.SetStateAction<Record<string, Record<string, Comment>>>
   >;
 }
 
 const DeleteModal = ({
-  item,
-  originIndex,
-  replyIndex,
-  setComments,
+  pickedComment,
   setPickedComment,
+  setComments,
   setReplyComments,
+  setMyReply,
 }: DeleteProps) => {
+  const { originIndex, replyIndex, commentData, commentId, type } =
+    pickedComment;
+  console.log(pickedComment);
   const refreshPickedComment = () => {
-    setPickedComment((prevState) => {
-      const { [item.createdAt + item.uid]: remove, ...rest } = prevState;
-      return { ...rest } as PickComment;
+    setPickedComment({
+      originIndex: undefined,
+      replyIndex: undefined,
+      openOption: "",
+      commentData: null,
+      commentId: "",
+      type: "",
     });
   };
 
@@ -44,67 +58,91 @@ const DeleteModal = ({
   });
 
   const deleteReviewHandler = async () => {
-    const deleteDocRef = doc(db, "comments", item.createdAt + "U" + item.uid);
-
-    // 고려 사항
-    // 1. 댓글을 삭제할지 대댓글을 삭제하는지에 대한 구분이 필요
-    // => originIndex, replyIndex로 구분합니다.
-
-    // 2. 해당 글의 좋아요 싫어요와 관련된 데이터를 어떻게 수정할 것인지 고민필요.
-
-    // const DeleteCommentRef = doc(
-    //   db,
-    //   collectionName,
-    //   contentId,
-    //   "comment",
-    //   createdAt + "=" + uid
-    // );
-
-    // const DeleteUserDataRef = doc(
-    //   db,
-    //   "userData",
-    //   uid,
-    //   "comments",
-    //   createdAt + "=" + uid
-    // );
-
-    // const batch = writeBatch(db);
-
+    const batch = writeBatch(db);
     refreshPickedComment();
-    try {
-      await deleteDoc(deleteDocRef);
 
-      if (replyIndex) {
-        setReplyComments((prevReply) => ({
-          ...prevReply,
-          [item.createdAt + item.uid]: [
-            ...prevReply[item.createdAt + item.uid].slice(0, replyIndex),
-            ...prevReply[item.createdAt + item.uid].slice(replyIndex + 1),
-          ],
-        }));
-      } else {
-        setComments((prevComments) => [
-          ...prevComments.slice(0, originIndex),
-          ...prevComments.slice(originIndex + 1),
-        ]);
+    try {
+      if (commentData?.origin_id) {
+        const deleteDocRef = doc(db, "comments", commentId);
+        const updateDocRef = doc(db, "comments", commentData.origin_id);
+
+        batch.delete(deleteDocRef);
+        batch.update(updateDocRef, { reply_count: increment(-1) });
+        await batch.commit();
+
+        // /* 1. 내가 작성한 답글 삭제 (my)
+        // => myReply 상태만 업데이트 */
+        if (type === "my") {
+          console.log(pickedComment);
+          setMyReply((prevMyReply) => {
+            const newObject: Record<string, Comment> = JSON.parse(
+              JSON.stringify(
+                prevMyReply[pickedComment.commentData!.origin_id!] || []
+              )
+            );
+            delete newObject[pickedComment.commentId];
+
+            return {
+              ...prevMyReply,
+              [pickedComment.commentData!.origin_id!]: newObject,
+            };
+          });
+        }
+
+        /* 답글 삭제 (to-reply)
+        => replyComments 상태만 업데이트 */
+        if (type === "to-reply") {
+          setReplyComments((prevReply) => {
+            const { [commentData!.origin_id!]: _, ...rest } = prevReply;
+            const newReplies = prevReply[commentData!.origin_id!].filter(
+              (_, i) => i !== replyIndex
+            );
+
+            return newReplies.length > 0
+              ? { ...rest, [commentData!.origin_id!]: newReplies }
+              : rest;
+          });
+
+          setComments((prevComments) => {
+            const changedComment: Comment = JSON.parse(
+              JSON.stringify(prevComments[originIndex!])
+            );
+            changedComment.reply_count -= 1;
+
+            return [
+              ...prevComments.slice(0, originIndex!),
+              changedComment,
+              ...prevComments.slice(originIndex! + 1),
+            ];
+          });
+        }
       }
 
-      // batch.delete(DeleteCommentRef);
-      // batch.delete(DeleteUserDataRef);
-      // await batch.commit();
-      //       setComments((prevComments) => {
-      //         if (replyIndex) {
-      //          const [item] = prevComments[originIndex].replies!;
+      if (!commentData?.origin_id) {
+        const originalDeleteRef = doc(db, "comments", commentId);
+        const q = query(
+          collection(db, "comments"),
+          where("originUid", "==", commentData!.createdAt + commentData!.user_id)
+        );
+        batch.delete(originalDeleteRef);
 
-      //          return [...prevComments.slice(originIndex + 1)]
+        const querySnapshot = await getDocs(q);
 
-      //         } else {
-      //           return [
-      //             ...prevComments.slice(0, originIndex),
-      //             ...prevComments.slice(originIndex + 1),
-      //           ]
-      //         }
-      // });
+        querySnapshot.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+
+        await batch.commit();
+
+        setComments((prevComments) =>
+          prevComments.filter((_, i) => i !== originIndex)
+        );
+
+        setReplyComments((prevReply) => {
+          const { [commentId]: _, ...rest } = prevReply;
+          return rest;
+        });
+      }
     } catch (error: any) {
       alert(`오류가 발생했습니다. 지속적인 오류가 발생한다면 문의해주세요!`);
     }

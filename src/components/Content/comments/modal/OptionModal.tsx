@@ -1,42 +1,37 @@
-import React, { useEffect, useRef } from "react";
-import { Comment, Report, PickComment } from "../../../../type/UserDataType";
+import React, { useEffect, useRef, useState } from "react";
+import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import { useAppDispatch } from "../../../../redux/store";
+import { reportActions } from "../../../../redux/report-slice";
 import "./OptionModal.css";
 
 interface T {
-  item: Comment;
-  userUid: string;
-  scrollY: number;
-  setScrollY: React.Dispatch<React.SetStateAction<number>>;
-  // setReviseReview: React.Dispatch<React.SetStateAction<boolean>>;
-  setReportModal: React.Dispatch<React.SetStateAction<Report>>;
+  commentData: Comment;
+  userData: UserData;
   setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  clickedElement: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-const OptionModal = ({
-  item,
-  userUid,
-  scrollY,
-  setScrollY,
-  // setReviseReview,
-  setReportModal,
-  setPickedComment,
-  clickedElement,
-}: T) => {
+const OptionModal = ({ commentData, userData, setPickedComment }: T) => {
+  const [scrollY, setScrollY] = useState<number>(window.scrollY);
   const reff = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const toggleOptionModal = (e: MouseEvent) => {
       if (!reff.current?.contains(e.target as Node)) {
-        console.log("??????");
-        clickedElement.current = null;
-        // setOpenOption(false);
         setScrollY(0);
-        setPickedComment((prevState) => ({ ...prevState, open: "" }));
+        setPickedComment((prevState) => ({
+          ...prevState,
+          openOption: "",
+          commentData: null,
+          commentId: "",
+          index: -100,
+        }));
       }
     };
 
-    const scrollHandler = () => window.scrollTo(0, scrollY);
+    const scrollHandler = () => {
+      window.scrollTo(0, scrollY);
+    };
 
     window.addEventListener("click", toggleOptionModal);
     window.addEventListener("scroll", scrollHandler);
@@ -45,48 +40,46 @@ const OptionModal = ({
       window.removeEventListener("click", toggleOptionModal);
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [
-    item,
-    setPickedComment,
-    // setOpenOption,
-    scrollY,
-    setScrollY,
-    clickedElement,
-  ]);
+  }, [commentData, setPickedComment, scrollY]);
 
   const clickHandler = (type: string) => {
+    if (userData.user_id === "")
+      return alert(
+        `로그인을 하시면 이용하실 수 있습니다. 
+        만약 로그인을 했을 경우, 이러한 문제가 지속적으로 발생한다면 문의해주세요!`
+      );
+
+    const commentId: string = commentData.createdAt + commentData.user_id;
+
     switch (true) {
       case type === "revise":
-        // setReviseReview(true);
         setPickedComment((prevState) => ({
           ...prevState,
-          [`${item.createdAt}${item.uid}`]: "revise",
-          open: "",
+          [commentId]: "revise",
+          openOption: "",
         }));
         break;
       case type === "delete":
         setPickedComment((prevState) => ({
           ...prevState,
-          [`${item.createdAt}${item.uid}`]: "delete",
-          open: "",
+          [commentId]: "delete",
+          openOption: "",
         }));
         break;
       default:
-        setReportModal({
-          open: true,
-          when: item.createdAt,
-          userUid: item.uid,
-          name: item.name,
-          text: item.createdAt,
-        });
+        dispatch(
+          reportActions.setReport({
+            ...commentData,
+            reporter_id: userData.user_id,
+            reporter_name: userData.user_name,
+          })
+        );
     }
-    // setOpenOption(false);
-    clickedElement.current = null;
   };
 
   return (
     <div className="option-box" ref={reff}>
-      {item.uid === userUid ? (
+      {commentData.user_id === userData.user_id ? (
         <>
           <p className="option-revise" onClick={() => clickHandler("revise")}>
             수정

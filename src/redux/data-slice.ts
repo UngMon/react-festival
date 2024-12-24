@@ -143,5 +143,4 @@ const dataSlice = createSlice({
 });
 
 export const dataActions = dataSlice.actions;
-
 export const dataReducer = dataSlice.reducer;

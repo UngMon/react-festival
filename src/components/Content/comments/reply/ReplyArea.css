@@ -1,0 +1,44 @@
+.reply-area {
+  margin-left: 55px;
+  width: calc(100% - 55px);
+}
+
+.reply-count {
+  width: 140px;
+  height: 30px;
+  margin-bottom: 5px;
+  line-height: 30px;
+  border-radius: 15px 15px;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(47, 90, 233);
+  cursor: pointer;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  span {
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: rgba(37, 84, 255, 0.288);
+  }
+}
+
+.reply_more {
+  display: block;
+  width: 110px;
+  height: 25px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+
+  svg {
+    margin: 0 10px;
+  }
+}

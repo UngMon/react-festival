@@ -1,0 +1,39 @@
+.submenu {
+  margin: 5px 0;
+  height: 30px;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
+}
+
+.sub-box {
+  height: 100%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sub-box button {
+  margin-right: 3px;
+  min-width: 25px;
+  padding: 0 5px;
+  height: 100%;
+  border-radius: 50%;
+  color: #333;
+
+  &:hover {
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+  }
+
+  svg {
+    font-size: 20px;
+  }
+}
+
+.sub-box span {
+  font-size: 14px;
+  font-weight: 450;
+}

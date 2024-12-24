@@ -1,6 +1,6 @@
 interface T {
-  userPhoto: string;
-  userName: string;
+  user_photo: string;
+  user_name: string;
 }
 
 const userIconStyle: React.CSSProperties = {
@@ -16,14 +16,14 @@ const iconImageStyle: React.CSSProperties = {
   borderRadius: "50%",
 };
 
-const UserIcon = ({ userPhoto, userName }: T) => {
+const UserIcon = ({ user_photo, user_name }: T) => {
   return (
     <div style={userIconStyle}>
-      {userPhoto.length !== 0 && (
-        <img src={`${userPhoto}`} alt="userPhoto" style={iconImageStyle} />
+      {user_photo !== "" && (
+        <img src={user_photo} alt="userPhoto" style={iconImageStyle} />
       )}
-      {userPhoto.length === 0 && userName.length !== 0 && (
-        <span>{userName[0].toUpperCase()}</span>
+      {user_photo === "" && user_name.length !== 0 && (
+        <span>{user_photo[0].toUpperCase()}</span>
       )}
     </div>
   );

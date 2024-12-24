@@ -16,7 +16,7 @@ import "./Detail.css";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;
-  contentId: string;
+  content_id: string;
   type: string;
 }
 
@@ -26,7 +26,7 @@ type Datas = {
   intro: ResponIntro;
 };
 
-const Detail = ({ infoRef, contentId, type }: DetailProps) => {
+const Detail = ({ infoRef, content_id, type }: DetailProps) => {
   console.log("Detail Component Render");
   const dispatch = useAppDispatch();
   const [data, setContentData] = useState<Datas>();
@@ -57,8 +57,8 @@ const Detail = ({ infoRef, contentId, type }: DetailProps) => {
 
       setLoading(false);
     };
-    settingContentData(type, contentId);
-  }, [dispatch, type, contentId]);
+    settingContentData(type, content_id);
+  }, [dispatch, type, content_id]);
 
   return (
     <div className="Cotent-text-box" ref={infoRef}>
