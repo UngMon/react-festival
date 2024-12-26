@@ -6,10 +6,10 @@ import "./Slider.css";
 
 interface SliderProps {
   type: string;
-  contentId: string;
+  content_id: string;
 }
 
-const Slider = ({ type, contentId }: SliderProps) => {
+const Slider = ({ type, content_id }: SliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const sliderBoxRef = useRef<HTMLDivElement>(null);
 
@@ -57,8 +57,8 @@ const Slider = ({ type, contentId }: SliderProps) => {
         sliderBoxRef.current!.style.justifyContent = "center";
       }
     };
-    getImage(contentId);
-  }, [contentId, sliderBoxRef]);
+    getImage(content_id);
+  }, [content_id, sliderBoxRef]);
 
   /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
   useEffect(() => {

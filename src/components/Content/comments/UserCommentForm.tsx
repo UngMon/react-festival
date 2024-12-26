@@ -3,7 +3,6 @@ import { db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { Comment } from "../../../type/UserDataType";
-import { convertText } from "../../../utils/convertText";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LoadingSpinnerTwo from "../../loading/LoadingSpinnerTwo";
