@@ -21,13 +21,14 @@
     border: 0;
     text-align: left;
     font-size: inherit;
+    white-space: pre-wrap;
 
     &:focus + i {
       left: 0;
       right: 0;
     }
 
-    a { 
+    a {
       color: rgb(47, 90, 233);
       display: inline;
       font-weight: inherit;
@@ -37,6 +38,10 @@
       background-color: rgba(223, 223, 223, 0.4);
       border: 0;
       cursor: text;
+    }
+
+    span {
+      white-space: pre-wrap;
     }
   }
 
@@ -63,11 +68,18 @@
     height: 30px;
     border: 0;
     border-radius: 8px;
-    cursor: pointer;
     font-weight: 600;
     color: #333;
+    background-color: #f0f0f0;
+  }
 
+  .disabled {
+    background-color: #ffffff;
+  }
+
+  .enabled {
     &:hover {
+      cursor: pointer;
       color: white;
       background-color: rgb(81, 95, 248);
     }

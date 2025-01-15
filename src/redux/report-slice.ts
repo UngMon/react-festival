@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Comment, UserData } from "../type/UserDataType";
 
 const initialState = {
-  open: false,
+  open: '',
   content_type: "",
   content_id: "",
   content_title: "",
@@ -18,22 +19,42 @@ const reportSlice = createSlice({
   name: "report",
   initialState,
   reducers: {
-    setReport(state, action) {
-      console.log(action.payload);
-      state.open = true;
-      state.content_type = action.payload.contentType;
-      state.content_id = action.payload.contentId;
-      state.content_title = action.payload.contentTitle;
-      state.createdAt = action.payload.createdAt;
-      state.content = action.payload.content;
-      state.report_reason = action.payload.reason;
-      state.reported_id = action.payload.uid;
-      state.reported_name = action.payload.name ?? "";
-      state.reporter_id = action.payload.reporterUid;
-      state.reporter_name = action.payload.reporterName;
+    setReport(
+      state,
+      action: PayloadAction<{
+        userData: UserData;
+        report_reason?: string;
+        comment_data: Comment;
+      }>
+    ) {
+      const {
+        content_type,
+        content_title,
+        content_id,
+        content,
+        createdAt,
+        user_id,
+        user_name,
+      } = action.payload.comment_data;
+
+      const userData = action.payload.userData;
+
+      Object.assign(state, {
+        open: createdAt + user_id,
+        content_type,
+        content_title,
+        content_id,
+        content,
+        createdAt,
+        report_reason: action.payload.report_reason || '',
+        reported_id: user_id,
+        reported_name: user_name,
+        reporter_id: userData.user_id,
+        reporter_name: userData.user_name,
+      });
     },
     setClearState(state) {
-      state.open = false;
+      state.open = '';
       state.content_type = "";
       state.content_id = "";
       state.content_title = "";

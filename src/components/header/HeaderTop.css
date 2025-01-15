@@ -56,7 +56,7 @@
       }
 
       .ro-t45 {
-        transform: rotate(45deg) translate(6px, 6px);
+        transform: rotate(45deg) translate(5px, 5px);
       }
 
       .fadeout {
@@ -64,7 +64,7 @@
       }
 
       .ro-b45 {
-        transform: rotate(-45deg) translate(5px, -6px);
+        transform: rotate(-45deg) translate(5.5px, -6px);
       }
     }
   }

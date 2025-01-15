@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Comment, PickComment } from "../../../../type/UserDataType";
+import { useEffect, useState } from "react";
+import { Comment } from "../../../../type/UserDataType";
 import { db } from "../../../../firebase";
 import {
   collection,
@@ -10,45 +10,36 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../../../redux/store";
+import { originCommentActions } from "../../../../redux/origin_comment-slice";
 import useIntersectionObserver from "../../../../hooks/useIntersectionObserver";
 import CommentBox from "./CommentBox";
 import LoadingSpinnerTwo from "../../../loading/LoadingSpinnerTwo";
-import DeleteModal from "../modal/DeleteModal";
 import ReplyArea from "../reply/ReplyArea";
 
 interface T {
-  comments: Comment[];
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   content_id: string;
 }
 
-const CommentArea = ({ comments, setComments, content_id }: T) => {
+const CommentArea = ({ content_id }: T) => {
   console.log("CommentBox Component Render");
   const [loading, setLoading] = useState<boolean>(false);
-  const [pickedComment, setPickedComment] = useState<PickComment>({
-    originIndex: undefined,
-    replyIndex: undefined,
-    openOption: "",
-    commentId: "",
-    commentData: null,
-    type: "",
-  });
+  const comments = useSelector(
+    (state: RootState) => state.origin_comment.comment
+  );
+  const dispatch = useAppDispatch();
+
   const [completeGetCommentsData, setCompleteGetCommentsData] =
     useState<boolean>(false);
   const [targetRef, intersecting, setIntersecting] =
     useIntersectionObserver(false);
-  const [replyComments, setReplyComments] = useState<Record<string, Comment[]>>(
-    {}
-  );
-  const [myReply, setMyReply] = useState<
-    Record<string, Record<string, Comment>>
-  >({});
 
   useEffect(() => {
     if (completeGetCommentsData || !intersecting || loading) return;
-    const commentRef = collection(db, "comments");
-
     setLoading(true);
+    
+    const commentRef = collection(db, "comments");
 
     const getCommentData = async () => {
       try {
@@ -57,7 +48,7 @@ const CommentArea = ({ comments, setComments, content_id }: T) => {
           where("content_id", "==", content_id),
           where("origin_id", "==", null),
           orderBy("createdAt", "desc"),
-          limit(50)
+          limit(25)
         );
 
         const baseQurey = query(
@@ -66,27 +57,20 @@ const CommentArea = ({ comments, setComments, content_id }: T) => {
           where("origin_id", "==", null),
           orderBy("createdAt", "desc"),
           startAfter(comments[comments.length - 1]?.createdAt || "0"),
-          limit(50)
+          limit(25)
         );
 
         let querySnapshot = comments.length === 0 ? firstQuery : baseQurey;
-
         const data = await getDocs(querySnapshot);
-        const newCommentsData = data.docs.map((docs) =>
-          docs.data()
-        ) as Comment[];
+        const comment_datas = data.docs.map((docs) => docs.data()) as Comment[];
 
-        // const jsonData = JSON.stringify(newCommentsData);
-        // const dataSizeInBytes = new TextEncoder().encode(jsonData).length;
+        if (comment_datas.length > 0) {
+          dispatch(originCommentActions.setComment({ comment_datas }));
+        }
 
-        // console.log(`Data size: ${dataSizeInBytes} bytes`);
-
-        if (newCommentsData.length > 0)
-          setComments([...comments.slice(0), ...newCommentsData]);
-
-        if (newCommentsData.length < 50) setCompleteGetCommentsData(true);
+        if (comment_datas.length < 25) setCompleteGetCommentsData(true);
       } catch (error: any) {
-        console.log(error.message);
+        console.error(error.message);
         alert(error.message);
       }
       setIntersecting(false);
@@ -94,11 +78,11 @@ const CommentArea = ({ comments, setComments, content_id }: T) => {
     };
     getCommentData();
   }, [
+    dispatch,
     completeGetCommentsData,
     loading,
     setIntersecting,
     comments,
-    setComments,
     content_id,
     intersecting,
   ]);
@@ -113,39 +97,15 @@ const CommentArea = ({ comments, setComments, content_id }: T) => {
             style={{ margin: "0px 10px 10px", position: "relative" }}
           >
             <CommentBox
-              originIndex={index}
+              origin_index={index}
               type={"origin"}
               deepth={0}
-              commentData={item}
-              pickedComment={pickedComment}
-              setPickedComment={setPickedComment}
-              setComments={setComments}
-              setReplyComments={setReplyComments}
-              setMyReply={setMyReply}
+              comment_data={item}
             />
-            <ReplyArea
-              originIndex={index}
-              originData={item}
-              replyComments={replyComments}
-              pickedComment={pickedComment}
-              setComments={setComments}
-              setPickedComment={setPickedComment}
-              setReplyComments={setReplyComments}
-              myReply={myReply}
-              setMyReply={setMyReply}
-            />
+            <ReplyArea origin_index={index} comment_data={item} />
           </div>
         ))}
       {loading && <LoadingSpinnerTwo width="25px" padding="8px" />}
-      {pickedComment[pickedComment.commentId] === "delete" && (
-        <DeleteModal
-          pickedComment={pickedComment}
-          setComments={setComments}
-          setPickedComment={setPickedComment}
-          setReplyComments={setReplyComments}
-          setMyReply={setMyReply}
-        />
-      )}
       <div ref={targetRef}></div>
     </div>
   );

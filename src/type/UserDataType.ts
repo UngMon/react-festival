@@ -34,13 +34,13 @@ export interface UserData {
 }
 
 export interface PickComment {
-  originIndex: number | undefined;
-  replyIndex: number | undefined;
-  openOption: string;
-  commentId: string;
-  commentData: Comment | null;
-  type: string;
-  [key: string]: Comment | string | number | null | undefined;
+  // replyIndex: number | null;
+  open: string;
+  delete: string;
+  comment_id: string;
+  comment_data: Comment | null;
+  revise: Record<string, string>;
+  reply: Record<string, string>;
 }
 
 export interface ReportType {

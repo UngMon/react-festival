@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import { useAppDispatch } from "../../redux/store";
+import { firebaseActions } from "../../redux/firebase-slice";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -12,12 +14,14 @@ interface T {
 }
 
 const MobileNav = ({ openNav, setOpenNav }: T) => {
+  const dispatch = useAppDispatch();
   const month = String(new Date().getMonth() + 1).padStart(2, "0");
 
   const logoutHandler = () => {
     signOut(auth)
       .then(() => {
         setOpenNav(false);
+        dispatch(firebaseActions.logout());
       })
       .catch((err) => {
         alert(err.message);

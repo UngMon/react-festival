@@ -1,21 +1,22 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../../redux/store";
+import { originCommentActions } from "../../../redux/origin_comment-slice";
 import { db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { Comment } from "../../../type/UserDataType";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import LoadingSpinnerTwo from "../../loading/LoadingSpinnerTwo";
 import "./UserCommentForm.css";
 
 interface T {
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   content_type: string;
   content_id: string;
 }
 
-const UserCommentForm = ({ setComments, content_type, content_id }: T) => {
+const UserCommentForm = ({ content_type, content_id }: T) => {
   console.log("UserCommentForm Component Render");
+  const dispatch = useAppDispatch();
 
   const contentTitle = useSelector(
     (state: RootState) => state.data.contentTitle
@@ -44,11 +45,11 @@ const UserCommentForm = ({ setComments, content_type, content_id }: T) => {
     const timestamp = new Date();
     timestamp.setHours(timestamp.getHours() + 9);
 
-    const fieldData: Comment = {
+    const field_data: Comment = {
       content_type,
       content_id,
       content_title: "",
-      content: [content, '', ''],
+      content: [content, "", ""],
       user_id,
       user_name,
       user_photo,
@@ -63,13 +64,13 @@ const UserCommentForm = ({ setComments, content_type, content_id }: T) => {
       emotion: {},
     };
 
-    const documentId = fieldData.createdAt + fieldData.user_id;
+    const documentId = field_data.createdAt + field_data.user_id;
 
     const commentRef = doc(db, "comments", documentId);
 
     try {
-      await setDoc(commentRef, fieldData);
-      setComments((prevArray) => [{ ...fieldData, replies: [] }, ...prevArray]);
+      await setDoc(commentRef, field_data);
+      dispatch(originCommentActions.addNewComment({ field_data }));
     } catch (error: any) {
       alert(
         `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`

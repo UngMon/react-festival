@@ -1,5 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Comment, UserData } from "../../../../type/UserDataType";
+import { useAppDispatch } from "../../../../redux/store";
+import { originCommentActions } from "../../../../redux/origin_comment-slice";
+import { replyActions } from "../../../../redux/reply-slice";
+import { myReplyActions } from "../../../../redux/my_reply-slice";
+import { modalActions } from "../../../../redux/modal-slice";
 import { doc, increment, updateDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import UserIcon from "./UserIcon";
@@ -11,82 +16,80 @@ const Keys = new Set([
   "ArrowLeft",
   "ArrowRight",
   "Backspace",
+  "Delete",
 ]);
 
 interface T {
   type: string;
   deepth: number;
-  originIndex: number;
-  replyIndex?: number;
-  commentData: Comment;
+  origin_index: number;
+  reply_index?: number;
+  comment_data: Comment;
   userData: UserData;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  setReplyComments: React.Dispatch<
-    React.SetStateAction<Record<string, Comment[]>>
-  >;
-  setMyReply: React.Dispatch<
-    React.SetStateAction<Record<string, Record<string, Comment>>>
-  >;
 }
 
 const ReplyOrReviseComment = ({
   type,
   deepth,
-  originIndex,
-  replyIndex,
-  commentData,
+  origin_index,
+  reply_index,
+  comment_data,
   userData,
-  setPickedComment,
-  setComments,
-  setReplyComments,
-  setMyReply,
 }: T) => {
-  console.log("Render!!!!!!");
+  console.log("Render!!!!!!", type);
 
-  const [tag] = useState<string | null>(
-    commentData.user_id === userData.user_id
-      ? null
-      : commentData.parent_name
-      ? "@" + commentData.user_name
-      : null
-  );
+  const dispatch = useAppDispatch();
   const divRef = useRef<HTMLDivElement>(null);
   const tagRef = useRef<HTMLAnchorElement | null>(null);
+  const { origin_id, createdAt, user_id } = comment_data;
+  const comment_id = createdAt + user_id;
+
+  const [tagName] = useState<string | null>(
+    comment_data.user_id !== userData.user_id && comment_data.parent_name
+      ? "@" + comment_data.user_name
+      : null
+  );
+
+  const [disabled, setDisabled] = useState<boolean>(
+    type.includes("reply") ? false : true
+  );
+
+  const [commentText] = useState<string>(comment_data.content.join(""));
 
   const reviseHandler = async (comment: [string, string, string]) => {
-    const { origin_id, createdAt, user_id } = commentData;
-
-    const document_id = createdAt + user_id;
-    const reivseDocumentRef = doc(db, "comments", document_id);
+    const reivseDocumentRef = doc(db, "comments", comment_id);
 
     await updateDoc(reivseDocumentRef, { content: comment, isRevised: true });
-    const revisedComment: Comment = { ...commentData };
-    revisedComment.content = comment;
+    const updatedField: Comment = { ...comment_data };
+    updatedField.content = comment;
 
-    if (type === "revise-origin")
-      setComments((prevState) =>
-        prevState.map((data, index) =>
-          index !== originIndex ? data : revisedComment
-        )
+    if (type === "revise-origin") {
+      dispatch(
+        originCommentActions.updateComment({ type, origin_index, updatedField })
       );
+    }
 
-    if (type === "revise-to-reply")
-      setReplyComments((prevState) => ({
-        ...prevState,
-        [origin_id!]: prevState[origin_id!].map((data, index) =>
-          index !== replyIndex ? data : revisedComment
-        ),
-      }));
+    if (type === "revise-reply") {
+      dispatch(
+        replyActions.updateReply({
+          origin_id: origin_id!,
+          reply_index: reply_index!,
+          updatedField,
+        })
+      );
+    }
 
-    if (type === "revise-my")
-      setMyReply((prevState) => ({
-        ...prevState,
-        [origin_id!]: {
-          ...prevState[origin_id!],
-          [document_id]: revisedComment,
-        },
-      }));
+    if (type === "revise-my") {
+      dispatch(
+        myReplyActions.updateMyReply({
+          origin_id: origin_id!,
+          comment_id,
+          updatedField,
+        })
+      );
+    }
+
+    dispatch(modalActions.clearModalInfo({ comment_id, type }));
   };
 
   const replyHandler = async (content: [string, string, string]) => {
@@ -95,49 +98,49 @@ const ReplyOrReviseComment = ({
     ).toISOString();
 
     const batch = writeBatch(db);
-    const comment_id =
-      type === "reply-origin"
-        ? commentData.createdAt + commentData.user_id
-        : commentData.origin_id!;
+
+    const originId = origin_id || comment_id;
+    const document_id = timestamp + user_id;
 
     const fieldData: Comment = {
-      content_type: commentData.content_type,
-      content_id: commentData.content_id,
-      content_title: commentData.content_title,
+      content_type: comment_data.content_type,
+      content_id: comment_data.content_id,
+      content_title: comment_data.content_title,
       content,
       user_id: userData.user_id,
       user_name: userData.user_name,
       user_photo: userData.user_photo,
       createdAt: timestamp,
-      origin_id: comment_id,
-      parent_id: commentData.user_id,
-      parent_name: commentData.user_name,
+      origin_id: originId,
+      parent_id: comment_id,
+      parent_name: comment_data.user_name,
       like_count: 0,
       dislike_count: 0,
       reply_count: 0,
       isRevised: false,
-      emotion: commentData.emotion,
+      emotion: comment_data.emotion,
     };
 
-    const newMyReplyDocumentRef = doc(
-      db,
-      "comments",
-      timestamp + commentData.user_id
-    );
+    const newMyReplyDocumentRef = doc(db, "comments", document_id);
 
-    const originDocumentRef = doc(db, "comments", comment_id);
-
+    const originDocumentRef = doc(db, "comments", originId);
     batch.set(newMyReplyDocumentRef, fieldData);
     batch.update(originDocumentRef, { reply_count: increment(1) });
     await batch.commit();
 
-    setMyReply((prevState) => ({
-      ...prevState,
-      [comment_id]: {
-        ...prevState[comment_id],
-        [timestamp + commentData.user_id]: fieldData,
-      },
-    }));
+    dispatch(
+      myReplyActions.addNewMyReply({
+        origin_id: originId,
+        comment_id: document_id,
+        comment_data: fieldData,
+      })
+    );
+    if (type === "reply-reply") {
+      dispatch(
+        originCommentActions.updateComment({ origin_index, type: "reply" })
+      );
+    }
+    dispatch(modalActions.clearModalInfo({ comment_id, type }));
   };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -178,7 +181,7 @@ const ReplyOrReviseComment = ({
           }
 
           if (node === tagRef.current) {
-            // tag 요소일때, 재귀 탐색을 중단하고 요소의 텍스트를 추가한다.
+            // node가 tag이면 재귀 탐색을 중단하고 요소의 텍스트를 추가한다.
             isAfterAnchor = true;
             tag = node.textContent || "";
             return;
@@ -212,7 +215,6 @@ const ReplyOrReviseComment = ({
       // 텍스트 앞, 뒤 줄바꿈 공백을 삭제한다.
       firstText = firstText.trimStart();
       lastText = lastText.trimEnd();
-      console.log(firstText + tag + lastText);
 
       return [firstText, tag, lastText];
     }
@@ -222,14 +224,8 @@ const ReplyOrReviseComment = ({
     try {
       if (type.includes("revise")) await reviseHandler(newContent);
       else await replyHandler(newContent);
-
-      setPickedComment((prevState) => {
-        const { [commentData.createdAt + commentData.user_id]: _, ...rest } =
-          prevState;
-        return rest as PickComment;
-      });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
   };
@@ -237,56 +233,61 @@ const ReplyOrReviseComment = ({
   useEffect(() => {
     if (!divRef.current) return;
 
-    if (tag) {
-      const atag = document.createElement("a");
-      atag.innerHTML = `&nbsp;${tag}&nbsp;`;
-      atag.href = "#";
-      atag.addEventListener("mousedown", (e) => tagClickHandler(e));
-      tagRef.current = atag;
+    const tagClickHandler = (e: MouseEvent) => {
+      // tag를 클릭하면 p tag앞으로 텍스트 커서가 이동시킨다.
+      e.preventDefault();
 
-      // divRef에 자식노드 ptag 삽입
-      divRef.current.appendChild(tagRef.current);
-      divRef.current.append("\u00A0");
+      const clickedElement = e.currentTarget as HTMLElement;
 
-      // `<p>` 뒤에 빈 텍스트 노드 추가
-      const range = document.createRange(); // 새로운 Range 객체 생성
-      const selection = window.getSelection(); // 현재 Selection 객체 가져오기
+      if (clickedElement === tagRef.current) {
+        const selection = document.getSelection();
+        if (selection?.rangeCount === 0) return;
 
-      // 자식 요소의 마지막 노드로 커서를 설정
-      range.selectNodeContents(divRef.current);
-      range.collapse(false); // 범위를 끝으로 설정 (true: 시작, false: 끝)
+        // 텍스트 커서를 tag 앞으로 이동
+        selection?.collapse(tagRef.current, 0);
+      }
+    };
 
-      // 선택 범위 설정
-      selection?.removeAllRanges(); // 기존 선택 범위 제거
-      selection?.addRange(range); // 새 범위를 추가
+    const tagElement = document.createElement("a");
 
-      divRef.current.focus();
+    const array = comment_data.content;
+
+    const setUpTag = (text: string) => {
+      tagElement.innerText = text;
+      tagElement.addEventListener("mousedown", (e) => tagClickHandler(e));
+      tagElement.href = "#";
+      tagRef.current = tagElement;
+      divRef.current!.appendChild(tagElement);
+    };
+
+    if (type.includes("revise")) {
+      array.forEach((comment, index) => {
+        if (index === 1 && comment.length > 0) setUpTag(comment);
+
+        if (index !== 1 && comment.length > 0) {
+          const span = document.createElement("span");
+          span.innerText = comment;
+          divRef.current!.append(span);
+        }
+      });
+    } else if (type.includes("reply") && tagName) {
+      setUpTag(`&nbsp;${tagName}&nbsp;`);
     }
-  }, [tag]);
 
-  const tagClickHandler = (e: MouseEvent) => {
-    // tag를 클릭하면 p tag앞으로 텍스트 커서가 이동시킨다.
-    e.preventDefault();
+    // `<p>` 뒤에 빈 텍스트 노드 추가
+    const range = document.createRange(); // 새로운 Range 객체 생성
+    const selection = window.getSelection(); // 현재 Selection 객체 가져오기
 
-    const clickedElement = e.currentTarget as HTMLElement;
+    // 자식 요소의 마지막 노드로 커서를 설정
+    range.selectNodeContents(divRef.current);
+    range.collapse(false); // 범위를 끝으로 설정 (true: 시작, false: 끝)
 
-    if (clickedElement === tagRef.current) {
-      const selection = document.getSelection();
-      if (selection?.rangeCount === 0) return;
-      const range = selection?.getRangeAt(0);
+    // 선택 범위 설정
+    selection?.removeAllRanges(); // 기존 선택 범위 제거
+    selection?.addRange(range); // 새 범위를 추가
 
-      // 클릭된 태그의 부모에서 범위를 설정
-      range!.setStartBefore(clickedElement);
-      range!.setEndBefore(clickedElement);
-      range!.collapse(true);
-      // 선택 범위를 갱신
-      selection?.removeAllRanges();
-      selection?.addRange(range!);
-
-      // 부모 요소에 포커스 설정
-      clickedElement.focus();
-    }
-  };
+    divRef.current.focus();
+  }, [tagName, comment_data, type]);
 
   return (
     <div
@@ -311,9 +312,59 @@ const ReplyOrReviseComment = ({
               if (!Keys.has(e.key)) return;
 
               const tag = tagRef.current;
-              const TagTextLength = tag?.textContent?.length || 0;
-              const prevNode = tag?.previousSibling;
-              const nextNode = tag?.nextSibling;
+              const firstChildTextLength = tag?.firstChild?.textContent?.length;
+              const lastChildTextLength = tag?.lastChild?.textContent?.length;
+
+              const selection = document.getSelection();
+              if (selection?.rangeCount === 0) return;
+              const anchorNode = selection?.anchorNode;
+
+              if (e.key === "Backspace") {
+                if (!tag?.contains(selection?.anchorNode!)) return;
+
+                selection?.extend(tag!, 0);
+                return;
+              }
+
+              if (e.key === "Delete") {
+                if (tag?.contains(anchorNode!)) {
+                  selection?.extend(tag, tag.childNodes.length);
+                  return;
+                }
+
+                const prevNode = tag?.previousSibling;
+                const prevLastChild = prevNode?.lastChild;
+                const anchorOffset = selection?.anchorOffset;
+
+                if (
+                  prevNode?.nodeType === Node.TEXT_NODE &&
+                  anchorOffset === prevNode.textContent?.length &&
+                  prevNode === anchorNode
+                ) {
+                  selection?.extend(tag!, tag?.childNodes.length);
+                  return;
+                }
+
+                if (!prevLastChild?.contains(anchorNode!)) return;
+
+                if (prevNode?.nodeType === Node.ELEMENT_NODE) {
+                  function getDeepestLastChild(node: Node): Node | undefined {
+                    while (node && node.lastChild) {
+                      node = node.lastChild;
+                    }
+                    // 3 => TextNode, 1 => ElementNode
+                    if (node.nodeType === 3 || node.nodeType === 1) return node;
+
+                    return undefined;
+                  }
+
+                  const deepestLastChild = getDeepestLastChild(prevLastChild!);
+                  const textLength = deepestLastChild?.textContent?.length;
+                  if (textLength === selection?.anchorOffset)
+                    selection?.extend(tag!, tag?.childNodes.length);
+                }
+                return;
+              }
 
               setTimeout(() => {
                 const selection = document.getSelection();
@@ -323,168 +374,99 @@ const ReplyOrReviseComment = ({
                 const focusNode = selection!.focusNode;
                 const focusOffset = selection!.focusOffset;
 
-                if (
-                  focusNode?.parentNode !== tag &&
-                  anchorNode?.parentNode !== tag
-                )
-                  return;
-
-                // const range = selection!.getRangeAt(0);
-
-                if (e.key === "Backspace") {
-                  if (focusOffset > 0 && focusOffset < TagTextLength)
-                    tagRef.current?.remove();
-                  return;
-                }
+                if (!tag?.contains(focusNode)) return;
 
                 if (e.shiftKey) {
-                  let directonOfDrag = "";
+                  let directionOfDrag = "";
                   const position = anchorNode!.compareDocumentPosition(
                     focusNode!
                   );
 
-                  if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
-                    // anchorNode가 focuseNode 보다 앞에 위치
-                    directonOfDrag = "right";
-                  } else if (position & Node.DOCUMENT_POSITION_PRECEDING) {
-                    // anchorNode가 focuseNode 보다 뒤에 위치
-                    directonOfDrag = "left";
+                  if (anchorNode === focusNode) {
+                    if (anchorOffset < focusOffset) directionOfDrag = "right";
+                    else if (anchorOffset > focusOffset)
+                      directionOfDrag = "left";
                   }
 
-                  const extendSelection = (
-                    type: string,
-                    node: ChildNode | null | undefined
-                  ) => {
-                    const nodeText = node?.textContent;
-
-                    if (nodeText && nodeText.length > 0)
-                      selection?.extend(
-                        node!,
-                        type === "prev" ? nodeText.length - 1 : 1
-                      );
-                    else if (nodeText && nodeText.length === 0)
-                      selection?.extend(node!, 0);
-                    else if (!node) selection?.extend(tag!, 1);
-                  };
-
-                  const collapseSelection = (
-                    type: string,
-                    node: ChildNode | null | undefined
-                  ) => {
-                    const nodeText = node?.textContent;
-
-                    if (nodeText && nodeText.length > 0)
-                      selection?.collapse(
-                        node!,
-                        type === "prev" ? nodeText.length - 1 : 1
-                      );
-                    else if (nodeText && nodeText.length === 0)
-                      selection?.collapse(node!, 0);
-                    else if (!node) selection?.collapse(tag!, 0);
-                  };
+                  if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+                    // anchorNode가 focuseNode 보다 앞에 위치
+                    directionOfDrag = "right";
+                  } else if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+                    // anchorNode가 focuseNode 보다 뒤에 위치
+                    directionOfDrag = "left";
+                  }
 
                   if (e.key === "ArrowRight") {
-                    if (directonOfDrag === "left") {
+                    if (directionOfDrag === "left") {
                       // anchor가 focuse 보다 뒤에 있는 상황이고 텍스트 커서가 focus가 tag 영역에 존재
-                      extendSelection("prev", prevNode);
+                      selection?.extend(tag, 0);
                       return;
                     }
-
-                    if (
-                      (anchorNode !== prevNode &&
-                        anchorNode?.parentNode !== tag) ||
-                      anchorNode === prevNode
-                    ) {
-                      if (focusNode?.parentNode !== tag) return;
-
-                      extendSelection("next", nextNode);
-                    }
-
-                    if (anchorNode?.parentNode === tag) {
-                      collapseSelection("prev", prevNode);
-                      extendSelection("next", nextNode);
-                    }
+                    selection?.extend(tag, tag.childNodes.length);
                   } else if (e.key === "ArrowLeft") {
-                    if (directonOfDrag === "right") {
-                      selection?.collapse(anchorNode, anchorOffset);
-                      extendSelection("next", nextNode);
+                    if (directionOfDrag === "right") {
+                      selection?.extend(tag, tag.childNodes.length);
                       return;
                     }
-
-                    if (anchorNode === nextNode) {
-                      // 2-(1): nextNode에서 왼쪽 방향으로 출발
-                      if (focusNode?.parentNode !== tag) return;
-                      extendSelection("prev", prevNode);
-                    }
-
-                    if (anchorNode?.parentNode === tag) {
-                      // 2-(3): 태그 바로 우측에서 왼쪽 방향으로 출발
-                      if (
-                        anchorOffset === TagTextLength &&
-                        anchorOffset === focusOffset
-                      )
-                        return;
-
-                      collapseSelection("next", nextNode);
-                      extendSelection("prev", prevNode);
-                    }
-
-                    if (anchorNode?.parentNode !== tag)
-                      extendSelection("prev", prevNode);
+                    selection?.extend(tag, 0);
                   }
 
                   if (e.key === "ArrowUp") {
-                    if (directonOfDrag === "left") {
-                      // anchorNode가 focousNode 보다 뒤에 위치 즉 아래에서 위로
-                      if (anchorNode?.parentNode === tag) {
-                        collapseSelection("next", nextNode);
-                      }
-
-                      if (focusNode?.parentNode === tag) {
-                        extendSelection("prev", prevNode);
-                      } else selection?.extend(focusNode!, focusOffset);
-                    } else if (directonOfDrag === "right") {
-                      // anchorNode가 focusNode 보다 앞에 위치 즉 위에서 아래로
-                      extendSelection("next", nextNode);
+                    if (directionOfDrag === "left") {
+                      selection?.extend(tag, 0);
+                    } else if (directionOfDrag === "right") {
+                      selection?.extend(tag, tag.childNodes.length);
                     }
                   } else if (e.key === "ArrowDown") {
-                    if (directonOfDrag === "left") {
-                      // anchorNode가 focousNode 보다 뒤에 위치 즉 아래에서 위로
-                      extendSelection("prev", prevNode);
-                    } else if (directonOfDrag === "right") {
-                      // anchorNode가 focusNode 보다 앞에 위치 즉 위에서 아래로
-                      extendSelection("next", nextNode);
+                    if (directionOfDrag === "left") {
+                      selection?.extend(tag, 0);
+                    } else if (directionOfDrag === "right") {
+                      selection?.extend(tag, tag.childNodes.length);
                     }
                   }
                 } else {
                   // 단순히 tagRef영역에서 방향키를 누른 경우
-                  if (e.key === "ArrowRight") selection?.collapse(tag!, 1);
-                  else if (anchorOffset < TagTextLength) {
+                  if (e.key === "ArrowRight")
+                    selection?.collapse(tag!, tag.childNodes.length);
+                  else if (e.key === "ArrowLeft") {
+                    if (anchorOffset < lastChildTextLength!)
+                      selection?.collapse(tag, 0);
+                  } else if (anchorOffset < firstChildTextLength!) {
                     // up, down, left 키를 누른 경우
                     selection?.collapse(tag!, 0);
                   }
                 }
               }, 0);
             }}
-          />
+            onInput={(e) => {
+              const target = e.target as HTMLDivElement;
+              const innerText = target.innerText;
+              if (innerText.length === 0) return setDisabled(true);   
+
+              if (innerText !== commentText && disabled) setDisabled(false);
+
+              if (innerText === commentText && !disabled) setDisabled(true);
+            }}
+          ></div>
           <i />
         </div>
         <div className="reply-button-box">
           <button
+            className="enabled"
             type="button"
             onClick={() => {
-              setPickedComment((prevState) => {
-                const {
-                  [commentData.createdAt + commentData.user_id]: _,
-                  ...rest
-                } = prevState;
-                return rest as PickComment;
-              });
+              dispatch(modalActions.clearModalInfo({ comment_id, type }));
             }}
           >
             취소
           </button>
-          <button type="submit">저장</button>
+          <button
+            className={disabled ? "disabled" : "enabled"}
+            type="submit"
+            disabled={disabled}
+          >
+            저장
+          </button>
         </div>
       </form>
     </div>

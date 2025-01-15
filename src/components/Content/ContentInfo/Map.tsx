@@ -35,7 +35,7 @@ const Map = ({ detailCommon }: MapProps) => {
   }, [detailCommon, kakao]);
 
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div>
       <div className="map">
         <strong className="label">주소</strong>
         <span>{detailCommon[0].addr1}</span>

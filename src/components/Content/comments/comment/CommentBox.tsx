@@ -1,85 +1,60 @@
-import React from "react";
-import { Comment, PickComment } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/UserDataType";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import UserComment from "./UserComment";
 import ReplyOrReviseComment from "./ReplyOrReviseComment";
 
 interface T {
-  originIndex: number;
-  replyIndex?: number;
+  origin_index: number;
+  reply_index?: number;
   deepth: number;
   type: string;
-  commentData: Comment;
-  pickedComment: PickComment;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  setReplyComments: React.Dispatch<
-    React.SetStateAction<Record<string, Comment[]>>
-  >;
-  setMyReply: React.Dispatch<
-    React.SetStateAction<Record<string, Record<string, Comment>>>
-  >;
+  comment_data: Comment;
 }
 
 const CommentBox = ({
-  originIndex,
-  replyIndex,
+  origin_index,
+  reply_index,
   deepth,
   type,
-  commentData,
-  pickedComment,
-  setPickedComment,
-  setComments,
-  setReplyComments,
-  setMyReply,
+  comment_data,
 }: T) => {
+  const comment_id = comment_data.createdAt + comment_data.user_id;
   const userData = useSelector((state: RootState) => state.firebase);
-  const comment_id = commentData.createdAt + commentData.user_id;
+  const modalInfo = useSelector((state: RootState) => state.modal);
 
   return (
     <>
-      {pickedComment[comment_id] !== "revise" ? (
+      {modalInfo.revise[comment_id] !== "revise" ? (
         <UserComment
           type={type}
-          originIndex={originIndex}
-          replyIndex={replyIndex}
-          commentData={commentData}
+          origin_index={origin_index}
+          reply_index={reply_index}
+          comment_data={comment_data}
           userData={userData}
-          pickedComment={pickedComment}
-          setPickedComment={setPickedComment}
-          setComments={setComments}
-          setReplyComments={setReplyComments}
-          setMyReply={setMyReply}
+          modalInfo={modalInfo}
         />
       ) : (
         <ReplyOrReviseComment
-          originIndex={originIndex}
-          replyIndex={replyIndex}
           deepth={deepth}
-          commentData={commentData}
-          userData={userData}
           type={"revise-" + type}
-          setPickedComment={setPickedComment}
-          setComments={setComments}
-          setReplyComments={setReplyComments}
-          setMyReply={setMyReply}
-        />
-      )}
-      {pickedComment[comment_id] === "reply" && (
-        <ReplyOrReviseComment
-          originIndex={originIndex}
-          replyIndex={replyIndex}
-          deepth={1}
-          commentData={commentData}
+          origin_index={origin_index}
+          reply_index={reply_index}
+          comment_data={comment_data}
           userData={userData}
-          type={"reply-" + type}
-          setPickedComment={setPickedComment}
-          setComments={setComments}
-          setReplyComments={setReplyComments}
-          setMyReply={setMyReply}
         />
       )}
+      {!modalInfo.revise[comment_id] &&
+        modalInfo.reply[comment_id] === "reply" && (
+          <ReplyOrReviseComment
+            deepth={1}
+            type={"reply-" + type}
+            origin_index={origin_index}
+            reply_index={reply_index}
+            comment_data={comment_data}
+            userData={userData}
+          />
+        )}
     </>
   );
 };

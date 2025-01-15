@@ -1,31 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import { useEffect, useRef, useState } from "react";
+import { Comment, UserData } from "../../../../type/UserDataType";
 import { useAppDispatch } from "../../../../redux/store";
+import { modalActions } from "../../../../redux/modal-slice";
 import { reportActions } from "../../../../redux/report-slice";
 import "./OptionModal.css";
 
 interface T {
-  commentData: Comment;
+  comment_data: Comment;
   userData: UserData;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
 }
 
-const OptionModal = ({ commentData, userData, setPickedComment }: T) => {
+const OptionModal = ({ comment_data, userData }: T) => {
   const [scrollY, setScrollY] = useState<number>(window.scrollY);
   const reff = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const { user_id, createdAt } = comment_data;
 
   useEffect(() => {
     const toggleOptionModal = (e: MouseEvent) => {
       if (!reff.current?.contains(e.target as Node)) {
         setScrollY(0);
-        setPickedComment((prevState) => ({
-          ...prevState,
-          openOption: "",
-          commentData: null,
-          commentId: "",
-          index: -100,
-        }));
+        dispatch(
+          modalActions.clearModalInfo({
+            comment_id: comment_data.createdAt + comment_data.user_id,
+          })
+        );
       }
     };
 
@@ -40,46 +39,29 @@ const OptionModal = ({ commentData, userData, setPickedComment }: T) => {
       window.removeEventListener("click", toggleOptionModal);
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [commentData, setPickedComment, scrollY]);
+  }, [dispatch, comment_data, scrollY]);
 
   const clickHandler = (type: string) => {
     if (userData.user_id === "")
-      return alert(
-        `로그인을 하시면 이용하실 수 있습니다. 
-        만약 로그인을 했을 경우, 이러한 문제가 지속적으로 발생한다면 문의해주세요!`
-      );
+      return alert(`로그인 하시면 이용하실 수 있습니다.`);
 
-    const commentId: string = commentData.createdAt + commentData.user_id;
+    const comment_id: string = createdAt + user_id;
 
     switch (true) {
       case type === "revise":
-        setPickedComment((prevState) => ({
-          ...prevState,
-          [commentId]: "revise",
-          openOption: "",
-        }));
+        dispatch(modalActions.clickReviseButton({ comment_id }));
         break;
       case type === "delete":
-        setPickedComment((prevState) => ({
-          ...prevState,
-          [commentId]: "delete",
-          openOption: "",
-        }));
+        dispatch(modalActions.openDeleteModal({ comment_id }));
         break;
       default:
-        dispatch(
-          reportActions.setReport({
-            ...commentData,
-            reporter_id: userData.user_id,
-            reporter_name: userData.user_name,
-          })
-        );
+        dispatch(reportActions.setReport({ comment_data, userData }));
     }
   };
 
   return (
     <div className="option-box" ref={reff}>
-      {commentData.user_id === userData.user_id ? (
+      {user_id === userData.user_id ? (
         <>
           <p className="option-revise" onClick={() => clickHandler("revise")}>
             수정

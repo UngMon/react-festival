@@ -78,6 +78,7 @@
       width: 120px;
       border-radius: 5px 5px 5px 5px;
       height: 40px;
+      color: #333;
     }
 
     .mo-logout:hover {

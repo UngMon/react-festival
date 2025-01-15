@@ -1,69 +1,40 @@
-import { Comment, PickComment } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/UserDataType";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import CommentBox from "../comment/CommentBox";
 import ReplyBox from "./ReplyBox";
 import "./ReplyArea.css";
 
 interface T {
-  originIndex: number;
-  originData: Comment;
-  replyComments: Record<string, Comment[]>;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  pickedComment: PickComment;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  setReplyComments: React.Dispatch<
-    React.SetStateAction<Record<string, Comment[]>>
-  >;
-  myReply: Record<string, Record<string, Comment>>;
-  setMyReply: React.Dispatch<
-    React.SetStateAction<Record<string, Record<string, Comment>>>
-  >;
+  comment_data: Comment;
+  origin_index: number;
 }
 
-const ReplyArea = ({
-  originIndex,
-  originData,
-  replyComments,
-  setComments,
-  pickedComment,
-  setPickedComment,
-  setReplyComments,
-  myReply,
-  setMyReply,
-}: T) => {
+const ReplyArea = ({ comment_data, origin_index }: T) => {
+  const myReply = useSelector((state: RootState) => state.myReply);
 
   return (
     <div className="reply-area">
-      {originData.reply_count > 0 && (
+      {comment_data.reply_count > 0 && (
         <ReplyBox
-          originIndex={originIndex}
-          originData={originData}
-          replyComments={replyComments}
-          pickedComment={pickedComment}
-          setPickedComment={setPickedComment}
-          setComments={setComments}
-          setReplyComments={setReplyComments}
+          origin_index={origin_index}
+          comment_data={comment_data}
           myReply={myReply}
-          setMyReply={setMyReply}
         />
       )}
-      {myReply[originData.createdAt + originData.user_id] &&
-        Object.values(myReply[originData.createdAt + originData.user_id]).map(
-          (item, index) => (
-            <CommentBox
-              originIndex={originIndex}
-              key={item.createdAt + item.user_id}
-              replyIndex={index}
-              deepth={0}
-              type={"my"}
-              commentData={item}
-              pickedComment={pickedComment}
-              setPickedComment={setPickedComment}
-              setComments={setComments}
-              setReplyComments={setReplyComments}
-              setMyReply={setMyReply}
-            />
-          )
-        )}
+      {myReply[comment_data.createdAt + comment_data.user_id] &&
+        Object.values(
+          myReply[comment_data.createdAt + comment_data.user_id]
+        ).map((item, index) => (
+          <CommentBox
+            origin_index={origin_index}
+            reply_index={index}
+            key={item.createdAt + item.user_id}
+            deepth={0}
+            type={"my"}
+            comment_data={item}
+          />
+        ))}
     </div>
   );
 };

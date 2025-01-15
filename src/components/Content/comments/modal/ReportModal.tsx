@@ -24,13 +24,13 @@ const ReportModal = () => {
     };
   });
 
-  const reportUserHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const reason = (event.target as HTMLFormElement).reason.value;
+  const reportUserHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const reason = (e.target as HTMLFormElement).reason.value;
 
     if (reason.length === 0) return;
 
-    const { open: boolean, ...rest } = reportState;
+    const { open: _, ...rest } = reportState;
     const contentRef = doc(db, "reportList", reportState.content_id);
 
     try {
@@ -38,7 +38,7 @@ const ReportModal = () => {
     } catch (error: any) {
       alert(error.message);
     }
-    dispatch(reportActions.setClearState());
+    clearSetState();
   };
 
   return (

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { db } from "../../../../firebase";
 import { Comment, PickComment } from "../../../../type/UserDataType";
+import { RootState, useAppDispatch } from "../../../../redux/store";
+import { useSelector } from "react-redux";
+import { replyActions } from "../../../../redux/reply-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -15,83 +18,55 @@ import CommentBox from "../comment/CommentBox";
 import LoadingSpinnerTwo from "../../../loading/LoadingSpinnerTwo";
 
 interface T {
-  originIndex: number;
-  originData: Comment;
-  replyComments: Record<string, Comment[]>;
-  pickedComment: PickComment;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  setReplyComments: React.Dispatch<
-    React.SetStateAction<Record<string, Comment[]>>
-  >;
+  origin_index: number;
+  comment_data: Comment;
   myReply: Record<string, Record<string, Comment>>;
-  setMyReply: React.Dispatch<
-    React.SetStateAction<Record<string, Record<string, Comment>>>
-  >;
 }
 
-const ReplyBox = ({
-  originIndex,
-  originData,
-  replyComments,
-  pickedComment,
-  setPickedComment,
-  setComments,
-  setReplyComments,
-  myReply,
-  setMyReply,
-}: T) => {
-  console.log('Reply Box Render!')
+const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
+  console.log("Reply Box Render!");
+  const dispatch = useAppDispatch();
+  const replyComments = useSelector((state: RootState) => state.reply.comment);
   const [open, setOpen] = useState<boolean>(false);
   const [isFristMount, setIsFirstMount] = useState<boolean>(true);
-  const [completeGetCommentsData, setCompleteGetCommentsData] =
+  const [completeGetAllCommentsData, setCompleteGetAllCommentsData] =
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const originUid = originData.createdAt + originData.user_id;
+  const { createdAt, user_id, content_id, reply_count } = comment_data;
+  const origin_id = createdAt + user_id;
 
   const getReplyDataHandler = async () => {
+    setLoading(true);
+
     const commentRef = collection(db, "comments");
 
     try {
       const Query = query(
         commentRef,
-        where("content_id", "==", originData.content_id),
-        where("origin_id", "==", originUid),
+        where("content_id", "==", content_id),
+        where("origin_id", "==", origin_id),
         orderBy("createdAt"),
         limit(25)
       );
 
       const data = await getDocs(Query);
-      const newCommentsData = data.docs.map((docs) => docs.data()) as Comment[];
+      const comment_datas = data.docs.map((docs) => docs.data()) as Comment[];
 
-      const originComment: Comment[] = JSON.parse(
-        JSON.stringify(
-          replyComments[originData.createdAt + originData.user_id] ?? []
-        )
-      );
-
-      if (newCommentsData.length > 0) {
-        // replies 속성에 배열을 담아야 합니다.
-        originComment.push(...newCommentsData);
-
-        setReplyComments((prevReply) => ({
-          ...prevReply,
-          [originData.createdAt + originData.user_id]: originComment,
-        }));
+      if (comment_datas.length > 0) {
+        dispatch(replyActions.setNewReply({ origin_id, comment_datas }));
       }
 
-      if (newCommentsData.length < 50) setCompleteGetCommentsData(true);
+      if (comment_datas.length < 25) setCompleteGetAllCommentsData(true);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
-    // setLoading(false);
+    setLoading(false);
   };
 
   const showRepliesHandler = () => {
     if (isFristMount) {
       setIsFirstMount(false);
-      // setLoading(true);
       getReplyDataHandler();
     }
 
@@ -107,37 +82,30 @@ const ReplyBox = ({
             transform: open ? "rotate(180deg)" : "",
           }}
         />
-        <span>{`${originData.reply_count}개의 답글 보기`}</span>
+        <span>{`${reply_count}개의 답글 보기`}</span>
       </div>
       {open &&
-        replyComments[originUid]?.map((item, index) => {
-          console.log(index);
+        replyComments[origin_id]?.map((item, index) => {
           const replyKey = item.createdAt + item.user_id;
 
-          if (myReply[originUid]?.[replyKey] === undefined)
+          if (myReply[origin_id]?.[replyKey] === undefined) {
             return (
               <CommentBox
                 key={replyKey}
-                originIndex={originIndex}
-                replyIndex={index}
-                type={"to-reply"}
+                origin_index={origin_index}
+                reply_index={index}
+                type={"reply"}
                 deepth={0}
-                commentData={item}
-                pickedComment={pickedComment}
-                setPickedComment={setPickedComment}
-                setComments={setComments}
-                setReplyComments={setReplyComments}
-                setMyReply={setMyReply}
+                comment_data={item}
               />
             );
-
-          return null;
+          } else return null;
         })}
       {loading ? (
         <LoadingSpinnerTwo width="25px" padding="8px" />
       ) : (
         open &&
-        !completeGetCommentsData && (
+        !completeGetAllCommentsData && (
           <button
             className="reply_more"
             type="button"

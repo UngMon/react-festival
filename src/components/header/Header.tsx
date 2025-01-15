@@ -55,7 +55,7 @@ const Header = () => {
       />
       <Menu />
       <MobileNav openNav={openNav} setOpenNav={setOpenNav} />
-      {openSearch && <Search openSearch={openSearch} setOpenSearch={setOpenSearch} />}
+      {openSearch && <Search setOpenSearch={setOpenSearch} />}
       <TopButton />
     </header>
   );

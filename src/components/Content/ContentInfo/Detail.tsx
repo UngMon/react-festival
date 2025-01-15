@@ -30,9 +30,9 @@ const Detail = ({ infoRef, content_id, type }: DetailProps) => {
   console.log("Detail Component Render");
   const dispatch = useAppDispatch();
   const [data, setContentData] = useState<Datas>();
-  const detailInfo = data?.info.response.body.items.item;
-  const detailIntro = data?.intro.response.body.items.item;
-  const detailCommon = data?.common.response.body.items.item;
+  const detailInfo = data?.info.response.body.items.item,
+    detailIntro = data?.intro.response.body.items.item,
+    detailCommon = data?.common.response.body.items.item;
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -78,15 +78,16 @@ const Detail = ({ infoRef, content_id, type }: DetailProps) => {
           <p className="infotext">{detailCommon[0].title}</p>
         </div>
       )}
-      <div className="overview">
-        {detailInfo &&
-          detailInfo.map((data, index) => (
+      {detailInfo && (
+        <div className="overview">
+          {detailInfo.map((data, index) => (
             <div className="info" key={index}>
               <strong className="infoname">{data.infoname}</strong>
               <p className="infotext">{convertText(data.infotext)}</p>
             </div>
           ))}
-      </div>
+        </div>
+      )}
       {detailCommon && <Map detailCommon={detailCommon} />}
       {detailIntro && detailCommon && (
         <BasicInfo

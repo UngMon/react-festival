@@ -9,7 +9,6 @@ import {
 import "./Search.css";
 
 interface HeaderProps {
-  openSearch: boolean;
   setOpenSearch: (value: boolean) => void;
 }
 
@@ -22,7 +21,7 @@ const Category: Array<[string, string]> = [
   ["28", "레포츠"],
 ];
 
-const Search = ({ openSearch, setOpenSearch }: HeaderProps) => {
+const Search = ({ setOpenSearch }: HeaderProps) => {
   const navigate = useNavigate();
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
   const [category, setCategory] = useState<[string, string]>(["0", "전체"]);

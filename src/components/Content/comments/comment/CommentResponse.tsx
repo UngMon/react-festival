@@ -1,6 +1,11 @@
-import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import { Comment, UserData } from "../../../../type/UserDataType";
 import { db } from "../../../../firebase";
 import { deleteField, doc, increment, updateDoc } from "firebase/firestore";
+import { useAppDispatch } from "../../../../redux/store";
+import { originCommentActions } from "../../../../redux/origin_comment-slice";
+import { replyActions } from "../../../../redux/reply-slice";
+import { modalActions } from "../../../../redux/modal-slice";
+import { myReplyActions } from "../../../../redux/my_reply-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp as faRegularThumbsUp,
@@ -14,142 +19,135 @@ import "./CommentResponse.css";
 
 interface T {
   type: string;
-  originIndex: number;
-  replyIndex?: number;
-  commentData: Comment;
+  origin_index: number;
+  reply_index?: number;
+  comment_data: Comment;
   userData: UserData;
-  setPickedComment: React.Dispatch<React.SetStateAction<PickComment>>;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  setReplyComments: React.Dispatch<
-    React.SetStateAction<Record<string, Comment[]>>
-  >;
-  setMyReply: React.Dispatch<
-    React.SetStateAction<Record<string, Record<string, Comment>>>
-  >;
 }
 
 const CommentResponse = ({
   type,
-  originIndex,
-  replyIndex,
-  commentData,
+  origin_index,
+  reply_index,
+  comment_data,
   userData,
-  setPickedComment,
-  setComments,
-  setReplyComments,
-  setMyReply,
 }: T) => {
-  const user_id = userData.user_id;
+  const dispatch = useAppDispatch();
+  const { user_id, createdAt, origin_id, emotion, dislike_count, like_count } =
+    comment_data;
 
   const feelClickHandler = async (emotion: string) => {
     if (!userData) return alert("로그인 하시면 이용하실 수 있습니다.");
-
-    const commentId = commentData.createdAt + commentData.user_id;
-    const docRef = doc(db, "comments", commentId);
+    const docRef = doc(db, "comments", createdAt + user_id);
 
     //commentData는 useState의 속성고 Comment 타입의 객체이므로 깊은 복사
-    let updatedFeild: Comment = JSON.parse(JSON.stringify(commentData));
+    let updatedField: Comment = JSON.parse(JSON.stringify(comment_data));
 
     // 댓글의 좋아요, 싫어요 카운트 설정
     let emotion_count = [0, 0];
 
     // 댓글에 좋아요, 싫어요 기록이 있는지에 관한 변수 생성
-    const existingEmotion = updatedFeild.emotion[user_id];
+    const prevEmotion = updatedField.emotion[user_id];
 
     // 사용자가 이 댓글에 좋아요, 싫어요 버튼을 누른 기록이 있는 경우,
-    if (existingEmotion === emotion) {
+    if (prevEmotion === emotion) {
       // 같은 감정 표현 아이콘을 클릭하면 삭제 (초기화)
-      delete updatedFeild.emotion[user_id];
+      delete updatedField.emotion[user_id];
       emotion_count = emotion === "좋아요" ? [-1, 0] : [0, -1];
     }
 
-    if (existingEmotion && existingEmotion !== emotion) {
+    if (prevEmotion && prevEmotion !== emotion) {
       // 다른 것을 클릭 (ex: 좋아요 -> 싫어요) value 변경
-      updatedFeild.emotion[user_id] = emotion;
+      updatedField.emotion[user_id] = emotion;
       emotion_count = emotion === "좋아요" ? [1, -1] : [-1, 1];
     }
 
-    if (existingEmotion === undefined) {
+    if (prevEmotion === undefined) {
       // 사용자가 이 댓글에 좋아요, 싫어요 버튼을 누른 기록이 없는 경우 추가,
-      updatedFeild.emotion[user_id] = emotion;
+      updatedField.emotion[user_id] = emotion;
       emotion_count = emotion === "좋아요" ? [1, 0] : [0, 1];
     }
 
-    updatedFeild.like_count += emotion_count[0];
-    updatedFeild.dislike_count += emotion_count[1];
+    updatedField.like_count += emotion_count[0];
+    updatedField.dislike_count += emotion_count[1];
 
-    if (type === "origin")
-      setComments((prevState) =>
-        prevState.map((data, index) =>
-          index !== originIndex ? data : updatedFeild
-        )
+    if (type === "origin") {
+      dispatch(
+        originCommentActions.updateComment({
+          origin_index,
+          type: "revise",
+          updatedField,
+        })
       );
+    }
 
-    if (type === "to-reply")
-      setReplyComments((prevState) => ({
-        ...prevState,
-        [commentId]: prevState[commentId].map((data, index) =>
-          index !== replyIndex ? data : updatedFeild
-        ),
-      }));
+    if (origin_id && reply_index) {
+      if (type === "reply")
+        dispatch(
+          replyActions.updateReply({ origin_id, reply_index, updatedField })
+        );
 
-    if (type === "my")
-      setMyReply((prevState) => ({
-        ...prevState,
-        [commentData.origin_id!]: {
-          ...prevState[commentData.origin_id!],
-          [commentId]: updatedFeild,
-        },
-      }));
+      if (type === "my") {
+        const comment_id = createdAt + user_id;
+        dispatch(
+          myReplyActions.updateMyReply({ origin_id, comment_id, updatedField })
+        );
+      }
+    }
 
     try {
       // Firestore 문서 업데이트
       await updateDoc(docRef, {
-        [`emotion.${user_id}`]: !updatedFeild.emotion[user_id]
+        [`emotion.${user_id}`]: !updatedField.emotion[user_id]
           ? deleteField()
           : emotion,
         like_count: increment(emotion_count[0]),
         dislike_count: increment(emotion_count[1]),
       });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
   };
 
   const replyHandler = () => {
     if (!userData) return alert("로그인 하시면 이용하실 수 있습니다.");
-    setPickedComment((prevState) => ({
-      ...prevState,
-      [commentData.createdAt + commentData.user_id]: "reply",
-    }));
+    dispatch(
+      modalActions.clickReplyButton({ comment_id: createdAt + user_id })
+    );
   };
 
   return (
     <div className="submenu">
-      <div className="sub-box">
+      <div
+        className={emotion[user_id] === "좋아요" ? "sub-box like" : "sub-box"}
+      >
         <button onClick={() => feelClickHandler("좋아요")} type="button">
           <FontAwesomeIcon
             icon={
-              commentData.emotion[user_id] === "좋아요"
+              emotion[user_id] === "좋아요"
                 ? faSolidThumbsUp
                 : faRegularThumbsUp
             }
           />
         </button>
-        <span>{commentData.like_count}</span>
+        <span>{like_count}</span>
       </div>
-      <div className="sub-box">
-        <button type="button" onClick={() => feelClickHandler("싫어요")}>
+      <div
+        className={
+          emotion[user_id] === "싫어요" ? "sub-box dislike" : "sub-box"
+        }
+      >
+        <button onClick={() => feelClickHandler("싫어요")}>
           <FontAwesomeIcon
             icon={
-              commentData.emotion[user_id] === "싫어요"
+              emotion[user_id] === "싫어요"
                 ? faSolidThumbsDown
                 : faRegularThumbsDown
             }
           />
         </button>
-        <span>{commentData.dislike_count}</span>
+        <span>{dislike_count}</span>
       </div>
       <div className="sub-box">
         <button type="button" onClick={replyHandler}>
