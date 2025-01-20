@@ -25,7 +25,6 @@ export interface Feel {
 
 export interface UserData {
   loadingState: string;
-  succesGetContentData: boolean;
   loginedUser: boolean;
   user_id: string;
   user_name: string;
@@ -33,8 +32,14 @@ export interface UserData {
   user_photo: string;
 }
 
+export interface User {
+  uid: string;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+}
+
 export interface PickComment {
-  // replyIndex: number | null;
   open: string;
   delete: string;
   comment_id: string;
@@ -44,15 +49,15 @@ export interface PickComment {
 }
 
 export interface ReportType {
-  open: boolean;
-  contentType: string;
-  contentId: string;
-  contentTitle: string;
+  open: string;
+  content_type: string;
+  content_id: string;
+  content_title: string;
   createdAt: string;
   content: string;
-  reportForReason: string;
-  reportedUserUid: string;
-  reportedUserName: string;
-  reporterUid: string;
-  reporterName: string;
+  report_reason: Record<string, string>;
+  reported_id: string;
+  reported_name: string;
+  reporter_id: string;
+  reporter_name: string;
 }

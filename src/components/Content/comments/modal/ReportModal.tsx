@@ -4,12 +4,15 @@ import { db } from "../../../../firebase";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../redux/store";
 import { reportActions } from "../../../../redux/report-slice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./ReportModal.css";
 
 const ReportModal = () => {
   const dispatch = useAppDispatch();
   const reportState = useSelector((state: RootState) => state.report);
-
+  const report_reason = reportState.report_reason;
   const clearSetState = () => dispatch(reportActions.setClearState());
 
   useEffect(() => {
@@ -26,9 +29,8 @@ const ReportModal = () => {
 
   const reportUserHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    const reason = (e.target as HTMLFormElement).reason.value;
-
-    if (reason.length === 0) return;
+    if (Object.keys(reportState.report_reason).length === 0)
+      return alert("신고 사유를 선택해주세요!");
 
     const { open: _, ...rest } = reportState;
     const contentRef = doc(db, "reportList", reportState.content_id);
@@ -41,62 +43,80 @@ const ReportModal = () => {
     clearSetState();
   };
 
+  const listClickHandler = (category: string) => {
+    dispatch(reportActions.checkList({ category }));
+  };
+
   return (
-    <>
-      {reportState.open && (
-        <div className="report-container" onClick={clearSetState}>
-          <form
-            id="report-modal"
-            onSubmit={reportUserHandler}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="report-modal-title">사용자 신고</div>
-            <label htmlFor="reason1">
-              <input
-                type="radio"
-                id="reason1"
-                name="reason"
-                value="상업성 콘텐츠 또는 스팸"
-              />
-              <span>상업성 콘텐츠 또는 스팸</span>
-            </label>
-            <label htmlFor="reason2">
-              <input
-                type="radio"
-                id="reason2"
-                name="reason"
-                value="포르노 또는 음란물"
-              />
-              <span>음란물 또는 성희롱</span>
-            </label>
-            <label htmlFor="reason4">
-              <input
-                type="radio"
-                id="reason4"
-                name="reason"
-                value="괴롭힘 또는 폭력/욕설"
-              />
-              <span>괴롭힘 또는 폭력/욕설</span>
-            </label>
-            <label htmlFor="reason5">
-              <input
-                type="radio"
-                id="reason5"
-                name="reason"
-                value="허위 과장 정보"
-              />
-              <span>허위 과장 정보</span>
-            </label>
-            <div id="report-button-box">
-              <button type="button" onClick={clearSetState}>
-                취소
-              </button>
-              <button type="submit">신고</button>
-            </div>
-          </form>
+    <div className="report-container" onClick={clearSetState}>
+      <form
+        className="report-form"
+        onSubmit={reportUserHandler}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="report-title">
+          <span>사용자 신고</span>
         </div>
-      )}
-    </>
+        <div className="report-cancel">
+          <button type="button" onClick={clearSetState}>
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+        </div>
+        <ul>
+          <li onClick={() => listClickHandler("스펨/상업")}>
+            <div
+              className={`check-box ${
+                report_reason["스펨/상업"] ? "checked" : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faSquareCheck} />
+            </div>
+            <div>
+              <span>상업성 콘텐츠 또는 스팸</span>
+            </div>
+          </li>
+          <li onClick={() => listClickHandler("포르노/음란물")}>
+            <div
+              className={`check-box ${
+                report_reason["포르노/음란물"] ? "checked" : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faSquareCheck} />
+            </div>
+            <div>
+              <span>포르노 또는 음란물</span>
+            </div>
+          </li>
+          <li onClick={() => listClickHandler("괴롭힘/폭력/욕설")}>
+            <div
+              className={`check-box ${
+                report_reason["괴롭힘/폭력/욕설"] ? "checked" : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faSquareCheck} />
+            </div>
+            <div>
+              <span>괴롭힘 또는 폭력/욕설</span>
+            </div>
+          </li>
+          <li onClick={() => listClickHandler("허위/과장")}>
+            <div
+              className={`check-box ${
+                report_reason["허위/과장"] ? "checked" : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faSquareCheck} />
+            </div>
+            <div>
+              <span>허위 과장 정보</span>
+            </div>
+          </li>
+        </ul>
+        <div className="report-button-box">
+          <button type="submit">제출</button>
+        </div>
+      </form>
+    </div>
   );
 };
 

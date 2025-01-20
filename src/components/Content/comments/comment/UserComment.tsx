@@ -21,7 +21,6 @@ const UserComment = ({
   userData,
   modalInfo,
 }: T) => {
-
   return (
     <div className="comment-container">
       <UserIcon
@@ -29,10 +28,12 @@ const UserComment = ({
         user_name={comment_data.user_name}
       />
       <div className="top">
-        <span className="name">{comment_data.user_name}</span>
-        {comment_data.isRevised && (
-          <span className="revi">&nbsp;&nbsp;(수정됨)</span>
-        )}
+        <div>
+          <span className="name">{comment_data.user_name}</span>
+          {comment_data.isRevised && (
+            <span className="revised">&nbsp;&nbsp;(수정됨)</span>
+          )}
+        </div>
         <CommentOption
           origin_index={origin_index}
           reply_index={reply_index}

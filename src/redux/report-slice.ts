@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Comment, UserData } from "../type/UserDataType";
+import { Comment, ReportType, UserData } from "../type/UserDataType";
 
-const initialState = {
-  open: '',
+const initialState: ReportType = {
+  open: "",
   content_type: "",
   content_id: "",
   content_title: "",
   createdAt: "",
   content: "",
-  report_reason: "",
+  report_reason: {},
   reported_id: "",
   reported_name: "",
   reporter_id: "",
@@ -19,6 +19,22 @@ const reportSlice = createSlice({
   name: "report",
   initialState,
   reducers: {
+    checkList(state, action: PayloadAction<{ category: string }>) {
+      const category = action.payload.category;
+
+      if (state.report_reason[category]) {
+        delete state.report_reason[category];
+      } else {
+        if (
+          typeof state.report_reason !== "object" ||
+          state.report_reason === null
+        ) {
+          state.report_reason = {};
+        }
+
+        state.report_reason[category] = category;
+      }
+    },
     setReport(
       state,
       action: PayloadAction<{
@@ -46,7 +62,7 @@ const reportSlice = createSlice({
         content_id,
         content,
         createdAt,
-        report_reason: action.payload.report_reason || '',
+        report_reason: action.payload.report_reason || "",
         reported_id: user_id,
         reported_name: user_name,
         reporter_id: userData.user_id,
@@ -54,13 +70,13 @@ const reportSlice = createSlice({
       });
     },
     setClearState(state) {
-      state.open = '';
+      state.open = "";
       state.content_type = "";
       state.content_id = "";
       state.content_title = "";
       state.createdAt = "";
       state.content = "";
-      state.report_reason = "";
+      state.report_reason = {};
       state.reported_id = "";
       state.reported_name = "";
       state.reporter_id = "";

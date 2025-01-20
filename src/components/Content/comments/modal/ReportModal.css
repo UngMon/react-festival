@@ -11,64 +11,90 @@
   align-items: center;
 }
 
-#report-modal {
+.report-form {
+  position: relative;
   box-sizing: border-box;
-  width: 80%;
-  max-width: 300px;
-  height: 290px;
-  background-color: rgb(247, 247, 247);
-  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  z-index: 100;
-}
-
-.report-modal-title {
-  width: 100%;
-  height: 35px;
-  text-align: center;
-  background-color: rgb(228, 228, 228);
-  margin-bottom: 10px;
-  border-radius: 10px 10px 0 0;
-  line-height: 35px;
-}
-
-#report-modal label {
-  padding: 10px 20px;
-  line-height: 30px;
-  display: flex;
-  align-items: center;
-}
-
-#report-modal input {
-  width: 20px;
-  margin-right: 5px;
-}
-
-#report-modal span {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#report-button-box {
-  text-align: right;
+  padding: 20px 20px;
+  border-radius: 20px 20px 20px 20px;
+  min-width: 200px;
   width: 90%;
-  padding: 5px 5% 0;
+  max-width: 350px;
+  background-color: rgb(251, 251, 251);
+  font-size: 16px;
 }
 
-#report-button-box button {
-  width: 40px;
+.report-title {
+  margin: 30px 0 20px 12px;
+  width: 100%;
   height: 30px;
-  margin-left: 15px;
-  border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  color: #333;
+  font-size: 1em;
+  text-align: left;
+  line-height: 30px;
+  font-weight: bold;
 }
 
-#report-button-box button:hover {
+.report-cancel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  button {
+    color: black;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: rgb(41, 112, 254);
+      color: white;
+      cursor: pointer;
+    }
+  }
+}
+
+.report-form ul li {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
   cursor: pointer;
-  color: white;
-  background-color: rgb(70, 98, 253);
+
+  &:hover {
+    background-color: rgb(233, 233, 233);
+  }
+}
+
+.check-box {
+  width: 40px;
+  color: rgb(199, 199, 199);
+  font-size: 20px;
+}
+
+.checked {
+  color: rgb(2, 222, 35);
+}
+
+.report-button-box {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
+.report-button-box button {
+  margin-top: 20px;
+  margin-right: 10px;
+  width: 70px;
+  height: 45px;
+  border: 2px solid rgb(233, 233, 233);
+  border-radius: 8px;
+  color: #333;
+  font-weight: 550;
+  font-size: 0.9em;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(41, 112, 254);
+    color: white;
+    border-color: rgb(41, 112, 254);;
+  }
 }

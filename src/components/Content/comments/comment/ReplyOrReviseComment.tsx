@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Comment, UserData } from "../../../../type/UserDataType";
 import { useAppDispatch } from "../../../../redux/store";
 import { originCommentActions } from "../../../../redux/origin_comment-slice";

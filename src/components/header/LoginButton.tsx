@@ -22,19 +22,18 @@ const LoginButton = () => {
   const userImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    onAuthStateChanged(getAuth(), (user) => {
-      if (user) {
+    if (userData.loadingState === "fulfilled") return;
+    onAuthStateChanged(getAuth(), (userInfo) => {
+      if (userInfo) {
+        const { uid, displayName, email, photoURL } = userInfo!;
         dispatch(
-          firebaseActions.login({
-            user_id: user.uid,
-            user_name: user.displayName || "",
-            user_email: user.email || "",
-            user_photo: user.photoURL || "",
-          })
+          firebaseActions.login({ user: { uid, displayName, email, photoURL } })
         );
-      } else dispatch(firebaseActions.userDataNotFound());
+      } else {
+        dispatch(firebaseActions.userNotFound());
+      }
     });
-  }, [dispatch]);
+  }, [userData, dispatch]);
 
   useEffect(() => {
     if (!userModalOpen) return;
