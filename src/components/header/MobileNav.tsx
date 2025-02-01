@@ -29,8 +29,9 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
   };
 
   useEffect(() => {
+    if (!openNav) return;
+
     const resizeHandler = () => {
-      if (!openNav) return;
 
       if (window.innerWidth >= 1024) setOpenNav(false);
     };
@@ -38,7 +39,7 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
     window.addEventListener("resize", resizeHandler);
 
     return () => window.removeEventListener("resize", resizeHandler);
-  });
+  }, [openNav, setOpenNav]);
 
   return (
     <div className="side-container">

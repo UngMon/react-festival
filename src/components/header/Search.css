@@ -24,7 +24,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
 
@@ -60,9 +60,12 @@
   position: absolute;
   top: 0;
   left: 0;
+  color: #F5F5F5 !important;
   height: 100%;
   text-align: center;
   font-size: clamp(14px, 4.375vw, 18px);
+  user-select: none;
+  cursor: pointer;
 
   .category {
     width: clamp(60px, 18.75vw, 80px);
@@ -73,7 +76,7 @@
     position: absolute;
     left: 0;
     top: clamp(40px, 12.5vw, 60px);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
   ul li {
@@ -145,4 +148,12 @@
   right: 0px;
   font-size: 35px;
   cursor: pointer;
+
+  &:hover {
+    color: orange;
+  }
+}
+
+.search-box form #search:hover {
+  color: orange;
 }

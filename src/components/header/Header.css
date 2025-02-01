@@ -10,10 +10,20 @@
   z-index: 14;
   display: flex;
   align-items: center;
+  color: #F5F5F5;
+  transition: color 0.15s ease-in, background 0.15s ease-in;
 
   &:hover {
+    background: #F5F5F5 !important;
+    color: #333 !important;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
   }
+}
+
+.h-o {
+  position: relative !important;
+  background: #F5F5F5 !important;
+  color: #333 !important;
 }
 
 @media (max-width: 1023.9px) {

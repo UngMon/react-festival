@@ -1,0 +1,61 @@
+/* HTML: <div class="loader"></div> */
+.loading-three {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  --w: 13ch;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  letter-spacing: var(--w);
+  width: var(--w);
+  overflow: hidden;
+  white-space: nowrap;
+  text-shadow: calc(-1 * var(--w)) 0, calc(-2 * var(--w)) 0,
+    calc(-3 * var(--w)) 0, calc(-4 * var(--w)) 0, calc(-5 * var(--w)) 0,
+    calc(-6 * var(--w)) 0, calc(-7 * var(--w)) 0, calc(-8 * var(--w)) 0,
+    calc(-9 * var(--w)) 0, calc(-10 * var(--w)) 0, calc(-11 * var(--w)) 0,
+    calc(-12 * var(--w)) 0;
+  animation: l16 2s infinite;
+}
+.loader:before {
+  content: "Logging in...";
+}
+@keyframes l16 {
+  20% {
+    text-shadow: calc(-1 * var(--w)) 0 blue,
+      calc(-2 * var(--w)) 0 red, calc(-3 * var(--w)) 0,
+      calc(-4 * var(--w)) 0 #ffa516, calc(-5 * var(--w)) 0 #63fff4,
+      calc(-6 * var(--w)) 0, calc(-7 * var(--w)) 0, calc(-8 * var(--w)) 0 green,
+      calc(-9 * var(--w)) 0, calc(-10 * var(--w)) 0 yellow,
+      calc(-11 * var(--w)) 0, calc(-12 * var(--w)) 0 hotpink;
+  }
+  40% {
+    text-shadow: calc(-1 * var(--w)) 0, calc(-2 * var(--w)) 0 red,
+      calc(-3 * var(--w)) 0 #e945e9, calc(-4 * var(--w)) 0,
+      calc(-5 * var(--w)) 0 green, calc(-6 * var(--w)) 0 orange,
+      calc(-7 * var(--w)) 0, calc(-8 * var(--w)) 0 green, calc(-9 * var(--w)) 0,
+      calc(-10 * var(--w)) 0, calc(-11 * var(--w)) 0, calc(-12 * var(--w)) 0;
+  }
+  60% {
+    text-shadow: calc(-1 * var(--w)) 0 lightblue, calc(-2 * var(--w)) 0,
+      calc(-3 * var(--w)) 0 #e945e9, calc(-4 * var(--w)) 0,
+      calc(-5 * var(--w)) 0 green, calc(-6 * var(--w)) 0,
+      calc(-7 * var(--w)) 0 yellow, calc(-8 * var(--w)) 0 #ffa516,
+      calc(-9 * var(--w)) 0 red, calc(-10 * var(--w)) 0 midnightblue,
+      calc(-11 * var(--w)) 0, calc(-12 * var(--w)) 0 tomato;
+  }
+  80% {
+    text-shadow: calc(-1 * var(--w)) 0 red, calc(-2 * var(--w)) 0 yellow,
+      calc(-3 * var(--w)) 0 #63fff4, calc(-4 * var(--w)) 0 #ffa516,
+      calc(-5 * var(--w)) 0 red, calc(-6 * var(--w)) 0,
+      calc(-7 * var(--w)) 0 grey, calc(-8 * var(--w)) 0 #63fff4,
+      calc(-9 * var(--w)) 0, calc(-10 * var(--w)) 0 green,
+      calc(-11 * var(--w)) 0 #e945e9, calc(-12 * var(--w)) 0 red;
+  }
+}

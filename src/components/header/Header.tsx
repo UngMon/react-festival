@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Menu from "./Menu";
 import Search from "./Search";
@@ -9,47 +9,40 @@ import "./Header.css";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [openNav, setOpenNav] = useState<boolean>(false);
+  const headRef = useRef<HTMLHeadElement>(null);
 
-  const mouseEnter = () => {
-    if (pathname !== "/") return;
-    setMouseOver(true);
-  };
+  useEffect(() => {
+    if (pathname !== "/" && !headRef.current) return;
 
-  const mouseLeave = () => {
-    if (pathname !== "/") return;
-    setMouseOver(false);
-  };
+    const scrollHandler = () => {
+      if (window.scrollY === 0) {
+        console.log(pathname);
+        headRef.current!.style.position = "absolute";
+        headRef.current!.style.background = "none";
+        headRef.current!.style.color = "#F5F5F5";
+        return;
+      }
 
-  let fontColor: string = "";
-  let backgroundColor: string = "";
+      headRef.current!.style.position = "fixed";
+      headRef.current!.style.background = "#F5F5F5";
+      headRef.current!.style.color = "#333";
+    };
 
-  if (window.innerWidth >= 1024) {
-    backgroundColor =
-      pathname === "/" ? (mouseOver ? "#F5F5F5" : "transparent") : "#F5F5F5";
-    fontColor = pathname === "/" ? (mouseOver ? "#333" : "#F5F5F5") : "#333";
-  } else {
-    backgroundColor = pathname === "/" ? "transparent" : "#F5F5F5";
-    fontColor = pathname === "/" ? "#F5F5F5" : "#333";
-  }
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, [pathname]);
 
   return (
     <header
-      className="Header-box no-print"
-      style={{
-        position: pathname === "/" ? "absolute" : "unset",
-        backgroundColor: backgroundColor,
-        color: fontColor,
-      }}
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
+      ref={headRef}
+      className={`Header-box ${pathname !== "/" ? "h-o" : ""}`}
     >
       <HeaderTop
         openNav={openNav}
         setOpenNav={setOpenNav}
-        setMouseOver={setMouseOver}
         openSearch={openSearch}
         setOpenSearch={setOpenSearch}
       />

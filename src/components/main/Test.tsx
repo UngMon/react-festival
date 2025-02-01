@@ -3,14 +3,14 @@ import BottomSlide from "./BottomSlide";
 
 const style: React.CSSProperties = {
   width: "100%",
-  overflowX: 'hidden',
+  overflowX: "hidden",
   fontSize: "16px",
 };
 
 const Test = () => {
   return (
-    <main style={style}>  
-      <TopSlide />
+    <main style={style}>
+      <TopSlide /> 
       <BottomSlide />
     </main>
   );

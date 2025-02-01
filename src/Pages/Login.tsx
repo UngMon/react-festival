@@ -9,9 +9,9 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   AuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
-import Loading from "../components/loading/Loading";
+import LoadingThree from "../components/loading/LoadingThree";
 import LoginAccessError from "../components/error/LoginAccessError";
 import KakaoLogin from "../components/login/Kakao";
 import Naver from "../components/login/Naver";
@@ -38,7 +38,7 @@ const LoginPage = () => {
           provider = new FacebookAuthProvider();
         }
 
-        signInWithPopup(auth, provider!)
+        signInWithRedirect(auth, provider!)
           .then(() => {
             navigate(previouseUrl, { replace: true });
           })
@@ -49,7 +49,7 @@ const LoginPage = () => {
             // The email of the user's account used.
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(credential, errorCode, errorMessage);
+            console.error(credential, errorCode, errorMessage);
           });
       })
       .catch((error) => {
@@ -59,11 +59,10 @@ const LoginPage = () => {
       });
     setLoading(false);
   };
-  //http://localhost:3000/content/search?type=12&contentId=791626
 
   return (
     <>
-      {loading && <Loading />}
+      {loading && <LoadingThree />}
       {userData.user_id && <LoginAccessError />}
       {!loading && !userData.user_id && (
         <form className="Login-Form">
@@ -89,7 +88,7 @@ const LoginPage = () => {
             <span>페이스북 로그인</span>
           </div>
           <KakaoLogin setLoading={setLoading} />
-          <Naver />
+          <Naver setLoading={setLoading} />
         </form>
       )}
     </>

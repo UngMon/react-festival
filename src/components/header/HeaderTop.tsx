@@ -7,7 +7,6 @@ import "./HeaderTop.css";
 interface T {
   openNav: boolean;
   setOpenNav: (value: boolean) => void;
-  setMouseOver: (value: boolean) => void;
   openSearch: boolean;
   setOpenSearch: (value: boolean) => void;
 }
@@ -15,19 +14,14 @@ interface T {
 const HeaderTop = ({
   openNav,
   setOpenNav,
-  setMouseOver,
   openSearch,
   setOpenSearch,
 }: T) => {
+  
   const clickHandler = () => {
     if (openSearch) return;
     setOpenNav(!openNav);
     openSearch && setOpenSearch(false);
-  };
-
-  const saerchClickHandler = () => {
-    setOpenSearch(!openSearch);
-    setMouseOver(false);
   };
 
   return (
@@ -38,24 +32,14 @@ const HeaderTop = ({
       <div className="page-top-interaction">
         <button
           className="magnifying"
-          onClick={saerchClickHandler}
-          style={{ color: openNav ? "black" : "inherit" }}
+          onClick={() => setOpenSearch(!openSearch)}
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
         <button id="nav-bar" onClick={clickHandler}>
-          <div
-            className={`bar ${openNav ? "ro-t45" : ""}`}
-            style={{ borderColor: openNav ? "black" : "inherit" }}
-          />
-          <div
-            className={`bar ${openNav ? "fadeout" : ""}`}
-            style={{ borderColor: openNav ? "black" : "inherit" }}
-          />
-          <div
-            className={`bar ${openNav ? "ro-b45" : ""}`}
-            style={{ borderColor: openNav ? "black" : "inherit" }}
-          />
+          <div className={`bar ${openNav ? "ro-t45" : ""}`} />
+          <div className={`bar ${openNav ? "fadeout" : ""}`} />
+          <div className={`bar ${openNav ? "ro-b45" : ""}`} />
         </button>
         <LoginButton />
       </div>

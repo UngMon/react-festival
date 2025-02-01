@@ -14,7 +14,11 @@ interface Auth {
   firebaseToken: string;
 }
 
-const Naver = () => {
+type NaverProps = {
+  setLoading: (bool: boolean) => void;
+};
+
+const Naver = ({ setLoading }: NaverProps) => {
   const navigate = useNavigate();
   const naverRef = useRef<HTMLDivElement>(null);
 
@@ -38,15 +42,15 @@ const Naver = () => {
     const getDataUser = async () => {
       try {
         const res: AxiosResponse<Auth> = await axios.get(
-          `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/naver?token=${token}`,
-          { headers: { Authorization: token } }
+          `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/naver`,
+          { headers: { authorization: token } }
         );
         const { firebaseToken } = res.data;
         await signInWithCustomToken(firebaseAuth, firebaseToken);
         navigate("/", { replace: true });
       } catch (error: any) {
+        alert(error.message);
         navigate("/", { replace: true });
-        alert("네이버 로그인중에 오류가 발생했습니다.");
       }
     };
     getDataUser();

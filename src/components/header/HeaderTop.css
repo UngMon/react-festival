@@ -6,78 +6,86 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
 
-  .Logo {
-    display: block;
-    line-height: 40px;
-    height: 40px;
-    color: inherit;
+.Logo {
+  display: block;
+  line-height: 40px;
+  height: 40px;
+  color: inherit;
 
-    span {
-      font-size: 1.3em;
-    }
+  span {
+    font-size: 1.3em;
+  }
+}
+
+.page-top-interaction {
+  display: flex;
+  align-items: center;
+}
+
+.magnifying {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  background-color: transparent;
+  z-index: 99;
+  color: inherit;
+  cursor: pointer;
+
+  svg {
+    font-size: 1.8em;
   }
 
-  .page-top-interaction {
-    display: flex;
-    align-items: center;
+  &:hover {
+    color: orange !important;
+  }
+}
 
-    .magnifying {
-      width: 35px;
-      height: 35px;
-      border: 0;
-      background-color: transparent;
-      z-index: 99;
+#nav-bar {
+  box-sizing: border-box;
+  margin-left: 5px;
+  padding: 0 5px;
+  border: 0;
+  width: 35px;
+  height: 35px;
+  z-index: 14;
+  color: inherit;
+  display: none;
+  cursor: pointer;
 
-      svg {
-        font-size: 1.8em;
-      }
-    }
+  .bar {
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid;
+    margin: 4px 0;
+    border-color: inherit;
+    transition: transform 0.2s linear;
+  }
 
-    #nav-bar {
-      box-sizing: border-box;
-      margin-left: 5px;
-      background-color: transparent;
-      padding: 0 5px;
-      width: 35px;
-      height: 35px;
-      border: 0;
-      z-index: 14;
-      color: inherit;
-      display: none;
+  .ro-t45 {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
 
-      .bar {
-        box-sizing: border-box;
-        width: 100%;
-        border: 2px solid;
-        margin: 4px 0;
-        border-color: inherit;
-        transition: transform 0.2s linear;
-      }
+  .fadeout {
+    opacity: 0;
+  }
 
-      .ro-t45 {
-        transform: rotate(45deg) translate(5px, 5px);
-      }
-
-      .fadeout {
-        opacity: 0;
-      }
-
-      .ro-b45 {
-        transform: rotate(-45deg) translate(5.5px, -6px);
-      }
-    }
+  .ro-b45 {
+    transform: rotate(-45deg) translate(5.5px, -6px);
   }
 }
 
 @media (max-width: 1023.99px) {
   .Header-top {
     width: 100%;
+  }
 
-    .page-top-interaction {
-      #nav-bar {
-        display: block;
-      }
-    }
+  #nav-bar {
+    display: block;
+  }
+
+  .magnifying:hover {
+    color: inherit !important;
   }
 }

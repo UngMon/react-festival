@@ -33,17 +33,18 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
 
     if (!authorizeCode) return;
 
+    setLoading(true);
+
     const kakaoLoginAttempt = async () => {
       try {
         const response: AxiosResponse<Auth> = await axios.post(
-          `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao`,
-          { code: authorizeCode }
+          `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao/auth/kakao`,
+          { authorizeCode }
         );
         const { firebaseToken } = response.data;
         await signInWithCustomToken(firebaseAuth, firebaseToken);
         navigate("/", { replace: true });
       } catch (error: any) {
-        console.log(error)
         alert(error.message);
         setLoading(false);
         navigate("/", { replace: true });
@@ -55,7 +56,6 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
 
   const kakaoLoginHandler = () => {
     // 카카오 버튼을 누르면 카카오 서버로부터 로그인 페이지를 요청,
-    // 로그인 성공시에 인가코드를 파라미터에 저장하여 리다이렉트 해준다.
     setLoading(true);
     Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,

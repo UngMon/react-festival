@@ -6,8 +6,8 @@ import {
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./TopSlide.css";
 import { Link } from "react-router-dom";
+import "./TopSlide.css";
 
 const top = [
   {

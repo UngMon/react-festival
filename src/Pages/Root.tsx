@@ -6,7 +6,6 @@ import ScrollToTop from "../ScrollToTop";
 const RootLayout = () => {
   return (
     <>
-      <ScrollToTop />
       <Header />
       <Outlet />
       <Footer />

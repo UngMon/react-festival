@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -37,8 +37,8 @@ const Search = ({ setOpenSearch }: HeaderProps) => {
     return () => window.removeEventListener("keydown", keyDownHandler);
   });
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const keyword = inputRef.current!.value;
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
@@ -71,7 +71,9 @@ const Search = ({ setOpenSearch }: HeaderProps) => {
                   </li>
                 ))}
               </ul>
-              <FontAwesomeIcon icon={faAngleDown} />
+              <div style={{transform: openKeyword ? 'rotate(180deg)': ''}}>
+                <FontAwesomeIcon icon={faAngleDown} />
+              </div>
             </div>
             <label htmlFor="전체검색"></label>
             <input

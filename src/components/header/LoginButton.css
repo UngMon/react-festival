@@ -6,11 +6,11 @@
   font-size: 1.4em;
   text-align: center;
   line-height: 43px;
-}
 
-.login:hover {
-  cursor: pointer;
-  color: gold
+  &:hover {
+    cursor: pointer;
+    color: orange
+  }
 }
 
 .userPhoto-box {
