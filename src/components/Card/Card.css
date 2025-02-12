@@ -1,7 +1,7 @@
 .main-box-content {
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 20px 20px 100px;
+  padding: 20px 20px 50px;
   position: relative;
   font-size: 16px;
 }
@@ -22,7 +22,7 @@
 .not-found-category {
   grid-column-end: span 4;
   text-align: center;
-  height: 200px;
+  height: 350px;
 }
 
 .not-found-category p {
@@ -70,18 +70,15 @@
   border-radius: 5px;
   font-size: 0.8em;
   line-height: 30px;
+  background-color: rgb(38, 223, 38);
 }
 
-.ing {
+.진행중 {
   background-color: orange;
 }
 
-.end {
+.행사종료 {
   background-color: #494ff3;
-}
-
-.aft {
-  background-color: rgb(38, 223, 38);
 }
 
 .card-text {

@@ -104,7 +104,7 @@ const TopSlide = () => {
     }
 
     const time = setTimeout(() => {
-      setCount(count < top.length - 1 ? count + 1 : 0);
+      setCount(nextIndex);
       timeBarRef.current!.className = "time-bar";
     }, 8000);
 
@@ -115,11 +115,7 @@ const TopSlide = () => {
   }, [count, stop]);
 
   const sideButtonClickHandler = (type: string) => {
-    let time: number = 0;
-    if (!stop) {
-      pauseClickHandler();
-      time = 50;
-    }
+    if (!stop) pauseClickHandler();
 
     const currentImageRef = imageRef.current[count];
 
@@ -145,7 +141,7 @@ const TopSlide = () => {
 
         if (currentImageRef && nextImageRef) {
           currentImageRef.style.opacity = "0";
-          currentImageRef.style.transition = "opacity 1s ease-in-out";
+          currentImageRef.style.transition = "opacity 1s ease";
           currentImageRef.style.zIndex = "1";
 
           nextImageRef.style.opacity = "1";
@@ -155,7 +151,7 @@ const TopSlide = () => {
 
         setCount(nextIndex);
       }
-    }, time);
+    }, 0);
   };
 
   const pauseClickHandler = () => {

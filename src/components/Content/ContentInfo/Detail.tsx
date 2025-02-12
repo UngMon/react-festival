@@ -62,11 +62,7 @@ const Detail = ({ infoRef, content_id, type }: DetailProps) => {
 
   return (
     <div className="Cotent-text-box" ref={infoRef}>
-      {loading && (
-        <div style={{ height: 500 }}>
-          <Loading />
-        </div>
-      )}
+      {loading && <Loading height="400px" />}
       {!loading && !detailCommon && !detailInfo && !detailIntro && (
         <div className="Content-get-error">
           데이터를 불러오는데 오류가 발생했습니다.

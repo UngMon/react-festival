@@ -1,3 +1,13 @@
+import { CheckParams } from "../hooks/useCheckParams";
+
+export type TitleType =
+  | "tour"
+  | "culture"
+  | "festival"
+  | "travel"
+  | "leports"
+  | "search";
+
 export type Item = {
   cat1: string;
   cat2: string;
@@ -23,24 +33,24 @@ export type FetchRespon = {
   };
 };
 
-export type Month = Record<string, Item[]>;
-
-export type Region = Record<string, Item[]>;
-
-export type Data = Record<
-  string,
-  Record<string, Record<string, Record<string, Item[]>>>
->;
-
 export interface FetchParams {
-  contentTypeId: string;
-  title: string;
-  areaCode: string;
-  cat1: string;
-  cat2: string;
-  cat3: string;
+  numOfRows: number;
+  page?: number;
+  title: TitleType;
+  params: CheckParams;
+}
+
+export interface FetchTourData {
+  numOfRows: number;
+  page: number;
+  data: FetchRespon;
+  areaCode?: string;
+  cat1?: string;
+  cat2?: string;
+  cat3?: string;
+  contentTypeId?: string;
+  title: TitleType;
   keyword?: string;
-  page: string;
 }
 
 type It = {
@@ -57,14 +67,6 @@ export type Sigun = {
       };
     };
   };
-};
-
-export const TitleEnglishName: Record<string, string> = {
-  관광지: "tour",
-  문화시설: "culture",
-  "축제/공연/행사": "festival",
-  여행코스: "travel",
-  레포츠: "leports",
 };
 
 export const ContentIdCode: Record<string, string> = {
@@ -481,6 +483,7 @@ export const cat3Code: Record<string, string> = {
   A02081100: "영화",
   A02081200: "스포츠경기",
   A02081300: "기타행사",
+  A02081400: "넌버벌",
   C01120001: "가족코스",
   C01130001: "나홀로코스",
   C01140001: "힐링코스",
@@ -653,6 +656,8 @@ export const TagCode: Record<string, Record<string, string>> = {
   },
   "15": {
     전체: "all",
+    문화관광축제: "A02070100",
+    일반축제: "A02070200",
     전통공연: "A02080100",
     연극: "A02080200",
     뮤지컬: "A02080300",
@@ -665,6 +670,7 @@ export const TagCode: Record<string, Record<string, string>> = {
     영화: "A02081100",
     스포츠경기: "A02081200",
     기타행사: "A02081300",
+    넌버벌: "A02081400"
   },
   // C0112: {
   //   전체: "all",

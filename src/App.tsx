@@ -32,8 +32,8 @@ function App() {
           path: "tour",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="관광지" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="tour" />
             </Suspense>
           ),
         },
@@ -41,8 +41,8 @@ function App() {
           path: "culture",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="문화시설" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="culture" />
             </Suspense>
           ),
         },
@@ -50,8 +50,8 @@ function App() {
           path: "festival",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="축제/공연/행사" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="festival" />
             </Suspense>
           ),
         },
@@ -59,8 +59,8 @@ function App() {
           path: "travel",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="여행코스" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="travel" />
             </Suspense>
           ),
         },
@@ -68,17 +68,17 @@ function App() {
           path: "leports",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="레포츠" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="leports" />
             </Suspense>
           ),
         },
         {
-          path: "result",
+          path: "search",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading />}>
-              <Main title="검색" />
+            <Suspense fallback={<Loading height="400px"/>}>
+              <Main title="search" />
             </Suspense>
           ),
         },
@@ -89,7 +89,7 @@ function App() {
             {
               path: ":contentId",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading height="400px"/>}>
                   <Content />
                 </Suspense>
               ),
@@ -99,7 +99,7 @@ function App() {
         {
           path: "/pick",
           element: (
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading height="400px"/>}>
               <Theme />
             </Suspense>
           ),
@@ -107,7 +107,7 @@ function App() {
         {
           path: "/etc",
           element: (
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading height="400px"/>}>
               <EtcLayout />
             </Suspense>
           ),
@@ -115,7 +115,7 @@ function App() {
             {
               path: "about",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading height="400px"/>}>
                   <About />
                 </Suspense>
               ),
@@ -123,7 +123,7 @@ function App() {
             {
               path: "privacypolicy",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading height="400px"/>}>
                   <PrivacyPolicy />
                 </Suspense>
               ),
@@ -131,7 +131,7 @@ function App() {
             {
               path: "service",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading height="400px"/>}>
                   <Service />
                 </Suspense>
               ),
@@ -139,7 +139,7 @@ function App() {
             {
               path: "question",
               element: (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading height="400px"/>}>
                   <Question />
                 </Suspense>
               ),
@@ -151,7 +151,7 @@ function App() {
     {
       path: "/login",
       element: (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading height="400px"/>}>
           <LoginPage />
         </Suspense>
       ),
@@ -164,7 +164,7 @@ function App() {
     {
       path: "*",
       element: (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading height="400px"/>}>
           <PageNotFound />
         </Suspense>
       ),

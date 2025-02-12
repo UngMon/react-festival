@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { TitleEnglishName } from "../../type/Common";
+// import { TitleEnglishName } from "../../type/FetchType";
 
 interface T {
   title: string;
@@ -32,13 +32,13 @@ const Category = ({
 
     if (cat === "cat1") {
       navigate(
-        `/${TitleEnglishName[title]}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
+        `/${title}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
     if (cat === "cat2") {
       navigate(
-        `/${TitleEnglishName[title]}?${
+        `/${title}?${
           title === "축제/공연/행사" ? `month=${month}&` : ""
         }contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
@@ -46,7 +46,7 @@ const Category = ({
 
     if (cat === "cat3") {
       navigate(
-        `/${TitleEnglishName[title]}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${title}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
   };

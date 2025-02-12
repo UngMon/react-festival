@@ -14,7 +14,7 @@ const MonthSelector = ({ month, type, areaCode }: T) => {
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     navigate(
-      `/festival?month=${value}&type=${type}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`
+      `/festival?contentTypeId=${type}&month=${value}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`
     );
   };
 

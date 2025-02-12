@@ -32,6 +32,7 @@
   z-index: 99;
   color: inherit;
   cursor: pointer;
+  outline: none;
 
   svg {
     font-size: 1.8em;

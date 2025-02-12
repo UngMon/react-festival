@@ -1,5 +1,5 @@
 import { ContentCommon, ContentIntro } from "../../../type/ContentType";
-import { BasicInfoList } from "../../../type/Common";
+import { BasicInfoList } from "../../../type/FetchType";
 import { dateSlice } from "../../../utils/DateSlice";
 import { convertText } from "../../../utils/convertText";
 

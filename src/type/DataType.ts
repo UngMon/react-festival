@@ -1,23 +1,16 @@
-import { Item, Data } from "./Common";
+import { Item } from "./FetchType";
 
 export interface DataType {
   successGetData: boolean;
   httpState: string;
-  "관광지": Data;
-  "문화시설": Data;
-  "축제/공연/행사": Item[];
-  "여행코스": Data;
-  "레포츠": Data;
-  "검색": { [key: string]: { [key: string]: Item[] } };
+  tour: Record<string, Item[]>;
+  culture: Record<string, Item[]>;
+  festival: Record<string, Item[]>;
+  travel: Record<string, Item[]>;
+  leports: Record<string, Item[]>;
+  search: Record<string, Item[]>;
   loading: boolean;
-  dataRecord: {
-    [key: string]: {
-      [key: string]: {
-        [key: string]: { [key: string]: { [key: string]: string } };
-      };
-    };
-  };
-  serchRecord: { [key: string]: { [key: string]: string } };
+  record: string[];
   행사상태: [boolean, boolean, boolean];
   contentTitle: string | undefined;
 }

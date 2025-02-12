@@ -1,4 +1,4 @@
-import { Item, Month, Region } from "./Common";
+import { Item } from "./FetchType";
 
 export type ContentIntro = {
   // tour
@@ -46,8 +46,6 @@ export type ContentIntro = {
   schedule?: string;
   taketime?: string;
   theme?: string;
-
-
 };
 
 export type ContentCommon = {
@@ -139,8 +137,8 @@ export interface FestivalState {
   sortedFestivalArr: boolean;
   loading: boolean;
   festivalArray: Item[];
-  monthArray: Month;
-  regionArray: Region;
+  monthArray: Record<string, string>;
+  regionArray: Record<string, string>;
   행사상태: [boolean, boolean, boolean];
 }
 

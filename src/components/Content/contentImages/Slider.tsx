@@ -119,7 +119,7 @@ const Slider = ({ content_id }: SliderProps) => {
   return (
     <div className="slider-container">
       <div className="slider-box" ref={sliderBoxRef}>
-        {image.length === 0 && <Loading />}
+        {image.length === 0 && <Loading height="400px"/>}
         <div
           className="slider"
           ref={sliderRef}

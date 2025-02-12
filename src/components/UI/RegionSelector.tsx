@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { 지역코드 } from "../../type/Common";
+import { 지역코드 } from "../../type/FetchType";
 
 interface T {
   title: string;
@@ -23,14 +23,15 @@ const RegionSelector = ({
   cat3,
 }: T) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
 
     let url = '?';
     if (title === "festival") url += `month=${month}&`;
-    url += `type=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
-    
+    url += `contentTypeId=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
+    console.log(url, location.pathname)
     navigate(url);
   };
 

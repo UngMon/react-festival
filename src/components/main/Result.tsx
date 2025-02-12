@@ -8,73 +8,60 @@ import {
   지역코드,
   시군코드,
   Item,
-  cat1Code,
   cat2Code,
   cat3Code,
-} from "../../type/Common";
-import useAllParams from "../../hooks/useAllParams";
+  TitleType,
+} from "../../type/FetchType";
+import useAllParams, { CheckParams } from "../../hooks/useCheckParams";
 import LoadingSpinnerTwo from "../loading/LoadingSpinnerTwo";
-
 import "./Result.css";
 
 interface T {
-  title: string;
+  title: TitleType;
 }
 
 let isFirst = true;
 
 const Result = ({ title }: T) => {
-  const dataState = useSelector((state: RootState) => state.data);
-  const { contentTypeId, keyword, requireRedirect } = useAllParams(title);
+  const tourData = useSelector((state: RootState) => state.data);
+  const params = useAllParams(title) as CheckParams;
+  const { contentTypeId, keyword } = params;
+  const key = keyword + (contentTypeId ?? "");
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const [page, setPage] = useState<string>("0");
 
   useEffect(() => {
     switch (true) {
-      case requireRedirect !== "":
-        navigate(requireRedirect);
+      case params.requireRedirect !== "":
+        navigate(params.requireRedirect);
         return;
-      case dataState.httpState === "pending":
+      case tourData.httpState === "pending":
         return;
-      case dataState.httpState === "fulfiled" &&
-        dataState.serchRecord[keyword][contentTypeId] === "complete":
+      case tourData.httpState === "fulfiled":
         return;
       case !isFirst:
         return;
     }
 
-    const parameter = {
-      contentTypeId,
-      title: title as "result",
-      areaCode: "0",
-      cat1: "all",
-      cat2: "all",
-      cat3: "all",
-      page,
-      keyword,
-    };
-    isFirst = false;
-    dispatch(getTourApiData(parameter));
-  }, [
-    dispatch,
-    navigate,
-    requireRedirect,
-    dataState,
-    keyword,
-    contentTypeId,
-    page,
-    title,
-  ]);
+    if (tourData[title][key]) return;
 
-  const sigunHandler = (item: Item, index: number): string => {
-    // console.log(item.areacode, item.sigungucode, item.title, index);
+    isFirst = false;
+
+    dispatch(
+      getTourApiData({
+        numOfRows: 25,
+        page: Math.ceil((tourData.search[key] || []).length / 50),
+        title,
+        params: params as CheckParams,
+      })
+    );
+  }, [dispatch, navigate, params, key, tourData, title]);
+
+  const sigunHandler = (item: Item): string => {
     if (!item.areacode || !item.sigungucode) return "";
     const 지역 = 지역코드[item.areacode];
     const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode];
-    // console.log(`지역코드 ${지역코드[item.areacode]}`);
-
     return `${지역} ${시군구}`;
   };
 
@@ -84,13 +71,13 @@ const Result = ({ title }: T) => {
         <div className="Result-Title">
           <span>{`~~의 검색 결과`}</span>
         </div>
-        {dataState.httpState === "pending" && (
+        {tourData.httpState === "pending" && (
           <LoadingSpinnerTwo width="100" padding="5" />
         )}
-        {dataState.httpState !== "pending" && (
+        {tourData.httpState !== "pending" && (
           <div className="Result-Cards">
-            {dataState.검색?.[keyword]?.[contentTypeId] ? (
-              dataState.검색[keyword][contentTypeId].map((item, index) => (
+            {tourData.search[key] ? (
+              tourData.search[key].map((item, index) => (
                 <article key={index}>
                   <div className="Result-Card-Image">
                     <img alt={item.title} src={item.firstimage} />
@@ -99,7 +86,7 @@ const Result = ({ title }: T) => {
                     <span>{item.title}</span>
                   </div>
                   <div className="Result-Card-Sigun">
-                    <span>{sigunHandler(item, index)}</span>
+                    <span>{sigunHandler(item)}</span>
                   </div>
                   <div className="Result-Card-Hash">
                     {ContentIdCode[item.contenttypeid] && (

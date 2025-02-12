@@ -7,6 +7,14 @@ interface T {
   title: string;
 }
 
+const 타이틀: Record<string, string> = {
+  tour: "관광지",
+  culture: "문화시설",
+  festival: "축제/공연/행사",
+  travel: "여행코스",
+  leports: "레포츠",
+};
+
 const SubMenu = ({ title }: T) => {
   return (
     <nav className="subnav">
@@ -19,7 +27,7 @@ const SubMenu = ({ title }: T) => {
         <li>
           <FontAwesomeIcon icon={faChevronRight} />
         </li>
-        <li>{title}</li>
+        <li>{타이틀[title]}</li>
       </ul>
     </nav>
   );

@@ -1,8 +1,12 @@
 import "./Loading.css";
 
-const Loading = () => {
+interface T {
+  height: string;
+}
+
+const Loading = ({ height }: T) => {
   return (
-    <div className="rolling-box">
+    <div className="rolling-box" style={{ height: height }}>
       <div className="lds-ring">
         <div></div>
         <div></div>

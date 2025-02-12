@@ -1,26 +1,43 @@
+import { TitleType } from "../../type/FetchType";
+import { useState } from "react";
 import Card from "../card/Card";
 import Picker from "../ui/Picker";
 import Result from "../main/Result";
+import PageButton from "../card/PageButton";
 
 interface T {
-  title:
-    | "관광지"
-    | "문화시설"
-    | "여행코스"
-    | "검색"
-    | "축제/공연/행사"
-    | "레포츠";
+  title: TitleType;
 }
 
-const Festival = ({ title }: T) => {
-  console.log(title);
+const Main = ({ title }: T) => {
+  const [numOfRows, setNumOfRows] = useState<number>(50);
+  const [page, setPage] = useState<number>(1);
 
   return (
     <main>
-      {title !== "검색" && <Picker title={title} />}
-      {title !== "검색" ? <Card title={title} /> : <Result title={title} />}
+      {title !== "search" ? (
+        <>
+          <Picker
+            title={title}
+            page={page}
+            numOfRows={numOfRows}
+            setNumOfRows={setNumOfRows}
+          />
+          <Card title={title} numOfRows={numOfRows} page={page} />
+        </>
+      ) : (
+        <Result title={title} />
+      )}
+      {title !== "festival" && (
+        <PageButton
+          title={title}
+          numOfRows={numOfRows}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </main>
   );
 };
 
-export default Festival;
+export default Main;

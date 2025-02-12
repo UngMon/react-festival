@@ -15,6 +15,7 @@
 .slide-active {
   animation-name: slideloading;
   animation-duration: 5s;
+  /* animation-delay: 1s; */
   animation-fill-mode: forwards;
   animation-timing-function: linear;
 }

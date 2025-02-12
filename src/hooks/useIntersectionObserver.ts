@@ -9,21 +9,27 @@ const useIntersectionObserver = (
 ] => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [intersecting, setIntersecting] = useState<boolean>(false);
-  console.log(dataLoading);
-  useEffect(() => {
-    if (dataLoading) return;
+  console.log('????????')
+  // let intersecting: boolean = false;
 
-    let target = targetRef.current!;
-    console.log(dataLoading);
+
+  useEffect(() => {
+    if (dataLoading || !targetRef.current) return;
+
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        if (!entries[0].isIntersecting && intersecting) {
-          console.log('here One')
+
+        console.log(entries[0].isIntersecting)
+
+        if (!entries[0].isIntersecting) {
+          console.log("here One");
+          // intersecting = false;
           setIntersecting(false);
         }
 
-        if (entries[0].isIntersecting && !intersecting) {
+        if (entries[0].isIntersecting) {
           console.log("here Two");
+          // intersecting = true;
           setIntersecting(true);
         }
       },
@@ -35,12 +41,12 @@ const useIntersectionObserver = (
       }
     );
 
-    if (target) observer.observe(target);
+    observer.observe(targetRef.current);
 
     return () => {
-      if (target) observer.unobserve(target);
+      observer.disconnect();
     };
-  }, [intersecting, dataLoading]);
+  }, [dataLoading, intersecting]);
 
   return [targetRef, intersecting, setIntersecting];
 };

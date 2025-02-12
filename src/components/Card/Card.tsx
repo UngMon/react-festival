@@ -1,110 +1,74 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
+import { dataActions } from "../../redux/data-slice";
 import { getTourApiData } from "../../redux/fetch-action";
 import { useNavigate } from "react-router-dom";
-import { Item, 지역코드, 시군코드, cat3Code, Data } from "../../type/Common";
+import {
+  Item,
+  지역코드,
+  시군코드,
+  cat3Code,
+  TitleType,
+} from "../../type/FetchType";
 import { calculateDate } from "../../utils/CalculateDate";
 import { nowDate } from "../../utils/NowDate";
 import { dateSlice } from "../../utils/DateSlice";
 import Loading from "../loading/Loading";
 import GetDataError from "../error/GetDataError";
-import useAllParams from "../../hooks/useAllParams";
-import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import useCheckParams, { CheckParams } from "../../hooks/useCheckParams";
 import "./Card.css";
 
 interface CardProps {
-  title:
-    | "관광지"
-    | "문화시설"
-    | "여행코스"
-    | "검색"
-    | "축제/공연/행사"
-    | "레포츠";
+  title: TitleType;
+  numOfRows: number;
+  page: number;
 }
 
-const titleObject: {
-  [key: string]: "관광지" | "문화시설" | "여행코스" | "레포츠";
-} = {
-  "12": "관광지",
-  "14": "문화시설",
-  "25": "여행코스",
-  "28": "레포츠",
-};
-
-const Card = ({ title }: CardProps) => {
+const Card = ({ title, numOfRows, page }: CardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const {
-    contentTypeId,
-    month,
-    areaCode,
-    cat1,
-    cat2,
-    cat3,
-    keyword,
-    requireRedirect,
-  } = useAllParams(title);
-
-  const cotentType = titleObject[contentTypeId];
+  const params = useCheckParams(title);
   const tourData = useSelector((state: RootState) => state.data);
-
-  const [targetRef, intersecting, setIntersecting] = useIntersectionObserver(
-    tourData.loading
-  );
+  console.log("Card Render");
 
   useEffect(() => {
-    switch (true) {
-      case requireRedirect !== "":
-        navigate(requireRedirect);
-        return;
-      case !intersecting || tourData.httpState === "pending":
-        return;
-      case title === "축제/공연/행사" &&
-        tourData["축제/공연/행사"].length !== 0:
-        return;
-      // case title === "검색" &&
-      //   tourData.serchRecord?.[keyword]?.[type] === "complete":
-      //   return;
-      case tourData.dataRecord?.[contentTypeId]?.[areaCode]?.[cat1]?.[cat2]?.[
-        cat3
-      ] === "complete":
-        return;
-    }
-    console.log("USEEFFECT PASS");
-    const result = tourData.검색[keyword]?.[contentTypeId];
-    let d = tourData[title] as Data;
-    const data = d[areaCode]?.[cat1]?.[cat2]?.[cat3];
-    const pageNumber = title === "검색" ? result : data;
-    const parameter = {
-      contentTypeId,
-      title,
-      areaCode,
-      cat1,
-      cat2,
-      cat3,
-      page: String((pageNumber || []).length / 50 + 1),
-      keyword,
-    };
+    let key: string = "";
+    const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
+      params as CheckParams;
 
-    dispatch(getTourApiData(parameter));
-    setIntersecting(false);
-  }, [
-    dispatch,
-    navigate,
-    setIntersecting,
-    requireRedirect,
-    areaCode,
-    cat1,
-    cat2,
-    cat3,
-    keyword,
-    contentTypeId,
-    intersecting,
-    tourData,
-    title,
-  ]);
+    switch (true) {
+      case params.requireRedirect !== "":
+        navigate(params.requireRedirect);
+        return;
+      case tourData.httpState === "pending":
+        return;
+      case tourData.httpState === "fulfilled" && !tourData.successGetData:
+        return;
+      case title === "festival":
+        key = "data";
+        if (tourData.festival.data) return;
+        break;
+      default:
+        if (title === "search")
+          key = `${keyword}-${contentTypeId}-${numOfRows}-${page}`;
+        else key = `${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+
+        if (tourData.record.includes(key)) {
+          if (!tourData.successGetData) dispatch(dataActions.changeHttpState());
+          return;
+        }
+    }
+
+    dispatch(
+      getTourApiData({
+        numOfRows,
+        page,
+        title,
+        params: params as CheckParams,
+      })
+    );
+  }, [dispatch, navigate, page, params, numOfRows, tourData, title]);
 
   const cardClickHandler = useCallback(
     (type: string, contentId: string) => {
@@ -113,146 +77,142 @@ const Card = ({ title }: CardProps) => {
     [navigate]
   );
 
-  const returnResult = () => {
+  const returnResult = useMemo(() => {
+    if (params.requireRedirect !== "" || tourData.loading) return null;
+    const { contentTypeId, areaCode, cat1, cat2, cat3, keyword, month } =
+      params as CheckParams;
     let array: Item[] = [];
+    let key: string = "";
 
     switch (title) {
-      case "축제/공연/행사":
-        array = tourData["축제/공연/행사"];
+      case "festival":
+        key = "data";
+        array = tourData.festival[key];
         break;
-      // case "검색":
-      //   array = tourData.result?.[keyword]?.["0"] ?? [];
-      //   break;
+      case "search":
+        key = `${keyword}-${contentTypeId}-${numOfRows}-${page}`;
+        array = tourData.search[key];
+        break;
       default:
-        array = tourData[cotentType]?.[areaCode]?.[cat1]?.[cat2]?.[cat3] ?? [];
+        key = `${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+        array = tourData[title][key];
     }
 
-    if (array.length === 0) return; // 빈 배열에서 불 필요한 연산 생략}
+    // 빈 배열에서 불 필요한 작업 생략
+    if (!array || array.length === 0) return;
 
-    let result: JSX.Element[] = [];
-    let returnArray: JSX.Element[] = [];
-    let 행사종료: JSX.Element[] = [];
-    let 행사중: JSX.Element[] = [];
-    let 행사시작전: JSX.Element[] = [];
     const { year, date } = nowDate();
 
-    for (let item of array) {
-      if (!item.areacode) continue;
-      if (cat1 !== "all" && cat1 !== item.cat1) continue;
-      if (cat2 !== "all" && cat2 !== item.cat2) continue;
-      if (cat3 !== "all" && cat3 !== item.cat3) continue;
-      if (title !== "축제/공연/행사" && !item.firstimage) continue;
+    const elements = array.reduce<{
+      진행중: JSX.Element[];
+      종료: JSX.Element[];
+      시작전: JSX.Element[];
+    }>(
+      (acc, item) => {
+        if (!item.areacode) return acc;
+        if (cat1 !== "all" && cat1 !== item.cat1) return acc;
+        if (cat2 !== "all" && cat2 !== item.cat2) return acc;
+        if (cat3 !== "all" && cat3 !== item.cat3) return acc;
+        if (!item.firstimage) return acc;
 
-      let 축제상태 = "";
+        let 축제상태 = "";
+        if (title === "festival") {
+          if (item.eventstartdate!.slice(4, 6) > month!) return acc;
+          if (item.eventenddate!.slice(4, 6) < month!) return acc;
+          if (areaCode !== "0" && areaCode !== item.areacode) return acc;
 
-      if (title === "축제/공연/행사") {
-        if (item.eventstartdate!.slice(4, 6) > month) continue;
-        if (item.eventenddate!.slice(4, 6) < month) continue;
-        if (areaCode !== "0" && areaCode !== item.areacode) continue;
+          축제상태 = calculateDate(
+            item.eventstartdate!,
+            item.eventenddate!,
+            year,
+            month!,
+            date
+          );
+        }
 
-        축제상태 = calculateDate(
-          item.eventstartdate!,
-          item.eventenddate!,
-          year,
-          month,
-          date
+        const 지역 = 지역코드[item.areacode];
+        const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode];
+        const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
+
+        const element = (
+          <div
+            className="card-item"
+            key={item.contentid}
+            onClick={() => cardClickHandler(item.contenttypeid, item.contentid)}
+          >
+            <div className="card-image-box">
+              <img
+                src={
+                  item.firstimage?.replace("http", "https") ||
+                  "../images/Noimage.png"
+                }
+                alt="img"
+                loading="lazy"
+              />
+            </div>
+            {title === "festival" && (
+              <p className={`cal-date ${축제상태}`}>{축제상태}</p>
+            )}
+            <div className="card-text">
+              <p className="area">{지역표시}</p>
+              <h4>{item.title}</h4>
+              {title === "festival" && (
+                <p className="card-date">
+                  {dateSlice(item.eventstartdate!, item.eventenddate!)}
+                </p>
+              )}
+              {title !== "festival" && (
+                <p className="card-tag">{`#${cat3Code[item.cat3]}`}</p>
+              )}
+            </div>
+          </div>
         );
 
-        if (축제상태 === "진행중") {
-          if (!tourData.행사상태[0]) continue;
-        } else if (축제상태 === "행사종료") {
-          if (!tourData.행사상태[2]) continue;
-        } else {
-          if (!tourData.행사상태[1]) continue;
-        }
-      }
+        if (title === "festival") {
+          if (축제상태 === "진행중") acc.진행중.push(element);
+          else if (축제상태 === "행사종료") acc.종료.push(element);
+          else acc.시작전.push(element);
+        } else acc.진행중.push(element);
 
-      const 지역 = 지역코드[item.areacode];
-      const 시군구 = 시군코드[지역코드[item.areacode]][item.sigungucode];
-      const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
-      const element = (
-        <div
-          className="card-item"
-          key={item.title + `${Math.random()}`}
-          onClick={() => cardClickHandler(item.contenttypeid, item.contentid)}
-        >
-          <div className="card-image-box">
-            <img
-              src={
-                item.firstimage.replace("http", "https") ||
-                "../images/Noimage.png"
-              }
-              alt={"img"}
-              loading={"lazy"}
-            ></img>
-          </div>
-          {title === "축제/공연/행사" && (
-            <p
-              className={`cal-date ${
-                축제상태 === "진행중"
-                  ? "ing"
-                  : 축제상태 === "행사종료"
-                  ? "end"
-                  : "aft"
-              }`}
-            >
-              {축제상태}
-            </p>
-          )}
-          <div className="card-text">
-            <p className="area">{지역표시}</p>
-            <h4>{item.title}</h4>
-            {title === "축제/공연/행사" && (
-              <p className="card-date">
-                {dateSlice(item.eventstartdate!, item.eventenddate!)}
-              </p>
-            )}
-            {title !== "축제/공연/행사" && (
-              <p className="card-tag">{`#${cat3Code[item.cat3]}`}</p>
-            )}
-          </div>
-        </div>
-      );
-      if (title === "축제/공연/행사") {
-        if (축제상태 === "행사종료") 행사종료.push(element);
-        else if (축제상태 === "진행중") 행사중.push(element);
-        else 행사시작전.push(element);
-      } else {
-        result.push(element);
-      }
-    } // for end
+        return acc;
+      },
+      { 진행중: [], 종료: [], 시작전: [] }
+    );
+    let result: JSX.Element[] = [];
 
-    if (title !== "축제/공연/행사") returnArray = result;
-    else returnArray = [...행사중, ...행사시작전, ...행사종료];
+    if (title === "festival") {
+      if (tourData.행사상태[0]) result.push(...elements.진행중);
+      if (tourData.행사상태[1]) result.push(...elements.시작전);
+      if (tourData.행사상태[2]) result.push(...elements.종료);
+    } else result = elements.진행중;
 
     return (
       <>
-        {/* {title === "검색" && tourData.successGetData && (
-          <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${returnArray.length}개`}</h3>
-        )} */}
-        {returnArray.length === 0 ? (
+        {title === "search" && tourData.successGetData && (
+          <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${result.length}개`}</h3>
+        )}
+        {result.length === 0 ? (
           <div className="not-found-category">
             <p>
-              {title === "검색"
+              {title === "search"
                 ? "검색한 키워드 결과가 없습니다!"
                 : "조건에 부합하는 결과가 없습니다!"}
             </p>
           </div>
         ) : (
-          returnArray
+          result
         )}
       </>
     );
-  };
+  }, [cardClickHandler, params, title, tourData, numOfRows, page]);
 
   return (
-    <article className={`main-box-content ${title === "검색" && "result"}`}>
+    <article className={`main-box-content ${title === "search" && "result"}`}>
       <div className="AllView-grid-box">
-        {returnResult()}
-        {tourData.loading && <Loading />}
+        {returnResult}
+        {tourData.loading && <Loading height="500px"/>}
         {!tourData.loading && !tourData.successGetData && <GetDataError />}
       </div>
-      <div ref={targetRef}></div>
     </article>
   );
 };

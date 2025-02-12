@@ -43,7 +43,7 @@ const Search = ({ setOpenSearch }: HeaderProps) => {
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
 
-    navigate(`/result?keyword=${keyword}&type=${category[0]}`);
+    navigate(`/search?keyword=${keyword}&contentTypeId=${category[0]}`);
     inputRef.current!.value = "";
     setOpenSearch(false);
   };
@@ -80,6 +80,7 @@ const Search = ({ setOpenSearch }: HeaderProps) => {
               type="text"
               name="전체검색"
               placeholder="검색어를 입력해주세요!"
+              autoComplete="off"
               ref={inputRef}
             />
             <button id="search" type="submit">

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ContentIdCode } from "../../type/Common";
+import { ContentIdCode } from "../../type/FetchType";
 import Slider from "./contentImages/Slider";
 import Detail from "./contentInfo/Detail";
 import MenuBar from "./contentInfo/MenuBar";
