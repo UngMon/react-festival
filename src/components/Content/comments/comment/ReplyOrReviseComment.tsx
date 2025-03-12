@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Comment, UserData } from "../../../../type/UserDataType";
+import { UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { useAppDispatch } from "../../../../redux/store";
 import { originCommentActions } from "../../../../redux/origin_comment-slice";
 import { replyActions } from "../../../../redux/reply-slice";
 import { myReplyActions } from "../../../../redux/my_reply-slice";
 import { modalActions } from "../../../../redux/modal-slice";
-import { doc, increment, updateDoc, writeBatch } from "firebase/firestore";
+import {
+  doc,
+  DocumentData,
+  DocumentReference,
+  increment,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../../../../firebase";
 import UserIcon from "./UserIcon";
 import "./ReplyOrReviseComment.css";
@@ -57,34 +65,40 @@ const ReplyOrReviseComment = ({
   const [commentText] = useState<string>(comment_data.content.join(""));
 
   const reviseHandler = async (comment: [string, string, string]) => {
-    const reivseDocumentRef = doc(db, "comments", comment_id);
+    let reviseDocRef: DocumentReference<DocumentData>;
+    if (reply_index)
+      reviseDocRef = doc(db, "comments", origin_id!, "comments", comment_id);
+    else reviseDocRef = doc(db, "comments", comment_id);
 
-    await updateDoc(reivseDocumentRef, { content: comment, isRevised: true });
+    await updateDoc(reviseDocRef, { content: comment, isRevised: true });
     const updatedField: Comment = { ...comment_data };
     updatedField.content = comment;
 
     if (type === "revise-origin") {
       dispatch(
-        originCommentActions.updateComment({ type, origin_index, updatedField })
+        originCommentActions.reviseComment({
+          origin_index,
+          content: comment,
+        })
       );
     }
 
     if (type === "revise-reply") {
       dispatch(
-        replyActions.updateReply({
+        replyActions.reviseComment({
           origin_id: origin_id!,
           reply_index: reply_index!,
-          updatedField,
+          content: comment,
         })
       );
     }
 
     if (type === "revise-my") {
       dispatch(
-        myReplyActions.updateMyReply({
+        myReplyActions.reviseComment({
           origin_id: origin_id!,
           comment_id,
-          updatedField,
+          content: comment,
         })
       );
     }
@@ -115,32 +129,38 @@ const ReplyOrReviseComment = ({
       parent_id: comment_id,
       parent_name: comment_data.user_name,
       like_count: 0,
-      dislike_count: 0,
-      reply_count: 0,
       isRevised: false,
-      emotion: comment_data.emotion,
+      image_url: comment_data.image_url,
+      like_users: [],
     };
 
-    const newMyReplyDocumentRef = doc(db, "comments", document_id);
-
-    const originDocumentRef = doc(db, "comments", originId);
-    batch.set(newMyReplyDocumentRef, fieldData);
-    batch.update(originDocumentRef, { reply_count: increment(1) });
-    await batch.commit();
-
-    dispatch(
-      myReplyActions.addNewMyReply({
-        origin_id: originId,
-        comment_id: document_id,
-        comment_data: fieldData,
-      })
-    );
-    if (type === "reply-reply") {
-      dispatch(
-        originCommentActions.updateComment({ origin_index, type: "reply" })
+    try {
+      const replyDocRef = doc(
+        db,
+        "comments",
+        originId,
+        "comments",
+        document_id
       );
+      const originDocumentRef = doc(db, "comments", originId);
+      batch.set(replyDocRef, fieldData);
+      batch.update(originDocumentRef, { reply_count: increment(1) });
+      await batch.commit();
+
+      dispatch(
+        myReplyActions.addNewMyReply({
+          origin_id: originId,
+          comment_id: document_id,
+          comment_data: fieldData,
+        })
+      );
+      if (type === "reply-reply")
+        dispatch(originCommentActions.changeReplyCount({ origin_index, type }));
+
+      dispatch(modalActions.clearModalInfo({ comment_id, type }));
+    } catch (error: any) {
+      console.log(error);
     }
-    dispatch(modalActions.clearModalInfo({ comment_id, type }));
   };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -441,7 +461,7 @@ const ReplyOrReviseComment = ({
             onInput={(e) => {
               const target = e.target as HTMLDivElement;
               const innerText = target.innerText;
-              if (innerText.length === 0) return setDisabled(true);   
+              if (innerText.length === 0) return setDisabled(true);
 
               if (innerText !== commentText && disabled) setDisabled(false);
 

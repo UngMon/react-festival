@@ -14,16 +14,20 @@ const Cotent = () => {
   const reviewRef = useRef<HTMLDivElement>(null);
 
   const [param] = useSearchParams();
-  const type: string = param.get("type")!;
+  const content_type: string = param.get("contentTypeId")!;
   const content_id: string = param.get("contentId")!;
-  const collectionName = ContentIdCode[type];
-  const content_type: string = param.get("type")!;
+  const collectionName = ContentIdCode[content_type];
+
 
   return (
     <main className="Content">
-      {/* <Slider content_id={content_id} />
+      <Slider content_id={content_id} />
       <MenuBar infoRef={infoRef} reviewRef={reviewRef} />
-      <Detail infoRef={infoRef} content_id={content_id} type={type} /> */}
+      <Detail
+        infoRef={infoRef}
+        content_id={content_id}
+        content_type={content_type}
+      />
       <section className="Content-Review">
         {/* <Feelings collectionName={collectionName} content_id={content_id} /> */}
         <UserReviews

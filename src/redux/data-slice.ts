@@ -19,7 +19,6 @@ const initialState: DataType = {
   loading: false,
   record: [],
   행사상태: [true, false, false],
-  contentTitle: undefined,
 };
 
 const dataSlice = createSlice({
@@ -29,12 +28,9 @@ const dataSlice = createSlice({
     행사상태설정(state, action) {
       state.행사상태 = action.payload;
     },
-    setConentInfo(state, action) {
-      state.contentTitle = action.payload.title;
-    },
     changeHttpState(state) {
       state.successGetData = !state.successGetData;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -5,19 +5,20 @@ import {
   ResponIntro,
   GetContentData,
 } from "../../../type/ContentType";
-import { useAppDispatch } from "../../../redux/store";
-import { dataActions } from "../../../redux/data-slice";
+import { RootState, useAppDispatch } from "../../../redux/store";
 import { convertText } from "../../../utils/convertText";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
 import getContentData from "../../../utils/getContentData";
 import "./Detail.css";
+import { contentActions } from "../../../redux/content-slice";
+import { useSelector } from "react-redux";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;
   content_id: string;
-  type: string;
+  content_type: string;
 }
 
 type Datas = {
@@ -26,28 +27,32 @@ type Datas = {
   intro: ResponIntro;
 };
 
-const Detail = ({ infoRef, content_id, type }: DetailProps) => {
+const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
   console.log("Detail Component Render");
   const dispatch = useAppDispatch();
-  const [data, setContentData] = useState<Datas>();
-  const detailInfo = data?.info.response.body.items.item,
-    detailIntro = data?.intro.response.body.items.item,
-    detailCommon = data?.common.response.body.items.item;
-
+  const { detailCommon, detailInfo, detailIntro } = useSelector(
+    (state: RootState) => state.content
+  );
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const settingContentData = async (type: string, contentId: string) => {
+    const settingContentData = async (
+      contentTypeId: string,
+      contentId: string
+    ) => {
       try {
-        const response: GetContentData = await getContentData(type, contentId);
-        setContentData({
-          info: response.contentInfo,
-          intro: response.contentIntro,
-          common: response.contentCommon,
-        });
+        const response: GetContentData = await getContentData(
+          contentTypeId,
+          contentId
+        );
+
+        const { contentCommon, contentInfo, contentIntro } = response;
+
         dispatch(
-          dataActions.setConentInfo({
-            title: response.contentCommon.response.body.items.item[0].title,
+          contentActions.setContentData({
+            contentCommon,
+            contentInfo,
+            contentIntro,
           })
         );
       } catch (error: any) {
@@ -57,8 +62,8 @@ const Detail = ({ infoRef, content_id, type }: DetailProps) => {
 
       setLoading(false);
     };
-    settingContentData(type, content_id);
-  }, [dispatch, type, content_id]);
+    settingContentData(content_type, content_id);
+  }, [dispatch, content_type, content_id]);
 
   return (
     <div className="Cotent-text-box" ref={infoRef}>
@@ -89,7 +94,7 @@ const Detail = ({ infoRef, content_id, type }: DetailProps) => {
         <BasicInfo
           detailIntro={detailIntro}
           detailCommon={detailCommon}
-          type={type}
+          content_type={content_type}
         />
       )}
     </div>

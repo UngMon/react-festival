@@ -15,11 +15,11 @@
   align-items: center;
 }
 
-.like {
+.press-like {
   color: rgb(48, 120, 255);
 }
 
-.dislike {
+.press-dislike {
   color: rgb(48, 120, 255);
 }
 

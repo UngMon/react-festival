@@ -72,7 +72,7 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
 
   const cardClickHandler = useCallback(
     (type: string, contentId: string) => {
-      navigate(`/content/search?type=${type}&contentId=${contentId}`);
+      navigate(`/content/search?contentTypeId=${type}&contentId=${contentId}`);
     },
     [navigate]
   );
@@ -210,7 +210,7 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
     <article className={`main-box-content ${title === "search" && "result"}`}>
       <div className="AllView-grid-box">
         {returnResult}
-        {tourData.loading && <Loading height="500px"/>}
+        {tourData.loading && <Loading height="500px" />}
         {!tourData.loading && !tourData.successGetData && <GetDataError />}
       </div>
     </article>

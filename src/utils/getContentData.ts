@@ -28,6 +28,7 @@ const getContentData = async (
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
     const data: ResponInfo = await response.json();
+    console.log('info', data)
     return data;
   };
 
@@ -39,6 +40,7 @@ const getContentData = async (
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
     const data: ResponIntro = await response.json();
+    console.log('intro', data)
     return data;
   };
 
@@ -50,6 +52,7 @@ const getContentData = async (
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
     const data: ResponCommon = await response.json();
+    console.log('cmmon', data)
     return data;
   };
 
@@ -58,6 +61,7 @@ const getContentData = async (
     getDataContentIntro("Intro"),
     getDataContentCommon("Common"),
   ]);
+
   return { contentInfo, contentIntro, contentCommon };
 };
 

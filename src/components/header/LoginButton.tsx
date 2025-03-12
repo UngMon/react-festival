@@ -22,7 +22,7 @@ const LoginButton = () => {
   const userImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (userData.loadingState === "fulfilled") return;
+    if (userData.status === "fulfilled") return;
     onAuthStateChanged(getAuth(), (userInfo) => {
       if (userInfo) {
         const { uid, displayName, email, photoURL } = userInfo!;
@@ -68,10 +68,10 @@ const LoginButton = () => {
 
   return (
     <>
-      {userData.loadingState === "pending" && <div className="not-Login" />}
-      {userData.loadingState === "fulfilled" && (
+      {userData.status === "pending" && <div className="not-Login" />}
+      {userData.status === "fulfilled" && (
         <>
-          {userData.loginedUser === false ? (
+          {userData.user_id === '' ? (
             <div className="login" onClick={loginHandler}>
               <FontAwesomeIcon icon={faRightToBracket} />
             </div>

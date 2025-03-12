@@ -5,6 +5,7 @@
   left: calc(50% - 280px);
   width: 560px;
   height: 100px;
+  font-size: 16px;
   color: inherit;
 }
 
@@ -16,7 +17,6 @@
 .Nav-box {
   position: absolute;
   margin: 0 auto;
-  font-size: 0.8em;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -57,7 +57,7 @@
   display: block;
   width: 140px;
   height: 50px;
-  font-size: 1.1em;
+  font-size: 1em;
   color: inherit;
 }
 

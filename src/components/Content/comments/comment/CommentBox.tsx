@@ -1,10 +1,12 @@
-import { Comment } from "../../../../type/UserDataType";
+import { UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import UserComment from "./UserComment";
 import ReplyOrReviseComment from "./ReplyOrReviseComment";
 
 interface T {
+  userData: UserData
   origin_index: number;
   reply_index?: number;
   deepth: number;
@@ -13,6 +15,7 @@ interface T {
 }
 
 const CommentBox = ({
+  userData,
   origin_index,
   reply_index,
   deepth,
@@ -20,7 +23,6 @@ const CommentBox = ({
   comment_data,
 }: T) => {
   const comment_id = comment_data.createdAt + comment_data.user_id;
-  const userData = useSelector((state: RootState) => state.firebase);
   const modalInfo = useSelector((state: RootState) => state.modal);
 
   return (

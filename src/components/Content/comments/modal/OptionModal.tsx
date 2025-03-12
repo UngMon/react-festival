@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Comment, UserData } from "../../../../type/UserDataType";
+import { UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { useAppDispatch } from "../../../../redux/store";
 import { modalActions } from "../../../../redux/modal-slice";
 import { reportActions } from "../../../../redux/report-slice";

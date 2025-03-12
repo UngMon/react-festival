@@ -89,9 +89,7 @@ export type ContentImage = {
 export type ResponInfo = {
   response: {
     body: {
-      items: {
-        item: ContentInfo[];
-      };
+      items: Record<"item", ContentInfo[]> | undefined;
     };
   };
 };
@@ -99,9 +97,7 @@ export type ResponInfo = {
 export type ResponIntro = {
   response: {
     body: {
-      items: {
-        item: ContentIntro[];
-      };
+      items: Record<"item", ContentIntro[]> | undefined;
     };
   };
 };
@@ -109,9 +105,7 @@ export type ResponIntro = {
 export type ResponCommon = {
   response: {
     body: {
-      items: {
-        item: ContentCommon[];
-      };
+      items: Record<"item", ContentCommon[]> | undefined;
     };
   };
 };

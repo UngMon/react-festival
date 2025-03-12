@@ -1,6 +1,6 @@
 .Header-top {
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   height: 100%;
   display: flex;
@@ -52,7 +52,7 @@
   height: 35px;
   z-index: 14;
   color: inherit;
-  display: none;
+  display: block;
   cursor: pointer;
 
   .bar {
@@ -77,13 +77,13 @@
   }
 }
 
-@media (max-width: 1023.99px) {
+@media (min-width: 1024px) {
   .Header-top {
-    width: 100%;
+    width: 90%;
   }
 
   #nav-bar {
-    display: block;
+    display: none;
   }
 
   .magnifying:hover {

@@ -1,4 +1,5 @@
-import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import { PickComment, UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../redux/store";
 import { modalActions } from "../../../../redux/modal-slice";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Comment } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { db } from "../../../../firebase";
 import {
   collection,
@@ -28,17 +28,28 @@ const CommentArea = ({ content_id }: T) => {
   const comments = useSelector(
     (state: RootState) => state.origin_comment.comment
   );
+  const userData = useSelector((state: RootState) => state.firebase);
   const dispatch = useAppDispatch();
 
   const [completeGetCommentsData, setCompleteGetCommentsData] =
     useState<boolean>(false);
   const [targetRef, intersecting, setIntersecting] =
     useIntersectionObserver(false);
+  const [afterIndex, setAfterIndex] = useState<string>("");
 
   useEffect(() => {
-    if (completeGetCommentsData || !intersecting || loading) return;
+    switch (true) {
+      case completeGetCommentsData:
+        return;
+      case loading:
+        return;
+      case userData.status === "pending":
+        return;
+      case !intersecting:
+        return;
+    }
     setLoading(true);
-    
+
     const commentRef = collection(db, "comments");
 
     const getCommentData = async () => {
@@ -56,22 +67,28 @@ const CommentArea = ({ content_id }: T) => {
           where("content_id", "==", content_id),
           where("origin_id", "==", null),
           orderBy("createdAt", "desc"),
-          startAfter(comments[comments.length - 1]?.createdAt || "0"),
+          startAfter(afterIndex),
           limit(25)
         );
 
         let querySnapshot = comments.length === 0 ? firstQuery : baseQurey;
+
         const data = await getDocs(querySnapshot);
-        const comment_datas = data.docs.map((docs) => docs.data()) as Comment[];
+        let lastDataIndex: string = '';
 
-        if (comment_datas.length > 0) {
-          dispatch(originCommentActions.setComment({ comment_datas }));
-        }
+        if (data) {
+          const comment_datas = data.docs.map((doc) => doc.data()) as Comment[];
+          if (comment_datas.length > 0) {
+            lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
+            dispatch(originCommentActions.setComment({ comment_datas }));
+            setAfterIndex(lastDataIndex);
+          }
+          if (comment_datas.length < 25) setCompleteGetCommentsData(true);
+        } else setCompleteGetCommentsData(true);
 
-        if (comment_datas.length < 25) setCompleteGetCommentsData(true);
       } catch (error: any) {
         console.error(error.message);
-        alert(error.message);
+        alert("댓글을 불러오지 못 했습니다.");
       }
       setIntersecting(false);
       setLoading(false);
@@ -79,10 +96,12 @@ const CommentArea = ({ content_id }: T) => {
     getCommentData();
   }, [
     dispatch,
+    userData,
     completeGetCommentsData,
     loading,
     setIntersecting,
     comments,
+    afterIndex,
     content_id,
     intersecting,
   ]);
@@ -97,12 +116,17 @@ const CommentArea = ({ content_id }: T) => {
             style={{ margin: "0px 10px 10px", position: "relative" }}
           >
             <CommentBox
+              userData={userData}
               origin_index={index}
               type={"origin"}
               deepth={0}
               comment_data={item}
             />
-            <ReplyArea origin_index={index} comment_data={item} />
+            <ReplyArea
+              origin_index={index}
+              comment_data={item}
+              userData={userData}
+            />
           </div>
         ))}
       {loading && <LoadingSpinnerTwo width="25px" padding="8px" />}

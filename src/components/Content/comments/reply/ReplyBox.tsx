@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { db } from "../../../../firebase";
-import { Comment, PickComment } from "../../../../type/UserDataType";
+import { UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { RootState, useAppDispatch } from "../../../../redux/store";
 import { useSelector } from "react-redux";
 import { replyActions } from "../../../../redux/reply-slice";
@@ -13,6 +14,8 @@ import {
   orderBy,
   limit,
   getDocs,
+  startAfter,
+  QueryConstraint,
 } from "firebase/firestore";
 import CommentBox from "../comment/CommentBox";
 import LoadingSpinnerTwo from "../../../loading/LoadingSpinnerTwo";
@@ -21,9 +24,10 @@ interface T {
   origin_index: number;
   comment_data: Comment;
   myReply: Record<string, Record<string, Comment>>;
+  userData: UserData;
 }
 
-const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
+const ReplyBox = ({ origin_index, comment_data, myReply, userData }: T) => {
   console.log("Reply Box Render!");
   const dispatch = useAppDispatch();
   const replyComments = useSelector((state: RootState) => state.reply.comment);
@@ -33,27 +37,32 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { createdAt, user_id, content_id, reply_count } = comment_data;
+  const [index, setIndex] = useState<string>("");
   const origin_id = createdAt + user_id;
 
   const getReplyDataHandler = async () => {
     setLoading(true);
 
-    const commentRef = collection(db, "comments");
+    const commentRef = collection(db, "comments", origin_id, "comments");
 
     try {
-      const Query = query(
-        commentRef,
+      const queryConstraints: QueryConstraint[] = [
         where("content_id", "==", content_id),
         where("origin_id", "==", origin_id),
         orderBy("createdAt"),
-        limit(25)
-      );
+        limit(25),
+      ];
+
+      if (index !== "") queryConstraints.push(startAfter(index));
+
+      const Query = query(commentRef, ...queryConstraints);
 
       const data = await getDocs(Query);
       const comment_datas = data.docs.map((docs) => docs.data()) as Comment[];
-
+      
       if (comment_datas.length > 0) {
         dispatch(replyActions.setNewReply({ origin_id, comment_datas }));
+        setIndex(comment_datas[comment_datas.length - 1].createdAt);
       }
 
       if (comment_datas.length < 25) setCompleteGetAllCommentsData(true);
@@ -97,6 +106,7 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
                 type={"reply"}
                 deepth={0}
                 comment_data={item}
+                userData={userData}
               />
             );
           } else return null;

@@ -1,20 +1,22 @@
-import { Comment, UserData } from "../../../../type/UserDataType";
+import { UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import { db } from "../../../../firebase";
-import { deleteField, doc, increment, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  FieldValue,
+  increment,
+  writeBatch,
+} from "firebase/firestore";
 import { useAppDispatch } from "../../../../redux/store";
 import { originCommentActions } from "../../../../redux/origin_comment-slice";
 import { replyActions } from "../../../../redux/reply-slice";
 import { modalActions } from "../../../../redux/modal-slice";
 import { myReplyActions } from "../../../../redux/my_reply-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faThumbsUp as faRegularThumbsUp,
-  faThumbsDown as faRegularThumbsDown,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faThumbsUp as faSolidThumbsUp,
-  faThumbsDown as faSolidThumbsDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as faRegularThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { faThumbsUp as faSolidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import "./CommentResponse.css";
 
 interface T {
@@ -33,77 +35,103 @@ const CommentResponse = ({
   userData,
 }: T) => {
   const dispatch = useAppDispatch();
-  const { user_id, createdAt, origin_id, emotion, dislike_count, like_count } =
-    comment_data;
+  const { user_id, createdAt, origin_id, like_count } = comment_data;
 
-  const feelClickHandler = async (emotion: string) => {
+  const emotionOfRecord = comment_data.like_users.indexOf(userData.user_id);
+  const feelClickHandler = async () => {
     if (!userData) return alert("로그인 하시면 이용하실 수 있습니다.");
-    const docRef = doc(db, "comments", createdAt + user_id);
 
-    //commentData는 useState의 속성고 Comment 타입의 객체이므로 깊은 복사
-    let updatedField: Comment = JSON.parse(JSON.stringify(comment_data));
+    // 댓글의 좋아요 카운트 변수 생성
+    let like_count: number = 0;
+    let like_users: FieldValue;
 
-    // 댓글의 좋아요, 싫어요 카운트 설정
-    let emotion_count = [0, 0];
+    // 댓글에 좋아요 기록이 있는지에 관한 변수 생성
+    const prevEmotion: number = comment_data.like_users.indexOf(
+      userData.user_id
+    );
+    const time: string = new Date(
+      new Date().getTime() + 9 * 60 * 60 * 1000
+    ).toISOString();
 
-    // 댓글에 좋아요, 싫어요 기록이 있는지에 관한 변수 생성
-    const prevEmotion = updatedField.emotion[user_id];
-
-    // 사용자가 이 댓글에 좋아요, 싫어요 버튼을 누른 기록이 있는 경우,
-    if (prevEmotion === emotion) {
+    if (prevEmotion === -1) {
+      // 사용자가 이 댓글에 좋아요 버튼을 누른 기록이 없는 경우 추가하기,
+      like_count = 1;
+      like_users = arrayUnion(userData.user_id);
+    } else {
       // 같은 감정 표현 아이콘을 클릭하면 삭제 (초기화)
-      delete updatedField.emotion[user_id];
-      emotion_count = emotion === "좋아요" ? [-1, 0] : [0, -1];
+      like_count = -1;
+      like_users = arrayRemove(userData.user_id);
     }
-
-    if (prevEmotion && prevEmotion !== emotion) {
-      // 다른 것을 클릭 (ex: 좋아요 -> 싫어요) value 변경
-      updatedField.emotion[user_id] = emotion;
-      emotion_count = emotion === "좋아요" ? [1, -1] : [-1, 1];
-    }
-
-    if (prevEmotion === undefined) {
-      // 사용자가 이 댓글에 좋아요, 싫어요 버튼을 누른 기록이 없는 경우 추가,
-      updatedField.emotion[user_id] = emotion;
-      emotion_count = emotion === "좋아요" ? [1, 0] : [0, 1];
-    }
-
-    updatedField.like_count += emotion_count[0];
-    updatedField.dislike_count += emotion_count[1];
 
     if (type === "origin") {
       dispatch(
-        originCommentActions.updateComment({
+        originCommentActions.likeComment({
           origin_index,
-          type: "revise",
-          updatedField,
+          like_count,
+          user_id: userData.user_id,
         })
       );
     }
 
-    if (origin_id && reply_index) {
+    if (origin_id && reply_index !== undefined) {
       if (type === "reply")
         dispatch(
-          replyActions.updateReply({ origin_id, reply_index, updatedField })
+          replyActions.likeComment({
+            origin_id: origin_id!,
+            reply_index: reply_index!,
+            user_id,
+            like_count,
+          })
         );
 
       if (type === "my") {
-        const comment_id = createdAt + user_id;
         dispatch(
-          myReplyActions.updateMyReply({ origin_id, comment_id, updatedField })
+          myReplyActions.likeComment({
+            origin_id,
+            comment_id: createdAt + user_id,
+            user_id,
+            like_count,
+          })
         );
       }
     }
 
     try {
       // Firestore 문서 업데이트
-      await updateDoc(docRef, {
-        [`emotion.${user_id}`]: !updatedField.emotion[user_id]
-          ? deleteField()
-          : emotion,
-        like_count: increment(emotion_count[0]),
-        dislike_count: increment(emotion_count[1]),
+      const batch = writeBatch(db);
+      const documentId = createdAt + user_id;
+
+      const basePathOne = origin_id
+        ? [origin_id, "comments", documentId]
+        : [documentId];
+      const docRef = doc(db, "comments", ...basePathOne);
+
+      const basePathTwo = origin_id
+        ? [origin_id, "comments", documentId, "like_users", userData.user_id]
+        : [documentId, "like_users", userData.user_id];
+
+      const userRef = doc(db, "comments", ...basePathTwo);
+
+      batch.update(docRef, {
+        like_count: increment(like_count),
+        like_users: like_users,
       });
+
+      if (like_count === 1) {
+        batch.set(userRef, {
+          origin_id,
+          comment_id: createdAt + user_id,
+          createdAt: time,
+          content_title: comment_data.content_title,
+          content_id: comment_data.content_id,
+          content_type: comment_data.content_type,
+          image_url: comment_data.image_url,
+          content: comment_data.content,
+          user_id: userData.user_id,
+        });
+      } else batch.delete(userRef);
+
+      await batch.commit();
     } catch (error: any) {
       console.error(error);
       alert(error.message);
@@ -120,34 +148,14 @@ const CommentResponse = ({
   return (
     <div className="submenu">
       <div
-        className={emotion[user_id] === "좋아요" ? "sub-box like" : "sub-box"}
+        className={emotionOfRecord !== -1 ? "sub-box press-like" : "sub-box"}
       >
-        <button onClick={() => feelClickHandler("좋아요")} type="button">
+        <button onClick={feelClickHandler} type="button">
           <FontAwesomeIcon
-            icon={
-              emotion[user_id] === "좋아요"
-                ? faSolidThumbsUp
-                : faRegularThumbsUp
-            }
+            icon={emotionOfRecord !== -1 ? faSolidThumbsUp : faRegularThumbsUp}
           />
         </button>
         <span>{like_count}</span>
-      </div>
-      <div
-        className={
-          emotion[user_id] === "싫어요" ? "sub-box dislike" : "sub-box"
-        }
-      >
-        <button onClick={() => feelClickHandler("싫어요")}>
-          <FontAwesomeIcon
-            icon={
-              emotion[user_id] === "싫어요"
-                ? faSolidThumbsDown
-                : faRegularThumbsDown
-            }
-          />
-        </button>
-        <span>{dislike_count}</span>
       </div>
       <div className="sub-box">
         <button type="button" onClick={replyHandler}>

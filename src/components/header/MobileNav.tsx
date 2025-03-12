@@ -14,6 +14,7 @@ interface T {
 }
 
 const MobileNav = ({ openNav, setOpenNav }: T) => {
+  console.log('?????????????')
   const dispatch = useAppDispatch();
   const month = String(new Date().getMonth() + 1).padStart(2, "0");
 
@@ -32,7 +33,6 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
     if (!openNav) return;
 
     const resizeHandler = () => {
-
       if (window.innerWidth >= 1024) setOpenNav(false);
     };
 
@@ -40,6 +40,17 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
 
     return () => window.removeEventListener("resize", resizeHandler);
   }, [openNav, setOpenNav]);
+
+  const convertUserEmail = () => {
+    let provider = auth.currentUser?.uid;
+    let email = auth.currentUser!.email!;
+
+    if (provider?.includes("kakao:") || provider?.includes("naver:")) {
+      email = email.split(/\bkakao_|naver_/)[1];
+    }
+
+    return email;
+  };
 
   return (
     <div className="side-container">
@@ -70,7 +81,9 @@ const MobileNav = ({ openNav, setOpenNav }: T) => {
             <div>
               <img src={auth.currentUser.photoURL!} alt="User"></img>
             </div>
-            <p className="mo-email">{auth.currentUser.email}</p>
+            <p className="mo-email">
+              {convertUserEmail()}
+            </p>
             <button className="mo-logout" onClick={logoutHandler}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
               &nbsp; 로그아웃

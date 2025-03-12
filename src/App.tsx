@@ -13,6 +13,7 @@ const Content = lazy(() => import("./components/content/Content"));
 const Theme = lazy(() => import("./components/main/Theme"));
 const EtcLayout = lazy(() => import("./pages/EtcLayout"));
 const About = lazy(() => import("./pages/About"));
+const User = lazy(() => import("./pages/User/UserPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Service = lazy(() => import("./pages/Service"));
 const Question = lazy(() => import("./pages/Question"));
@@ -32,7 +33,7 @@ function App() {
           path: "tour",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="tour" />
             </Suspense>
           ),
@@ -41,7 +42,7 @@ function App() {
           path: "culture",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="culture" />
             </Suspense>
           ),
@@ -50,7 +51,7 @@ function App() {
           path: "festival",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="festival" />
             </Suspense>
           ),
@@ -59,7 +60,7 @@ function App() {
           path: "travel",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="travel" />
             </Suspense>
           ),
@@ -68,7 +69,7 @@ function App() {
           path: "leports",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="leports" />
             </Suspense>
           ),
@@ -77,7 +78,7 @@ function App() {
           path: "search",
           errorElement: <GetDataError />,
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Main title="search" />
             </Suspense>
           ),
@@ -89,7 +90,7 @@ function App() {
             {
               path: ":contentId",
               element: (
-                <Suspense fallback={<Loading height="400px"/>}>
+                <Suspense fallback={<Loading height="400px" />}>
                   <Content />
                 </Suspense>
               ),
@@ -99,7 +100,7 @@ function App() {
         {
           path: "/pick",
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <Theme />
             </Suspense>
           ),
@@ -107,7 +108,7 @@ function App() {
         {
           path: "/etc",
           element: (
-            <Suspense fallback={<Loading height="400px"/>}>
+            <Suspense fallback={<Loading height="400px" />}>
               <EtcLayout />
             </Suspense>
           ),
@@ -115,7 +116,7 @@ function App() {
             {
               path: "about",
               element: (
-                <Suspense fallback={<Loading height="400px"/>}>
+                <Suspense fallback={<Loading height="400px" />}>
                   <About />
                 </Suspense>
               ),
@@ -123,7 +124,7 @@ function App() {
             {
               path: "privacypolicy",
               element: (
-                <Suspense fallback={<Loading height="400px"/>}>
+                <Suspense fallback={<Loading height="400px" />}>
                   <PrivacyPolicy />
                 </Suspense>
               ),
@@ -131,7 +132,7 @@ function App() {
             {
               path: "service",
               element: (
-                <Suspense fallback={<Loading height="400px"/>}>
+                <Suspense fallback={<Loading height="400px" />}>
                   <Service />
                 </Suspense>
               ),
@@ -139,19 +140,28 @@ function App() {
             {
               path: "question",
               element: (
-                <Suspense fallback={<Loading height="400px"/>}>
+                <Suspense fallback={<Loading height="400px" />}>
                   <Question />
                 </Suspense>
               ),
             },
           ],
         },
+        {
+          path: "/user",
+          element: (
+            <Suspense fallback={<Loading height="500px" />}>
+              <User />
+            </Suspense>
+          ),
+        },
       ],
     },
+
     {
       path: "/login",
       element: (
-        <Suspense fallback={<Loading height="400px"/>}>
+        <Suspense fallback={<Loading height="400px" />}>
           <LoginPage />
         </Suspense>
       ),
@@ -164,7 +174,7 @@ function App() {
     {
       path: "*",
       element: (
-        <Suspense fallback={<Loading height="400px"/>}>
+        <Suspense fallback={<Loading height="400px" />}>
           <PageNotFound />
         </Suspense>
       ),

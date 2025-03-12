@@ -28,8 +28,8 @@ const MenuBar = ({ infoRef, reviewRef }: MenuBarProps) => {
 
   useEffect(() => {
     const scrollPosition = () => {
-      if (window.scrollY > 480) setStyle("fixed-tab");
-      else setStyle("");
+      if (window.scrollY > 481 && style === "") setStyle("fixed-tab");
+      else if (window.scrollY <= 481 && style === "fixed-tab") setStyle("");
     };
 
     window.addEventListener("scroll", scrollPosition);

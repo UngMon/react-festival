@@ -5,7 +5,7 @@ import { originCommentActions } from "../../../redux/origin_comment-slice";
 import { db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { Comment } from "../../../type/UserDataType";
+import { Comment } from "../../../type/DataType";
 import LoadingSpinnerTwo from "../../loading/LoadingSpinnerTwo";
 import "./UserCommentForm.css";
 
@@ -18,21 +18,18 @@ const UserCommentForm = ({ content_type, content_id }: T) => {
   console.log("UserCommentForm Component Render");
   const dispatch = useAppDispatch();
 
-  const contentTitle = useSelector(
-    (state: RootState) => state.data.contentTitle
-  );
+  const { detailCommon } = useSelector((state: RootState) => state.content);
 
   const userData = useSelector((state: RootState) => state.firebase);
-  const { user_id, user_name, user_photo, loginedUser, loadingState } =
-    userData;
+  const { user_id, user_name, user_photo, status } = userData;
 
   const [loading, setLoading] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!contentTitle)
-    //   return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
+    if (!detailCommon || !detailCommon[0].title)
+      return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
 
     if (user_id === "") return alert("비정상적인 접근입니다.");
 
@@ -42,26 +39,28 @@ const UserCommentForm = ({ content_type, content_id }: T) => {
 
     setLoading(true);
 
-    const timestamp = new Date();
-    timestamp.setHours(timestamp.getHours() + 9);
+    const createdAt = new Date(
+      new Date().getTime() + 9 * 60 * 60 * 1000
+    ).toISOString();
 
     const field_data: Comment = {
       content_type,
       content_id,
-      content_title: "",
+      content_title: detailCommon[0].title || detailCommon[1].title,
       content: [content, "", ""],
       user_id,
       user_name,
       user_photo,
-      createdAt: timestamp.toISOString(),
+      createdAt,
       origin_id: null,
       parent_id: null,
       parent_name: null,
       like_count: 0,
-      dislike_count: 0,
       reply_count: 0,
       isRevised: false,
-      emotion: {},
+      image_url:
+        detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
+      like_users: [],
     };
 
     const documentId = field_data.createdAt + field_data.user_id;
@@ -102,9 +101,9 @@ const UserCommentForm = ({ content_type, content_id }: T) => {
             <i />
           </div>
           <div className="comment-button-box">
-            {loadingState === "fulfilled" && (
+            {status === "fulfilled" && (
               <>
-                {!loginedUser ? (
+                {user_id === "" ? (
                   <button type="button">
                     <Link to="/login">로그인</Link>
                   </button>

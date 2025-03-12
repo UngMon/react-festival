@@ -27,7 +27,7 @@ const RegionSelector = ({
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-
+    
     let url = '?';
     if (title === "festival") url += `month=${month}&`;
     url += `contentTypeId=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;

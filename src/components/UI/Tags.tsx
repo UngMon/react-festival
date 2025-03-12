@@ -33,13 +33,13 @@ const Tags = ({
     navigate(url);
   };
 
-  const array = contentTypeId === "15" ? TagCode[contentTypeId] : TagCode[cat2];
+  const tagObject = contentTypeId === "15" ? TagCode[contentTypeId] : TagCode[cat2];
 
   return (
     <div className="tags">
       <div className="hash">
-        {array &&
-          Object.entries(array).map((item, index) => (
+        {tagObject &&
+          Object.entries(tagObject).map((item, index) => (
             <button
               key={index}
               className={`${cat3 === item[1] ? "category-active" : "null"}`}

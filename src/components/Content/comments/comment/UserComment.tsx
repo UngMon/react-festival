@@ -1,4 +1,5 @@
-import { Comment, PickComment, UserData } from "../../../../type/UserDataType";
+import { PickComment, UserData } from "../../../../type/UserDataType";
+import { Comment } from "../../../../type/DataType";
 import UserIcon from "./UserIcon";
 import CommentOption from "./CommentOption";
 import CommentResponse from "./CommentResponse";
@@ -45,7 +46,7 @@ const UserComment = ({
       </div>
       <div className="comment-text" style={{ whiteSpace: "pre-wrap" }}>
         <span>
-          {comment_data.content.map((comment, index) => {
+          {comment_data.content?.map((comment, index) => {
             if (index === 1 && comment.length > 0) {
               return <span key={index}>{comment}</span>;
             } else return comment;

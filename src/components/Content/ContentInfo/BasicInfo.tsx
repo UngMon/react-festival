@@ -6,10 +6,10 @@ import { convertText } from "../../../utils/convertText";
 interface BasicProps {
   detailIntro: ContentIntro[];
   detailCommon: ContentCommon[];
-  type: string;
+  content_type: string;
 }
 
-const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
+const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
   console.log("BasicInfo Component Render");
   const Intro: { [key: string]: string } = detailIntro[0];
 
@@ -44,7 +44,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           <span>{convertText(detailCommon[0].zipcode)}</span>
         </li>
       )}
-      {type === "15" && (
+      {content_type === "15" && (
         <li>
           <strong className="label">기간</strong>
           <span>
@@ -55,7 +55,7 @@ const BasicInfo = ({ detailIntro, detailCommon, type }: BasicProps) => {
           </span>
         </li>
       )}
-      {BasicInfoList[type].map(
+      {BasicInfoList[content_type].map(
         (item) =>
           Intro[item[1]] && (
             <li key={item[0]}>
