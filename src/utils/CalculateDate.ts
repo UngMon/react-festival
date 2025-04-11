@@ -1,3 +1,5 @@
+import { nowDate } from "./NowDate";
+
 export const calculateDate = (
   eventStartDate: string,
   eventEndDate: string,
@@ -8,23 +10,17 @@ export const calculateDate = (
   const today = year + month + date;
 
   if (today < eventStartDate) {
-    let count = 0;
-    const eventYear = eventStartDate.slice(0, 4);
-    const eventMonth = eventStartDate.slice(4, 6);
-    const eventDate = eventStartDate.slice(6, 8);
+    const startYear = +eventStartDate.substring(0, 4),
+      startMonth = +eventStartDate.substring(4, 6),
+      startDay = +eventStartDate.substring(6, 8),
+      endYear = +eventEndDate.substring(0, 4),
+      endMonth = +eventEndDate.substring(4, 6),
+      endDay = +eventEndDate.substring(6, 8);
 
-    for (let y = +year; y <= +eventYear; y++) {
-      for (let m = +month; m <= +eventMonth; m++) {
-        if (m === +eventMonth) {
-          count += +eventDate - +date;
-          break;
-        }
-        const lastDate = new Date(+year, m, 0).getDate();
-        count += lastDate;
-      }
-    }
+    const d1 = new Date(startYear, startMonth, startDay);
+    const d2 = new Date(endYear, endMonth, endDay);
 
-    return `${count}일 후 개최`;
+    return `${Math.abs((d2.getTime() - d1.getTime()) / 86400000)}일 후 개최`; // 밀리초 → 일 변환
   } else {
     if (today <= eventEndDate) return "진행중";
     else return "행사종료";

@@ -73,15 +73,11 @@
   }
 
   .ro-b45 {
-    transform: rotate(-45deg) translate(5.5px, -6px);
+    transform: rotate(-45deg) translate(6px, -6.5px);
   }
 }
 
 @media (min-width: 1024px) {
-  .Header-top {
-    width: 90%;
-  }
-
   #nav-bar {
     display: none;
   }

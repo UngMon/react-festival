@@ -1,0 +1,5 @@
+.Result-Container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+}

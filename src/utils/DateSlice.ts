@@ -1,4 +1,6 @@
 export const dateSlice = (startDate: string, endDate: string): string => {
+  if (!startDate && !endDate) return "";
+  
   const result =
     startDate.slice(0, 4) +
     "." +
@@ -14,4 +16,3 @@ export const dateSlice = (startDate: string, endDate: string): string => {
 
   return result;
 };
-

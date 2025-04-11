@@ -71,7 +71,7 @@ const LoginButton = () => {
       {userData.status === "pending" && <div className="not-Login" />}
       {userData.status === "fulfilled" && (
         <>
-          {userData.user_id === '' ? (
+          {userData.user_id === "" ? (
             <div className="login" onClick={loginHandler}>
               <FontAwesomeIcon icon={faRightToBracket} />
             </div>
@@ -88,6 +88,12 @@ const LoginButton = () => {
                   <div className="logout" onClick={logoutHnalder}>
                     <FontAwesomeIcon icon={faArrowRightFromBracket} />
                     <span>로그아웃</span>
+                  </div>
+                  <div
+                    className="account-log"
+                    onClick={() => navigate("/user")}
+                  >
+                    계정 활동 보기
                   </div>
                 </div>
               )}

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { nowDate } from "../../utils/NowDate";
 import "./Footer.css";
 
 const Footer = () => {
-  const { month } = nowDate();
+  const moveScreenTop = () => {
+    window.scroll({ top: 0 });
+  };
 
   return (
     <footer className="footer-container">
@@ -13,13 +14,13 @@ const Footer = () => {
       <div className="footer-navigation">
         <nav>
           <ul>
-            <li>
+            <li onClick={moveScreenTop}>
               <Link to="/etc/about">About</Link>
             </li>
-            <li>
+            <li onClick={moveScreenTop}>
               <Link to="/etc/privacypolicy">개인정보처리약관</Link>
             </li>
-            <li>
+            <li onClick={moveScreenTop}>
               <Link to="/etc/service">이용약관</Link>
             </li>
             <li>
@@ -31,7 +32,7 @@ const Footer = () => {
                 저작권보호정책
               </Link>
             </li>
-            <li>
+            <li onClick={moveScreenTop}>
               <Link to="/etc/question">Q&A</Link>
             </li>
           </ul>

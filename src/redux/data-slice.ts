@@ -17,7 +17,8 @@ const initialState: DataType = {
   leports: {},
   search: {},
   loading: false,
-  record: [],
+  cat_page_record: {},
+  cat_record: [],
   행사상태: [true, false, false],
 };
 
@@ -45,6 +46,7 @@ const dataSlice = createSlice({
           const {
             title,
             numOfRows,
+            pageCount,
             data,
             page,
             contentTypeId,
@@ -56,21 +58,33 @@ const dataSlice = createSlice({
           } = action.payload;
 
           let responseFromTourApi = data.response.body.items.item;
+          let page_count: string | undefined = pageCount
+            ? pageCount.response.body.items.item === ""
+              ? "0"
+              : pageCount.response.body.items.item[0].totalCnt
+            : undefined;
 
           state.successGetData = true;
           state.httpState = "fulfilled";
           state.loading = false;
 
           let key: string = "";
+          let pageKey = "";
 
-          if (title === "search")
-            key = `${keyword}-${contentTypeId}-${numOfRows}-${page}`;
-          else if (title === "festival") key = "data";
-          else key = `${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+          if (title === "search") {
+            key = `${contentTypeId}-${keyword}-${page}`;
+            pageKey = `${contentTypeId}-${keyword}`;
+          } else if (title === "festival") {
+            key = "data";
+          } else {
+            key = `${contentTypeId}-${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+            pageKey = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+          }
 
           if (!responseFromTourApi) {
             // 데이터가 성공적으로 응답이 됐지만, 아무런 정보가 없는 경우
-            state.record.push(key);
+            state.cat_record.push(key);
+
             return;
           }
 
@@ -90,19 +104,26 @@ const dataSlice = createSlice({
               a.eventenddate! < b.eventenddate! ? -1 : 1
             );
 
-            if (state.record.length > 19) {
-              const delete_key = state.record.shift();
+            if (!state.cat_page_record[pageKey])
+              state.cat_page_record[pageKey] = +pageCount;
+
+            if (state.cat_record.length > 19) {
+              const delete_key = state.cat_record.shift();
               delete state[title][delete_key!];
             }
-            state.record.push(key);
+            state.cat_record.push(key);
             return;
           }
 
-          if (state.record.length > 19) {
-            const delete_key = state.record.shift();
+          if (page_count && !state.cat_page_record[pageKey]) {
+            state.cat_page_record[pageKey] = +page_count;
+          }
+
+          if (state.cat_record.length > 19) {
+            const delete_key = state.cat_record.shift();
             delete state[title][delete_key!];
           }
-          state.record.push(key);
+          state.cat_record.push(key);
           if (!state[title][key]) state[title][key] = [];
           state[title][key].push(...responseFromTourApi);
         }

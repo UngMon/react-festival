@@ -23,7 +23,6 @@
   }
 
   p {
-    height: 30px;
     line-height: 30px;
     font-size: 1em;
     font-weight: 500;
@@ -58,7 +57,8 @@
     }
   }
 
-  button {
+  a {
+    display: block;
     margin-top: 10px;
     color: purple;
     font-size: 0.9em;

@@ -11,7 +11,8 @@ export interface DataType {
   leports: Record<string, Item[]>;
   search: Record<string, Item[]>;
   loading: boolean;
-  record: string[];
+  cat_page_record: Record<string, number>;
+  cat_record: string[];
   행사상태: [boolean, boolean, boolean];
 }
 

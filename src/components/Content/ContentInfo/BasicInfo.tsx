@@ -29,7 +29,7 @@ const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
   };
 
   const homepage = convertHtmlToText(detailCommon[0].homepage);
-
+  // console.log(BasicInfoList[content_type], co)
   return (
     <ul className="Content-table">
       {detailCommon[0].tel && (

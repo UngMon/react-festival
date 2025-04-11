@@ -6,9 +6,8 @@ import Category from "./Category";
 import OnGoingSelector from "./OnGoingSelector";
 import Tags from "./Tags";
 import useAllParams, { CheckParams } from "../../hooks/useCheckParams";
-import PageButton from "../card/PageButton";
-import "./Picker.css";
 import RowsPerPage from "../card/RowsPerPage";
+import "./Picker.css";
 
 interface T {
   title: TitleType;

@@ -23,17 +23,21 @@ export type Item = {
   title: string;
 };
 
-export type FetchRespon = {
+type ResponseBody<T> = {
   response: {
     body: {
       items: {
-        item: Item[];
+        item: T;
       };
     };
   };
 };
 
+export type FetchRespon = ResponseBody<Item[]>;
+export type PageCountRespon = ResponseBody<[{ totalCnt: string }] | "">;
+
 export interface FetchParams {
+  existPageInfo: boolean;
   numOfRows: number;
   page?: number;
   title: TitleType;
@@ -41,6 +45,7 @@ export interface FetchParams {
 }
 
 export interface FetchTourData {
+  pageCount: PageCountRespon;
   numOfRows: number;
   page: number;
   data: FetchRespon;
@@ -59,17 +64,10 @@ type It = {
   name: string;
 };
 
-export type Sigun = {
-  response: {
-    body: {
-      items: {
-        item: It[];
-      };
-    };
-  };
-};
+export type Sigun = ResponseBody<It[]>;
 
 export const ContentIdCode: Record<string, string> = {
+  "0": "통합검색",
   "12": "관광지",
   "14": "문화시설",
   "15": "축제/공연/행사",
@@ -670,7 +668,7 @@ export const TagCode: Record<string, Record<string, string>> = {
     영화: "A02081100",
     스포츠경기: "A02081200",
     기타행사: "A02081300",
-    넌버벌: "A02081400"
+    넌버벌: "A02081400",
   },
   // C0112: {
   //   전체: "all",
@@ -824,15 +822,26 @@ export const BasicInfoList: Record<string, string[][]> = {
     ["유모차 대여", "chkbabycarriageleports"],
     ["반려동물 입장", "chkpetleports"],
   ],
-  // "39": [
-  //   ["대표 메뉴", "firstmenu"],
-  //   ["취급 메뉴", "treatmenu"],
-  //   ["할인 정보", "discountinfofood"],
-  //   ["문의 및 안내", "infocenterfood"],
-  //   ["주차 여부", "parkingfood"],
-  //   ["영업 시간", "opentimefood"],
-  //   ["휴일", "restdatefood"],
-  //   ["포장 가능", "packing"],
-  //   ["예약 가능", "reservationfood"],
-  // ],
+  "32": [
+    ["체크인", "checkintime"],
+    ["체크아웃", "checkintime"],
+    ["객실 수", "roomcount"],
+    ["객실 유형", "roomtype"],
+    ["규 모", "scalelodging"],
+    ["부대시설", "subfacility"],
+    ["주차시설", "parkinglodging"],
+    ["식음료장", "foodplace"],
+    ["조리 가능", "chkcooking"],
+  ],
+  "39": [
+    ["대표 메뉴", "firstmenu"],
+    ["취급 메뉴", "treatmenu"],
+    ["할인 정보", "discountinfofood"],
+    ["문의 및 안내", "infocenterfood"],
+    ["주차 여부", "parkingfood"],
+    ["영업 시간", "opentimefood"],
+    ["휴일", "restdatefood"],
+    ["포장 가능", "packing"],
+    ["예약 가능", "reservationfood"],
+  ],
 };

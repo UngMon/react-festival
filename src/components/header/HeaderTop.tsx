@@ -27,7 +27,7 @@ const HeaderTop = ({
   return (
     <div className="Header-top">
       <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
-        <span className="logo-title">여기저기</span>
+        <span className="logo-title">이곳저곳</span>
       </Link>
       <div className="page-top-interaction">
         <button

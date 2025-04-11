@@ -33,16 +33,15 @@
 .logout-box {
   position: absolute;
   z-index: 7;
-  top: 55px;
-  right: 0px;
-  width: 80px;
+  top: 50px;
+  right: 2px;
+  width: 110px;
   padding: 10px;
-  font-size: 0.77em;
+  font-size: 0.9em;
   text-align: center;
   border-radius: 8px;
   box-shadow: 3px 3px 15px rgba(12, 12, 12, 0.25);
   background-color: rgb(255, 255, 255);
-  display: flex;
 }
 
 .logout-box .arrow {
@@ -58,9 +57,8 @@
 }
 
 .logout {
-  width: 80px;
   height: 30px;
-  padding: 0;
+  margin-bottom: 5px;
   background-color: white;
   border: 0;
   border-radius: 5px 10px 20px 10px;
@@ -68,6 +66,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 700;
 }
 
 .logout svg {
@@ -81,7 +80,18 @@
 
 .logout:hover {
   cursor: pointer;
-  color: gold;
+  color: rgb(111, 22, 255);
+}
+
+.account-log {
+  height: 25px;
+  line-height: 25px;
+  font-size: 0.95em;
+
+  &:hover {
+    cursor: pointer;
+    color: rgb(111, 22, 255);
+  }
 }
 
 .not-Login {

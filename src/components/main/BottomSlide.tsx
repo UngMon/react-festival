@@ -47,7 +47,7 @@ const BottomSlide = () => {
   return (
     <section className="Bottom-Container">
       <div className="Bottom-Title">
-        <h3>2024 추천 Pick!</h3>
+        <h3>이곳저곳 추천 Pick!</h3>
         <p>일상 속에서 쉽게 접할 수 있는 독특하고 멋진 장소</p>
       </div>
       <div className="Bottom-Slide">
@@ -62,20 +62,20 @@ const BottomSlide = () => {
           {bottom.map((item, idx) => (
             <li
               className={idx === index ? "op-zero" : ""}
-              id={idx === index ? "picked" : "none"}
+              id={idx === index ? "picked" : ""}
               key={idx}
               onClick={() => setIndex(idx)}
             >
               <div>
                 <img src={item.url} alt={item.title} />
               </div>
-              <div id={idx === index ? "textani1" : "none"}>{item.tag}</div>
-              <div id={idx === index ? "textani2" : "none"}>
+              <div id={idx === index ? "textani1" : ""}>{item.tag}</div>
+              <div id={idx === index ? "textani2" : ""}>
                 <h4>{item.tag}</h4>
                 <p>{item.text}</p>
                 <button
                   type="button"
-                  id={idx === index ? "buttonani" : "none"}
+                  id={idx === index ? "buttonani" : ""}
                   onClick={() =>
                     idx === index && navigate(`/pick?theme=${idx}`)
                   }

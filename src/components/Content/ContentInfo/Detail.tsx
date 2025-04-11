@@ -1,31 +1,20 @@
 import { useEffect, useState } from "react";
-import {
-  ResponCommon,
-  ResponInfo,
-  ResponIntro,
-  GetContentData,
-} from "../../../type/ContentType";
+import { GetContentData } from "../../../type/ContentType";
+import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
+import { contentActions } from "../../../redux/content-slice";
 import { convertText } from "../../../utils/convertText";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "../../loading/Loading";
-import getContentData from "../../../utils/getContentData";
+import { getContentData } from "../../../utils/getContentData";
 import "./Detail.css";
-import { contentActions } from "../../../redux/content-slice";
-import { useSelector } from "react-redux";
 
 interface DetailProps {
   infoRef: React.RefObject<HTMLHeadingElement>;
   content_id: string;
   content_type: string;
 }
-
-type Datas = {
-  common: ResponCommon;
-  info: ResponInfo;
-  intro: ResponIntro;
-};
 
 const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
   console.log("Detail Component Render");
@@ -47,7 +36,6 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
         );
 
         const { contentCommon, contentInfo, contentIntro } = response;
-
         dispatch(
           contentActions.setContentData({
             contentCommon,
@@ -64,7 +52,7 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
     };
     settingContentData(content_type, content_id);
   }, [dispatch, content_type, content_id]);
-
+  console.log(detailCommon, detailInfo, detailIntro);
   return (
     <div className="Cotent-text-box" ref={infoRef}>
       {loading && <Loading height="400px" />}
@@ -81,12 +69,14 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
       )}
       {detailInfo && (
         <div className="overview">
-          {detailInfo.map((data, index) => (
-            <div className="info" key={index}>
-              <strong className="infoname">{data.infoname}</strong>
-              <p className="infotext">{convertText(data.infotext)}</p>
-            </div>
-          ))}
+          {detailInfo.map((data, index) =>
+            data.infotext ? (
+              <div className="info" key={index}>
+                <strong className="infoname">{data.infoname}</strong>
+                <p className="infotext">{convertText(data.infotext)}</p>
+              </div>
+            ) : null
+          )}
         </div>
       )}
       {detailCommon && <Map detailCommon={detailCommon} />}

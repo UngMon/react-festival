@@ -22,6 +22,7 @@ const Category = ({
   cat2,
   cat3,
 }: T) => {
+  console.log(title, contentTypeId, areaCode, cat1, cat2, cat3);
   const navigate = useNavigate();
 
   const pickerSelector = (
@@ -53,7 +54,7 @@ const Category = ({
 
   return (
     <>
-      {title === "관광지" && (
+      {title === "tour" && (
         <>
           <div className="picker">
             <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
@@ -91,7 +92,7 @@ const Category = ({
           )}
         </>
       )}
-      {title === "문화시설" && (
+      {title === "culture" && (
         <div className="picker">
           <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
             <option value="all"># 전체</option>
@@ -114,7 +115,7 @@ const Category = ({
           <FontAwesomeIcon icon={faCheck} />
         </div>
       )}
-      {title === "여행코스" && (
+      {title === "travel" && (
         <div className="picker">
           <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
             <option value="all"># 전체</option>
@@ -129,7 +130,7 @@ const Category = ({
           <FontAwesomeIcon icon={faCheck} />
         </div>
       )}
-      {title === "레포츠" && (
+      {title === "leports" && (
         <div className="picker">
           <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
             <option value="all"># 전체</option>

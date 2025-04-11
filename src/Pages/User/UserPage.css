@@ -5,14 +5,26 @@
   min-height: calc(100vh - 60px);
 }
 
+.user-menu-arrow {
+  position: absolute;
+  top: 10px;
+  left: 3%;
+  cursor: pointer;
+
+  svg {
+    height: 30px;
+    color: #333;
+  }
+}
+
 .user-menu {
   position: absolute;
   z-index: 2;
   top: 0;
+  display: none;
   box-sizing: border-box;
   padding: 55px 0 0;
-  display: none;
-  width: 264px;
+  width: 280px;
   height: 100%;
   background: rgb(245, 245, 245);
   transform: translateX(-280px);
@@ -20,6 +32,7 @@
 }
 
 .op {
+  display: block;
   transform: translateX(0px);
 }
 
@@ -117,7 +130,6 @@
 }
 
 #date {
-  /* box-sizing: border-box; */
   margin-bottom: 20px;
   background-color: rgb(48, 110, 255);
   border-radius: 0;
@@ -236,8 +248,14 @@
 }
 
 @media (min-width: 1024px) {
-  .user-menu {
+ .user-menu {
     display: block;
+    transform: translateX(0px);
     width: 280px;
+    transition: none;
+  }
+
+  .user-menu-arrow {
+    display: none;
   }
 }

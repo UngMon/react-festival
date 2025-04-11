@@ -1,57 +1,43 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./ThemeSlide.css";
 
 interface T {
   images: string[];
   index: number;
-  slideBoxRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
   theme_number: string | null;
+  clickedElement: React.MutableRefObject<HTMLElement | null>;
 }
 
 const themeObject: { [key: string]: string } = {
   "0": "cafe",
   "1": "culture",
+  "2": "flagship",
+  "3": "music",
+  "4": "bar",
 };
 
-const ThemeSlide = ({ images, index, slideBoxRef, theme_number }: T) => {
+const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
   const [mouse, setMouse] = useState<boolean>(false);
-  const [idx, setIdx] = useState<number>(1000);
   const [startX, setStartX] = useState<number>(0);
   const [cordinateX, setCordinateX] = useState<number>(0);
   const [distance, setDistance] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
+  const slideBoxRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const slideRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const clickHandler = (e: MouseEvent) => {
-      if (
-        idx === index &&
-        !slideBoxRef.current[index]?.contains(e.target as Node)
-      ) {
-        slideUp();
-      }
-    };
-
-    window.addEventListener("click", clickHandler);
-
-    return () => window.removeEventListener("click", clickHandler);
-  });
-
-  const slideDown = (pageX: number) => {
+  const slideDown = (pageX: number, target: HTMLElement) => {
+    clickedElement.current = target;
     setMouse(true);
     setStartX(pageX);
     setCordinateX(distance);
-    setIdx(index);
   };
 
   const slideMove = (pageX: number) => {
     if (!mouse) return;
 
     let movingX: number = startX - pageX;
-    let endX =
-      slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
-
+    let endX = slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
     if (cordinateX + movingX < 0) {
       movingX = -cordinateX + (movingX + cordinateX) / 3;
     }
@@ -63,9 +49,10 @@ const ThemeSlide = ({ images, index, slideBoxRef, theme_number }: T) => {
     setDistance(cordinateX + movingX);
   };
 
-  const slideUp = () => {
-    let endX =
-      slideRef.current!.clientWidth - slideBoxRef.current[index]!.clientWidth;
+  const slideUp = useCallback(() => {
+    if (!slideBoxRef.current?.contains(clickedElement.current)) return;
+
+    let endX = slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
     let count = Math.round(distance / imageRef.current!.clientWidth);
     setMouse(false);
     if (distance < 0) {
@@ -77,41 +64,57 @@ const ThemeSlide = ({ images, index, slideBoxRef, theme_number }: T) => {
       setDistance(count * imageRef.current!.clientWidth + 20 * count);
     }
     setCount(count);
-  };
+  }, [distance, images.length, clickedElement]);
+
+  useEffect(() => {
+    const clickHandler = () => {
+      slideUp();
+    };
+
+    document.addEventListener("click", clickHandler);
+
+    return () => {
+      document.removeEventListener("click", clickHandler);
+    };
+  }, [slideUp, clickedElement, index]);
 
   return (
-    <div style={{ display: "flex" }}>
-      <div
-        className="Theme-Slide"
-        onMouseDown={(e) => slideDown(e.pageX)}
-        onMouseMove={(e) => slideMove(e.pageX)}
-        onMouseUp={slideUp}
-        onTouchStart={(e) => slideDown(e.targetTouches[0].pageX)}
-        onTouchMove={(e) => slideMove(e.targetTouches[0].pageX)}
-        onTouchEnd={slideUp}
-        style={{
-          transition: "all .1s ease",
-          transform: `translateX(${-distance}px)`,
-        }}
-        ref={slideRef}
-      >
-        {images.map((item, idx) => (
-          <div key={idx} className="d">
-            <img
-              src={`./images/theme/${themeObject[theme_number!]}/${item}`}
-              alt="item"
-              ref={imageRef}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="Theme-Slide-Index-Bar">
-        {images.map((_, idx) => (
-          <div
-            key={idx}
-            style={{ width: count === idx ? "15px" : "7px" }}
-          ></div>
-        ))}
+    <div className="Theme" ref={slideBoxRef}>
+      <div style={{ display: "flex" }}>
+        <div
+          className="Theme-Slide"
+          onMouseDown={(e) => slideDown(e.pageX, e.target as HTMLElement)}
+          onMouseMove={(e) => slideMove(e.pageX)}
+          onMouseUp={(e) => slideUp()}
+          onTouchStart={(e) =>
+            slideDown(e.targetTouches[0].pageX, e.target as HTMLElement)
+          }
+          onTouchMove={(e) => slideMove(e.targetTouches[0].pageX)}
+          onTouchEnd={(e) => slideUp()}
+          style={{
+            transition: "all .1s ease",
+            transform: `translateX(${-distance}px)`,
+          }}
+          ref={slideRef}
+        >
+          {images.map((item, idx) => (
+            <div key={idx} className="d">
+              <img
+                src={`./images/theme/${themeObject[theme_number!]}/${item}`}
+                alt="item"
+                ref={imageRef}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="Theme-Slide-Index-Bar">
+          {images.map((_, idx) => (
+            <div
+              key={idx}
+              style={{ width: count === idx ? "15px" : "7px" }}
+            ></div>
+          ))}
+        </div>
       </div>
     </div>
   );

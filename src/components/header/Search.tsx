@@ -42,7 +42,7 @@ const Search = ({ setOpenSearch }: HeaderProps) => {
     const keyword = inputRef.current!.value;
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
-
+    console.log(keyword, category[0])
     navigate(`/search?keyword=${keyword}&contentTypeId=${category[0]}`);
     inputRef.current!.value = "";
     setOpenSearch(false);

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { dataActions } from "../../redux/data-slice";
+import { CheckParams } from "../../hooks/useCheckParams";
 import { getTourApiData } from "../../redux/fetch-action";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,21 +16,20 @@ import { nowDate } from "../../utils/NowDate";
 import { dateSlice } from "../../utils/DateSlice";
 import Loading from "../loading/Loading";
 import GetDataError from "../error/GetDataError";
-import useCheckParams, { CheckParams } from "../../hooks/useCheckParams";
 import "./Card.css";
 
 interface CardProps {
   title: TitleType;
   numOfRows: number;
   page: number;
+  params: CheckParams;
 }
 
-const Card = ({ title, numOfRows, page }: CardProps) => {
+const Card = ({ title, numOfRows, page, params }: CardProps) => {
+  console.log("Card Render");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useCheckParams(title);
   const tourData = useSelector((state: RootState) => state.data);
-  console.log("Card Render");
 
   useEffect(() => {
     let key: string = "";
@@ -46,22 +45,21 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
       case tourData.httpState === "fulfilled" && !tourData.successGetData:
         return;
       case title === "festival":
-        key = "data";
         if (tourData.festival.data) return;
         break;
       default:
-        if (title === "search")
-          key = `${keyword}-${contentTypeId}-${numOfRows}-${page}`;
-        else key = `${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+        if (title === "search") key = `${contentTypeId}-${keyword}-${page}`;
+        else
+          key = `${contentTypeId}-${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
 
-        if (tourData.record.includes(key)) {
-          if (!tourData.successGetData) dispatch(dataActions.changeHttpState());
-          return;
-        }
+        if (tourData.cat_record.includes(key)) return;
     }
+
+    key = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
 
     dispatch(
       getTourApiData({
+        existPageInfo: tourData.cat_page_record[key] ? true : false,
         numOfRows,
         page,
         title,
@@ -72,15 +70,17 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
 
   const cardClickHandler = useCallback(
     (type: string, contentId: string) => {
-      navigate(`/content/search?contentTypeId=${type}&contentId=${contentId}`);
+      navigate(`/content?contentTypeId=${type}&contentId=${contentId}`);
     },
     [navigate]
   );
 
   const returnResult = useMemo(() => {
     if (params.requireRedirect !== "" || tourData.loading) return null;
-    const { contentTypeId, areaCode, cat1, cat2, cat3, keyword, month } =
+    const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
       params as CheckParams;
+    const paramMonth = params.month;
+
     let array: Item[] = [];
     let key: string = "";
 
@@ -94,14 +94,14 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
         array = tourData.search[key];
         break;
       default:
-        key = `${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+        key = `${contentTypeId}-${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
         array = tourData[title][key];
     }
 
     // 빈 배열에서 불 필요한 작업 생략
     if (!array || array.length === 0) return;
 
-    const { year, date } = nowDate();
+    const { year, month, date } = nowDate();
 
     const elements = array.reduce<{
       진행중: JSX.Element[];
@@ -113,19 +113,19 @@ const Card = ({ title, numOfRows, page }: CardProps) => {
         if (cat1 !== "all" && cat1 !== item.cat1) return acc;
         if (cat2 !== "all" && cat2 !== item.cat2) return acc;
         if (cat3 !== "all" && cat3 !== item.cat3) return acc;
-        if (!item.firstimage) return acc;
+        // if (!item.firstimage) return acc;
 
         let 축제상태 = "";
         if (title === "festival") {
-          if (item.eventstartdate!.slice(4, 6) > month!) return acc;
-          if (item.eventenddate!.slice(4, 6) < month!) return acc;
+          if (item.eventstartdate!.slice(4, 6) > paramMonth!) return acc;
+          if (item.eventenddate!.slice(4, 6) < paramMonth!) return acc;
           if (areaCode !== "0" && areaCode !== item.areacode) return acc;
 
           축제상태 = calculateDate(
             item.eventstartdate!,
             item.eventenddate!,
             year,
-            month!,
+            month,
             date
           );
         }

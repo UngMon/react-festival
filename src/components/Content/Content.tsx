@@ -9,10 +9,9 @@ import Feelings from "./feel/Feelings";
 import "./Content.css";
 
 const Cotent = () => {
-  console.log("Cotent Component Render");
   const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
-
+  console.log('Content Rendering')
   const [param] = useSearchParams();
   const content_type: string = param.get("contentTypeId")!;
   const content_id: string = param.get("contentId")!;
@@ -29,7 +28,7 @@ const Cotent = () => {
         content_type={content_type}
       />
       <section className="Content-Review">
-        {/* <Feelings collectionName={collectionName} content_id={content_id} /> */}
+        <Feelings collectionName={collectionName} content_id={content_id} />
         <UserReviews
           reviewRef={reviewRef}
           content_type={content_type}

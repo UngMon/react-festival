@@ -86,16 +86,11 @@ function App() {
         {
           path: "content",
           errorElement: <GetDataError />,
-          children: [
-            {
-              path: ":contentId",
-              element: (
-                <Suspense fallback={<Loading height="400px" />}>
-                  <Content />
-                </Suspense>
-              ),
-            },
-          ],
+          element: (
+            <Suspense fallback={<Loading height="400px" />}>
+              <Content />
+            </Suspense>
+          ),
         },
         {
           path: "/pick",

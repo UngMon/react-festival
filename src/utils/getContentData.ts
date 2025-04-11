@@ -5,7 +5,7 @@ import {
   GetContentData,
 } from "../type/ContentType";
 
-const getContentData = async (
+export const getContentData = async (
   id: string,
   type: string
 ): Promise<GetContentData> => {
@@ -64,5 +64,3 @@ const getContentData = async (
 
   return { contentInfo, contentIntro, contentCommon };
 };
-
-export default getContentData;

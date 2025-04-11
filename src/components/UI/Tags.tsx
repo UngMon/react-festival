@@ -22,6 +22,7 @@ const Tags = ({
   cat3,
 }: T) => {
   const navigate = useNavigate();
+  console.log('Tags Rendering')
  
   const festivalTagClick = (c3: string) => {
 
@@ -34,7 +35,7 @@ const Tags = ({
   };
 
   const tagObject = contentTypeId === "15" ? TagCode[contentTypeId] : TagCode[cat2];
-
+  console.log(tagObject)
   return (
     <div className="tags">
       <div className="hash">

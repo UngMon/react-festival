@@ -16,11 +16,12 @@ const useCheckParams = (title: string) => {
   let requiredParams: string[] = [];
   let requireRedirect: string = "";
 
-  if (title === "result") {
-    requiredParams = ["keyword", "type"];
+  if (title === "search") {
+    requiredParams = ["keyword", "contentTypeId"];
   } else {
     requiredParams = ["contentTypeId", "areaCode", "cat1", "cat2", "cat3"];
-    if (title === "festival") requiredParams.push("month");
+    if (title === "festival")
+      requiredParams = [requiredParams[0], "month", ...requiredParams.slice(1)];
   }
 
   const missingParam: boolean = requiredParams.some(
