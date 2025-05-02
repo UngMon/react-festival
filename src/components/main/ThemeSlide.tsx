@@ -35,7 +35,7 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
 
   const slideMove = (pageX: number) => {
     if (!mouse) return;
-
+    console.log("??????");
     let movingX: number = startX - pageX;
     let endX = slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
     if (cordinateX + movingX < 0) {
@@ -52,18 +52,26 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
   const slideUp = useCallback(() => {
     if (!slideBoxRef.current?.contains(clickedElement.current)) return;
 
-    let endX = slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
+    const endX =
+      slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
     let count = Math.round(distance / imageRef.current!.clientWidth);
+    let distant;
     setMouse(false);
+
     if (distance < 0) {
-      setDistance(0);
-    } else if (distance > endX) {
-      setDistance(endX);
-      count = images.length - 1;
+      distant = 0;
+    } else if (distance > endX || distance === endX) {
+      console.log("Distance > endX");
+      distant = endX;
+      count = images.length;
     } else {
-      setDistance(count * imageRef.current!.clientWidth + 20 * count);
+      console.log("Distance <= endX");
+      console.log(distance, endX);
+      distant = count * imageRef.current!.clientWidth + 20 * count;
     }
-    setCount(count);
+
+    setDistance(distant);
+    setCount(Math.floor(5 * (distant / endX)));
   }, [distance, images.length, clickedElement]);
 
   useEffect(() => {
@@ -79,7 +87,7 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
   }, [slideUp, clickedElement, index]);
 
   return (
-    <div className="Theme" ref={slideBoxRef}>
+    <div className="Theme-Slide-Box" ref={slideBoxRef}>
       <div style={{ display: "flex" }}>
         <div
           className="Theme-Slide"
@@ -98,7 +106,7 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
           ref={slideRef}
         >
           {images.map((item, idx) => (
-            <div key={idx} className="d">
+            <div key={idx}>
               <img
                 src={`./images/theme/${themeObject[theme_number!]}/${item}`}
                 alt="item"
@@ -108,12 +116,7 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
           ))}
         </div>
         <div className="Theme-Slide-Index-Bar">
-          {images.map((_, idx) => (
-            <div
-              key={idx}
-              style={{ width: count === idx ? "15px" : "7px" }}
-            ></div>
-          ))}
+          <div className="bar" style={{ width: `${count * 20}px` }}></div>
         </div>
       </div>
     </div>

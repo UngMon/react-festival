@@ -15,6 +15,26 @@ const Theme = () => {
       navigate("/");
     }
   }, [navigate, theme_number]);
+  console.log(slideData);
+
+  const removeHashDuplication = (hash: string) => {
+    const regex = /#([^#]+)/g;
+
+    let match;
+    let result = "";
+    const rawTags = [];
+
+    while ((match = regex.exec(hash)) !== null) {
+      console.log(match)
+      rawTags.push(match[0]);
+    }
+
+    const array = [...new Set(rawTags)];
+
+    array.forEach((text) => (result += text));
+
+    return result;
+  };
 
   return (
     <section className="theme">
@@ -23,7 +43,7 @@ const Theme = () => {
           <div className="theme-item-box" key={item.title}>
             <div className="item-title">
               <h2>{item.title}</h2>
-              <p>{item.hash}</p>
+              <p>{removeHashDuplication(item.hash)}</p>
               <p>{item.sigun}</p>
             </div>
             <ThemeSlide
@@ -47,4 +67,3 @@ const Theme = () => {
 };
 
 export default Theme;
-

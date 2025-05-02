@@ -1,0 +1,154 @@
+.side-container {
+  font-size: 16px;
+}
+
+.side-background {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+}
+
+.nav-bar {
+  position: relative;
+  z-index: 20;
+  box-sizing: border-box;
+  margin-left: 5px;
+  padding: 0 5px;
+  width: 35px;
+  height: 35px;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+
+  .bar {
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid;
+    margin: 4px 0;
+    border-color: inherit;
+    transition: transform 0.2s linear;
+  }
+
+  .ro-t45 {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .fadeout {
+    opacity: 0;
+  }
+
+  .ro-b45 {
+    transform: rotate(-45deg) translate(6px, -6.5px);
+  }
+}
+
+.acti {
+  color: #333 !important;
+}
+
+.side-container ul {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-height: 100%;
+  padding: 60px 0 20px;
+  width: 320px;
+  background-color: #f5f5f5;
+  transition: all 0.5s ease;
+  overflow-y: auto;
+}
+
+.side-container ul li {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+}
+
+.side-container ul li a {
+  box-sizing: border-box;
+  padding-left: 50px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #333;
+  margin: 10px 0;
+  font-size: 1em;
+
+  &:hover {
+    cursor: pointer;
+    color: rgb(52, 117, 238);
+    background-color: rgb(215, 223, 228);
+  }
+}
+
+.user-info-box {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  color: #333;
+}
+
+.user-info-box a {
+  font-size: 18px;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(52, 117, 238);
+  }
+}
+
+.user-info-box div {
+  height: 40px;
+  img {
+    width: 40px;
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+
+.user-info-box p {
+  margin: 10px auto;
+  width: 250px;
+  height: 30px;
+  line-height: 30px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #333 !important;
+}
+
+.user-info-box .mo-logout {
+  background-color: transparent;
+  border: 0;
+  font-size: 1em;
+  font-weight: bold;
+  width: 120px;
+  border-radius: 5px 5px 5px 5px;
+  height: 40px;
+  color: #333;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(43, 117, 255);
+    color: #f5f5f5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .side-container {
+    display: none;
+  }
+}
+
+@media (max-height: 575px) {
+  .side {
+    height: 460px;
+  }
+}

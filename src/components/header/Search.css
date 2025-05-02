@@ -18,6 +18,29 @@
   }
 }
 
+.magnifying {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  background-color: transparent;
+  z-index: 99;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+
+  svg {
+    font-size: 1.8em;
+  }
+
+  &:hover {
+    color: orange !important;
+  }
+}
+
+.mag-on {
+  color: #333;
+}
+
 .search-container {
   position: fixed;
   top: 0;

@@ -26,9 +26,9 @@ const HeaderTop = ({
 
   return (
     <div className="Header-top">
-      <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
+      {/* <Link to="/" className="Logo" onClick={() => setOpenSearch(false)}>
         <span className="logo-title">이곳저곳</span>
-      </Link>
+      </Link> */}
       <div className="page-top-interaction">
         <button
           className="magnifying"

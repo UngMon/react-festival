@@ -1,33 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Menu from "./Menu";
+import { Link, useLocation } from "react-router-dom";
+import Menu from "./PcMenu";
 import Search from "./Search";
 import TopButton from "./TopButton";
-import HeaderTop from "./HeaderTop";
-import MobileNav from "./MobileNav";
+import LoginButton from "./LoginButton";
+import MobileNav from "./MobileMenu";
 import "./Header.css";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const [openSearch, setOpenSearch] = useState<boolean>(false);
-  const [openNav, setOpenNav] = useState<boolean>(false);
   const headRef = useRef<HTMLHeadElement>(null);
 
   useEffect(() => {
     if (pathname !== "/" && !headRef.current) return;
 
     const scrollHandler = () => {
-      if (window.scrollY === 0) {
-        console.log(pathname);
-        headRef.current!.style.position = "absolute";
-        headRef.current!.style.background = "none";
-        headRef.current!.style.color = "#F5F5F5";
-        return;
-      }
+      const element = headRef.current!;
 
-      headRef.current!.style.position = "fixed";
-      headRef.current!.style.background = "#F5F5F5";
-      headRef.current!.style.color = "#333";
+      if (window.scrollY > 0) {
+        if (!element.classList.contains("scroll-down"))
+          element.classList.add("scroll-down");
+      } else element.classList.remove("scroll-down");
     };
 
     window.addEventListener("scroll", scrollHandler);
@@ -38,18 +31,20 @@ const Header = () => {
   return (
     <header
       ref={headRef}
-      className={`Header-box ${pathname !== "/" ? "h-o" : ""}`}
+      className={`header-container ${pathname !== "/" ? "h-o" : ""}`}
     >
-      <HeaderTop
-        openNav={openNav}
-        setOpenNav={setOpenNav}
-        openSearch={openSearch}
-        setOpenSearch={setOpenSearch}
-      />
-      <Menu />
-      <MobileNav openNav={openNav} setOpenNav={setOpenNav} />
-      {openSearch && <Search setOpenSearch={setOpenSearch} />}
-      <TopButton />
+      <div className="header-box">
+        <Link to="/" className="Logo">
+          <div>이곳저곳</div>
+        </Link>
+        <Menu />
+        <div className="header-sub-box">
+          <Search />
+          <LoginButton />
+          <MobileNav headRef={headRef}/>
+        </div>
+        <TopButton />
+      </div>
     </header>
   );
 };
