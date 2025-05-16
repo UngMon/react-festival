@@ -1,0 +1,43 @@
+.Select-Table {
+  box-sizing: border-box;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.tags {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  line-height: 50px;
+  text-align: center;
+}
+
+.hash button {
+  display: inline-block;
+  border: 0;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0 10px;
+  margin: 0px 5px;
+  border-radius: 20px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #e1e1e1;
+  color: #333;
+}
+
+.tags button:hover {
+  background-color: #7a45e5;
+  color: white;
+}
+
+.category-active {
+  background-color: #7a45e5 !important;
+  color: white !important;
+}
+
+@media (max-width: 786px) {
+  .tags {
+    width: 100%;
+  }
+}

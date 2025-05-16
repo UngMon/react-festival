@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { auth } from "../../firebase";
+import { auth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { firebaseActions } from "../../redux/firebase-slice";
+import { RootState, useAppDispatch } from "@/store/store";
+import { firebaseActions } from "@/store/firebase-slice";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -125,11 +125,7 @@ const MobileMenu = ({ headRef }: T) => {
           </div>
         ) : (
           <li>
-            <Link
-              to="/login"
-              className="side-item"
-              // onClick={() => setOpenNav(false)}
-            >
+            <Link to="/login" className="side-item">
               <FontAwesomeIcon icon={faRightFromBracket} />
               &nbsp; 로그인
             </Link>

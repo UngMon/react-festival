@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { arrayUnion, doc, setDoc } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { db } from "@/firebase";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../../../redux/store";
-import { reportActions } from "../../../../redux/report-slice";
+import { RootState, useAppDispatch } from "@/store/store";
+import { reportActions } from "@/store/report-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";

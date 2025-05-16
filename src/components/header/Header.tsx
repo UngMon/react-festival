@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Menu from "./PcMenu";
+import PcMenu from "./PcMenu";
 import Search from "./Search";
 import TopButton from "./TopButton";
 import LoginButton from "./LoginButton";
-import MobileNav from "./MobileMenu";
+import MobileMenu from "./MobileMenu";
 import "./Header.css";
 
 const Header = () => {
+  console.log("Header Render");
   const { pathname } = useLocation();
   const headRef = useRef<HTMLHeadElement>(null);
 
   useEffect(() => {
-    if (pathname !== "/" && !headRef.current) return;
+    if (pathname !== "/" || !headRef.current) return;
 
     const scrollHandler = () => {
       const element = headRef.current!;
@@ -37,11 +38,11 @@ const Header = () => {
         <Link to="/" className="Logo">
           <div>이곳저곳</div>
         </Link>
-        <Menu />
+        <PcMenu />
         <div className="header-sub-box">
           <Search />
           <LoginButton />
-          <MobileNav headRef={headRef}/>
+          <MobileMenu headRef={headRef} />
         </div>
         <TopButton />
       </div>

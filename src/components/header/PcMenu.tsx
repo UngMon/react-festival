@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { nowDate } from "../../utils/NowDate";
+import { nowDate } from "@/utils/NowDate";
 import "./PcMenu.css";
 
 const PcMenu = () => {
@@ -64,7 +64,7 @@ const PcMenu = () => {
         </li>
         <li>
           <NavLink
-            to={`/travel?contentTypeId=28&areaCode=0&cat1=A03&cat2=all&cat3=all`}
+            to={`/leports?contentTypeId=28&areaCode=0&cat1=A03&cat2=all&cat3=all`}
             onClick={clickCategory}
           >
             레포츠
@@ -73,7 +73,7 @@ const PcMenu = () => {
         </li>
         <li>
           <NavLink
-            to={`/travel?contentTypeId=32&areaCode=0&cat1=B02&cat2=B0201&cat3=all`}
+            to={`/lodging?contentTypeId=32&areaCode=0&cat1=B02&cat2=B0201&cat3=all`}
             onClick={clickCategory}
           >
             숙박
@@ -82,7 +82,7 @@ const PcMenu = () => {
         </li>
         <li>
           <NavLink
-            to={`/travel?contentTypeId=38&areaCode=0&cat1=A04&cat2=A0401&cat3=all`}
+            to={`/shoping?contentTypeId=38&areaCode=0&cat1=A04&cat2=A0401&cat3=all`}
             onClick={clickCategory}
           >
             쇼핑
@@ -91,7 +91,7 @@ const PcMenu = () => {
         </li>
         <li>
           <NavLink
-            to={`/travel?contentTypeId=39&areaCode=0&cat1=A05&cat2=A0502&cat3=all`}
+            to={`/restaurant?contentTypeId=39&areaCode=0&cat1=A05&cat2=A0502&cat3=all`}
             onClick={clickCategory}
           >
             음식점

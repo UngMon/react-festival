@@ -9,17 +9,13 @@ const useIntersectionObserver = (
 ] => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [intersecting, setIntersecting] = useState<boolean>(false);
-  console.log('????????')
-  // let intersecting: boolean = false;
-
 
   useEffect(() => {
     if (dataLoading || !targetRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-
-        console.log(entries[0].isIntersecting)
+        console.log(entries[0].isIntersecting);
 
         if (!entries[0].isIntersecting) {
           console.log("here One");
@@ -51,4 +47,4 @@ const useIntersectionObserver = (
   return [targetRef, intersecting, setIntersecting];
 };
 
-export default useIntersectionObserver;
+export { useIntersectionObserver };

@@ -8,11 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Search.css";
 
-interface HeaderProps {
-  openSearch: boolean;
-  setOpenSearch: (value: boolean) => void;
-}
-
+// interface HeaderProps {
+//   openSearch: boolean;
+//   setOpenSearch: (value: boolean) => void;
+// }
+//{ openSearch, setOpenSearch }: HeaderProps
 const Category: Array<[string, string]> = [
   ["0", "전체"],
   ["12", "관광지"],
@@ -21,7 +21,7 @@ const Category: Array<[string, string]> = [
   ["25", "여행코스"],
   ["28", "레포츠"],
 ];
-//{ openSearch, setOpenSearch }: HeaderProps
+
 const Search = () => {
   const navigate = useNavigate();
   const [openSearch, setOpenSearch] = useState<boolean>(false);
@@ -44,7 +44,7 @@ const Search = () => {
     const keyword = inputRef.current!.value;
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
-    // console.log(keyword, category[0]);
+    
     navigate(`/search?keyword=${keyword}&contentTypeId=${category[0]}`);
     inputRef.current!.value = "";
     setOpenSearch(false);

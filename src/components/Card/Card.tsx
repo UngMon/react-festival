@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { RootState, useAppDispatch } from "../../redux/store";
+import { RootState, useAppDispatch } from "@/store/store";
 import { useSelector } from "react-redux";
-import { CheckParams } from "../../hooks/useCheckParams";
-import { getTourApiData } from "../../redux/fetch-action";
+import { CheckParams } from "@/hooks/useCheckParams";
+import { getTourApiData } from "@/store/fetch-action";
 import { useNavigate } from "react-router-dom";
 import {
   Item,
@@ -10,12 +10,12 @@ import {
   시군코드,
   cat3Code,
   TitleType,
-} from "../../type/FetchType";
-import { calculateDate } from "../../utils/CalculateDate";
-import { nowDate } from "../../utils/NowDate";
-import { dateSlice } from "../../utils/DateSlice";
-import Loading from "../loading/Loading";
-import GetDataError from "../error/GetDataError";
+} from "@/type/FetchType";
+import { calculateDate } from "@/utils/CalculateDate";
+import { nowDate } from "@/utils/NowDate";
+import { dateSlice } from "@/utils/DateSlice";
+import Loading from "../Loading/Loading";
+import GetDataError from "../Error/GetDataError";
 import "./Card.css";
 
 interface CardProps {

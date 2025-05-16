@@ -1,8 +1,8 @@
-import { UserData } from "../../../../type/UserDataType";
-import { Comment } from "../../../../type/DataType";
+import { UserData } from "@/type/UserDataType";
+import { Comment } from "@/type/DataType";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import CommentBox from "../comment/CommentBox";
+import { RootState } from "@/store/store";
+import CommentBox from "../Reviews/CommentBox";
 import ReplyBox from "./ReplyBox";
 import "./ReplyArea.css";
 

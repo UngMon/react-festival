@@ -1,5 +1,3 @@
-import { nowDate } from "./NowDate";
-
 export const calculateDate = (
   eventStartDate: string,
   eventEndDate: string,

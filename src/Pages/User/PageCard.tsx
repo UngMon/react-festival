@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/store";
-import { originCommentActions } from "../../redux/origin_comment-slice";
+import { useAppDispatch } from "../../store/store";
+import { originCommentActions } from "../../store/origin_comment-slice";
 import { Comment, LikedComment, LikedContent } from "../../type/DataType";
 import { db } from "../../firebase";
 import {
@@ -19,7 +19,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import UserData from "./UserData";
-import LoadingSpinnerTwo from "../../components/loading/LoadingSpinnerTwo";
+import LoadingSpinnerTwo from "../../components/Loading/LoadingSpinnerTwo";
 
 interface T {
   category: string;

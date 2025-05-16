@@ -6,7 +6,10 @@ export type TitleType =
   | "festival"
   | "travel"
   | "leports"
-  | "search";
+  | "search"
+  | "lodging"
+  | "shoping"
+  | "restaurant";
 
 export type Item = {
   cat1: string;
@@ -45,7 +48,7 @@ export interface FetchParams {
 }
 
 export interface FetchTourData {
-  pageCount: PageCountRespon;
+  pageNumber: PageCountRespon;
   numOfRows: number;
   page: number;
   data: FetchRespon;
@@ -647,11 +650,6 @@ export const TagCode: Record<string, Record<string, string>> = {
     어학당: "A02061300",
     학교: "A02061400",
   },
-  A0207: {
-    전체: "all",
-    문화관광축제: "A02070100",
-    일반축제: "A02070200",
-  },
   "15": {
     전체: "all",
     문화관광축제: "A02070100",
@@ -670,25 +668,15 @@ export const TagCode: Record<string, Record<string, string>> = {
     기타행사: "A02081300",
     넌버벌: "A02081400",
   },
-  // C0112: {
-  //   전체: "all",
-  //   가족코스: "C01120001",
-  // },
-  // C0113: {
-  //   나홀로코스: "C01130001",
-  // },
-  // C0114: {
-  //   힐링코스: "C01140001",
-  // },
-  // C0115: {
-  //   도보코스: "C01150001",
-  // },
-  // C0116: {
-  //   캠핑코스: "C01160001",
-  // },
-  // C0117: {
-  //   맛코스: "C01170001",
-  // },
+  "25": {
+    전체: "all",
+    가족코스: "C01120001",
+    나홀로코스: "C01130001",
+    힐링코스: "C01140001",
+    도보코스: "C01150001",
+    캠핑코스: "C01160001",
+    맛코스: "C01170001",
+  },
   A0301: {
     수상레포츠: "A03010200",
     항공레포츠: "A03010300",
@@ -739,6 +727,7 @@ export const TagCode: Record<string, Record<string, string>> = {
     복합레포츠: "A03050100",
   },
   B0201: {
+    전체: "all",
     관광호텔: "B02010100",
     콘도미니엄: "B02010500",
     유스호스텔: "B02010600",
@@ -751,6 +740,7 @@ export const TagCode: Record<string, Record<string, string>> = {
     한옥: "B02011600",
   },
   A0401: {
+    전체: "all",
     "5일장": "A04010100",
     상설시장: "A04010200",
     백화점: "A04010300",
@@ -762,6 +752,7 @@ export const TagCode: Record<string, Record<string, string>> = {
     사후면세점: "A04011000",
   },
   A0502: {
+    전체: "all",
     한식: "A05020100",
     서양식: "A05020200",
     일식: "A05020300",

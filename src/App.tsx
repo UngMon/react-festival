@@ -1,91 +1,54 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { TitleType } from "./type/FetchType";
 import RootLayout from "./pages/Root";
-import Loading from "./components/loading/Loading";
-import GetDataError from "./components/error/GetDataError";
-import Test from "./components/main/Test";
+import Loading from "./components/Loading/Loading";
+import GetDataError from "./components/Error/GetDataError";
+import MainVisual from "./pages/Main/MainVisual";
 import "./App.css";
 
-const PageNotFound = lazy(() => import("./components/error/PageNotFound"));
-const LoginPage = lazy(() => import("./pages/Login"));
-const Main = lazy(() => import("./components/main/Main"));
-const Content = lazy(() => import("./components/content/Content"));
-const Theme = lazy(() => import("./components/main/Theme"));
-const EtcLayout = lazy(() => import("./pages/EtcLayout"));
-const About = lazy(() => import("./pages/About"));
+const PageNotFound = lazy(() => import("./components/Error/PageNotFound"));
+const LoginPage = lazy(() => import("./pages/Login/Login"));
+const Main = lazy(() => import("./components/Card/MainContent"));
+const Content = lazy(() => import("./components/Content/Content"));
+const Theme = lazy(() => import("./pages/Theme/Theme"));
+const EtcLayout = lazy(() => import("./pages/Etc/EtcLayout"));
+const About = lazy(() => import("./pages/Etc/About"));
 const User = lazy(() => import("./pages/User/UserPage"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const Service = lazy(() => import("./pages/Service"));
-const Question = lazy(() => import("./pages/Question"));
+const PrivacyPolicy = lazy(() => import("./pages/Etc/PrivacyPolicy"));
+const Service = lazy(() => import("./pages/Etc/Service"));
+const Question = lazy(() => import("./pages/Question/Question"));
+
+const pathArray: TitleType[] = [
+  "tour",
+  "culture",
+  "festival",
+  "travel",
+  "leports",
+  "lodging",
+  "shoping",
+  "restaurant",
+  "search",
+];
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "",
       element: <RootLayout />,
-
+      errorElement: <GetDataError />,
       children: [
-        {
-          index: true,
-          element: <Test />,
-        },
-        {
-          path: "tour",
-          errorElement: <GetDataError />,
+        { index: true, element: <MainVisual /> },
+        ...pathArray.map((title) => ({
+          path: title,
           element: (
             <Suspense fallback={<Loading height="400px" />}>
-              <Main title="tour" />
+              <Main title={title} />
             </Suspense>
           ),
-        },
-        {
-          path: "culture",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title="culture" />
-            </Suspense>
-          ),
-        },
-        {
-          path: "festival",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title="festival" />
-            </Suspense>
-          ),
-        },
-        {
-          path: "travel",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title="travel" />
-            </Suspense>
-          ),
-        },
-        {
-          path: "leports",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title="leports" />
-            </Suspense>
-          ),
-        },
-        {
-          path: "search",
-          errorElement: <GetDataError />,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title="search" />
-            </Suspense>
-          ),
-        },
+        })),
         {
           path: "content",
-          errorElement: <GetDataError />,
           element: (
             <Suspense fallback={<Loading height="400px" />}>
               <Content />
@@ -93,7 +56,7 @@ function App() {
           ),
         },
         {
-          path: "/pick",
+          path: "pick",
           element: (
             <Suspense fallback={<Loading height="400px" />}>
               <Theme />
@@ -101,12 +64,8 @@ function App() {
           ),
         },
         {
-          path: "/etc",
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <EtcLayout />
-            </Suspense>
-          ),
+          path: "etc",
+          element: <EtcLayout />,
           children: [
             {
               path: "about",
@@ -132,39 +91,34 @@ function App() {
                 </Suspense>
               ),
             },
-            {
-              path: "question",
-              element: (
-                <Suspense fallback={<Loading height="400px" />}>
-                  <Question />
-                </Suspense>
-              ),
-            },
           ],
         },
         {
-          path: "/user",
+          path: "question",
           element: (
-            <Suspense fallback={<Loading height="500px" />}>
+            <Suspense fallback={<Loading height="400px" />}>
+              <Question />
+            </Suspense>
+          ),
+        },
+        {
+          path: "user",
+          element: (
+            <Suspense fallback={<Loading height="400px" />}>
               <User />
             </Suspense>
           ),
         },
       ],
     },
-
     {
-      path: "/login",
+      path: "login",
       element: (
         <Suspense fallback={<Loading height="400px" />}>
           <LoginPage />
         </Suspense>
       ),
-      children: [
-        {
-          path: "oauth",
-        },
-      ],
+      children: [{ path: "oauth" }],
     },
     {
       path: "*",

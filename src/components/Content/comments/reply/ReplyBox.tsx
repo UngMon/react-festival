@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { db } from "../../../../firebase";
-import { UserData } from "../../../../type/UserDataType";
-import { Comment } from "../../../../type/DataType";
-import { RootState, useAppDispatch } from "../../../../redux/store";
+import { db } from "@/firebase";
+import { UserData } from "@/type/UserDataType";
+import { Comment } from "@/type/DataType";
+import { RootState, useAppDispatch } from "@/store/store";
 import { useSelector } from "react-redux";
-import { replyActions } from "../../../../redux/reply-slice";
+import { replyActions } from "@/store/reply-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -17,8 +17,8 @@ import {
   startAfter,
   QueryConstraint,
 } from "firebase/firestore";
-import CommentBox from "../comment/CommentBox";
-import LoadingSpinnerTwo from "../../../loading/LoadingSpinnerTwo";
+import CommentBox from "../Reviews/CommentBox";
+import LoadingSpinnerTwo from "../../../Loading/LoadingSpinnerTwo";
 
 interface T {
   origin_index: number;

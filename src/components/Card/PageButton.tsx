@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { CheckParams } from "../../hooks/useCheckParams";
+import { RootState } from "@/store/store";
+import { CheckParams } from "@/hooks/useCheckParams";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesRight,
@@ -16,13 +16,6 @@ interface T {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   params: CheckParams;
 }
-
-// const pageCounts: Record<string, number> = {
-//   tour: 8450,
-//   culture: 1887,
-//   travel: 888,
-//   leports: 3949,
-// };
 
 const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
   const cat_page_record = useSelector(

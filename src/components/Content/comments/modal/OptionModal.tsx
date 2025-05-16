@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { UserData } from "../../../../type/UserDataType";
-import { Comment } from "../../../../type/DataType";
-import { useAppDispatch } from "../../../../redux/store";
-import { modalActions } from "../../../../redux/modal-slice";
-import { reportActions } from "../../../../redux/report-slice";
+import { UserData } from "@/type/UserDataType";
+import { Comment } from "@/type/DataType";
+import { useAppDispatch } from "@/store/store";
+import { modalActions } from "@/store/modal-slice";
+import { reportActions } from "@/store/report-slice";
 import "./OptionModal.css";
 
 interface T {

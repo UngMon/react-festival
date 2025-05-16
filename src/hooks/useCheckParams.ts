@@ -61,4 +61,4 @@ const useCheckParams = (title: string) => {
   return { ...paramsObject, requireRedirect } as CheckParams;
 };
 
-export default useCheckParams;
+export { useCheckParams };

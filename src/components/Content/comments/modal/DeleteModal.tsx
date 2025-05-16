@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { PickComment } from "../../../../type/UserDataType";
-import { useAppDispatch } from "../../../../redux/store";
-import { modalActions } from "../../../../redux/modal-slice";
-import { myReplyActions } from "../../../../redux/my_reply-slice";
-import { replyActions } from "../../../../redux/reply-slice";
-import { originCommentActions } from "../../../../redux/origin_comment-slice";
-import { db } from "../../../../firebase";
+import { PickComment } from "@/type/UserDataType";
+import { useAppDispatch } from "@/store/store";
+import { modalActions } from "@/store/modal-slice";
+import { myReplyActions } from "@/store/my_reply-slice";
+import { replyActions } from "@/store/reply-slice";
+import { originCommentActions } from "@/store/origin_comment-slice";
+import { db } from "@/firebase";
 import { doc, increment, writeBatch } from "firebase/firestore";
 import "./DeleteModal.css";
 

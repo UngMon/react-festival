@@ -9,6 +9,9 @@ export interface DataType {
   festival: Record<string, Item[]>;
   travel: Record<string, Item[]>;
   leports: Record<string, Item[]>;
+  lodging: Record<string, Item[]>;
+  shoping: Record<string, Item[]>;
+  restaurant: Record<string, Item[]>;
   search: Record<string, Item[]>;
   loading: boolean;
   cat_page_record: Record<string, number>;
