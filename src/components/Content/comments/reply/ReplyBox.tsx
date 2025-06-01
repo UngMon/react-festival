@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { db } from "@/firebase";
-import { UserData } from "@/type/UserDataType";
-import { Comment } from "@/type/DataType";
-import { RootState, useAppDispatch } from "@/store/store";
+import { db } from "../../../../firebase";
+import { UserData } from "type/UserDataType";
+import { Comment } from "type/DataType";
+import { RootState, useAppDispatch } from "store/store";
 import { useSelector } from "react-redux";
-import { replyActions } from "@/store/reply-slice";
+import { replyActions } from "store/reply-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import {

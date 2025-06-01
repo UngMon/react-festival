@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { FetchParams, FetchTourData } from "@/type/FetchType";
+import { FetchParams, FetchTourData } from "type/FetchType";
 
 const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
 
@@ -37,7 +37,7 @@ const createUrl = (
   return url;
 };
 
-export const getTourApiData = createAsyncThunk(
+export const fetchTourApi = createAsyncThunk(
   "tour/fetchFromData",
   async (parameter: FetchParams) => {
     const { existPageInfo, numOfRows, page, title, params } = parameter;
@@ -56,18 +56,16 @@ export const getTourApiData = createAsyncThunk(
 
       const responses = await Promise.all(requestArray);
       const jsonResponses = await Promise.all(responses.map((res) => res.json()));
-      console.log(jsonResponses)
+
       return {
         numOfRows,
-        pageNumber: jsonResponses.length > 1 ? jsonResponses[0] : undefined,
+        totalCount: jsonResponses.length > 1 ? jsonResponses[0] : undefined,
         data: jsonResponses.length > 1 ? jsonResponses[1] : jsonResponses[0],
         page,
         ...params,
         title,
       } as FetchTourData;
     } catch (error: any) {
-      console.log(error);
-
       return Promise.reject(error.message);
     }
   }

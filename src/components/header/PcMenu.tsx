@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { nowDate } from "@/utils/NowDate";
+import { nowDate } from "utils/NowDate";
 import "./PcMenu.css";
 
 const PcMenu = () => {

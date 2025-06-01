@@ -35,7 +35,7 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
 
   const slideMove = (pageX: number) => {
     if (!mouse) return;
-    console.log("??????");
+
     let movingX: number = startX - pageX;
     let endX = slideRef.current!.clientWidth - slideBoxRef.current!.clientWidth;
     if (cordinateX + movingX < 0) {
@@ -61,12 +61,12 @@ const ThemeSlide = ({ images, index, clickedElement, theme_number }: T) => {
     if (distance < 0) {
       distant = 0;
     } else if (distance > endX || distance === endX) {
-      console.log("Distance > endX");
+      // console.log("Distance > endX");
       distant = endX;
       count = images.length;
     } else {
-      console.log("Distance <= endX");
-      console.log(distance, endX);
+      // console.log("Distance <= endX");
+      // console.log(distance, endX);
       distant = count * imageRef.current!.clientWidth + 20 * count;
     }
 

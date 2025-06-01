@@ -136,7 +136,7 @@ export interface FestivalState {
   행사상태: [boolean, boolean, boolean];
 }
 
-export interface GetContentData {
+export interface ContentDetailData {
   contentInfo: ResponInfo;
   contentIntro: ResponIntro;
   contentCommon: ResponCommon;

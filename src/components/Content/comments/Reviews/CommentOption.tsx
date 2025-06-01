@@ -59,8 +59,8 @@ const CommentOption = ({
       )}
       {modalInfo.delete === comment_id && (
         <DeleteModal
-          modalInfo={modalInfo}
           type={type}
+          modalInfo={modalInfo}
           origin_index={origin_index}
           reply_index={reply_index}
         />

@@ -1,10 +1,10 @@
-import { TitleType } from "@/type/FetchType";
+import { TitleType } from "type/FetchType";
 import { useState } from "react";
 import Card from "./Card";
 import Selectors from "../Selectors/Selectors";
-import Result from "@/pages/Result/Result";
-import PageButton from "./PageButton";
-import {useCheckParams} from "@/hooks/useCheckParams";
+import Result from "pages/Result/Result";
+import PageButton from "../Selectors/PageButton";
+import {useCheckParams} from "hooks/useCheckParams";
 
 interface T {
   title: TitleType;

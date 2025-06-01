@@ -1,8 +1,8 @@
-import { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { originCommentActions } from "../../store/origin_comment-slice";
 import { Comment, LikedComment, LikedContent } from "../../type/DataType";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { db } from "../../firebase";
 import {
   collection,
@@ -18,20 +18,24 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import UserData from "./UserData";
+import Card from "./Card";
 import LoadingSpinnerTwo from "../../components/Loading/LoadingSpinnerTwo";
+
+type DataType = (Comment | LikedComment | LikedContent)[];
 
 interface T {
   category: string;
   user_id: string;
 }
 
-const PageCard = ({ category, user_id }: T) => {
-  const navigate = useNavigate();
+const UserLogs = ({ category, user_id }: T) => {
   const dispatch = useAppDispatch();
 
+  // const targetRef = useRef<HTMLDivElement>(null);
   const [isFinished, setIsFinished] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const [targetRef, intersecting, setIntersecting] =
+    useIntersectionObserver(loading);
   const [myComment, setMyComment] = useState<Record<string, Comment[]>>({});
   const [likedContent, setLikedContent] = useState<
     Record<string, LikedContent[]>
@@ -45,43 +49,10 @@ const PageCard = ({ category, user_id }: T) => {
     likedContent: "",
   });
 
-  const formatDate = useCallback((isoString: string) => {
-    const date = new Date(isoString);
-
-    // 한국 시간(KST)으로 변환
-    const today = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
-
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    // 변환할 날짜도 한국 시간(KST) 기준으로 변환
-    const targetDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
-
-    // 날짜 문자열 (YYYY-MM-DD) 비교
-    const todayStr = today.toISOString().split("T")[0];
-    const yesterdayStr = yesterday.toISOString().split("T")[0];
-    const targetDateStr = targetDate.toISOString().split("T")[0];
-
-    if (targetDateStr === todayStr) {
-      return "오늘";
-    } else if (targetDateStr === yesterdayStr) {
-      return "어제";
-    } else {
-      return targetDate.toLocaleDateString("ko-KR", {
-        month: "long",
-        day: "numeric",
-      }); // "3월 8일"
-    }
-  }, []);
-
   useEffect(() => {
-    if (!user_id || isFinished[category] === "finished") return;
+    if (!user_id || isFinished[category] === "finished" || !intersecting) return;
 
     const getDataHandler = async () => {
-      setLoading(true);
-
       try {
         const queryConfig = {
           myComment: {
@@ -120,9 +91,7 @@ const PageCard = ({ category, user_id }: T) => {
         );
 
         const response = await getDocs(queryRef);
-        const data = response.docs.map((doc) => doc.data());
-
-        if (data.length === 0) return;
+        const data = response.docs.map((doc) => doc.data()) as DataType;
 
         if (data.length < 25) {
           setAfterIndex((prev) => {
@@ -135,53 +104,56 @@ const PageCard = ({ category, user_id }: T) => {
           });
 
         stateSetter((prev: Record<string, (typeof data)[number][]>) => {
-          const prevData = JSON.parse(JSON.stringify(prev));
+          const newData = JSON.parse(JSON.stringify(prev));
+
+          const formatDate = (isoString: string) => {
+            const date = new Date(isoString);
+
+            // 한국 시간(KST)으로 변환
+            const today = new Date(
+              new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+            );
+
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+
+            // 변환할 날짜도 한국 시간(KST) 기준으로 변환
+            const targetDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
+
+            // 날짜 문자열 (YYYY-MM-DD) 비교
+            const todayStr = today.toISOString().split("T")[0];
+            const yesterdayStr = yesterday.toISOString().split("T")[0];
+            const targetDateStr = targetDate.toISOString().split("T")[0];
+
+            if (targetDateStr === todayStr) {
+              return "오늘";
+            } else if (targetDateStr === yesterdayStr) {
+              return "어제";
+            } else {
+              return targetDate.toLocaleDateString("ko-KR", {
+                month: "long",
+                day: "numeric",
+              }); // "3월 8일"
+            }
+          };
 
           data.forEach((item) => {
-            const d = item as Comment | LikedComment | LikedContent;
             const date_key: string = formatDate(item.createdAt);
 
-            if (!prevData[date_key]) prevData[date_key] = [];
-            prevData[date_key].push(d);
+            if (!newData[date_key]) newData[date_key] = [];
+            newData[date_key] = [...newData[date_key], item];
           });
 
-          return prevData;
+          return newData;
         });
       } catch (error: any) {
         console.log(error.message);
+        alert("데이터를 불러오지 못 했습니다.");
       }
-
       setLoading(false);
     };
-
     getDataHandler();
-  }, [category, isFinished, user_id, afterIndex, formatDate]);
-
-  const time = (createdAt: string) => {
-    return new Date(createdAt).toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
-  const imageClickHandler = (content_type: string, content_id: string) => {
-    let url: string = `type=${content_type}&cotent_id=${content_id}`;
-
-    if (content_type === "15") {
-    } else {
-    }
-
-    navigate(url);
-  };
-
-  const convertText = (content: [string, string, string]) => {
-    let text = content.reduce(
-      (acc, text, index) => (index !== 1 ? acc + text : acc),
-      ""
-    );
-    return text.length > 70 ? text.slice(0, 70) + "..." : text;
-  };
+  }, [category, isFinished, user_id, afterIndex, intersecting]);
 
   const deleteHandler = async (
     date: string,
@@ -191,7 +163,6 @@ const PageCard = ({ category, user_id }: T) => {
     const batch = writeBatch(db);
 
     if ("content" in item) {
-      console.log("작성한 댓글");
       const { origin_id, createdAt, user_id } = item;
 
       const pathSegements = origin_id
@@ -209,13 +180,12 @@ const PageCard = ({ category, user_id }: T) => {
     }
 
     if ("comment_id" in item) {
-      console.log("좋아요 누른 댓글");
       const { user_id, comment_id, origin_id } = item;
 
       const pathSegements = origin_id
         ? [origin_id!, "comments", comment_id, "like_users", user_id]
         : [comment_id, "like_users", user_id];
-      console.log(pathSegements);
+
       const documentRef = doc(db, "comments", ...pathSegements);
       batch.delete(documentRef);
 
@@ -228,7 +198,6 @@ const PageCard = ({ category, user_id }: T) => {
     }
 
     if ("like_content" in item) {
-      console.log("좋아요 누른 컨텐츠");
       const userDocRef = doc(
         db,
         "userData",
@@ -272,26 +241,23 @@ const PageCard = ({ category, user_id }: T) => {
   const renderComments = (
     data: Record<string, (Comment | LikedComment | LikedContent)[]>
   ) => {
-    const entries = Object.entries(data);
+    const array = Object.entries(data);
 
     return (
       <>
-        {!loading && entries.length === 0 && (
+        {!loading && array.length === 0 && (
           <div id="Nonexistent">작성한 댓글이 없습니다.</div>
         )}
-        {entries?.map((item, idx) => (
+        {array?.map((item, idx) => (
           <div key={idx}>
             <div id="date">{item[0]}</div>
             {item[1].map((a, idx) => (
-              <UserData
+              <Card
                 key={a.createdAt}
                 item={a}
                 index={idx}
                 date={item[0]}
-                convertText={convertText}
-                imageClickHandler={imageClickHandler}
                 deleteHandler={deleteHandler}
-                time={time}
               />
             ))}
           </div>
@@ -307,8 +273,9 @@ const PageCard = ({ category, user_id }: T) => {
       {category === "myComment" && renderComments(myComment)}
       {category === "likedContent" && renderComments(likedContent)}
       {category === "likedComment" && renderComments(likedComment)}
+      <div className="target" ref={targetRef}></div>
     </div>
   );
 };
 
-export default PageCard;
+export default UserLogs;

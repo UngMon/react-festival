@@ -7,8 +7,7 @@ interface MenuBarProps {
 }
 
 const MenuBar = ({ infoRef, reviewRef }: MenuBarProps) => {
-  console.log("MenuBar Component Render");
-  const [category, setCategory] = useState<string>("기본정보");
+  const [category, setCategory] = useState<string>("");
   const [style, setStyle] = useState<string>("");
 
   const topBarClickHandler = (type: string) => {

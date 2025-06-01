@@ -92,7 +92,7 @@
 }
 
 .search-not-found {
-  padding: 25px 0;
+  padding: 50px 0 100px;
   font-size: 18px;
   text-align: center;
   grid-column-start: 1;

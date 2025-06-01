@@ -6,7 +6,7 @@ export interface DataType {
   httpState: string;
   tour: Record<string, Item[]>;
   culture: Record<string, Item[]>;
-  festival: Record<string, Item[]>;
+  festival: Item[];
   travel: Record<string, Item[]>;
   leports: Record<string, Item[]>;
   lodging: Record<string, Item[]>;
@@ -14,8 +14,8 @@ export interface DataType {
   restaurant: Record<string, Item[]>;
   search: Record<string, Item[]>;
   loading: boolean;
-  cat_page_record: Record<string, number>;
-  cat_record: string[];
+  category_total_count: Record<string, number>;
+  category_page_record: string[];
   행사상태: [boolean, boolean, boolean];
 }
 

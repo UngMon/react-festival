@@ -24,12 +24,12 @@ interface T {
 
 const CommentArea = ({ content_id }: T) => {
   console.log("CommentBox Component Render");
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const comments = useSelector(
     (state: RootState) => state.origin_comment.comment
   );
   const userData = useSelector((state: RootState) => state.firebase);
-  const dispatch = useAppDispatch();
 
   const [completeGetCommentsData, setCompleteGetCommentsData] =
     useState<boolean>(false);
@@ -71,9 +71,9 @@ const CommentArea = ({ content_id }: T) => {
           limit(25)
         );
 
-        let querySnapshot = comments.length === 0 ? firstQuery : baseQurey;
+        let queryToRun = comments.length === 0 ? firstQuery : baseQurey;
 
-        const data = await getDocs(querySnapshot);
+        const data = await getDocs(queryToRun);
         let lastDataIndex: string = "";
 
         if (data) {
@@ -88,9 +88,10 @@ const CommentArea = ({ content_id }: T) => {
       } catch (error: any) {
         console.error(error.message);
         alert("댓글을 불러오지 못 했습니다.");
+      } finally {
+        setIntersecting(false);
+        setLoading(false);
       }
-      setIntersecting(false);
-      setLoading(false);
     };
     getCommentData();
   }, [
@@ -108,7 +109,7 @@ const CommentArea = ({ content_id }: T) => {
   return (
     <div className="comments-area" style={{ margin: "50px 0", width: "100%" }}>
       {comments.length === 0 && !loading && <p>등록된 리뷰가 없습니다!</p>}
-      {comments.length !== 0 &&
+      {comments.length > 0 &&
         comments.map((item, index) => (
           <div
             key={item.createdAt + item.user_id}

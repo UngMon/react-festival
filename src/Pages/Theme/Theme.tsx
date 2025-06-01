@@ -1,21 +1,15 @@
-import { useEffect, useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useRef } from "react";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { slideData } from "../../type/ThemeData";
 import ThemeSlide from "./ThemeSlide";
 import "./Theme.css";
 
 const Theme = () => {
-  const navigate = useNavigate();
   const [param] = useSearchParams();
   const theme_number = param.get("theme");
   const clickedElement = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!theme_number) {
-      navigate("/");
-    }
-  }, [navigate, theme_number]);
-  console.log(slideData);
+  
+  if (!theme_number) return <Navigate to='/'/>;
 
   const removeHashDuplication = (hash: string) => {
     const regex = /#([^#]+)/g;

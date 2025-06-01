@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { auth } from "@/firebase";
+import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "@/store/store";
-import { firebaseActions } from "@/store/firebase-slice";
+import { RootState, useAppDispatch } from "store/store";
+import { firebaseActions } from "store/firebase-slice";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -51,7 +51,6 @@ const MobileMenu = ({ headRef }: T) => {
 
     function preventDefault(e: Event) {
       e.preventDefault();
-      // if (window.scrollY > 0)
       window.scrollTo(0, scrollY);
     }
 

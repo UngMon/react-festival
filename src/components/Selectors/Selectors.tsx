@@ -1,5 +1,5 @@
-import { TitleType } from "@/type/FetchType";
-import { useCheckParams, CheckParams } from "@/hooks/useCheckParams";
+import { TitleType } from "type/FetchType";
+import { useCheckParams, CheckParams } from "hooks/useCheckParams";
 import SubMenu from "./SubMenu";
 import MonthSelector from "./MonthSelector";
 import RegionSelector from "./RegionSelector";

@@ -48,7 +48,7 @@ export interface FetchParams {
 }
 
 export interface FetchTourData {
-  pageNumber: PageCountRespon;
+  totalCount: PageCountRespon;
   numOfRows: number;
   page: number;
   data: FetchRespon;

@@ -2,13 +2,13 @@ import {
   ResponCommon,
   ResponInfo,
   ResponIntro,
-  GetContentData,
+  ContentDetailData,
 } from "../type/ContentType";
 
 export const getContentData = async (
   id: string,
   type: string
-): Promise<GetContentData> => {
+): Promise<ContentDetailData> => {
   const serviceKey = encodeURIComponent(
     process.env.REACT_APP_DATA_SERVICE_KEY!
   );

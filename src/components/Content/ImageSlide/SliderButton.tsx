@@ -35,7 +35,8 @@ const SliderButton = ({
 
       if (type === "prev" && currentIndex === 1)
         setCurrentIndex(Math.floor(imageLength / 3));
-      else if (
+
+      if (
         type === "next" &&
         currentIndex === Math.floor((imageLength * 2) / 3) - 1
       )

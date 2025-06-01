@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PickComment } from "@/type/UserDataType";
-import { Comment } from "@/type/DataType";
+import { PickComment } from "type/UserDataType";
+import { Comment } from "type/DataType";
 
 const initialState: PickComment = {
   open: "",

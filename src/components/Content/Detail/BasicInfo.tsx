@@ -1,7 +1,7 @@
-import { ContentCommon, ContentIntro } from "@/type/ContentType";
-import { BasicInfoList } from "@/type/FetchType";
-import { dateSlice } from "@/utils/DateSlice";
-import { convertText } from "@/utils/convertText";
+import { ContentCommon, ContentIntro } from "type/ContentType";
+import { BasicInfoList } from "type/FetchType";
+import { dateSlice } from "utils/DateSlice";
+import { convertText } from "utils/convertText";
 
 interface BasicProps {
   detailIntro: ContentIntro[];
@@ -20,16 +20,15 @@ const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
 
     for (const text of anchorTagText) {
       if (text.length === 0) continue;
-      // '홈페이지 : <a href="https://~~~~"></a>애서 : 이전 텍스트와 href만을 구분하는 정규표현식.
+      // '홈페이지 : <a href="https://~~~~"></a>에서 ':' 이전 텍스트와 href만을 구분하는 정규표현식.
       const match = text.match(/([^:]+) : <a href="([^"]+)"/);
-      console.log(match);
       if (match) result.push([match[1], match[2]]);
     }
     return result;
   };
 
   const homepage = convertHtmlToText(detailCommon[0].homepage);
-  // console.log(BasicInfoList[content_type], co)
+  console.log(detailCommon[0].homepage.length)
   return (
     <ul className="Content-table">
       {detailCommon[0].tel && (
@@ -72,7 +71,7 @@ const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
               homepage.map((item, index) => (
                 <div key={index}>
                   <a href={item[1]} target="_blank" rel="noreferrer">
-                    {item[0]}
+                    {detailCommon[0].title}
                   </a>
                 </div>
               ))

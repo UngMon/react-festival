@@ -1,4 +1,5 @@
 import { LikedComment, LikedContent, Comment } from "../../type/DataType";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ContentIdCode } from "../../type/FetchType";
@@ -7,25 +8,33 @@ interface T {
   item: Comment | LikedComment | LikedContent;
   index: number;
   date: string;
-  convertText?: (content: [string, string, string]) => string;
-  imageClickHandler: (cotent_type: string, content_id: string) => void;
   deleteHandler: (
     date: string,
     index: number,
     item: Comment | LikedComment | LikedContent
   ) => void;
-  time: (createdAt: string) => string;
 }
 
-const UserData = ({
-  item,
-  index,
-  date,
-  convertText,
-  imageClickHandler,
-  time,
-  deleteHandler,
-}: T) => {
+const Card = ({ item, index, date, deleteHandler }: T) => {
+  const navigate = useNavigate();
+
+  const imageClickHandler = (content_type: string, content_id: string) => {
+    navigate(`type=${content_type}&cotent_id=${content_id}`);
+  };
+
+  const convertText = (content: [string, string, string]) => {
+    const text = content.filter((_, i) => i !== 1).join("");
+    return text.length > 70 ? text.slice(0, 70) + "..." : text;
+  };
+
+  const time = (createdAt: string) => {
+    return new Date(createdAt).toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <div className="view-box">
       <div id="v-b-1">
@@ -59,4 +68,4 @@ const UserData = ({
   );
 };
 
-export default UserData;
+export default Card;

@@ -1,12 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { useAppDispatch } from "../../store/store";
+import { firebaseActions } from "../../store/firebase-slice";
 
 interface T {
   openSide: boolean;
   setOpenSide: React.Dispatch<React.SetStateAction<boolean>>;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   user_photo: string;
+  user_name: string;
+  user_email: string;
   arrowRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -15,9 +22,13 @@ const UserMenu = ({
   setOpenSide,
   setCategory,
   user_photo,
+  user_name,
+  user_email,
   arrowRef,
 }: T) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
@@ -47,6 +58,17 @@ const UserMenu = ({
     return () => window.removeEventListener("resize", resizeHandler);
   });
 
+  const logoutHandler = async () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/");
+        dispatch(firebaseActions.logout());
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
   return (
     <div className={`user-menu ${openSide ? "op" : ""}`} ref={divRef}>
       <h3>나의 활동</h3>
@@ -55,7 +77,7 @@ const UserMenu = ({
           <img src={user_photo} alt="user-icon" />
         </div>
         <div>
-          <span>{"박완웅"}</span>
+          <span>{user_name}</span>
         </div>
       </div>
       <ul className="user-menu-list">
@@ -64,7 +86,7 @@ const UserMenu = ({
         <li onClick={() => setCategory("likedComment")}>좋아요 누른 댓글</li>
       </ul>
       <div className="line" />
-      <button className="log-out" type="button">
+      <button className="log-out" type="button" onClick={logoutHandler}>
         <FontAwesomeIcon icon={faArrowRightFromBracket} />
         <span>로그아웃</span>
       </button>

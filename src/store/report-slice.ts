@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReportType, UserData } from "../type/UserDataType";
-import { Comment } from "@/type/DataType";
+import { Comment } from "type/DataType";
 
 const initialState: ReportType = {
   open: "",

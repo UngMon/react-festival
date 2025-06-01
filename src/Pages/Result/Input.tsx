@@ -5,38 +5,30 @@ import {
   faCaretDown,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import { CheckParams } from "@/hooks/useCheckParams";
+import { ContentIdCode } from "type/FetchType";
 import "./Input.css";
 
 interface T {
-  keyword: string | undefined;
-  ContentIdCode: Record<string, string>;
-  contentTypeId: string | undefined;
-  typeId: [string, string];
-  setTypeId: React.Dispatch<React.SetStateAction<[string, string]>>;
+  params: CheckParams;
 }
 
-const Input = ({
-  keyword,
-  ContentIdCode,
-  contentTypeId,
-  typeId,
-  setTypeId,
-}: T) => {
+const Input = ({ params }: T) => {
+  const { contentTypeId, keyword } = params;
   const [text, setText] = useState<string | undefined>(keyword);
+  const [contentType, setContentType] = useState<string>(contentTypeId!);
 
   const navigate = useNavigate();
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (!text && text!.length < 1) return alert("검색어를 입력해주세요!");
-    if (text === keyword && typeId[0] === contentTypeId) return;
-    console.log(keyword, text, typeId, contentTypeId);
-
-    navigate(`/search?keyword=${text}&contentTypeId=${typeId[0]}`);
+    if (text === keyword && contentTypeId === contentType) return;
+    navigate(`/search?contentTypeId=${contentTypeId}&keyword=${text}`);
   };
 
-  const listClickHandler = (tpye_num: string, type_name: string) => {
+  const listClickHandler = (tpye_num: string) => {
     console.log("/????");
-    setTypeId([tpye_num, type_name]);
+    setContentType(tpye_num);
     navigate(`/search?keyword=${text}&contentTypeId=${tpye_num}`);
   };
 
@@ -51,7 +43,7 @@ const Input = ({
           />
           <img src="./images/sub.jpg" alt="반응형 이미지" />
         </picture>
-        <div className="sub">{`${ContentIdCode[typeId[0]]} : ${keyword}`}</div>
+        <div className="sub">{`${ContentIdCode[contentType]} : ${keyword}`}</div>
       </div>
       <div
         style={{
@@ -79,16 +71,14 @@ const Input = ({
         </form>
         <div id="type-box">
           <div id="type-select-box">
-            <select
-              onChange={(e) =>
-                listClickHandler(e.target.value, ContentIdCode[e.target.value])
-              }
-            >
+            <select onChange={(e) => listClickHandler(e.target.value)}>
               {Object.entries(ContentIdCode).map((item) => (
                 <option
                   key={item[0]}
                   value={item[0]}
-                  selected={item[1] === typeId[1] ? true : false}
+                  selected={
+                    item[1] === ContentIdCode[contentTypeId!] ? true : false
+                  }
                 >
                   {item[1]}
                 </option>
@@ -99,9 +89,9 @@ const Input = ({
           <ul>
             {Object.entries(ContentIdCode).map((item) => (
               <li
-                id={typeId[0] === item[0] ? "check" : ""}
+                id={contentTypeId === item[0] ? "check" : ""}
                 key={item[0]}
-                onClick={() => listClickHandler(item[0], item[1])}
+                onClick={() => listClickHandler(item[0])}
               >
                 {item[1]}
               </li>

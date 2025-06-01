@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { firebaseActions } from "../../store/firebase-slice";
-import { RootState, useAppDispatch } from "../../store/store";
+import { firebaseActions } from "store/firebase-slice";
+import { RootState, useAppDispatch } from "store/store";
 import { useNavigate, useLocation } from "react-router-dom";
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

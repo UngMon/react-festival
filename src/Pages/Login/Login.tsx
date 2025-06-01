@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "store/store";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import {
@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   AuthProvider,
+  signInWithPopup,
   signInWithRedirect,
 } from "firebase/auth";
 import LoadingThree from "../../components/Loading/LoadingThree";
@@ -38,28 +39,28 @@ const LoginPage = () => {
           provider = new FacebookAuthProvider();
         }
 
-        // signInWithPopup(auth, provider!).then((result) => {
-        //   console.log('result')
-        //   navigate(previouseUrl, { replace: true });
-        // }).catch((error) => {
-        //   console.log(error);
-        //   alert(error);
-        // })
+        signInWithPopup(auth, provider!).then((result) => {
+          console.log('result')
+          navigate(previouseUrl, { replace: true });
+        }).catch((error: any) => {
+          console.log(error);
+          alert(error);
+        })
 
-        signInWithRedirect(auth, provider!)
-          .then((data) => {
-            console.log(data);
-            navigate(previouseUrl, { replace: true });
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.error(credential, errorCode, errorMessage);
-          });
+        // signInWithRedirect(auth, provider!)
+        //   .then((data) => {
+        //     console.log(data);
+        //     navigate(previouseUrl, { replace: true });
+        //   })
+        //   .catch((error) => {
+        //     // Handle Errors here.
+        //     const errorCode = error.code;
+        //     const errorMessage = error.message;
+        //     // The email of the user's account used.
+        //     // The AuthCredential type that was used.
+        //     const credential = GoogleAuthProvider.credentialFromError(error);
+        //     console.error(credential, errorCode, errorMessage);
+        //   });
       })
       .catch((error) => {
         alert("로그인중에 오류가 발생했습니다!");

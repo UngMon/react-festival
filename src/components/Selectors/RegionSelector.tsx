@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { 지역코드 } from "@/type/FetchType";
+import { 지역코드 } from "type/FetchType";
 
 interface T {
   title: string;

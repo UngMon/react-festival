@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "@/store/store";
-import { originCommentActions } from "@/store/origin_comment-slice";
-import { db } from "@/firebase";
+import { RootState, useAppDispatch } from "store/store";
+import { originCommentActions } from "store/origin_comment-slice";
+import { db } from "../../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { Comment } from "@/type/DataType";
-import LoadingSpinnerTwo from "@/components/Loading/LoadingSpinnerTwo";
+import { Comment } from "type/DataType";
+import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 import "./CommentForm.css";
 
 interface T {
@@ -37,8 +37,6 @@ const CommentForm = ({ content_type, content_id }: T) => {
 
     if (content.length === 0) return alert("글자를 입력해주세요!");
 
-    setLoading(true);
-
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
@@ -68,15 +66,16 @@ const CommentForm = ({ content_type, content_id }: T) => {
     const commentRef = doc(db, "comments", documentId);
 
     try {
+      setLoading(true);
       await setDoc(commentRef, field_data);
       dispatch(originCommentActions.addNewComment({ field_data }));
     } catch (error: any) {
       alert(
         `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
       );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const resizeHandler = () => {

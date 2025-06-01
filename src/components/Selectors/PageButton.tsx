@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { CheckParams } from "@/hooks/useCheckParams";
+import { RootState } from "store/store";
+import { CheckParams } from "hooks/useCheckParams";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesRight,
@@ -18,8 +18,8 @@ interface T {
 }
 
 const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
-  const cat_page_record = useSelector(
-    (state: RootState) => state.data.cat_page_record
+  const category_total_count = useSelector(
+    (state: RootState) => state.data.category_total_count
   );
   const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
     params as CheckParams;
@@ -29,23 +29,23 @@ const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
       ? `${contentTypeId}-${keyword}`
       : `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
 
-  const MaxPageCount: number = Math.ceil(cat_page_record[pageKey] / numOfRows);
+  const MaxPageCount: number = Math.ceil(
+    category_total_count[pageKey] / numOfRows
+  );
   const currentGroup: number = Math.floor((page - 1) / 10); // 현재 10단위 그룹 (0부터 시작)
   const startPage: number = currentGroup * 10 + 1;
   const endPage: number = Math.min(startPage + 9, MaxPageCount);
-  console.log(startPage, endPage, currentGroup, MaxPageCount);
-  const backAndForwardHandler = (type: string) => {
-    if (type === "back" && page >= 2) {
-      setPage(page - 1);
-    }
-    if (type === "forward" && page < MaxPageCount) {
-      setPage(page + 1);
-    }
-  };
 
-  const prevAndNextButton = (type: string) => {
+  const arrowButtonHandler = (type: string) => {
+    if (MaxPageCount === 0) return;
+
+    if (type === "back" && page >= 2) setPage(page - 1);
+
+    if (type === "forward" && page < MaxPageCount) setPage(page + 1);
+
     if (type === "prev") setPage(1);
-    else setPage(MaxPageCount);
+
+    if (type === "next") setPage(MaxPageCount);
   };
 
   return (
@@ -53,14 +53,14 @@ const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
       <button
         type="button"
         style={{ transform: "rotate(180deg)" }}
-        onClick={() => prevAndNextButton("prev")}
+        onClick={() => arrowButtonHandler("prev")}
       >
         <FontAwesomeIcon icon={faAnglesRight} />
       </button>
       <button
         type="button"
         id="page-left"
-        onClick={() => backAndForwardHandler("back")}
+        onClick={() => arrowButtonHandler("back")}
       >
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
@@ -80,11 +80,11 @@ const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
       <button
         type="button"
         id="page-right"
-        onClick={() => backAndForwardHandler("forward")}
+        onClick={() => arrowButtonHandler("forward")}
       >
         <FontAwesomeIcon icon={faChevronRight} />
       </button>
-      <button type="button" onClick={() => prevAndNextButton("next")}>
+      <button type="button" onClick={() => arrowButtonHandler("next")}>
         <FontAwesomeIcon icon={faAnglesRight} />
       </button>
     </div>

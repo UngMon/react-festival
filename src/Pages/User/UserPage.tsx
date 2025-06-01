@@ -4,12 +4,12 @@ import { RootState } from "../../store/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 import UserMenu from "./UserMenu";
-import PageCard from "./PageCard";
+import UseLogs from "./UserLogs";
 import "./UserPage.css";
 
 const UserPage = () => {
   console.log("USerPage Render");
-  const { user_photo, user_id } = useSelector(
+  const { user_photo, user_id, user_name, user_email } = useSelector(
     (state: RootState) => state.firebase
   );
   const [openSide, setOpenSide] = useState<boolean>(false);
@@ -30,9 +30,11 @@ const UserPage = () => {
         setOpenSide={setOpenSide}
         setCategory={setCategory}
         user_photo={user_photo}
+        user_name={user_name}
+        user_email={user_email}
         arrowRef={arrowRef}
       />
-      <PageCard category={category} user_id={user_id} />
+      <UseLogs category={category} user_id={user_id} />
     </div>
   );
 };

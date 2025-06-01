@@ -1,19 +1,13 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { RootState, useAppDispatch } from "@/store/store";
+import { RootState, useAppDispatch } from "store/store";
 import { useSelector } from "react-redux";
-import { CheckParams } from "@/hooks/useCheckParams";
-import { getTourApiData } from "@/store/fetch-action";
+import { CheckParams } from "hooks/useCheckParams";
+import { fetchTourApi } from "api/fetchTourApi";
 import { useNavigate } from "react-router-dom";
-import {
-  Item,
-  지역코드,
-  시군코드,
-  cat3Code,
-  TitleType,
-} from "@/type/FetchType";
-import { calculateDate } from "@/utils/CalculateDate";
-import { nowDate } from "@/utils/NowDate";
-import { dateSlice } from "@/utils/DateSlice";
+import { Item, 지역코드, 시군코드, cat3Code, TitleType } from "type/FetchType";
+import { calculateDate } from "utils/CalculateDate";
+import { nowDate } from "utils/NowDate";
+import { dateSlice } from "utils/DateSlice";
 import Loading from "../Loading/Loading";
 import GetDataError from "../Error/GetDataError";
 import "./Card.css";
@@ -44,22 +38,21 @@ const Card = ({ title, numOfRows, page, params }: CardProps) => {
         return;
       case tourData.httpState === "fulfilled" && !tourData.successGetData:
         return;
-      case title === "festival":
-        if (tourData.festival.data) return;
-        break;
+      case title === "festival" && tourData.festival.length > 0:
+        return;
       default:
         if (title === "search") key = `${contentTypeId}-${keyword}-${page}`;
         else
           key = `${contentTypeId}-${numOfRows}-${page}-${areaCode}-${cat1}-${cat2}-${cat3}`;
 
-        if (tourData.cat_record.includes(key)) return;
+        if (tourData.category_page_record.includes(key)) return;
     }
 
     key = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
-
-    dispatch(
-      getTourApiData({
-        existPageInfo: tourData.cat_page_record[key] ? true : false,
+    
+    dispatch( 
+      fetchTourApi({
+        existPageInfo: tourData.category_total_count[key] ? true : false,
         numOfRows,
         page,
         title,
@@ -86,8 +79,7 @@ const Card = ({ title, numOfRows, page, params }: CardProps) => {
 
     switch (title) {
       case "festival":
-        key = "data";
-        array = tourData.festival[key];
+        array = tourData.festival;
         break;
       case "search":
         key = `${keyword}-${contentTypeId}-${numOfRows}-${page}`;

@@ -1,24 +1,60 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { DataType } from "../../type/DataType";
+import { useSelector } from "react-redux";
+import { useAppDispatch, RootState } from "store/store";
+import { ContentIdCode } from "type/FetchType";
+import { fetchTourApi } from "api/fetchTourApi";
+import { CheckParams } from "hooks/useCheckParams";
 import {
   Item,
   지역코드,
   시군코드,
   cat2Code,
   cat3Code,
-} from "../../type/FetchType";
+  TitleType,
+} from "type/FetchType";
 import "./ResultCard.css";
-import Loading from "../../components/Loading/Loading";
+import Loading from "components/Loading/Loading";
 
 interface T {
-  idkey: string;
-  tourData: DataType;
-  contentTypeId?: string;
-  ContentIdCode: Record<string, string>;
+  title: TitleType;
+  params: CheckParams;
+  page: number;
 }
 
-const ResultCard = ({ idkey, ContentIdCode, contentTypeId, tourData }: T) => {
+const ResultCard = ({ title, params, page }: T) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const tourData = useSelector((state: RootState) => state.data);
+  const { contentTypeId, keyword } = params;
+  const key = `${contentTypeId}-${keyword}-${page}`;
+
+  useEffect(() => {
+    if (!ContentIdCode[contentTypeId!]) {
+      navigate("/");
+      return;
+    }
+
+    if (
+      tourData.httpState === "pending" ||
+      tourData.httpState === "fulfilled" ||
+      (title === "festival" && tourData.festival.length > 0)
+    ) {
+      return;
+    }
+
+    if (title !== "festival" && tourData[title][key]) return;
+
+    dispatch(
+      fetchTourApi({
+        existPageInfo: tourData.category_total_count[key] ? true : false,
+        numOfRows: 25,
+        page,
+        title,
+        params: params as CheckParams,
+      })
+    );
+  }, [dispatch, navigate, tourData, title, key, page, params, contentTypeId]);
 
   const sigunHandler = (item: Item): string => {
     if (!item.areacode || !item.sigungucode) return "";
@@ -31,7 +67,7 @@ const ResultCard = ({ idkey, ContentIdCode, contentTypeId, tourData }: T) => {
     const { contentid, contenttypeid } = item;
     navigate(`/content?contentTypeId=${contenttypeid}&contentId=${contentid}`);
   };
-  console.log(tourData.httpState);
+
   return (
     <div className="Result-Box">
       <div className="Result-Title">
@@ -41,15 +77,18 @@ const ResultCard = ({ idkey, ContentIdCode, contentTypeId, tourData }: T) => {
       {tourData.httpState === "pending" && <Loading height="500px" />}
       {tourData.httpState === "fulfilled" && (
         <div className="Result-Cards">
-          {tourData.search[idkey] ? (
-            tourData.search[idkey].map((item, index) => (
-              <article key={index} onClick={() => cardClickHandler(item)}>
+          {tourData.search[key]?.length > 0 ? (
+            tourData.search[key].map((item, index) => (
+              <article
+                key={item.contenttypeid}
+                onClick={() => cardClickHandler(item)}
+              >
                 <div className="Result-Card-Image">
                   <img
                     alt={item.title}
                     src={
                       item.firstimage?.replace("http", "https") ||
-                      "../images/Noimage.png"
+                      "/images/Noimage.png"
                     }
                     loading="lazy"
                   />
@@ -62,9 +101,6 @@ const ResultCard = ({ idkey, ContentIdCode, contentTypeId, tourData }: T) => {
                     <span>{sigunHandler(item)}</span>
                   </div>
                   <div className="Result-Card-Hash">
-                    {ContentIdCode[item.contenttypeid] && (
-                      <span>{`#${ContentIdCode[item.contenttypeid]}`}</span>
-                    )}
                     {cat2Code[item.cat2] && (
                       <span>{`#${cat2Code[item.cat2]}`}</span>
                     )}

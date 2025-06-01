@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { TagCode } from "@/type/FetchType";
+import { TagCode } from "type/FetchType";
 import "./Tags.css";
 
 interface T {

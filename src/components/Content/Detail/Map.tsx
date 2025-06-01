@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
-import { ContentCommon } from "@/type/ContentType";
+import { ContentCommon } from "type/ContentType";
 
 interface MapProps {
   detailCommon: ContentCommon[];
 }
 
 const Map = ({ detailCommon }: MapProps) => {
-  console.log('Map Component Render')
   const { kakao } = window;
   const mapRef = useRef<HTMLDivElement>(null);
 

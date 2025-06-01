@@ -22,23 +22,20 @@ const UserComment = ({
   userData,
   modalInfo,
 }: T) => {
+  const { user_name, user_photo, content, isRevised } = comment_data;
+
   return (
     <div className="comment-container">
-      <UserIcon
-        user_photo={comment_data.user_photo}
-        user_name={comment_data.user_name}
-      />
+      <UserIcon user_photo={user_photo} user_name={user_name} />
       <div className="top">
         <div>
-          <span className="name">{comment_data.user_name}</span>
-          {comment_data.isRevised && (
-            <span className="revised">&nbsp;&nbsp;(수정됨)</span>
-          )}
+          <span className="name">{user_name}</span>
+          {isRevised && <span className="revised">&nbsp;&nbsp;(수정됨)</span>}
         </div>
         <CommentOption
+          type={type}
           origin_index={origin_index}
           reply_index={reply_index}
-          type={type}
           comment_data={comment_data}
           userData={userData}
           modalInfo={modalInfo}
@@ -46,9 +43,9 @@ const UserComment = ({
       </div>
       <div className="comment-text" style={{ whiteSpace: "pre-wrap" }}>
         <span>
-          {comment_data.content?.map((comment, index) => {
+          {content?.map((comment, index) => {
             if (index === 1 && comment.length > 0) {
-              return <span key={index}>{comment}</span>;
+              return <span>{comment}</span>;
             } else return comment;
           })}
         </span>

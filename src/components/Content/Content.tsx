@@ -1,21 +1,20 @@
 import { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ContentIdCode } from "@/type/FetchType";
 import Slider from "./ImageSlide/Slider";
 import Detail from "./Detail/Detail";
 import MenuBar from "./MenuBar/MenuBar";
-import UserReviews from "./Comments/Comments";
 import LikeButton from "./LikeButton/LikeButton";
+import CommentForm from "./Comments/CommentForm/CommentForm";
+import CommentArea from "./Comments/Reviews/CommentArea";
 import "./Content.css";
 
 const Cotent = () => {
   const infoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
-  console.log("Content Rendering");
+
   const [param] = useSearchParams();
   const content_type: string = param.get("contentTypeId")!;
   const content_id: string = param.get("contentId")!;
-  const collectionName = ContentIdCode[content_type];
 
   return (
     <main className="Content">
@@ -27,12 +26,11 @@ const Cotent = () => {
         content_type={content_type}
       />
       <section className="Content-Review">
-        <LikeButton collectionName={collectionName} content_id={content_id} />
-        <UserReviews
-          reviewRef={reviewRef}
-          content_type={content_type}
-          content_id={content_id}
-        />
+        <LikeButton content_id={content_id} />
+        <div ref={reviewRef}>
+          <CommentForm content_type={content_type} content_id={content_id} />
+          <CommentArea content_id={content_id} />
+        </div>
       </section>
     </main>
   );

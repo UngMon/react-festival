@@ -6,7 +6,7 @@ import UserComment from "./UserComment";
 import ReplyOrReviseComment from "./ReplyOrReviseComment";
 
 interface T {
-  userData: UserData
+  userData: UserData;
   origin_index: number;
   reply_index?: number;
   deepth: number;
@@ -25,9 +25,12 @@ const CommentBox = ({
   const comment_id = comment_data.createdAt + comment_data.user_id;
   const modalInfo = useSelector((state: RootState) => state.modal);
 
+  const isRevise = modalInfo.revise[comment_id] === "revise";
+  const isReply = modalInfo.reply[comment_id] === "reply";
+
   return (
     <>
-      {modalInfo.revise[comment_id] !== "revise" ? (
+      {!isRevise ? (
         <UserComment
           type={type}
           origin_index={origin_index}
@@ -46,17 +49,16 @@ const CommentBox = ({
           userData={userData}
         />
       )}
-      {!modalInfo.revise[comment_id] &&
-        modalInfo.reply[comment_id] === "reply" && (
-          <ReplyOrReviseComment
-            deepth={1}
-            type={"reply-" + type}
-            origin_index={origin_index}
-            reply_index={reply_index}
-            comment_data={comment_data}
-            userData={userData}
-          />
-        )}
+      {isReply && (
+        <ReplyOrReviseComment
+          deepth={1}
+          type={"reply-" + type}
+          origin_index={origin_index}
+          reply_index={reply_index}
+          comment_data={comment_data}
+          userData={userData}
+        />
+      )}
     </>
   );
 };

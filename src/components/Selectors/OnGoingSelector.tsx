@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { dataActions } from "@/store/data-slice";
-import { RootState, useAppDispatch } from "@/store/store";
+import { dataActions } from "store/data-slice";
+import { RootState, useAppDispatch } from "store/store";
 import "./OnGoingSelector.css";
 
 const 행사 = ["진행중", "시작전", "종료"];

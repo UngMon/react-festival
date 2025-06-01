@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserData } from "@/type/UserDataType";
-import { User } from "@/type/UserDataType";
+import { UserData } from "type/UserDataType";
+import { User } from "type/UserDataType";
 
 const initialState: UserData = {
   status: "pending",

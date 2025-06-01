@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { ContentImage, ResponImage } from "@/type/ContentType";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { ContentImage, ResponImage } from "type/ContentType";
 import SliderButton from "./SliderButton";
-import Loading from "@/components/Loading/Loading";
+import Loading from "components/Loading/Loading";
 import "./Slider.css";
 
 const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
@@ -24,102 +24,120 @@ interface SliderProps {
 }
 
 const Slider = ({ content_id }: SliderProps) => {
+  console.log("Slider");
   const sliderRef = useRef<HTMLDivElement>(null);
   const sliderBoxRef = useRef<HTMLDivElement>(null);
 
   const [width, setWidth] = useState<number>(0);
   const [image, setImage] = useState<ContentImage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [originImages, setOriginImages] = useState<ContentImage[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isVisibleButton, setIsVisibleButton] = useState<boolean>(true);
 
   useEffect(() => {
     const getImage = async (contentId: string) => {
+      const box = sliderBoxRef.current;
+      if (!box) return;
+
+      const noImageObj = { originimgurl: "/images/NoImage.png" };
+
       try {
         const imageData = await getContentImage(contentId);
         /* 각 콘텐츠는 상세 이미지가 여러개 있고, 어떤 콘텐츠는 이미지가 없는 경우가 있다.
         상황에 맞게 image State를 따로 정의해야 한다. */
 
-        let img = imageData.response.body.items.item ?? [
-          { originimgurl: "/images/NoImage.png" },
-        ];
+        let img = imageData.response.body.items.item ?? [noImageObj];
 
         setOriginImages(img);
 
         if (img.length === 1) {
           setImage(img);
-          sliderBoxRef.current!.style.justifyContent = "center";
-        } else if (img.length === 2) {
-          setImage(img);
-          setWidth(sliderBoxRef.current!.clientWidth / 2);
-          setCurrentIndex(0);
-        } else {
-          setImage([...img, ...img, ...img]);
-          setWidth(sliderBoxRef.current!.clientWidth / 3);
-          setCurrentIndex(img.length);
+          box.style.justifyContent = "center";
+          return;
         }
+
+        if (img.length === 2) {
+          setImage(img);
+          setWidth(box.clientWidth / 2);
+          return;
+        }
+
+        setImage([...img, ...img, ...img]);
+        setWidth(box.clientWidth / 3);
+        setCurrentIndex(img.length);
 
         /* 마운트 이후 첫 렌더링에 width값 업데이트를 함. */
       } catch (error) {
-        const object = {
-          originimgurl: "/images/NoImage.png",
-        };
-        setImage([object]);
-        setOriginImages([object]);
-        sliderBoxRef.current!.style.justifyContent = "center";
+        setImage([noImageObj]);
+        setOriginImages([noImageObj]);
+        box.style.justifyContent = "center";
       }
     };
-    getImage(content_id);
-  }, [content_id, sliderBoxRef]);
+  
+    async function fetchData() {
+        await getImage(content_id);
+        setIsLoading(false);
+    };
 
-  /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
-  useEffect(() => {
-    // 첫 렌더링 후 모바일 너비이면 이미지 슬라이드 너비 맞춤
+    fetchData();
+  }, [content_id]);
+
+  const fitImageSize = useCallback(() => {
+    // 마운트 후 사용자 환경에 따른 이미지 너비 맞춤
+    const box = sliderBoxRef.current;
+    if (!box) return;
+
     if (window.innerWidth <= 850) {
       if (image.length === 2) {
         if (window.innerWidth <= 590) {
-          setWidth(sliderBoxRef.current!.clientWidth);
+          setWidth(box.clientWidth);
           setIsVisibleButton(true);
         } else {
-          setWidth(sliderBoxRef.current!.clientWidth / 2);
+          setWidth(box.clientWidth / 2);
           setIsVisibleButton(false);
         }
       }
 
-      if (image.length > 2) {
-        if (window.innerWidth > 850)
-          setWidth(sliderBoxRef.current!.clientWidth / 3);
-        else setWidth(sliderBoxRef.current!.clientWidth);
+      if (image.length > 2) setWidth(sliderBoxRef.current!.clientWidth);
+    }
+  }, [image]);
+
+  const resizeHandler = useCallback(() => {
+    // pc 사용자가 브라우저 크기를 조절할 때,
+    if (window.innerWidth > 850) return;
+
+    const box = sliderBoxRef.current;
+    if (!box) return;
+
+    if (image.length === 2) {
+      if (window.innerWidth <= 590) {
+        setWidth(box.clientWidth);
+        setIsVisibleButton(true);
+      } else {
+        setWidth(box.clientWidth / 2);
+        setIsVisibleButton(false);
       }
+      return;
     }
 
-    // pc 사용자가 브라우저 크기를 조절할 때,
-    const resizeHandler = () => {
-      if (image.length === 2) {
-        if (window.innerWidth <= 590) {
-          setWidth(sliderBoxRef.current!.clientWidth);
-          setIsVisibleButton(true);
-        } else {
-          setWidth(sliderBoxRef.current!.clientWidth / 2);
-          setIsVisibleButton(false);
-        }
-      } else if (image.length > 2) {
-        setWidth(
-          window.innerWidth > 850
-            ? sliderBoxRef.current!.clientWidth / 3
-            : sliderBoxRef.current!.clientWidth
-        );
-      }
-    };
+    if (image.length > 2)
+      setWidth(window.innerWidth > 850 ? box.clientWidth / 3 : box.clientWidth);
+  }, [image]);
+
+  /* 사용자가 브라우저 창 크기를 조절할 때, 그에 따른 slider이미지 크기 조절 */
+  useEffect(() => {
+    fitImageSize();
+
     window.addEventListener("resize", resizeHandler);
 
     return () => window.removeEventListener("resize", resizeHandler);
-  }, [sliderBoxRef, image]);
+  }, [resizeHandler, fitImageSize]);
 
   return (
     <div className="slider-container">
       <div className="slider-box" ref={sliderBoxRef}>
-        {image.length === 0 && <Loading height="400px"/>}
+        {isLoading && <Loading height="400px" />}
         <div
           className="slider"
           ref={sliderRef}
@@ -128,13 +146,11 @@ const Slider = ({ content_id }: SliderProps) => {
               image.length === 1
                 ? ""
                 : `translateX(${-width * currentIndex}px)`,
-            transition: "transform 250ms ease",
           }}
         >
           {image.map((item, index) => (
-            <div key={index} className="slide">
+            <div key={item.originimgurl + index} className="slide">
               <a
-                key={index}
                 href={item.originimgurl.replace("http", "https")}
                 rel="noreferrer"
                 target="_blank"
@@ -159,8 +175,8 @@ const Slider = ({ content_id }: SliderProps) => {
                 currentIndex % originImages.length === index ? "14px" : "7px",
               backgroundColor:
                 currentIndex % originImages.length === index
-                  ? "rgb(131, 131, 131)"
-                  : "rgb(168, 168, 168)",
+                  ? "rgb(84, 84, 84)"
+                  : "rgb(187, 187, 187)",
             }}
           />
         ))}
