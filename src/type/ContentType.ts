@@ -1,5 +1,3 @@
-import { Item } from "./FetchType";
-
 export type ContentIntro = {
   // tour
   infocenter?: string;
@@ -86,31 +84,19 @@ export type ContentImage = {
   serialnum?: string;
 };
 
-export type ResponInfo = {
+type BaseResponse<T> = {
   response: {
     body: {
-      items: Record<"item", ContentInfo[]> | undefined;
+      items: Record<"item", T[]> | undefined;
     };
   };
 };
 
-export type ResponIntro = {
-  response: {
-    body: {
-      items: Record<"item", ContentIntro[]> | undefined;
-    };
-  };
-};
+export type ResponseInfo = BaseResponse<ContentInfo>;
+export type ResponseIntro = BaseResponse<ContentIntro>;
+export type ResponseCommon = BaseResponse<ContentCommon>;
 
-export type ResponCommon = {
-  response: {
-    body: {
-      items: Record<"item", ContentCommon[]> | undefined;
-    };
-  };
-};
-
-export type ResponImage = {
+export type ResponseImage = {
   response: {
     body: {
       items: {
@@ -120,24 +106,8 @@ export type ResponImage = {
   };
 };
 
-export type LoaderData = {
-  contentDetailIntro: ResponIntro;
-  contentDetailCommon: ResponCommon;
-  contentImage: ResponImage;
-};
-
-export interface FestivalState {
-  successGetData: boolean;
-  sortedFestivalArr: boolean;
-  loading: boolean;
-  festivalArray: Item[];
-  monthArray: Record<string, string>;
-  regionArray: Record<string, string>;
-  행사상태: [boolean, boolean, boolean];
-}
-
 export interface ContentDetailData {
-  contentInfo: ResponInfo;
-  contentIntro: ResponIntro;
-  contentCommon: ResponCommon;
+  contentInfo: ResponseInfo;
+  contentIntro: ResponseIntro;
+  contentCommon: ResponseCommon;
 }

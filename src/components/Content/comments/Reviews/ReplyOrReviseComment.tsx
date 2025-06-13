@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { UserData } from "../../../../type/UserDataType";
+import { useSelector } from "react-redux";
 import { Comment } from "../../../../type/DataType";
-import { useAppDispatch } from "../../../../store/store";
+import { RootState, useAppDispatch } from "../../../../store/store";
 import { originCommentActions } from "../../../../store/origin_comment-slice";
 import { replyActions } from "../../../../store/reply-slice";
 import { myReplyActions } from "../../../../store/my_reply-slice";
@@ -33,7 +33,6 @@ interface T {
   origin_index: number;
   reply_index?: number;
   comment_data: Comment;
-  userData: UserData;
 }
 
 const ReplyOrReviseComment = ({
@@ -42,7 +41,6 @@ const ReplyOrReviseComment = ({
   origin_index,
   reply_index,
   comment_data,
-  userData,
 }: T) => {
   console.log("Render!!!!!!", type);
 
@@ -52,13 +50,15 @@ const ReplyOrReviseComment = ({
   const { origin_id, createdAt, user_id } = comment_data;
   const comment_id = createdAt + user_id;
 
+  const userData = useSelector((state: RootState) => state.firebase);
+
   const [tagName] = useState<string | null>(
     comment_data.user_id !== userData.user_id && comment_data.parent_name
       ? "@" + comment_data.user_name
       : null
   );
 
-  const [disabled, setDisabled] = useState<boolean>(
+  const [submitPossible, setSubmitPossible] = useState<boolean>(
     type.includes("reply") ? false : true
   );
 
@@ -268,11 +268,10 @@ const ReplyOrReviseComment = ({
       }
     };
 
-    const tagElement = document.createElement("a");
-
     const array = comment_data.content;
 
     const setUpTag = (text: string) => {
+      const tagElement = document.createElement("a");
       tagElement.innerText = text;
       tagElement.addEventListener("mousedown", (e) => tagClickHandler(e));
       tagElement.href = "#";
@@ -309,6 +308,133 @@ const ReplyOrReviseComment = ({
     divRef.current.focus();
   }, [tagName, comment_data, type]);
 
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!Keys.has(e.key)) return;
+
+    const tag = tagRef.current;
+    const firstChildTextLength = tag?.firstChild?.textContent?.length;
+    const lastChildTextLength = tag?.lastChild?.textContent?.length;
+
+    const selection = document.getSelection();
+    if (selection?.rangeCount === 0) return;
+    const anchorNode = selection?.anchorNode;
+
+    if (e.key === "Backspace") {
+      if (!tag?.contains(selection?.anchorNode!)) return;
+
+      selection?.extend(tag!, 0);
+      return;
+    }
+
+    if (e.key === "Delete") {
+      if (tag?.contains(anchorNode!)) {
+        selection?.extend(tag, tag.childNodes.length);
+        return;
+      }
+
+      const prevNode = tag?.previousSibling;
+      const prevLastChild = prevNode?.lastChild;
+      const anchorOffset = selection?.anchorOffset;
+
+      if (
+        prevNode?.nodeType === Node.TEXT_NODE &&
+        anchorOffset === prevNode.textContent?.length &&
+        prevNode === anchorNode
+      ) {
+        selection?.extend(tag!, tag?.childNodes.length);
+        return;
+      }
+
+      if (!prevLastChild?.contains(anchorNode!)) return;
+
+      if (prevNode?.nodeType === Node.ELEMENT_NODE) {
+        function getDeepestLastChild(node: Node): Node | undefined {
+          while (node && node.lastChild) {
+            node = node.lastChild;
+          }
+          // 3 => TextNode, 1 => ElementNode
+          if (node.nodeType === 3 || node.nodeType === 1) return node;
+
+          return undefined;
+        }
+
+        const deepestLastChild = getDeepestLastChild(prevLastChild!);
+        const textLength = deepestLastChild?.textContent?.length;
+        if (textLength === selection?.anchorOffset)
+          selection?.extend(tag!, tag?.childNodes.length);
+      }
+      return;
+    }
+
+    setTimeout(() => {
+      const selection = document.getSelection();
+      if (selection?.rangeCount === 0) return;
+      const anchorNode = selection!.anchorNode;
+      const anchorOffset = selection!.anchorOffset;
+      const focusNode = selection!.focusNode;
+      const focusOffset = selection!.focusOffset;
+
+      if (!tag?.contains(focusNode)) return;
+
+      if (e.shiftKey) {
+        let directionOfDrag = "";
+        const position = anchorNode!.compareDocumentPosition(focusNode!);
+
+        if (anchorNode === focusNode) {
+          if (anchorOffset < focusOffset) directionOfDrag = "right";
+          else if (anchorOffset > focusOffset) directionOfDrag = "left";
+        }
+
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+          // anchorNode가 focuseNode 보다 앞에 위치
+          directionOfDrag = "right";
+        } else if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+          // anchorNode가 focuseNode 보다 뒤에 위치
+          directionOfDrag = "left";
+        }
+
+        if (e.key === "ArrowRight") {
+          if (directionOfDrag === "left") {
+            // anchor가 focuse 보다 뒤에 있는 상황이고 텍스트 커서가 focus가 tag 영역에 존재
+            selection?.extend(tag, 0);
+            return;
+          }
+          selection?.extend(tag, tag.childNodes.length);
+        } else if (e.key === "ArrowLeft") {
+          if (directionOfDrag === "right") {
+            selection?.extend(tag, tag.childNodes.length);
+            return;
+          }
+          selection?.extend(tag, 0);
+        }
+
+        if (e.key === "ArrowUp") {
+          if (directionOfDrag === "left") {
+            selection?.extend(tag, 0);
+          } else if (directionOfDrag === "right") {
+            selection?.extend(tag, tag.childNodes.length);
+          }
+        } else if (e.key === "ArrowDown") {
+          if (directionOfDrag === "left") {
+            selection?.extend(tag, 0);
+          } else if (directionOfDrag === "right") {
+            selection?.extend(tag, tag.childNodes.length);
+          }
+        }
+      } else {
+        // 단순히 tagRef영역에서 방향키를 누른 경우
+        if (e.key === "ArrowRight")
+          selection?.collapse(tag!, tag.childNodes.length);
+        else if (e.key === "ArrowLeft") {
+          if (anchorOffset < lastChildTextLength!) selection?.collapse(tag, 0);
+        } else if (anchorOffset < firstChildTextLength!) {
+          // up, down, left 키를 누른 경우
+          selection?.collapse(tag!, 0);
+        }
+      }
+    }, 0);
+  };
+
   return (
     <div
       className="comment-container"
@@ -328,144 +454,17 @@ const ReplyOrReviseComment = ({
             contentEditable="true"
             spellCheck="false"
             dir="auto"
-            onKeyDown={(e) => {
-              if (!Keys.has(e.key)) return;
-
-              const tag = tagRef.current;
-              const firstChildTextLength = tag?.firstChild?.textContent?.length;
-              const lastChildTextLength = tag?.lastChild?.textContent?.length;
-
-              const selection = document.getSelection();
-              if (selection?.rangeCount === 0) return;
-              const anchorNode = selection?.anchorNode;
-
-              if (e.key === "Backspace") {
-                if (!tag?.contains(selection?.anchorNode!)) return;
-
-                selection?.extend(tag!, 0);
-                return;
-              }
-
-              if (e.key === "Delete") {
-                if (tag?.contains(anchorNode!)) {
-                  selection?.extend(tag, tag.childNodes.length);
-                  return;
-                }
-
-                const prevNode = tag?.previousSibling;
-                const prevLastChild = prevNode?.lastChild;
-                const anchorOffset = selection?.anchorOffset;
-
-                if (
-                  prevNode?.nodeType === Node.TEXT_NODE &&
-                  anchorOffset === prevNode.textContent?.length &&
-                  prevNode === anchorNode
-                ) {
-                  selection?.extend(tag!, tag?.childNodes.length);
-                  return;
-                }
-
-                if (!prevLastChild?.contains(anchorNode!)) return;
-
-                if (prevNode?.nodeType === Node.ELEMENT_NODE) {
-                  function getDeepestLastChild(node: Node): Node | undefined {
-                    while (node && node.lastChild) {
-                      node = node.lastChild;
-                    }
-                    // 3 => TextNode, 1 => ElementNode
-                    if (node.nodeType === 3 || node.nodeType === 1) return node;
-
-                    return undefined;
-                  }
-
-                  const deepestLastChild = getDeepestLastChild(prevLastChild!);
-                  const textLength = deepestLastChild?.textContent?.length;
-                  if (textLength === selection?.anchorOffset)
-                    selection?.extend(tag!, tag?.childNodes.length);
-                }
-                return;
-              }
-
-              setTimeout(() => {
-                const selection = document.getSelection();
-                if (selection?.rangeCount === 0) return;
-                const anchorNode = selection!.anchorNode;
-                const anchorOffset = selection!.anchorOffset;
-                const focusNode = selection!.focusNode;
-                const focusOffset = selection!.focusOffset;
-
-                if (!tag?.contains(focusNode)) return;
-
-                if (e.shiftKey) {
-                  let directionOfDrag = "";
-                  const position = anchorNode!.compareDocumentPosition(
-                    focusNode!
-                  );
-
-                  if (anchorNode === focusNode) {
-                    if (anchorOffset < focusOffset) directionOfDrag = "right";
-                    else if (anchorOffset > focusOffset)
-                      directionOfDrag = "left";
-                  }
-
-                  if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
-                    // anchorNode가 focuseNode 보다 앞에 위치
-                    directionOfDrag = "right";
-                  } else if (position & Node.DOCUMENT_POSITION_PRECEDING) {
-                    // anchorNode가 focuseNode 보다 뒤에 위치
-                    directionOfDrag = "left";
-                  }
-
-                  if (e.key === "ArrowRight") {
-                    if (directionOfDrag === "left") {
-                      // anchor가 focuse 보다 뒤에 있는 상황이고 텍스트 커서가 focus가 tag 영역에 존재
-                      selection?.extend(tag, 0);
-                      return;
-                    }
-                    selection?.extend(tag, tag.childNodes.length);
-                  } else if (e.key === "ArrowLeft") {
-                    if (directionOfDrag === "right") {
-                      selection?.extend(tag, tag.childNodes.length);
-                      return;
-                    }
-                    selection?.extend(tag, 0);
-                  }
-
-                  if (e.key === "ArrowUp") {
-                    if (directionOfDrag === "left") {
-                      selection?.extend(tag, 0);
-                    } else if (directionOfDrag === "right") {
-                      selection?.extend(tag, tag.childNodes.length);
-                    }
-                  } else if (e.key === "ArrowDown") {
-                    if (directionOfDrag === "left") {
-                      selection?.extend(tag, 0);
-                    } else if (directionOfDrag === "right") {
-                      selection?.extend(tag, tag.childNodes.length);
-                    }
-                  }
-                } else {
-                  // 단순히 tagRef영역에서 방향키를 누른 경우
-                  if (e.key === "ArrowRight")
-                    selection?.collapse(tag!, tag.childNodes.length);
-                  else if (e.key === "ArrowLeft") {
-                    if (anchorOffset < lastChildTextLength!)
-                      selection?.collapse(tag, 0);
-                  } else if (anchorOffset < firstChildTextLength!) {
-                    // up, down, left 키를 누른 경우
-                    selection?.collapse(tag!, 0);
-                  }
-                }
-              }, 0);
-            }}
+            onKeyDown={(e) => keyDownHandler(e)}
             onInput={(e) => {
               const target = e.target as HTMLDivElement;
               const innerText = target.innerText;
-              if (innerText.length === 0) return setDisabled(true);
+              if (innerText.length === 0) return setSubmitPossible(true);
 
-              if (innerText !== commentText && disabled) setDisabled(false);
+              if (innerText !== commentText && submitPossible)
+                setSubmitPossible(false);
 
-              if (innerText === commentText && !disabled) setDisabled(true);
+              if (innerText === commentText && !submitPossible)
+                setSubmitPossible(true);
             }}
           ></div>
           <i />
@@ -481,9 +480,9 @@ const ReplyOrReviseComment = ({
             취소
           </button>
           <button
-            className={disabled ? "disabled" : "enabled"}
+            className={submitPossible ? "disabled" : "enabled"}
             type="submit"
-            disabled={disabled}
+            disabled={submitPossible}
           >
             저장
           </button>

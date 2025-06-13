@@ -95,33 +95,6 @@ const dataSlice = createSlice({
             return;
           }
 
-          const addRecord = (
-            page_key: string,
-            category_key?: string,
-            category_total_count?: string
-          ) => {
-            if (
-              category_total_count &&
-              !state.category_total_count[category_key!]
-            ) {
-              state.category_total_count[category_key!] = +category_total_count;
-            }
-
-            if (state.category_page_record.length > 19) {
-              const delete_key = state.category_page_record.shift();
-              if (
-                delete_key &&
-                state[title] &&
-                delete_key in state[title] &&
-                title !== "festival"
-              ) {
-                delete state[title][delete_key];
-              }
-            }
-
-            state.category_page_record.push(page_key);
-          };
-
           if (title === "festival") {
             let fetstivalArray: Item[] = [];
             const TodayYear = `${new Date().getFullYear()}0101`;
@@ -137,11 +110,23 @@ const dataSlice = createSlice({
             state.festival = fetstivalArray.sort((a, b) =>
               a.eventenddate! < b.eventenddate! ? -1 : 1
             );
-            // addRecord("festival");
             return;
           }
 
-          addRecord(page_key, category_key, totalCnt);
+          /* title !== festival */
+          if (totalCnt && !state.category_total_count[category_key!]) {
+            state.category_total_count[category_key!] = +totalCnt;
+          }
+
+          if (state.category_page_record.length > 19) {
+            const delete_key = state.category_page_record.shift();
+
+            if (delete_key && state[title] && delete_key in state[title]) {
+              delete state[title][delete_key];
+            }
+          }
+
+          state.category_page_record.push(page_key);
           if (!state[title][page_key]) state[title][page_key] = [];
 
           state[title][page_key].push(...responseFromTourApi);

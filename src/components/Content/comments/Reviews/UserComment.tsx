@@ -10,7 +10,6 @@ interface T {
   origin_index: number;
   reply_index?: number;
   comment_data: Comment;
-  userData: UserData;
   modalInfo: PickComment;
 }
 
@@ -19,7 +18,6 @@ const UserComment = ({
   origin_index,
   reply_index,
   comment_data,
-  userData,
   modalInfo,
 }: T) => {
   const { user_name, user_photo, content, isRevised } = comment_data;
@@ -37,7 +35,6 @@ const UserComment = ({
           origin_index={origin_index}
           reply_index={reply_index}
           comment_data={comment_data}
-          userData={userData}
           modalInfo={modalInfo}
         />
       </div>
@@ -55,7 +52,6 @@ const UserComment = ({
         origin_index={origin_index}
         reply_index={reply_index}
         comment_data={comment_data}
-        userData={userData}
       />
     </div>
   );

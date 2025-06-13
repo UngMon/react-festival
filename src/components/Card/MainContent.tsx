@@ -21,7 +21,6 @@ const MainContent = ({ title }: T) => {
         <>
           <Selectors
             title={title}
-            page={page}
             numOfRows={numOfRows}
             setNumOfRows={setNumOfRows}
           />

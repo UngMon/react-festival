@@ -22,7 +22,7 @@ const MobileMenu = ({ headRef }: T) => {
   const [scrollY, setScrollY] = useState<number>(0);
   const userData = useSelector((state: RootState) => state.firebase);
   const month = String(new Date().getMonth() + 1).padStart(2, "0");
-  console.log(userData);
+  // console.log(userData);
   const logoutHandler = () => {
     signOut(auth)
       .then(() => {

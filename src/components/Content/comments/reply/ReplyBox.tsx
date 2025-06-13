@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { db } from "../../../../firebase";
-import { UserData } from "type/UserDataType";
 import { Comment } from "type/DataType";
 import { RootState, useAppDispatch } from "store/store";
 import { useSelector } from "react-redux";
@@ -24,10 +23,9 @@ interface T {
   origin_index: number;
   comment_data: Comment;
   myReply: Record<string, Record<string, Comment>>;
-  userData: UserData;
 }
 
-const ReplyBox = ({ origin_index, comment_data, myReply, userData }: T) => {
+const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
   console.log("Reply Box Render!");
   const dispatch = useAppDispatch();
   const replyComments = useSelector((state: RootState) => state.reply.comment);
@@ -106,7 +104,6 @@ const ReplyBox = ({ origin_index, comment_data, myReply, userData }: T) => {
                 type={"reply"}
                 deepth={0}
                 comment_data={item}
-                userData={userData}
               />
             );
           } else return null;

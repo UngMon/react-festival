@@ -14,7 +14,7 @@ const Header = () => {
 
   useEffect(() => {
     if (pathname !== "/" || !headRef.current) return;
-
+    
     const scrollHandler = () => {
       const element = headRef.current!;
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ContentImage, ResponImage } from "type/ContentType";
+import { ContentImage, ResponseImage } from "type/ContentType";
 import SliderButton from "./SliderButton";
 import Loading from "components/Loading/Loading";
 import "./Slider.css";
@@ -15,7 +15,7 @@ async function getContentImage(id: string) {
     throw new Error("Failed to Fetch from Data");
   }
 
-  const data: ResponImage = await response.json();
+  const data: ResponseImage = await response.json();
   return data;
 }
 

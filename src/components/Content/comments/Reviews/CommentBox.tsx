@@ -1,4 +1,3 @@
-import { UserData } from "../../../../type/UserDataType";
 import { Comment } from "../../../../type/DataType";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
@@ -6,7 +5,6 @@ import UserComment from "./UserComment";
 import ReplyOrReviseComment from "./ReplyOrReviseComment";
 
 interface T {
-  userData: UserData;
   origin_index: number;
   reply_index?: number;
   deepth: number;
@@ -15,7 +13,6 @@ interface T {
 }
 
 const CommentBox = ({
-  userData,
   origin_index,
   reply_index,
   deepth,
@@ -36,7 +33,6 @@ const CommentBox = ({
           origin_index={origin_index}
           reply_index={reply_index}
           comment_data={comment_data}
-          userData={userData}
           modalInfo={modalInfo}
         />
       ) : (
@@ -46,7 +42,6 @@ const CommentBox = ({
           origin_index={origin_index}
           reply_index={reply_index}
           comment_data={comment_data}
-          userData={userData}
         />
       )}
       {isReply && (
@@ -56,7 +51,6 @@ const CommentBox = ({
           origin_index={origin_index}
           reply_index={reply_index}
           comment_data={comment_data}
-          userData={userData}
         />
       )}
     </>

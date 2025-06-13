@@ -1,0 +1,13 @@
+.comment-area {
+  margin-top: "50px";
+  width: 100%;
+}
+
+.comment-box-container {
+  margin: 0px 10px 10px;
+  position: relative;
+}
+
+.comment-target {
+  margin-bottom: 50px;
+}

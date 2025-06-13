@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Comment } from "../../../../type/DataType";
 import { db } from "../../../../firebase";
 import {
@@ -17,6 +17,7 @@ import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserv
 import CommentBox from "./CommentBox";
 import LoadingSpinnerTwo from "../../../Loading/LoadingSpinnerTwo";
 import ReplyArea from "../Reply/ReplyArea";
+import "./CommentArea.css";
 
 interface T {
   content_id: string;
@@ -25,34 +26,20 @@ interface T {
 const CommentArea = ({ content_id }: T) => {
   console.log("CommentBox Component Render");
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState<boolean>(false);
   const comments = useSelector(
     (state: RootState) => state.origin_comment.comment
   );
-  const userData = useSelector((state: RootState) => state.firebase);
-
-  const [completeGetCommentsData, setCompleteGetCommentsData] =
-    useState<boolean>(false);
-  const [targetRef, intersecting, setIntersecting] =
-    useIntersectionObserver(false);
+  const loading = useRef<boolean>(false);
+  const [targetRef, intersecting] = useIntersectionObserver();
   const [afterIndex, setAfterIndex] = useState<string>("");
 
   useEffect(() => {
-    switch (true) {
-      case completeGetCommentsData:
-        return;
-      case loading:
-        return;
-      case userData.status === "pending":
-        return;
-      case !intersecting:
-        return;
-    }
-    setLoading(true);
-
-    const commentRef = collection(db, "comments");
+    if (afterIndex === "finish" || !intersecting || loading.current) return;
 
     const getCommentData = async () => {
+      loading.current = true;
+      const commentRef = collection(db, "comments");
+
       try {
         const firstQuery = query(
           commentRef,
@@ -71,8 +58,7 @@ const CommentArea = ({ content_id }: T) => {
           limit(25)
         );
 
-        let queryToRun = comments.length === 0 ? firstQuery : baseQurey;
-
+        let queryToRun = afterIndex === "" ? firstQuery : baseQurey;
         const data = await getDocs(queryToRun);
         let lastDataIndex: string = "";
 
@@ -83,54 +69,46 @@ const CommentArea = ({ content_id }: T) => {
             dispatch(originCommentActions.setComment({ comment_datas }));
             setAfterIndex(lastDataIndex);
           }
-          if (comment_datas.length < 25) setCompleteGetCommentsData(true);
-        } else setCompleteGetCommentsData(true);
+          if (comment_datas.length < 25) setAfterIndex("finish");
+        } else setAfterIndex("finish");
       } catch (error: any) {
         console.error(error.message);
         alert("댓글을 불러오지 못 했습니다.");
       } finally {
-        setIntersecting(false);
-        setLoading(false);
+        setTimeout(() => {
+          loading.current = false;
+        }, 100);
       }
     };
+
     getCommentData();
-  }, [
-    dispatch,
-    userData,
-    completeGetCommentsData,
-    loading,
-    setIntersecting,
-    comments,
-    afterIndex,
-    content_id,
-    intersecting,
-  ]);
+  }, [dispatch, intersecting, afterIndex, content_id]);
 
   return (
-    <div className="comments-area" style={{ margin: "50px 0", width: "100%" }}>
-      {comments.length === 0 && !loading && <p>등록된 리뷰가 없습니다!</p>}
+    <div className="comments-area">
+      {comments.length === 0 && afterIndex === "finish" && (
+        <p>등록된 리뷰가 없습니다!</p>
+      )}
       {comments.length > 0 &&
         comments.map((item, index) => (
           <div
+            className="comment-box-container"
             key={item.createdAt + item.user_id}
-            style={{ margin: "0px 10px 10px", position: "relative" }}
           >
             <CommentBox
-              userData={userData}
               origin_index={index}
               type={"origin"}
               deepth={0}
               comment_data={item}
             />
-            <ReplyArea
-              origin_index={index}
-              comment_data={item}
-              userData={userData}
-            />
+            <ReplyArea origin_index={index} comment_data={item} />
           </div>
         ))}
-      {loading && <LoadingSpinnerTwo width="25px" padding="8px" />}
-      <div ref={targetRef}></div>
+      <div className="comment-target" ref={targetRef}>
+        {intersecting && afterIndex !== "finish" && (
+          <LoadingSpinnerTwo width="20px" padding="7px" />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import { UserData } from "../../../../type/UserDataType";
 import { Comment } from "../../../../type/DataType";
 import { db } from "../../../../firebase";
+import { useSelector } from "react-redux";
 import {
   arrayRemove,
   arrayUnion,
@@ -9,7 +9,7 @@ import {
   increment,
   writeBatch,
 } from "firebase/firestore";
-import { useAppDispatch } from "../../../../store/store";
+import { RootState, useAppDispatch } from "../../../../store/store";
 import { originCommentActions } from "../../../../store/origin_comment-slice";
 import { replyActions } from "../../../../store/reply-slice";
 import { modalActions } from "../../../../store/modal-slice";
@@ -19,12 +19,13 @@ import { faThumbsUp as faRegularThumbsUp } from "@fortawesome/free-regular-svg-i
 import { faThumbsUp as faSolidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import "./CommentResponse.css";
 
+
 interface T {
   type: string;
   origin_index: number;
   reply_index?: number;
   comment_data: Comment;
-  userData: UserData;
+  // userData: UserData;
 }
 
 const CommentResponse = ({
@@ -32,10 +33,11 @@ const CommentResponse = ({
   origin_index,
   reply_index,
   comment_data,
-  userData,
+  // userData,
 }: T) => {
   const dispatch = useAppDispatch();
   const { user_id, createdAt, origin_id, like_count } = comment_data;
+  const userData = useSelector((state: RootState) => state.firebase);
 
   const emotionOfRecord = comment_data.like_users.indexOf(userData.user_id);
   const feelClickHandler = async () => {

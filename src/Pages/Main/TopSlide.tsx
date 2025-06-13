@@ -11,9 +11,9 @@ import "./TopSlide.css";
 
 const top = [
   {
-    title: "초곡 용굴 촛대바위길",
-    text: "삼척의 시원하고 아늑한 초곡항의 길",
-    url: "./images/top/cho.jpg",
+    title: "울산 바위",
+    text: "태백산맥의 기운을 품은 채 신비로운 전설과 장엄한 풍광",
+    url: "./images/top/ulsanstone.jpg",
     source: "ⓒ한국관광공사 포토코리아-강원지사 모먼트스튜디오",
     type: "28",
     contentId: "2633902",

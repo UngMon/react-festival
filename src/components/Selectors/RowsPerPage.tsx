@@ -4,18 +4,17 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 
 interface T {
-  page: number;
   numOfRows: number;
   setNumOfRows: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const RowsPerPage = ({ page, numOfRows, setNumOfRows }: T) => {
+const RowsPerPage = ({ numOfRows, setNumOfRows }: T) => {
   const divref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
-      const target = e.target as Node
+      const target = e.target as Node;
       if (divref.current?.contains(target)) return;
 
       setOpen(false);

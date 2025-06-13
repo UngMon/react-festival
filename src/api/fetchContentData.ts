@@ -1,11 +1,11 @@
 import {
-  ResponCommon,
-  ResponInfo,
-  ResponIntro,
+  ResponseCommon,
+  ResponseInfo,
+  ResponseIntro,
   ContentDetailData,
 } from "../type/ContentType";
 
-export const getContentData = async (
+export const fetchContentData = async (
   id: string,
   type: string
 ): Promise<ContentDetailData> => {
@@ -23,36 +23,36 @@ export const getContentData = async (
     else return host + param1 + param2;
   };
 
-  const getDataContentInfo = async (category: string): Promise<ResponInfo> => {
+  const getDataContentInfo = async (category: string): Promise<ResponseInfo> => {
     const response = await fetch(makeUrl(category));
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
-    const data: ResponInfo = await response.json();
-    console.log('info', data)
+    const data: ResponseInfo = await response.json();
+    console.log("info", data);
     return data;
   };
 
   const getDataContentIntro = async (
     category: string
-  ): Promise<ResponIntro> => {
+  ): Promise<ResponseIntro> => {
     const response = await fetch(makeUrl(category));
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
-    const data: ResponIntro = await response.json();
-    console.log('intro', data)
+    const data: ResponseIntro = await response.json();
+    console.log("intro", data);
     return data;
   };
 
   const getDataContentCommon = async (
     category: string
-  ): Promise<ResponCommon> => {
+  ): Promise<ResponseCommon> => {
     const response = await fetch(makeUrl(category));
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
-    const data: ResponCommon = await response.json();
-    console.log('cmmon', data)
+    const data: ResponseCommon = await response.json();
+    console.log("cmmon", data);
     return data;
   };
 

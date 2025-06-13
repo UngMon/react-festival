@@ -1,3 +1,4 @@
+import React from "react";
 import { TitleType } from "type/FetchType";
 import { useCheckParams, CheckParams } from "hooks/useCheckParams";
 import SubMenu from "./SubMenu";
@@ -11,14 +12,13 @@ import "./Picker.css";
 
 interface T {
   title: TitleType;
-  page: number;
   numOfRows: number;
   setNumOfRows: React.Dispatch<React.SetStateAction<number>>;
 }
-
-const Selectors = ({ title, page, numOfRows, setNumOfRows }: T) => {
+ 
+const Selectors = ({ title, numOfRows, setNumOfRows }: T) => {
   const { contentTypeId, month, areaCode, cat1, cat2, cat3, requireRedirect } =
-  useCheckParams(title) as CheckParams;
+    useCheckParams(title) as CheckParams;
 
   return (
     <div className="Ui-Box">
@@ -69,14 +69,10 @@ const Selectors = ({ title, page, numOfRows, setNumOfRows }: T) => {
       </div>
       {title === "festival" && <OnGoingSelector />}
       {title !== "festival" && (
-        <RowsPerPage
-          page={page}
-          numOfRows={numOfRows}
-          setNumOfRows={setNumOfRows}
-        />
+        <RowsPerPage numOfRows={numOfRows} setNumOfRows={setNumOfRows} />
       )}
     </div>
   );
-};
+}
 
-export default Selectors;
+export default React.memo(Selectors);

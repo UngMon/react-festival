@@ -19,7 +19,8 @@ const originCommentSlice = createSlice({
   initialState,
   reducers: {
     setComment(state, action: PayloadAction<{ comment_datas: Comment[] }>) {
-      state.comment = [...action.payload.comment_datas];
+      // state.comment = [...state.comment, ...action.payload.comment_datas];
+      state.comment.push(...action.payload.comment_datas);
     },
     addNewComment(state, action: PayloadAction<{ field_data: Comment }>) {
       state.comment.unshift(action.payload.field_data);

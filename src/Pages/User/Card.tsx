@@ -19,7 +19,7 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
   const navigate = useNavigate();
 
   const imageClickHandler = (content_type: string, content_id: string) => {
-    navigate(`type=${content_type}&cotent_id=${content_id}`);
+    navigate(`/content?contentTypeId=${content_type}&contentId=${content_id}`);
   };
 
   const convertText = (content: [string, string, string]) => {

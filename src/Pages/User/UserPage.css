@@ -1,39 +1,8 @@
 .user-area {
-  background: rgb(250, 250, 250);
   position: relative;
+  background: rgb(250, 250, 250);
   width: 100%;
   min-height: calc(100vh - 60px);
-}
-
-.user-menu-arrow {
-  position: absolute;
-  top: 10px;
-  left: 3%;
-  cursor: pointer;
-
-  svg {
-    height: 30px;
-    color: #333;
-  }
-}
-
-.user-menu {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  display: none;
-  box-sizing: border-box;
-  padding: 50px 0 0;
-  width: 280px;
-  height: 100%;
-  background: rgb(245, 245, 245);
-  transform: translateX(-280px);
-  transition: all 0.3s ease-in-out;
-}
-
-.op {
-  display: block;
-  transform: translateX(0px);
 }
 
 .x-mark {
@@ -53,75 +22,9 @@
   }
 }
 
-.user-icon {
-  text-align: center;
-
-  div:nth-of-type(1) {
-    img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-  }
-
-  div:nth-of-type(2) {
-    width: 80%;
-    height: 22px;
-    margin: 10px auto;
-    font-weight: 500;
-    font-size: 18px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-.user-menu-list {
-  margin: 30px 0 24px 0;
-}
-
-.user-menu-list li {
-  font-size: 16px;
-  padding: 16px 24px;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    color: #f5f5f5;
-    background: rgb(58, 116, 239);
-  }
-}
-
-.user-menu .log-out {
-  box-sizing: border-box;
-  margin: 20px 20px 0;
-  padding: 4px 4px;
-  text-align: left;
-  font-size: 16px;
-  height: 50px;
-  color: #333;
-  cursor: pointer;
-
-  span {
-    padding-left: 10px;
-    font-weight: bold;
-  }
-
-  &:hover {
-    color: rgb(58, 116, 239);
-  }
-}
-
-.user-menu h3 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.line {
-  border: 0.5px solid gray;
-}
 
 .content-view {
+  position: relative;
   background-color: rgb(248, 248, 248);
   width: clamp(320px, 100%, 655px);
   min-height: calc(100vh - 60px);
@@ -247,15 +150,3 @@
   }
 }
 
-@media (min-width: 1024px) {
- .user-menu {
-    display: block;
-    transform: translateX(0px);
-    width: 280px;
-    transition: none;
-  }
-
-  .user-menu-arrow {
-    display: none;
-  }
-}

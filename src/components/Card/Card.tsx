@@ -105,7 +105,6 @@ const Card = ({ title, numOfRows, page, params }: CardProps) => {
         if (cat1 !== "all" && cat1 !== item.cat1) return acc;
         if (cat2 !== "all" && cat2 !== item.cat2) return acc;
         if (cat3 !== "all" && cat3 !== item.cat3) return acc;
-        // if (!item.firstimage) return acc;
 
         let 축제상태 = "";
         if (title === "festival") {

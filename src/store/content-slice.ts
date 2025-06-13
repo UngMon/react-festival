@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ContentType } from "../type/DataType";
-import { ResponCommon, ResponInfo, ResponIntro } from "../type/ContentType";
+import {
+  ResponseCommon,
+  ResponseInfo,
+  ResponseIntro,
+} from "../type/ContentType";
 
 const initialState: ContentType = {
   detailInfo: undefined,
@@ -15,16 +19,16 @@ const contentSlice = createSlice({
     setContentData(
       state,
       action: PayloadAction<{
-        contentInfo: ResponInfo;
-        contentIntro: ResponIntro;
-        contentCommon: ResponCommon;
+        contentInfo: ResponseInfo;
+        contentIntro: ResponseIntro;
+        contentCommon: ResponseCommon;
       }>
     ) {
       const { contentCommon, contentInfo, contentIntro } = action.payload;
-      
-      state.detailCommon = contentCommon.response.body.items?.item || undefined;
-      state.detailInfo = contentInfo.response.body.items?.item || undefined;
-      state.detailIntro = contentIntro.response.body.items?.item || undefined;
+
+      state.detailCommon = contentCommon.response.body.items?.item;
+      state.detailInfo = contentInfo.response.body.items?.item;
+      state.detailIntro = contentIntro.response.body.items?.item;
     },
   },
 });

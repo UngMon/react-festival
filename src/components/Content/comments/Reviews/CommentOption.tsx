@@ -1,4 +1,4 @@
-import { PickComment, UserData } from "../../../../type/UserDataType";
+import { PickComment } from "../../../../type/UserDataType";
 import { Comment } from "../../../../type/DataType";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../store/store";
@@ -15,7 +15,7 @@ interface T {
   type: string;
   modalInfo: PickComment;
   comment_data: Comment;
-  userData: UserData;
+  // userData: UserData;
 }
 
 const CommentOption = ({
@@ -24,10 +24,11 @@ const CommentOption = ({
   type,
   modalInfo,
   comment_data,
-  userData,
+  // userData,
 }: T) => {
   const dispatch = useAppDispatch();
   const reportState = useSelector((state: RootState) => state.report);
+  const userData = useSelector((state: RootState) => state.firebase);
   const comment_id = comment_data.createdAt + comment_data.user_id;
 
   const optionClickHandler = (e: React.MouseEvent) => {

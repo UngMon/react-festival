@@ -1,33 +1,33 @@
 import { useRef, useState, useEffect } from "react";
 
-const useIntersectionObserver = (
-  dataLoading: boolean
-): [
+const useIntersectionObserver = (): [
   React.RefObject<HTMLDivElement>,
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>
+  boolean
 ] => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [intersecting, setIntersecting] = useState<boolean>(false);
 
   useEffect(() => {
-    if (dataLoading || !targetRef.current) return;
+    if (!targetRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        console.log(entries[0].isIntersecting);
+        const isNowIntersecting = entries[0].isIntersecting;
 
-        if (!entries[0].isIntersecting) {
-          console.log("here One");
-          // intersecting = false;
-          setIntersecting(false);
-        }
+        // if (!entries[0].isIntersecting) {
+        //   console.log("here One");
+        //   setIntersecting(false);
+        // }
 
-        if (entries[0].isIntersecting) {
-          console.log("here Two");
-          // intersecting = true;
-          setIntersecting(true);
-        }
+        // if (entries[0].isIntersecting) {
+        //   console.log("here Two");
+        //   setIntersecting(true);
+        // }
+
+        setIntersecting((prev) => {
+          if (prev === isNowIntersecting) return prev; // 상태 안 바뀌면 업데이트 안 함
+          return isNowIntersecting;
+        });
       },
       {
         // options
@@ -42,9 +42,9 @@ const useIntersectionObserver = (
     return () => {
       observer.disconnect();
     };
-  }, [dataLoading, intersecting]);
+  }, []);
 
-  return [targetRef, intersecting, setIntersecting];
+  return [targetRef, intersecting];
 };
 
 export { useIntersectionObserver };

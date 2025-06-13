@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { contentActions } from "store/content-slice";
 import { convertText } from "utils/convertText";
-import { getContentData } from "api/getContentData";
+import { fetchContentData } from "api/fetchContentData";
 import BasicInfo from "./BasicInfo";
 import Map from "./Map";
 import Loading from "components/Loading/Loading";
@@ -25,17 +25,15 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchContentData = async (
-      contentTypeId: string,
-      contentId: string
-    ) => {
+    const fetchData = async (contentTypeId: string, contentId: string) => {
       try {
-        const response: ContentDetailData = await getContentData(
+        const response: ContentDetailData = await fetchContentData(
           contentTypeId,
           contentId
         );
 
         const { contentCommon, contentInfo, contentIntro } = response;
+        
         dispatch(
           contentActions.setContentData({
             contentCommon,
@@ -50,7 +48,7 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
         setLoading(false);
       }
     };
-    fetchContentData(content_type, content_id);
+    fetchData(content_type, content_id);
   }, [dispatch, content_type, content_id]);
 
   return (

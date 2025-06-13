@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 import { originCommentActions } from "../../store/origin_comment-slice";
 import { Comment, LikedComment, LikedContent } from "../../type/DataType";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { UserData } from "type/UserDataType";
 import { db } from "../../firebase";
 import {
   collection,
@@ -25,17 +27,14 @@ type DataType = (Comment | LikedComment | LikedContent)[];
 
 interface T {
   category: string;
-  user_id: string;
+  userData: UserData;
 }
 
-const UserLogs = ({ category, user_id }: T) => {
+const UserLogs = ({ category, userData }: T) => {
   const dispatch = useAppDispatch();
-
-  // const targetRef = useRef<HTMLDivElement>(null);
-  const [isFinished, setIsFinished] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState<boolean>(true);
-  const [targetRef, intersecting, setIntersecting] =
-    useIntersectionObserver(loading);
+  const navigate = useNavigate();
+  const loading = useRef<boolean>(false);
+  const [targetRef, intersecting] = useIntersectionObserver();
   const [myComment, setMyComment] = useState<Record<string, Comment[]>>({});
   const [likedContent, setLikedContent] = useState<
     Record<string, LikedContent[]>
@@ -50,9 +49,26 @@ const UserLogs = ({ category, user_id }: T) => {
   });
 
   useEffect(() => {
-    if (!user_id || isFinished[category] === "finished" || !intersecting) return;
+    const { user_id, status } = userData;
+
+    switch (true) {
+      case status === "pending":
+        return;
+      case !user_id && status === "fulfilled":
+        return navigate("/", { replace: true });
+      case loading.current:
+        return;
+      case afterIndex[category] === "finish":
+        return;
+      case !intersecting:
+        return;
+    }
+
+    console.log("??????");
 
     const getDataHandler = async () => {
+      loading.current = true;
+
       try {
         const queryConfig = {
           myComment: {
@@ -95,9 +111,8 @@ const UserLogs = ({ category, user_id }: T) => {
 
         if (data.length < 25) {
           setAfterIndex((prev) => {
-            return { ...prev, [category]: "finished" };
+            return { ...prev, [category]: "finish" };
           });
-          setIsFinished((prev) => ({ ...prev, [category]: "finished" }));
         } else
           setAfterIndex((prev) => {
             return { ...prev, [category]: data[data.length - 1].createdAt };
@@ -149,11 +164,14 @@ const UserLogs = ({ category, user_id }: T) => {
       } catch (error: any) {
         console.log(error.message);
         alert("데이터를 불러오지 못 했습니다.");
+      } finally {
+        setTimeout(() => {
+          loading.current = false;
+        }, 100);
       }
-      setLoading(false);
     };
     getDataHandler();
-  }, [category, isFinished, user_id, afterIndex, intersecting]);
+  }, [category, userData, afterIndex, intersecting]);
 
   const deleteHandler = async (
     date: string,
@@ -245,7 +263,7 @@ const UserLogs = ({ category, user_id }: T) => {
 
     return (
       <>
-        {!loading && array.length === 0 && (
+        {afterIndex[category] === "finish" && array.length === 0 && (
           <div id="Nonexistent">작성한 댓글이 없습니다.</div>
         )}
         {array?.map((item, idx) => (
@@ -262,7 +280,6 @@ const UserLogs = ({ category, user_id }: T) => {
             ))}
           </div>
         ))}
-        {loading && <LoadingSpinnerTwo width="45px" padding="10px" />}
       </>
     );
   };
@@ -274,6 +291,9 @@ const UserLogs = ({ category, user_id }: T) => {
       {category === "likedContent" && renderComments(likedContent)}
       {category === "likedComment" && renderComments(likedComment)}
       <div className="target" ref={targetRef}></div>
+      {intersecting && afterIndex[category] !== "finish" && (
+        <LoadingSpinnerTwo width="45px" padding="10px" />
+      )}
     </div>
   );
 };
