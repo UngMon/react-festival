@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { CheckParams } from "hooks/useCheckParams";
 import { fetchTourApi } from "api/fetchTourApi";
 import { useNavigate } from "react-router-dom";
-import { Item, 지역코드, 시군코드, cat3Code, TitleType } from "type/FetchType";
+import { Item, TitleType } from "type/FetchType";
+import { 지역코드, 시군코드, cat3Code } from "assets/CatCode/CatCode";
 import { calculateDate } from "utils/CalculateDate";
 import { nowDate } from "utils/NowDate";
 import { dateSlice } from "utils/DateSlice";
@@ -49,8 +50,8 @@ const Card = ({ title, numOfRows, page, params }: CardProps) => {
     }
 
     key = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
-    
-    dispatch( 
+
+    dispatch(
       fetchTourApi({
         existPageInfo: tourData.category_total_count[key] ? true : false,
         numOfRows,

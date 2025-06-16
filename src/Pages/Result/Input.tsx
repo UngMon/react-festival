@@ -6,7 +6,7 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { CheckParams } from "@/hooks/useCheckParams";
-import { ContentIdCode } from "type/FetchType";
+import { ContentIdCode } from "assets/CatCode/CatCode";
 import "./Input.css";
 
 interface T {

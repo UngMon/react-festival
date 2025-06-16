@@ -106,8 +106,14 @@ export type ResponseImage = {
   };
 };
 
-export interface ContentDetailData {
+export interface ResponseContentData {
   contentInfo: ResponseInfo;
   contentIntro: ResponseIntro;
   contentCommon: ResponseCommon;
+}
+
+export interface ContentType {
+  detailCommon: ContentCommon[] | undefined;
+  detailInfo: ContentInfo[] | undefined;
+  detailIntro: ContentIntro[] | undefined;
 }

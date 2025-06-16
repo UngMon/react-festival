@@ -2,7 +2,7 @@ import { LikedComment, LikedContent, Comment } from "../../type/DataType";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ContentIdCode } from "../../type/FetchType";
+import { ContentIdCode } from "assets/CatCode/CatCode";
 
 interface T {
   item: Comment | LikedComment | LikedContent;

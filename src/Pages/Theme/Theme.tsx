@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
-import { slideData } from "../../type/ThemeData";
+import { slideData } from "../../assets/Theme/Theme";
 import ThemeSlide from "./ThemeSlide";
 import "./Theme.css";
 

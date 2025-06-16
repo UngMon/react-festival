@@ -9,7 +9,7 @@ import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/Error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login/Login"));
-const Main = lazy(() => import("./components/Card/MainContent"));
+const Main = lazy(() => import("./components/Card/CardContainer"));
 const Content = lazy(() => import("./components/Content/Content"));
 const Theme = lazy(() => import("./pages/Theme/Theme"));
 const EtcLayout = lazy(() => import("./pages/Etc/EtcLayout"));

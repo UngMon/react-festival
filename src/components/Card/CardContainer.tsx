@@ -10,7 +10,7 @@ interface T {
   title: TitleType;
 }
 
-const MainContent = ({ title }: T) => {
+const CardContainer = ({ title }: T) => {
   const [numOfRows, setNumOfRows] = useState<number>(50);
   const [page, setPage] = useState<number>(1);
   const params = useCheckParams(title);
@@ -47,4 +47,4 @@ const MainContent = ({ title }: T) => {
   );
 };
 
-export default MainContent;
+export default CardContainer;

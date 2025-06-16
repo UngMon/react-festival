@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContentDetailData } from "type/ContentType";
+import { ResponseContentData } from "type/ContentType";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { contentActions } from "store/content-slice";
@@ -27,13 +27,13 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
   useEffect(() => {
     const fetchData = async (contentTypeId: string, contentId: string) => {
       try {
-        const response: ContentDetailData = await fetchContentData(
+        const response: ResponseContentData = await fetchContentData(
           contentTypeId,
           contentId
         );
 
         const { contentCommon, contentInfo, contentIntro } = response;
-        
+
         dispatch(
           contentActions.setContentData({
             contentCommon,

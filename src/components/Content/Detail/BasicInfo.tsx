@@ -1,5 +1,5 @@
 import { ContentCommon, ContentIntro } from "type/ContentType";
-import { BasicInfoList } from "type/FetchType";
+import { BasicInfoList } from "assets/CatCode/CatCode";
 import { dateSlice } from "utils/DateSlice";
 import { convertText } from "utils/convertText";
 

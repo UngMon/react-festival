@@ -1,5 +1,4 @@
 import { Item } from "./FetchType";
-import { ContentCommon, ContentInfo, ContentIntro } from "./ContentType";
 
 export interface DataType {
   successGetData: boolean;
@@ -17,12 +16,6 @@ export interface DataType {
   category_total_count: Record<string, number>;
   category_page_record: string[];
   행사상태: [boolean, boolean, boolean];
-}
-
-export interface ContentType {
-  detailCommon: ContentCommon[] | undefined;
-  detailInfo: ContentInfo[] | undefined;
-  detailIntro: ContentIntro[] | undefined;
 }
 
 export interface Comment {

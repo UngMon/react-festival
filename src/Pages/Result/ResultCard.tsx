@@ -2,17 +2,16 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "store/store";
-import { ContentIdCode } from "type/FetchType";
 import { fetchTourApi } from "api/fetchTourApi";
 import { CheckParams } from "hooks/useCheckParams";
+import { Item, TitleType } from "type/FetchType";
 import {
-  Item,
   지역코드,
   시군코드,
   cat2Code,
   cat3Code,
-  TitleType,
-} from "type/FetchType";
+  ContentIdCode
+} from "assets/CatCode/CatCode";
 import "./ResultCard.css";
 import Loading from "components/Loading/Loading";
 

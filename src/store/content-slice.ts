@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ContentType } from "../type/DataType";
+import { ContentType } from "../type/ContentType";
 import {
   ResponseCommon,
   ResponseInfo,

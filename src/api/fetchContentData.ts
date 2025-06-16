@@ -2,13 +2,13 @@ import {
   ResponseCommon,
   ResponseInfo,
   ResponseIntro,
-  ContentDetailData,
+  ResponseContentData,
 } from "../type/ContentType";
 
 export const fetchContentData = async (
   id: string,
   type: string
-): Promise<ContentDetailData> => {
+): Promise<ResponseContentData> => {
   const serviceKey = encodeURIComponent(
     process.env.REACT_APP_DATA_SERVICE_KEY!
   );
@@ -23,12 +23,13 @@ export const fetchContentData = async (
     else return host + param1 + param2;
   };
 
-  const getDataContentInfo = async (category: string): Promise<ResponseInfo> => {
+  const getDataContentInfo = async (
+    category: string
+  ): Promise<ResponseInfo> => {
     const response = await fetch(makeUrl(category));
 
     if (!response.ok) throw new Error("Failed to Fetch from Data");
     const data: ResponseInfo = await response.json();
-    console.log("info", data);
     return data;
   };
 
@@ -40,7 +41,6 @@ export const fetchContentData = async (
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
     const data: ResponseIntro = await response.json();
-    console.log("intro", data);
     return data;
   };
 
@@ -52,7 +52,6 @@ export const fetchContentData = async (
     if (!response.ok) throw new Error("Failed to Fetch from Data");
 
     const data: ResponseCommon = await response.json();
-    console.log("cmmon", data);
     return data;
   };
 
