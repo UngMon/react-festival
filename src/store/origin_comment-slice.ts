@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Comment } from "type/DataType";
+import { Comment, OriginComment } from "type/DataType";
 
 interface LikeCommentPayload {
   origin_index: number;
@@ -12,36 +12,39 @@ interface ChangeReplyCountPayload {
   type: "reply-reply" | "reply";
 }
 
-const initialState: Record<"comment", Comment[]> = { comment: [] };
+const initialState: OriginComment = { comments: [], afterIndex: "" };
 
 const originCommentSlice = createSlice({
   name: "origin_comment",
   initialState,
   reducers: {
-    setComment(state, action: PayloadAction<{ comment_datas: Comment[] }>) {
-      // state.comment = [...state.comment, ...action.payload.comment_datas];
-      state.comment.push(...action.payload.comment_datas);
+    setComment(
+      state,
+      action: PayloadAction<{ comment_datas: Comment[]; startAfter: string }>
+    ) {
+      const { comment_datas, startAfter } = action.payload;
+      state.comments.push(...comment_datas);
+      state.afterIndex = startAfter;
     },
     addNewComment(state, action: PayloadAction<{ field_data: Comment }>) {
-      state.comment.unshift(action.payload.field_data);
+      state.comments.unshift(action.payload.field_data);
     },
     subtractionCount(state, action: PayloadAction<{ origin_id: string }>) {
       const { origin_id } = action.payload;
-      const index = state.comment.findIndex(
+      const index = state.comments.findIndex(
         (comment) => comment.createdAt + comment.user_id === origin_id
       );
-      console.log('Subtraction Count!!!!')
-      if (index >= 0) state.comment[index].reply_count! -= 1;
+      if (index >= 0) state.comments[index].reply_count! -= 1;
     },
     likeComment(state, action: PayloadAction<LikeCommentPayload>) {
       const { origin_index, like_count, user_id } = action.payload;
 
-      if (origin_index < 0 || origin_index >= state.comment.length) {
+      if (origin_index < 0 || origin_index >= state.comments.length) {
         console.error("Invalid index");
         return;
       }
 
-      const comment = state.comment[origin_index];
+      const comment = state.comments[origin_index];
       comment.like_count += like_count;
 
       if (like_count === -1) {
@@ -54,9 +57,9 @@ const originCommentSlice = createSlice({
     },
     changeReplyCount(state, action: PayloadAction<ChangeReplyCountPayload>) {
       const { origin_index, type } = action.payload;
-      const comment = state.comment[origin_index];
+      const comment = state.comments[origin_index];
 
-      if (origin_index < 0 || origin_index >= state.comment.length) {
+      if (origin_index < 0 || origin_index >= state.comments.length) {
         console.error("Invalid comment index:", origin_index);
         return;
       }
@@ -76,7 +79,7 @@ const originCommentSlice = createSlice({
       }>
     ) {
       const { origin_index, content } = action.payload;
-      const comment = state.comment[origin_index];
+      const comment = state.comments[origin_index];
       if (comment) {
         comment.content = content;
         comment.isRevised = true;
@@ -85,12 +88,12 @@ const originCommentSlice = createSlice({
     deleteComment(state, action: PayloadAction<{ origin_index: number }>) {
       const origin_index = action.payload.origin_index;
 
-      if (origin_index < 0 || origin_index >= state.comment.length) {
+      if (origin_index < 0 || origin_index >= state.comments.length) {
         console.error("Invalid comment index:", origin_index);
         return;
       }
 
-      state.comment.splice(origin_index, 1);
+      state.comments.splice(origin_index, 1);
     },
   },
 });

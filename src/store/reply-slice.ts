@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Comment } from "type/DataType";
+import { Comment, ReplyComment } from "type/DataType";
 
 interface LikeCommentPayload {
   origin_id: string;
@@ -19,8 +19,9 @@ interface DeletePayload {
   origin_id: string;
 }
 
-const initialState: Record<"comment", Record<string, Comment[]>> = {
-  comment: {},
+const initialState: ReplyComment = {
+  reply_comments: {},
+  afterIndex: "",
 };
 
 const replySlice = createSlice({
@@ -29,23 +30,29 @@ const replySlice = createSlice({
   reducers: {
     setNewReply(
       state,
-      action: PayloadAction<{ origin_id: string; comment_datas: Comment[] }>
+      action: PayloadAction<{
+        origin_id: string;
+        comment_datas: Comment[];
+        lastDataIndex: string;
+      }>
     ) {
-      const { origin_id, comment_datas } = action.payload;
-      if (!state.comment[origin_id]) state.comment[origin_id] = [];
-      state.comment[origin_id].push(...comment_datas);
+      const { origin_id, comment_datas, lastDataIndex } = action.payload;
+      if (!state.reply_comments[origin_id])
+        state.reply_comments[origin_id] = [];
+      state.reply_comments[origin_id].push(...comment_datas);
+      state.afterIndex = lastDataIndex;
     },
     addNewReply(
       state,
       action: PayloadAction<{ key: string; comment_data: Comment }>
     ) {
       const { key, comment_data } = action.payload;
-      if (state.comment[key]) state.comment[key].push(comment_data);
+      if (state.reply_comments[key])
+        state.reply_comments[key].push(comment_data);
     },
     likeComment(state, action: PayloadAction<LikeCommentPayload>) {
-      const { origin_id, reply_index, user_id, like_count } =
-        action.payload;
-      const comment = state.comment[origin_id];
+      const { origin_id, reply_index, user_id, like_count } = action.payload;
+      const comment = state.reply_comments[origin_id];
 
       if (!comment) {
         console.error("origin_id does not exist");
@@ -72,7 +79,7 @@ const replySlice = createSlice({
     },
     reviseComment(state, action: PayloadAction<RevisePayload>) {
       const { origin_id, reply_index, content } = action.payload;
-      const comment = state.comment[origin_id];
+      const comment = state.reply_comments[origin_id];
 
       if (!comment) {
         console.error("origin_id does not exist");
@@ -84,12 +91,12 @@ const replySlice = createSlice({
         return;
       }
 
-      state.comment[origin_id][reply_index].content = content;
-      state.comment[origin_id][reply_index].isRevised = true;
+      state.reply_comments[origin_id][reply_index].content = content;
+      state.reply_comments[origin_id][reply_index].isRevised = true;
     },
     deleteReply(state, action: PayloadAction<DeletePayload>) {
       const { reply_index, origin_id } = action.payload;
-      const comment = state.comment[origin_id];
+      const comment = state.reply_comments[origin_id];
 
       if (reply_index !== undefined) {
         // 오리지널 댓글의 답글을 삭제한 경우
@@ -98,7 +105,7 @@ const replySlice = createSlice({
           return;
         }
         comment.splice(reply_index, 1);
-      } else delete state.comment[origin_id];
+      } else delete state.reply_comments[origin_id];
       // 오리지널 댓글을 삭제한 경우
     },
   },

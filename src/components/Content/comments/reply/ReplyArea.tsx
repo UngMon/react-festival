@@ -1,4 +1,3 @@
-import { UserData } from "type/UserDataType";
 import { Comment } from "type/DataType";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";

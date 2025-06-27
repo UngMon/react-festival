@@ -1,17 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Comment } from "../../../../type/DataType";
-import { db } from "../../../../firebase";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-  where,
-} from "firebase/firestore";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../store/store";
+import { fetchCommentData } from "api/fetchCommentData";
 import { originCommentActions } from "../../../../store/origin_comment-slice";
 import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 import CommentBox from "./CommentBox";
@@ -26,51 +16,34 @@ interface T {
 const CommentArea = ({ content_id }: T) => {
   console.log("CommentBox Component Render");
   const dispatch = useAppDispatch();
-  const comments = useSelector(
-    (state: RootState) => state.origin_comment.comment
+  const { comments, afterIndex } = useSelector(
+    (state: RootState) => state.origin_comment
   );
   const loading = useRef<boolean>(false);
   const [targetRef, intersecting] = useIntersectionObserver();
-  const [afterIndex, setAfterIndex] = useState<string>("");
 
   useEffect(() => {
     if (afterIndex === "finish" || !intersecting || loading.current) return;
 
     const getCommentData = async () => {
       loading.current = true;
-      const commentRef = collection(db, "comments");
+      const type = "origin";
+      const origin_id = "";
 
       try {
-        const firstQuery = query(
-          commentRef,
-          where("content_id", "==", content_id),
-          where("origin_id", "==", null),
-          orderBy("createdAt", "desc"),
-          limit(25)
+        const { comment_datas, lastDataIndex } = await fetchCommentData(
+          type,
+          origin_id,
+          afterIndex,
+          content_id,
         );
 
-        const baseQurey = query(
-          commentRef,
-          where("content_id", "==", content_id),
-          where("origin_id", "==", null),
-          orderBy("createdAt", "desc"),
-          startAfter(afterIndex),
-          limit(25)
+        dispatch(
+          originCommentActions.setComment({
+            comment_datas,
+            startAfter: lastDataIndex,
+          })
         );
-
-        let queryToRun = afterIndex === "" ? firstQuery : baseQurey;
-        const data = await getDocs(queryToRun);
-        let lastDataIndex: string = "";
-
-        if (data) {
-          const comment_datas = data.docs.map((doc) => doc.data()) as Comment[];
-          if (comment_datas.length > 0) {
-            lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
-            dispatch(originCommentActions.setComment({ comment_datas }));
-            setAfterIndex(lastDataIndex);
-          }
-          if (comment_datas.length < 25) setAfterIndex("finish");
-        } else setAfterIndex("finish");
       } catch (error: any) {
         console.error(error.message);
         alert("댓글을 불러오지 못 했습니다.");
@@ -82,7 +55,7 @@ const CommentArea = ({ content_id }: T) => {
     };
 
     getCommentData();
-  }, [dispatch, intersecting, afterIndex, content_id]);
+  }, [dispatch, intersecting, comments, afterIndex, content_id]);
 
   return (
     <div className="comments-area">

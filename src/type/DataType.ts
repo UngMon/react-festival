@@ -63,3 +63,24 @@ export interface LikedComment {
 export interface ContentFeel {
   like_count: number;
 }
+
+type AfterIndex = {
+  afterIndex: string;
+}
+
+export interface OriginComment extends AfterIndex {
+  comments: Comment[];
+}
+
+export interface ReplyComment extends AfterIndex{
+  reply_comments: Record<string, Comment[]>;
+}
+
+export interface Log {
+  likedComment: Record<string, LikedComment[]>;
+  likedContent: Record<string, LikedContent[]>;
+  myComment: Record<string, Comment[]>;
+  afterIndex: Record<string, string>;
+}
+
+export type FetchLogDataType = (Comment | LikedComment | LikedContent)[];

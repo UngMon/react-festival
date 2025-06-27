@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { originCommentActions } from "../../store/origin_comment-slice";
-import { Comment, LikedComment, LikedContent } from "../../type/DataType";
+import {
+  Comment,
+  LikedComment,
+  LikedContent,
+  FetchLogDataType,
+} from "type/DataType";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { UserData } from "type/UserDataType";
 import { db } from "../../firebase";
@@ -21,9 +26,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import Card from "./Card";
-import LoadingSpinnerTwo from "../../components/Loading/LoadingSpinnerTwo";
-
-type DataType = (Comment | LikedComment | LikedContent)[];
+import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 
 interface T {
   category: string;
@@ -63,8 +66,6 @@ const UserLogs = ({ category, userData }: T) => {
       case !intersecting:
         return;
     }
-
-    console.log("??????");
 
     const getDataHandler = async () => {
       loading.current = true;
@@ -107,7 +108,7 @@ const UserLogs = ({ category, userData }: T) => {
         );
 
         const response = await getDocs(queryRef);
-        const data = response.docs.map((doc) => doc.data()) as DataType;
+        const data = response.docs.map((doc) => doc.data()) as FetchLogDataType;
 
         if (data.length < 25) {
           setAfterIndex((prev) => {
@@ -171,7 +172,7 @@ const UserLogs = ({ category, userData }: T) => {
       }
     };
     getDataHandler();
-  }, [category, userData, afterIndex, intersecting]);
+  }, [category, userData, afterIndex, intersecting, navigate]);
 
   const deleteHandler = async (
     date: string,

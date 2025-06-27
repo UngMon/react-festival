@@ -1,21 +1,11 @@
 import { useState } from "react";
-import { db } from "../../../../firebase";
 import { Comment } from "type/DataType";
 import { RootState, useAppDispatch } from "store/store";
 import { useSelector } from "react-redux";
 import { replyActions } from "store/reply-slice";
+import { fetchCommentData } from "api/fetchCommentData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import {
-  collection,
-  query,
-  where,
-  orderBy,
-  limit,
-  getDocs,
-  startAfter,
-  QueryConstraint,
-} from "firebase/firestore";
 import CommentBox from "../Reviews/CommentBox";
 import LoadingSpinnerTwo from "../../../Loading/LoadingSpinnerTwo";
 
@@ -28,42 +18,32 @@ interface T {
 const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
   console.log("Reply Box Render!");
   const dispatch = useAppDispatch();
-  const replyComments = useSelector((state: RootState) => state.reply.comment);
+  const { reply_comments, afterIndex } = useSelector(
+    (state: RootState) => state.reply
+  );
   const [open, setOpen] = useState<boolean>(false);
   const [isFristMount, setIsFirstMount] = useState<boolean>(true);
-  const [completeGetAllCommentsData, setCompleteGetAllCommentsData] =
-    useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { createdAt, user_id, content_id, reply_count } = comment_data;
-  const [index, setIndex] = useState<string>("");
   const origin_id = createdAt + user_id;
 
   const getReplyDataHandler = async () => {
     setLoading(true);
-
-    const commentRef = collection(db, "comments", origin_id, "comments");
+    const type = "reply";
 
     try {
-      const queryConstraints: QueryConstraint[] = [
-        where("content_id", "==", content_id),
-        where("origin_id", "==", origin_id),
-        orderBy("createdAt"),
-        limit(25),
-      ];
+      const { comment_datas, lastDataIndex } = await fetchCommentData(
+        type,
+        origin_id,
+        afterIndex,
+        content_id
+      );
 
-      if (index !== "") queryConstraints.push(startAfter(index));
+      dispatch(
+        replyActions.setNewReply({ origin_id, comment_datas, lastDataIndex })
+      );
 
-      const Query = query(commentRef, ...queryConstraints);
-
-      const data = await getDocs(Query);
-      const comment_datas = data.docs.map((docs) => docs.data()) as Comment[];
-      
-      if (comment_datas.length > 0) {
-        dispatch(replyActions.setNewReply({ origin_id, comment_datas }));
-        setIndex(comment_datas[comment_datas.length - 1].createdAt);
-      }
-
-      if (comment_datas.length < 25) setCompleteGetAllCommentsData(true);
+      // if (comment_datas.length < 25) setCompleteGetAllCommentsData(true);
     } catch (error: any) {
       console.error(error);
       alert(error.message);
@@ -74,7 +54,7 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
   const showRepliesHandler = () => {
     if (isFristMount) {
       setIsFirstMount(false);
-      getReplyDataHandler();
+      if (afterIndex === "") getReplyDataHandler();
     }
 
     setOpen((prevState) => !prevState);
@@ -92,7 +72,7 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
         <span>{`${reply_count}개의 답글 보기`}</span>
       </div>
       {open &&
-        replyComments[origin_id]?.map((item, index) => {
+        reply_comments[origin_id]?.map((item, index) => {
           const replyKey = item.createdAt + item.user_id;
 
           if (myReply[origin_id]?.[replyKey] === undefined) {
@@ -112,7 +92,7 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
         <LoadingSpinnerTwo width="25px" padding="8px" />
       ) : (
         open &&
-        !completeGetAllCommentsData && (
+        afterIndex !== "finish" && (
           <button
             className="reply_more"
             type="button"
