@@ -43,7 +43,6 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
         replyActions.setNewReply({ origin_id, comment_datas, lastDataIndex })
       );
 
-      // if (comment_datas.length < 25) setCompleteGetAllCommentsData(true);
     } catch (error: any) {
       console.error(error);
       alert(error.message);

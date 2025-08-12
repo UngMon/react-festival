@@ -6,6 +6,7 @@ import TopButton from "./TopButton";
 import LoginButton from "./LoginButton";
 import MobileMenu from "./MobileMenu";
 import "./Header.css";
+import WebName from "./WebName";
 
 const Header = () => {
   console.log("Header Render");
@@ -14,7 +15,7 @@ const Header = () => {
 
   useEffect(() => {
     if (pathname !== "/" || !headRef.current) return;
-    
+
     const scrollHandler = () => {
       const element = headRef.current!;
 
@@ -36,7 +37,7 @@ const Header = () => {
     >
       <div className="header-box">
         <Link to="/" className="Logo">
-          <div>이곳저곳</div>
+          <WebName type="start" />
         </Link>
         <PcMenu />
         <div className="header-sub-box">

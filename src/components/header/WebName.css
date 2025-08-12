@@ -1,0 +1,33 @@
+.webname {
+  width: 100px;
+  margin: auto;
+  text-align: center;
+  font-family: "Cute Font", sans-serif;
+  font-weight: 500;
+  font-style: oblique;
+  font-size: 35px;
+}
+
+.name-color {
+  span {
+    color: inherit !important;
+  }
+}
+
+.webname span {
+  &:nth-of-type(1) {
+    color: #ffb347;
+  }
+
+  &:nth-of-type(2) {
+    color: #ff7f50;
+  }
+
+  &:nth-of-type(3) {
+    color: #e57373;
+  }
+
+  &:nth-of-type(4) {
+    color: #d48e9d;
+  }
+}

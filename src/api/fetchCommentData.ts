@@ -46,7 +46,6 @@ export const fetchCommentData = async (
     console.error(error);
     throw error;
   } finally {
-    console.log(comment_datas, lastDataIndex);
     return { comment_datas, lastDataIndex };
   }
 };

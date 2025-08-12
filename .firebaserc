@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "festival-moa-fc37b"
-  }
+    "default": "festival-moa-fc37b",
+    "igotjeogot": "festival-moa-fc37b"
+  },
+  "targets": {},
+  "etags": {}
 }
