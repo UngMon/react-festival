@@ -10,7 +10,7 @@ import {
   시군코드,
   cat2Code,
   cat3Code,
-  ContentIdCode
+  ContentIdCode,
 } from "assets/CatCode/CatCode";
 import "./ResultCard.css";
 import Loading from "components/Loading/Loading";
@@ -26,34 +26,39 @@ const ResultCard = ({ title, params, page }: T) => {
   const dispatch = useAppDispatch();
   const tourData = useSelector((state: RootState) => state.data);
   const { contentTypeId, keyword } = params;
-  const key = `${contentTypeId}-${keyword}-${page}`;
+  const page_key = `${contentTypeId}-${keyword}-${page}`;
 
   useEffect(() => {
-    if (!ContentIdCode[contentTypeId!]) {
-      navigate("/");
-      return;
+    switch (true) {
+      case !ContentIdCode[contentTypeId!]:
+        navigate("/");
+        return;
+      case tourData.httpState === "pending":
+        return;
+      case tourData.httpState === "fulfilled":
+        return;
+      case tourData.search[page_key].tourData.length > 0:
+        return;
     }
-
-    if (
-      tourData.httpState === "pending" ||
-      tourData.httpState === "fulfilled" ||
-      (title === "festival" && tourData.festival.length > 0)
-    ) {
-      return;
-    }
-
-    if (title !== "festival" && tourData[title][key]) return;
 
     dispatch(
       fetchTourApi({
-        existPageInfo: tourData.category_total_count[key] ? true : false,
         numOfRows: 25,
         page,
         title,
-        params: params as CheckParams,
+        params,
       })
     );
-  }, [dispatch, navigate, tourData, title, key, page, params, contentTypeId]);
+  }, [
+    dispatch,
+    navigate,
+    tourData,
+    title,
+    page,
+    params,
+    contentTypeId,
+    page_key,
+  ]);
 
   const sigunHandler = (item: Item): string => {
     if (!item.areacode || !item.sigungucode) return "";
@@ -76,8 +81,8 @@ const ResultCard = ({ title, params, page }: T) => {
       {tourData.httpState === "pending" && <Loading height="500px" />}
       {tourData.httpState === "fulfilled" && (
         <div className="Result-Cards">
-          {tourData.search[key]?.length > 0 ? (
-            tourData.search[key].map((item, index) => (
+          {tourData.search[page_key].tourData?.length > 0 ? (
+            tourData.search[page_key].tourData?.map((item, index) => (
               <article
                 key={item.contenttypeid}
                 onClick={() => cardClickHandler(item)}

@@ -26,21 +26,31 @@ export type Item = {
   title: string;
 };
 
-type ResponseBody<T> = {
+interface ApiSuccessResponse<T> {
   response: {
     body: {
       items: {
         item: T;
       };
+      numOfRows: number,
+      pageNo: number,
+      totalCount: number,
     };
   };
 };
 
-export type FetchRespon = ResponseBody<Item[]>;
-export type PageCountRespon = ResponseBody<[{ totalCnt: string }] | "">;
+interface ApiErrorResponse {
+  responseTime: string;
+  resultCode: string;
+  resultMsg: string;
+}
+
+type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+export type TourResponse = ApiResponse<Item[] | ''>;
+export type PageCountRespon = ApiResponse<[{ totalCnt: string }] | "">;
 
 export interface FetchParams {
-  existPageInfo: boolean;
   numOfRows: number;
   page?: number;
   title: TitleType;
@@ -48,10 +58,9 @@ export interface FetchParams {
 }
 
 export interface FetchTourData {
-  totalCount: PageCountRespon;
   numOfRows: number;
   page: number;
-  data: FetchRespon;
+  responseData: TourResponse;
   areaCode?: string;
   cat1?: string;
   cat2?: string;
@@ -67,5 +76,4 @@ type It = {
   name: string;
 };
 
-export type Sigun = ResponseBody<It[]>;
-
+export type Sigun = ApiResponse<It[]>;

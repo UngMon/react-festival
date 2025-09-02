@@ -1,6 +1,6 @@
 import { ContentCommon, ContentIntro } from "type/ContentType";
 import { BasicInfoList } from "assets/CatCode/CatCode";
-import { dateSlice } from "utils/DateSlice";
+import { dateSlice } from "utils/dateSlice";
 import { convertText } from "utils/convertText";
 
 interface BasicProps {

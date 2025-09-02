@@ -9,22 +9,15 @@ import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { useAppDispatch } from "../../store/store";
 import { firebaseActions } from "../../store/firebase-slice";
-import { UserData } from "@/type/UserDataType";
+import { UserData } from "type/UserDataType";
 import "./UserMenu.css";
 
 interface T {
-  // openSide: boolean;
-  // setOpenSide: React.Dispatch<React.SetStateAction<boolean>>;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   userData: UserData;
 }
 
-const UserMenu = ({
-  // openSide,
-  // setOpenSide,
-  setCategory,
-  userData,
-}: T) => {
+const UserMenu = ({ setCategory, userData }: T) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user_photo, user_name } = userData;

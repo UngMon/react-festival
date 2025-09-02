@@ -5,7 +5,7 @@ import {
   faCaretDown,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import { CheckParams } from "@/hooks/useCheckParams";
+import { CheckParams } from "hooks/useCheckParams";
 import { ContentIdCode } from "assets/CatCode/CatCode";
 import "./Input.css";
 

@@ -1,20 +1,24 @@
 import { Item } from "./FetchType";
 
+interface Datas {
+  tourData: Item[];
+  totalCount: number;
+}
+
 export interface DataType {
   successGetData: boolean;
   httpState: string;
-  tour: Record<string, Item[]>;
-  culture: Record<string, Item[]>;
-  festival: Item[];
-  travel: Record<string, Item[]>;
-  leports: Record<string, Item[]>;
-  lodging: Record<string, Item[]>;
-  shoping: Record<string, Item[]>;
-  restaurant: Record<string, Item[]>;
-  search: Record<string, Item[]>;
+  tour: Record<string, Datas>;
+  culture: Record<string,Datas>;
+  festival: Record<string,Datas>;
+  travel: Record<string,Datas>;
+  leports: Record<string,Datas>;
+  lodging: Record<string,Datas>;
+  shoping: Record<string,Datas>;
+  restaurant: Record<string,Datas>;
+  search: Record<string,Datas>;
   loading: boolean;
-  category_total_count: Record<string, number>;
-  category_page_record: string[];
+  page_record: string[];
   행사상태: [boolean, boolean, boolean];
 }
 
@@ -66,13 +70,13 @@ export interface ContentFeel {
 
 type AfterIndex = {
   afterIndex: string;
-}
+};
 
 export interface OriginComment extends AfterIndex {
   comments: Comment[];
 }
 
-export interface ReplyComment extends AfterIndex{
+export interface ReplyComment extends AfterIndex {
   reply_comments: Record<string, Comment[]>;
 }
 

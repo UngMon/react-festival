@@ -1,3 +1,4 @@
+import { TitleType } from "type/FetchType";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { CheckParams } from "hooks/useCheckParams";
@@ -10,7 +11,7 @@ import {
 import "./PageButton.css";
 
 interface T {
-  title: string;
+  title: TitleType;
   numOfRows: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -18,20 +19,21 @@ interface T {
 }
 
 const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
-  const category_total_count = useSelector(
-    (state: RootState) => state.data.category_total_count
-  );
   const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
     params as CheckParams;
 
-  let pageKey =
+  let page_key =
     title === "search"
-      ? `${contentTypeId}-${keyword}`
-      : `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}`;
+      ? `${contentTypeId}-${keyword}-${page}`
+      : `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}-${numOfRows}-${page}`;
 
-  const MaxPageCount: number = Math.ceil(
-    category_total_count[pageKey] / numOfRows
-  );
+  const data = useSelector((state: RootState) => state.data[title]);
+
+  if (!data[page_key] || !data[page_key].totalCount) return null;
+
+  const page_total_count = data[page_key].totalCount;
+
+  const MaxPageCount: number = Math.ceil(page_total_count / numOfRows);
   const currentGroup: number = Math.floor((page - 1) / 10); // 현재 10단위 그룹 (0부터 시작)
   const startPage: number = currentGroup * 10 + 1;
   const endPage: number = Math.min(startPage + 9, MaxPageCount);

@@ -13,13 +13,13 @@ interface T {
 
 const OptionModal = ({ comment_data, userData }: T) => {
   const [scrollY, setScrollY] = useState<number>(window.scrollY);
-  const reff = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { user_id, createdAt } = comment_data;
 
   useEffect(() => {
     const toggleOptionModal = (e: MouseEvent) => {
-      if (!reff.current?.contains(e.target as Node)) {
+      if (!boxRef.current?.contains(e.target as Node)) {
         setScrollY(0);
         dispatch(
           modalActions.clearModalInfo({
@@ -61,7 +61,7 @@ const OptionModal = ({ comment_data, userData }: T) => {
   };
 
   return (
-    <div className="option-box" ref={reff}>
+    <div className="option-box" ref={boxRef}>
       {user_id === userData.user_id ? (
         <>
           <p className="option-revise" onClick={() => clickHandler("revise")}>

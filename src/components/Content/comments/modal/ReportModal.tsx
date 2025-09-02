@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { arrayUnion, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
@@ -7,6 +7,7 @@ import { reportActions } from "store/report-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { nowDate } from "utils/nowDate";
 import "./ReportModal.css";
 
 const ReportModal = () => {
@@ -32,11 +33,12 @@ const ReportModal = () => {
     if (Object.keys(reportState.report_reason).length === 0)
       return alert("신고 사유를 선택해주세요!");
 
+    const {time} = nowDate();
     const { open: _, ...rest } = reportState;
-    const contentRef = doc(db, "reportList", reportState.content_id);
+    const contentRef = doc(db, 'report', time + reportState.reporter_id);
 
     try {
-      await setDoc(contentRef, { list: arrayUnion(rest) }, { merge: true });
+      await setDoc(contentRef, rest);
     } catch (error: any) {
       alert(error.message);
     }

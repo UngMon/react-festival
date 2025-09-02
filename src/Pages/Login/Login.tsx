@@ -16,17 +16,15 @@ import LoadingThree from "../../components/Loading/LoadingThree";
 import LoginAccessError from "../../components/Error/LoginAccessError";
 import KakaoLogin from "./Kakao";
 import Naver from "./Naver";
-import "./Login.css";
 import LoginError from "./LoginError";
+import "./Login.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const userData = useSelector((state: RootState) => state.firebase);
   const previouseUrl =
     JSON.parse(sessionStorage.getItem("previouseUrl")!) ?? "/";
-  const [errorCode, setErrorCode] = useState<string>(
-    "auth/unauthorized-continue-uri"
-  );
+  const [errorCode, setErrorCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(() => {
     const isRedirecting = sessionStorage.getItem("firebaseRedirect") === "true";
     console.log("Initial loading state check:", isRedirecting); // 디버깅용 로그
