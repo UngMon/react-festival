@@ -49,17 +49,11 @@ const DeleteModal = ({
       const origin_id = comment_data?.origin_id;
 
       if (origin_id) {
-        const deleteDocRef = doc(
-          db,
-          "comments",
-          origin_id,
-          "comments",
-          comment_id!
-        );
+        const deleteDocRef = doc(db, "comments", comment_id);
         const originalDocRef = doc(db, "comments", origin_id);
-
+        console.log(comment_id)
         batch.delete(deleteDocRef);
-        batch.update(originalDocRef, { reply_count: increment(-1) });
+        // batch.update(originalDocRef, { reply_count: increment(-1) });
         await batch.commit();
 
         /* 1. 내가 작성한 답글 삭제 (my) => myReply 상태만 업데이트 */
@@ -87,6 +81,7 @@ const DeleteModal = ({
         dispatch(originCommentActions.deleteComment({ origin_index }));
       }
     } catch (error: any) {
+      console.log(error)
       alert(`오류가 발생했습니다. 지속적인 오류가 발생한다면 문의해주세요!`);
     }
   };

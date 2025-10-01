@@ -33,9 +33,9 @@ const CommentForm = ({ content_type, content_id }: T) => {
 
     if (user_id === "") return alert("비정상적인 접근입니다.");
 
-    let content = textRef.current!.value;
+    let text = textRef.current!.value;
 
-    if (content.length === 0) return alert("글자를 입력해주세요!");
+    if (text.length === 0) return alert("글자를 입력해주세요!");
 
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
@@ -45,7 +45,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
       content_type,
       content_id,
       content_title: detailCommon[0].title || detailCommon[1].title,
-      content: [content, "", ""],
+      text: [text, "", ""],
       user_id,
       user_name,
       user_photo,
@@ -55,10 +55,10 @@ const CommentForm = ({ content_type, content_id }: T) => {
       parent_name: null,
       like_count: 0,
       reply_count: 0,
-      isRevised: false,
+      updatedAt: null,
       image_url:
         detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
-      like_users: [],
+      like_users: {},
     };
 
     const documentId = field_data.createdAt + field_data.user_id;
@@ -70,9 +70,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
       await setDoc(commentRef, field_data);
       dispatch(originCommentActions.addNewComment({ field_data }));
     } catch (error: any) {
-      alert(
-        `리뷰 작성에 에러가 발생했습니다! ${error.message} 에러가 계속 발생한다면 문의해 주세요!`
-      );
+      alert(`리뷰 작성에 에러가 발생했습니다! ${error.message}`);
     } finally {
       setLoading(false);
     }

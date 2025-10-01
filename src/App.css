@@ -31,10 +31,5 @@ img {
 
 .app {
   overflow-x: hidden;
-}
-
-@media (max-width: 320px) {
-  .app {
-    width: 320px;
-  }
+  min-width: 320px;
 }

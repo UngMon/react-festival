@@ -31,7 +31,7 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
           contentTypeId,
           contentId
         );
-
+        console.log(response)
         const { contentCommon, contentInfo, contentIntro } = response;
 
         dispatch(

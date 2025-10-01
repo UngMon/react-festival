@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import PolicyNavigator from "./Navigator";
 
-const EtcLayout = () => {
+const DocsLayout = () => {
 
   return (
     <>
@@ -11,4 +11,4 @@ const EtcLayout = () => {
   );
 };
 
-export default EtcLayout;
+export default DocsLayout;

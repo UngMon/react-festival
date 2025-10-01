@@ -11,7 +11,8 @@ interface LikeCommentPayload {
 interface RevisePayload {
   origin_id: string;
   reply_index: number;
-  content: [string, string, string];
+  text: [string, string, string];
+  updatedAt: string;
 }
 
 interface DeletePayload {
@@ -21,7 +22,7 @@ interface DeletePayload {
 
 const initialState: ReplyComment = {
   reply_comments: {},
-  afterIndex: "",
+  last_index: {},
 };
 
 const replySlice = createSlice({
@@ -40,7 +41,7 @@ const replySlice = createSlice({
       if (!state.reply_comments[origin_id])
         state.reply_comments[origin_id] = [];
       state.reply_comments[origin_id].push(...comment_datas);
-      state.afterIndex = lastDataIndex;
+      state.last_index[origin_id] = lastDataIndex;
     },
     addNewReply(
       state,
@@ -67,18 +68,11 @@ const replySlice = createSlice({
       const reply = comment[reply_index];
       reply.like_count += like_count;
 
-      if (like_count === 1) {
-        reply.like_users.push(user_id);
-      } else if (like_count === -1) {
-        const index = reply.like_users.indexOf(user_id);
-
-        if (index === -1 || reply.like_users.length <= index) return;
-
-        comment[reply_index].like_users.splice(index, 1);
-      }
+      if (like_count === 1) reply.like_users[user_id] = true;
+      else if (like_count === -1) delete reply.like_users[user_id];
     },
     reviseComment(state, action: PayloadAction<RevisePayload>) {
-      const { origin_id, reply_index, content } = action.payload;
+      const { origin_id, reply_index, text, updatedAt } = action.payload;
       const comment = state.reply_comments[origin_id];
 
       if (!comment) {
@@ -91,8 +85,8 @@ const replySlice = createSlice({
         return;
       }
 
-      state.reply_comments[origin_id][reply_index].content = content;
-      state.reply_comments[origin_id][reply_index].isRevised = true;
+      state.reply_comments[origin_id][reply_index].text = text;
+      state.reply_comments[origin_id][reply_index].updatedAt = updatedAt;
     },
     deleteReply(state, action: PayloadAction<DeletePayload>) {
       const { reply_index, origin_id } = action.payload;

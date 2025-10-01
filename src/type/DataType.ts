@@ -9,14 +9,14 @@ export interface DataType {
   successGetData: boolean;
   httpState: string;
   tour: Record<string, Datas>;
-  culture: Record<string,Datas>;
-  festival: Record<string,Datas>;
-  travel: Record<string,Datas>;
-  leports: Record<string,Datas>;
-  lodging: Record<string,Datas>;
-  shoping: Record<string,Datas>;
-  restaurant: Record<string,Datas>;
-  search: Record<string,Datas>;
+  culture: Record<string, Datas>;
+  festival: Record<string, Datas>;
+  travel: Record<string, Datas>;
+  leports: Record<string, Datas>;
+  lodging: Record<string, Datas>;
+  shoping: Record<string, Datas>;
+  restaurant: Record<string, Datas>;
+  search: Record<string, Datas>;
   loading: boolean;
   page_record: string[];
   행사상태: [boolean, boolean, boolean];
@@ -26,7 +26,7 @@ export interface Comment {
   content_type: string;
   content_id: string;
   content_title: string;
-  content: [string, string, string];
+  text: [string, string, string];
   user_id: string;
   user_name: string;
   user_photo: string;
@@ -36,9 +36,9 @@ export interface Comment {
   parent_name: null | string;
   like_count: number;
   reply_count?: number;
-  isRevised: boolean;
+  updatedAt: null | string;
   image_url: string;
-  like_users: string[];
+  like_users: Record<string, boolean>;
 }
 
 export interface LikedContent {
@@ -68,16 +68,14 @@ export interface ContentFeel {
   like_count: number;
 }
 
-type AfterIndex = {
-  afterIndex: string;
-};
-
-export interface OriginComment extends AfterIndex {
+export interface OriginComment {
   comments: Comment[];
+  afterIndex: string;
 }
 
-export interface ReplyComment extends AfterIndex {
+export interface ReplyComment {
   reply_comments: Record<string, Comment[]>;
+  last_index: Record<string, string>;
 }
 
 export interface Log {

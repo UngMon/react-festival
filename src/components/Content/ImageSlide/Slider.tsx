@@ -8,7 +8,7 @@ const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
 
 async function getContentImage(id: string) {
   const response = await fetch(
-    `https://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&imageYN=Y&subImageYN=Y&numOfRows=10&pageNo=1`
+    `https://apis.data.go.kr/B551011/KorService2/detailImage2?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=Moa&_type=json&contentId=${id}&imageYN=Y&numOfRows=10&pageNo=1`
   );
 
   if (!response.ok) {

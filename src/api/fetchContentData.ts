@@ -14,13 +14,12 @@ export const fetchContentData = async (
   );
 
   const makeUrl = (category: string) => {
-    let host = `https://apis.data.go.kr/B551011/KorService1/detail${category}1?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${type}&contentTypeId=${id}`;
-    const param1 = `&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y`;
-    const param2 = "&numOfRows=10&pageNo=1";
+    let host = `https://apis.data.go.kr/B551011/KorService2/detail${category}2?serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${type}&numOfRows=10&pageNo=1`;
+    const param = `&contentTypeId=${id}`;
 
-    if (category === "Info") return host + param2;
-    else if (category === "Intro") return host + param2;
-    else return host + param1 + param2;
+    if (category === "Info") return host + param;
+    else if (category === "Intro") return host + param;
+    else return host;
   };
 
   const getDataContentInfo = async (

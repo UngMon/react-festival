@@ -5,12 +5,12 @@
 }
 
 .About-Container h2 {
-  font-size: clamp(24px, 5.625vw, 32px);
+  font-size: clamp(24px, 5.625vw, 30px);
   margin-bottom: 30px;
 }
 
 .About-Container p {
-  font-size: clamp(16px, 3.5vw, 20px);
+  font-size: clamp(16px, 3.5vw, 18px);
   font-weight: 500; 
   margin-bottom: 35px;
   letter-spacing: 1px;

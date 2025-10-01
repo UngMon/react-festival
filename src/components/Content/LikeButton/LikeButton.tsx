@@ -13,7 +13,6 @@ interface T {
 }
 
 const LikeButton = ({ content_id }: T) => {
-  // console.log("Feelings Component Render");
   const { status, user_id } = useSelector((state: RootState) => state.firebase);
   const { detailCommon } = useSelector((state: RootState) => state.content);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,11 +30,11 @@ const LikeButton = ({ content_id }: T) => {
 
     const getFeelingData = async () => {
       const feelRef = doc(db, "content", content_id);
-      const userRef = doc(db, "users", user_id, "content", content_id);
-
+      const userRef = doc(db, "userData", user_id, "content", content_id);
+      console.log(user_id, content_id);
       try {
         const promise = [getDoc(feelRef)];
-        if (userRef) promise.push(getDoc(userRef));
+        if (user_id) promise.push(getDoc(userRef));
         let existFeelData = false;
         let existUserLike = false;
 
@@ -71,7 +70,7 @@ const LikeButton = ({ content_id }: T) => {
     const batch = writeBatch(db);
 
     const feelRef = doc(db, "content", content_id);
-    const userRef = doc(db, "users", user_id, "content", content_id);
+    const userRef = doc(db, "userData", user_id, "content", content_id);
     let countChange: number = 0;
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
@@ -83,11 +82,12 @@ const LikeButton = ({ content_id }: T) => {
         const { contentid, contenttypeid, title, firstimage, firstimage2 } =
           detailCommon[0];
 
-        const newField = {
+        const userFeelData = {
           content_type: contenttypeid,
           cotnent_id: contentid,
           content_title: title,
           image_url: firstimage || firstimage2 || "",
+          user_id,
           createdAt,
         };
 
@@ -96,19 +96,12 @@ const LikeButton = ({ content_id }: T) => {
         if (existData.hasFeelData) {
           batch.update(feelRef, { like_count: increment(1) });
         } else {
-          batch.set(
-            feelRef,
-            {
-              like_count: increment(1),
-              content_id: contentid,
-              content_title: title,
-              content_type: contenttypeid,
-            },
-            { merge: true }
-          );
+          batch.set(feelRef, {
+            like_count: 1,
+          });
         }
 
-        batch.set(userRef, newField);
+        batch.set(userRef, userFeelData);
         countChange = 1;
       } else {
         /* 사용자가 좋아요 클릭한 기록이 있는 상황 */

@@ -15,7 +15,6 @@ interface T {
   type: string;
   modalInfo: PickComment;
   comment_data: Comment;
-  // userData: UserData;
 }
 
 const CommentOption = ({
@@ -24,7 +23,6 @@ const CommentOption = ({
   type,
   modalInfo,
   comment_data,
-  // userData,
 }: T) => {
   const dispatch = useAppDispatch();
   const reportState = useSelector((state: RootState) => state.report);

@@ -1,4 +1,4 @@
-import { PickComment, UserData } from "../../../../type/UserDataType";
+import { PickComment } from "../../../../type/UserDataType";
 import { Comment } from "../../../../type/DataType";
 import UserIcon from "./UserIcon";
 import CommentOption from "./CommentOption";
@@ -20,7 +20,7 @@ const UserComment = ({
   comment_data,
   modalInfo,
 }: T) => {
-  const { user_name, user_photo, content, isRevised } = comment_data;
+  const { user_name, user_photo, text, updatedAt } = comment_data;
 
   return (
     <div className="comment-container">
@@ -28,7 +28,7 @@ const UserComment = ({
       <div className="top">
         <div>
           <span className="name">{user_name}</span>
-          {isRevised && <span className="revised">&nbsp;&nbsp;(수정됨)</span>}
+          {updatedAt && <span className="revised">&nbsp;&nbsp;(수정됨)</span>}
         </div>
         <CommentOption
           type={type}
@@ -40,9 +40,9 @@ const UserComment = ({
       </div>
       <div className="comment-text" style={{ whiteSpace: "pre-wrap" }}>
         <span>
-          {content?.map((comment, index) => {
+          {text?.map((comment, index) => {
             if (index === 1 && comment.length > 0) {
-              return <span>{comment}</span>;
+              return <span key={index}>{comment}</span>;
             } else return comment;
           })}
         </span>

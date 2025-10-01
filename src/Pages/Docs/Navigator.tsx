@@ -9,10 +9,10 @@ import {
 import "./Navigator.css";
 
 const title: Record<string, string> = {
-  "/etc/about": "소개",
-  "/etc/privacypolicy": "개인정보처리약관",
-  "/etc/service": "이용약관",
-  "/etc/question": "Q&A",
+  "/docs/about": "소개",
+  "/docs/privacypolicy": "개인정보처리약관",
+  "/docs/service": "이용약관",
+  "/docs/question": "Q&A",
 };
 
 const Navigator = () => {
@@ -64,12 +64,12 @@ const Navigator = () => {
             />
           </div>
           <ul className={open ? "navi-open" : "navi-off"}>
-            <li onClick={() => listClickHandler("/etc/about")}>소개</li>
-            <li onClick={() => listClickHandler("/etc/privacypolicy")}>
+            <li onClick={() => listClickHandler("/docs/about")}>소개</li>
+            <li onClick={() => listClickHandler("/docs/privacypolicy")}>
               개인정보처리약관
             </li>
-            <li onClick={() => listClickHandler("/etc/service")}>이용약관</li>
-            <li onClick={() => listClickHandler("/etc/question")}>고객센터</li>
+            <li onClick={() => listClickHandler("/docs/service")}>이용약관</li>
+            <li onClick={() => listClickHandler("/docs/question")}>고객센터</li>
           </ul>
         </li>
         <li className="icons">

@@ -2,183 +2,193 @@
   --font-color: rgb(246, 246, 246);
 }
 
-@keyframes slideloading {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-.slide-active {
-  animation-name: slideloading;
-  animation-duration: 5s;
-  /* animation-delay: 1s; */
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-.slide-not-active {
-  width: 0;
-}
-
 .top-slide-container {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 720px;
-  max-height: 970px;
-  font-size: 16px;
+  min-height: 320px;
+  overflow: hidden;
+  color: white;
+  font-family: "Pretendard", sans-serif;
 }
 
-.top-visual {
+.top-slide-container::after {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.slide-background-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.slide-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
   opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.slide-background.active {
+  opacity: 1;
 }
 
 .source {
   position: absolute;
-  bottom: 60px;
-  left: 5%;
-  z-index: 14;
-  color: var(--font-color);
-  font-size: clamp(14px, 4.375vw, 16px);
+  bottom: 20px;
+  left: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 3;
 }
 
-.top-slide-page {
+.slide-ui-container {
   position: absolute;
-  right: 5%;
-  bottom: 60px;
-  color: var(--font-color);
-  font-size: clamp(14px, 4.375vw, 16px);
-}
-
-.top-slide-image {
-  position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 10%;
+  margin: auto;
   width: 100%;
-  height: 100%;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(75%);
-  }
+  max-width: 2560px;
+  z-index: 3;
 }
 
 .top-text-box {
-  position: absolute;
-  bottom: 33%;
-  left: 5%;
-  width: 90%;
-  color: white;
+  padding: 0 10vw;
+  animation: text-fade-in 1.5s ease-out;
+}
+
+.top-text-box h2 {
+  font-size: clamp(26px, 5vmin, 52px);
+  margin-bottom: clamp(10px, 2vmin, 18px);
+  /* font-size: 26px; */
+  /* margin-bottom: 10px; */
   font-weight: 700;
-  text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 
-  h2 {
-    font-size: clamp(26px, 6vw, 52px);
-    margin-bottom: clamp(10px, 2vw, 18px);
+.top-text-box p {
+  /* font-size: 16px;
+  margin-bottom: 10px; */
+  font-size: clamp(16px, 3vmin, 32px);
+  margin-bottom: clamp(10px, 2vmin, 22px);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.top-text-box a {
+  display: inline-block;
+  padding: 7px 10px;
+  border: 1px solid white;
+  font-size: clamp(12px, 2vmin, 18px);
+  border-radius: 20px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.top-text-box a:hover {
+  background-color: white;
+  color: black;
+}
+
+@keyframes text-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  p {
-    font-size: clamp(16px, 3vw, 32px);
-    margin-bottom: clamp(10px, 2vw, 22px);
-  }
-
-  a {
-    display: inline-block;
-    font-size: clamp(14px, 3vw, 18px);
-    font-weight: 400;
-    cursor: pointer;
-    text-align: center;
-    color: var(--font-color);
-    
-    &:after {
-      content: '';
-      display: block;
-      height: 1px;
-      background: white;
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.slide-time-box {
-  position: absolute;
-  top: 70%;
-  left: 5%;
-  width: 90%;
-  height: 80px;
-  z-index: 5;
+.slide-controls {
+  width: 100%;
+  padding: clamp(30px, 9vh ,60px) 10vw clamp(20px, 6vh, 40px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
 
-  .time-bar {
-    height: 5px;
-    width: 0;
-    margin-top: 20px;
-    border-radius: 2px;
-    background-color: white;
+.time-and-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.time-bar-container {
+  width: clamp(100px, 31.25vw, 300px);
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.time-bar {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.time-bar.running {
+  animation-name: progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
   }
-
-  .time-button {
-    position: relative;
-    width: 150px;
-    height: 30px;
-    margin: 15px auto 0;
-    text-align: center;
-
-    button {
-      width: 30px;
-      height: 100%;
-      margin: 0 5px;
-      font-size: 20px;
-      line-height: 30px;
-    }
-
-    button:hover {
-      border-radius: 50%;
-
-      background-color: rgba(150, 150, 150, 0.581);
-    }
+  to {
+    transform: scaleX(1);
   }
 }
 
-@media (max-width: 450px) {
-  .top-slide-page {
-    bottom: 10px;
-  }
+.buttons {
+  display: flex;
+  gap: 10px;
 }
 
-@media (min-width: 1334px) {
-  .top-text-box {
-    left: calc(50% - 600px);
-    width: 1200px;
-  }
-
-  .source {
-    left: calc(50% - 600px);
-  }
-
-  .top-slide-page {
-    right: calc(50% - 600px);
-  }
-
-  .slide-time-box {
-    left: calc(50% - 600px);
-    width: 1200px;
-  }
+.buttons button {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: white;
+  width: clamp(25px, 5vw, 40px);
+  height: clamp(25px, 5vw, 40px);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
 }
 
-/* @media (max-width: 1023.9px) {
-  .top-text-box {
-    button {
-      font-size: clamp(16px, 4vw, 38px);
-    }
-  }
-} */
+.buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.buttons button svg {
+  width: clamp(13px, 2.3vw ,20px);
+  height: clamp(13px, 2.3vw, 20px);
+}
+
+.top-slide-page {
+  font-size: clamp(12px, 2.2vw, 16px);
+}

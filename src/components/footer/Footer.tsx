@@ -15,13 +15,13 @@ const Footer = () => {
         <nav>
           <ul>
             <li onClick={moveScreenTop}>
-              <Link to="/etc/about">About</Link>
+              <Link to="/docs/about">소개</Link>
             </li>
             <li onClick={moveScreenTop}>
-              <Link to="/etc/privacypolicy">개인정보처리약관</Link>
+              <Link to="/docs/privacypolicy">개인정보처리약관</Link>
             </li>
             <li onClick={moveScreenTop}>
-              <Link to="/etc/service">이용약관</Link>
+              <Link to="/docs/service">이용약관</Link>
             </li>
             <li>
               <Link
@@ -33,7 +33,7 @@ const Footer = () => {
               </Link>
             </li>
             <li onClick={moveScreenTop}>
-              <Link to="/etc/question">Q&A</Link>
+              <Link to="/docs/question">Q&A</Link>
             </li>
           </ul>
         </nav>

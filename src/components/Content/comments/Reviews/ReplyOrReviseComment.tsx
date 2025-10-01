@@ -6,14 +6,7 @@ import { originCommentActions } from "../../../../store/origin_comment-slice";
 import { replyActions } from "../../../../store/reply-slice";
 import { myReplyActions } from "../../../../store/my_reply-slice";
 import { modalActions } from "../../../../store/modal-slice";
-import {
-  doc,
-  DocumentData,
-  DocumentReference,
-  increment,
-  updateDoc,
-  writeBatch,
-} from "firebase/firestore";
+import { doc, increment, updateDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import UserIcon from "./UserIcon";
 import "./ReplyOrReviseComment.css";
@@ -50,35 +43,34 @@ const ReplyOrReviseComment = ({
   const { origin_id, createdAt, user_id } = comment_data;
   const comment_id = createdAt + user_id;
 
-  const userData = useSelector((state: RootState) => state.firebase);
+  const currentUser = useSelector((state: RootState) => state.firebase);
 
   const [tagName] = useState<string | null>(
-    comment_data.user_id !== userData.user_id && comment_data.parent_name
+    comment_data.user_id !== currentUser.user_id && comment_data.parent_name
       ? "@" + comment_data.user_name
       : null
   );
 
   const [submitPossible, setSubmitPossible] = useState<boolean>(
-    type.includes("reply") ? false : true
+    type.includes("reply") ? true : false
   );
 
-  const [commentText] = useState<string>(comment_data.content.join(""));
+  const [commentText] = useState<string>(comment_data.text.join(""));
 
-  const reviseHandler = async (comment: [string, string, string]) => {
-    let reviseDocRef: DocumentReference<DocumentData>;
-    if (reply_index)
-      reviseDocRef = doc(db, "comments", origin_id!, "comments", comment_id);
-    else reviseDocRef = doc(db, "comments", comment_id);
+  const reviseHandler = async (text: [string, string, string]) => {
+    const reviseDocRef = doc(db, "comments", comment_id);
+    const updatedAt: string = new Date(
+      new Date().getTime() + 9 * 60 * 60 * 1000
+    ).toISOString();
 
-    await updateDoc(reviseDocRef, { content: comment, isRevised: true });
-    const updatedField: Comment = { ...comment_data };
-    updatedField.content = comment;
+    await updateDoc(reviseDocRef, { text, updatedAt });
 
     if (type === "revise-origin") {
       dispatch(
         originCommentActions.reviseComment({
           origin_index,
-          content: comment,
+          text,
+          updatedAt,
         })
       );
     }
@@ -88,7 +80,8 @@ const ReplyOrReviseComment = ({
         replyActions.reviseComment({
           origin_id: origin_id!,
           reply_index: reply_index!,
-          content: comment,
+          text,
+          updatedAt,
         })
       );
     }
@@ -98,7 +91,8 @@ const ReplyOrReviseComment = ({
         myReplyActions.reviseComment({
           origin_id: origin_id!,
           comment_id,
-          content: comment,
+          text,
+          updatedAt,
         })
       );
     }
@@ -106,7 +100,7 @@ const ReplyOrReviseComment = ({
     dispatch(modalActions.clearModalInfo({ comment_id, type }));
   };
 
-  const replyHandler = async (content: [string, string, string]) => {
+  const replyHandler = async (text: [string, string, string]) => {
     const timestamp: string = new Date(
       Date.now() + 9 * 60 * 60 * 1000
     ).toISOString();
@@ -114,34 +108,29 @@ const ReplyOrReviseComment = ({
     const batch = writeBatch(db);
 
     const originId = origin_id || comment_id;
-    const document_id = timestamp + user_id;
+    const document_id = timestamp + currentUser.user_id;
 
     const fieldData: Comment = {
       content_type: comment_data.content_type,
       content_id: comment_data.content_id,
       content_title: comment_data.content_title,
-      content,
-      user_id: userData.user_id,
-      user_name: userData.user_name,
-      user_photo: userData.user_photo,
+      text,
+      user_id: currentUser.user_id,
+      user_name: currentUser.user_name,
+      user_photo: currentUser.user_photo,
       createdAt: timestamp,
       origin_id: originId,
       parent_id: comment_id,
       parent_name: comment_data.user_name,
       like_count: 0,
-      isRevised: false,
+      reply_count: 0,
+      updatedAt: null,
       image_url: comment_data.image_url,
-      like_users: [],
+      like_users: {},
     };
 
     try {
-      const replyDocRef = doc(
-        db,
-        "comments",
-        originId,
-        "comments",
-        document_id
-      );
+      const replyDocRef = doc(db, "comments", document_id);
       const originDocumentRef = doc(db, "comments", originId);
       batch.set(replyDocRef, fieldData);
       batch.update(originDocumentRef, { reply_count: increment(1) });
@@ -165,7 +154,8 @@ const ReplyOrReviseComment = ({
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!userData) return alert("로그인 하시면 이용하실 수 있습니다.");
+    if (!currentUser.user_id)
+      return alert("로그인 하시면 이용하실 수 있습니다.");
 
     const content = divRef.current?.innerText;
     if (!content) return alert("댓글을 입력해주세요!");
@@ -240,7 +230,7 @@ const ReplyOrReviseComment = ({
     }
 
     const newContent = getCustomInnerText(divRef.current);
-
+    console.log(newContent, divRef.current);
     try {
       if (type.includes("revise")) await reviseHandler(newContent);
       else await replyHandler(newContent);
@@ -268,11 +258,11 @@ const ReplyOrReviseComment = ({
       }
     };
 
-    const array = comment_data.content;
+    const array = comment_data.text;
 
     const setUpTag = (text: string) => {
       const tagElement = document.createElement("a");
-      tagElement.innerText = text;
+      tagElement.innerHTML = text;
       tagElement.addEventListener("mousedown", (e) => tagClickHandler(e));
       tagElement.href = "#";
       tagRef.current = tagElement;
@@ -290,7 +280,7 @@ const ReplyOrReviseComment = ({
         }
       });
     } else if (type.includes("reply") && tagName) {
-      setUpTag(`&nbsp;${tagName}&nbsp;`);
+      setUpTag(tagName);
     }
 
     // `<p>` 뒤에 빈 텍스트 노드 추가
@@ -443,8 +433,8 @@ const ReplyOrReviseComment = ({
       }}
     >
       <UserIcon
-        user_photo={userData.user_photo}
-        user_name={userData.user_name}
+        user_photo={currentUser.user_photo}
+        user_name={currentUser.user_name}
       />
       <form className="reply-input-box" onSubmit={submitHandler}>
         <div className="reply-text-box">
@@ -460,11 +450,13 @@ const ReplyOrReviseComment = ({
               const innerText = target.innerText;
               if (innerText.length === 0) return setSubmitPossible(true);
 
-              if (innerText !== commentText && submitPossible)
-                setSubmitPossible(false);
+              if (type.includes("reply")) return;
 
-              if (innerText === commentText && !submitPossible)
+              if (innerText !== commentText && !submitPossible)
                 setSubmitPossible(true);
+
+              if (innerText === commentText && submitPossible)
+                setSubmitPossible(false);
             }}
           ></div>
           <i />
@@ -480,9 +472,9 @@ const ReplyOrReviseComment = ({
             취소
           </button>
           <button
-            className={submitPossible ? "disabled" : "enabled"}
+            className={submitPossible ? "enabled" : "disabled"}
             type="submit"
-            disabled={submitPossible}
+            disabled={!submitPossible}
           >
             저장
           </button>

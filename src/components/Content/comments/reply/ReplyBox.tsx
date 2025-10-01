@@ -18,31 +18,27 @@ interface T {
 const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
   console.log("Reply Box Render!");
   const dispatch = useAppDispatch();
-  const { reply_comments, afterIndex } = useSelector(
+  const { reply_comments, last_index } = useSelector(
     (state: RootState) => state.reply
   );
   const [open, setOpen] = useState<boolean>(false);
-  const [isFristMount, setIsFirstMount] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const { createdAt, user_id, content_id, reply_count } = comment_data;
   const origin_id = createdAt + user_id;
 
   const getReplyDataHandler = async () => {
     setLoading(true);
-    const type = "reply";
 
     try {
       const { comment_datas, lastDataIndex } = await fetchCommentData(
-        type,
         origin_id,
-        afterIndex,
+        last_index[origin_id],
         content_id
       );
-
+      console.log(comment_datas, lastDataIndex);
       dispatch(
         replyActions.setNewReply({ origin_id, comment_datas, lastDataIndex })
       );
-
     } catch (error: any) {
       console.error(error);
       alert(error.message);
@@ -51,10 +47,7 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
   };
 
   const showRepliesHandler = () => {
-    if (isFristMount) {
-      setIsFirstMount(false);
-      if (afterIndex === "") getReplyDataHandler();
-    }
+    if (last_index[origin_id] !== "finish") getReplyDataHandler();
 
     setOpen((prevState) => !prevState);
   };
@@ -91,14 +84,11 @@ const ReplyBox = ({ origin_index, comment_data, myReply }: T) => {
         <LoadingSpinnerTwo width="25px" padding="8px" />
       ) : (
         open &&
-        afterIndex !== "finish" && (
+        last_index[origin_id] !== "finish" && (
           <button
             className="reply_more"
             type="button"
-            onClick={() => {
-              setLoading(true);
-              getReplyDataHandler();
-            }}
+            onClick={getReplyDataHandler}
           >
             <span>답글 더보기</span>
           </button>

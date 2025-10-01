@@ -48,12 +48,17 @@ const originCommentSlice = createSlice({
       comment.like_count += like_count;
 
       if (like_count === -1) {
-        const index = comment.like_users.indexOf(user_id);
+        delete state.comments[origin_index].like_users[user_id];
 
-        if (index === -1 || comment.like_users.length <= index) return;
+        // const index = comment.like_users.indexOf(user_id);
 
-        comment.like_users.splice(index, 1);
-      } else if (like_count === 1) comment.like_users.push(user_id);
+        // if (index === -1 || comment.like_users.length <= index) return;
+
+        // comment.like_users.splice(index, 1);
+      } else if (like_count === 1) {
+        state.comments[origin_index].like_users[user_id] = true;
+      }
+      // comment.like_users.push(user_id);
     },
     changeReplyCount(state, action: PayloadAction<ChangeReplyCountPayload>) {
       const { origin_index, type } = action.payload;
@@ -75,14 +80,15 @@ const originCommentSlice = createSlice({
       state,
       action: PayloadAction<{
         origin_index: number;
-        content: [string, string, string];
+        text: [string, string, string];
+        updatedAt: string;
       }>
     ) {
-      const { origin_index, content } = action.payload;
+      const { origin_index, text, updatedAt } = action.payload;
       const comment = state.comments[origin_index];
       if (comment) {
-        comment.content = content;
-        comment.isRevised = true;
+        comment.text = text;
+        comment.updatedAt = updatedAt;
       }
     },
     deleteComment(state, action: PayloadAction<{ origin_index: number }>) {

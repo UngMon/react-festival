@@ -27,15 +27,13 @@ const CommentArea = ({ content_id }: T) => {
 
     const getCommentData = async () => {
       loading.current = true;
-      const type = "origin";
-      const origin_id = "";
+      const origin_id = null;
 
       try {
         const { comment_datas, lastDataIndex } = await fetchCommentData(
-          type,
           origin_id,
           afterIndex,
-          content_id,
+          content_id
         );
 
         dispatch(

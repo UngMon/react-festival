@@ -12,124 +12,80 @@ const LoginPage = lazy(() => import("./pages/Login/Login"));
 const Main = lazy(() => import("./components/Card/CardContainer"));
 const Content = lazy(() => import("./components/Content/Content"));
 const Theme = lazy(() => import("./pages/Theme/Theme"));
-const EtcLayout = lazy(() => import("./pages/Etc/EtcLayout"));
-const About = lazy(() => import("./pages/Etc/About"));
+const DocsLayout = lazy(() => import("./pages/Docs/DocsLayout"));
+const About = lazy(() => import("./pages/Docs/About"));
 const User = lazy(() => import("./pages/User/UserPage"));
-const PrivacyPolicy = lazy(() => import("./pages/Etc/PrivacyPolicy"));
-const Service = lazy(() => import("./pages/Etc/Service"));
+const PrivacyPolicy = lazy(() => import("./pages/Docs/PrivacyPolicy"));
+const Service = lazy(() => import("./pages/Docs/Service"));
 const Question = lazy(() => import("./pages/Question/Question"));
 
+const withSuspense = <P extends object>(
+  Component: React.FunctionComponent<P>,
+  props: P = {} as P
+) => (
+  <Suspense fallback={<Loading height="400px" />}>
+    <Component {...props} />
+  </Suspense>
+);
+
 const pathArray: TitleType[] = [
-  "tour",
-  "culture",
-  "festival",
-  "travel",
-  "leports",
-  "lodging",
-  "shoping",
-  "restaurant",
-  "search",
+  "tour", "culture", "festival", "travel",
+  "leports", "lodging", "shoping", "restaurant", "search",
 ];
 
-function App() {
-  const router = createBrowserRouter([
-    {
-      path: "",
-      element: <RootLayout />,
-      errorElement: <GetDataError />,
-      children: [
-        { index: true, element: <MainVisual /> },
-        ...pathArray.map((title) => ({
-          path: title,
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Main title={title} />
-            </Suspense>
-          ),
-        })),
-        {
-          path: "content",
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Content />
-            </Suspense>
-          ),
-        },
-        {
-          path: "pick",
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Theme />
-            </Suspense>
-          ),
-        },
-        {
-          path: "etc",
-          element: <EtcLayout />,
-          children: [
-            {
-              path: "about",
-              element: (
-                <Suspense fallback={<Loading height="400px" />}>
-                  <About />
-                </Suspense>
-              ),
-            },
-            {
-              path: "privacypolicy",
-              element: (
-                <Suspense fallback={<Loading height="400px" />}>
-                  <PrivacyPolicy />
-                </Suspense>
-              ),
-            },
-            {
-              path: "service",
-              element: (
-                <Suspense fallback={<Loading height="400px" />}>
-                  <Service />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-        {
-          path: "question",
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <Question />
-            </Suspense>
-          ),
-        },
-        {
-          path: "user",
-          element: (
-            <Suspense fallback={<Loading height="400px" />}>
-              <User />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-    {
-      path: "login",
-      element: (
-        <Suspense fallback={<Loading height="400px" />}>
-          <LoginPage />
-        </Suspense>
-      ),
-      children: [{ path: "oauth" }],
-    },
-    {
-      path: "*",
-      element: (
-        <Suspense fallback={<Loading height="400px" />}>
-          <PageNotFound />
-        </Suspense>
-      ),
-    },
-  ]);
+const router = createBrowserRouter([
+  {
+    path: "",
+    element: <RootLayout />,
+    errorElement: <GetDataError />,
+    children: [
+      { index: true, element: <MainVisual /> },
+      ...pathArray.map((title) => ({
+        path: title,
+        element: withSuspense(Main, { title }),
+      })),
+      {
+        path: "content",
+        element: withSuspense(Content),
+      },
+      {
+        path: "pick",
+        element: withSuspense(Theme),
+      },
+      {
+        path: "docs",
+        element: withSuspense(PageNotFound),
+      },
+      {
+        element: <DocsLayout />,
+        children: [
+          { path: "docs/about", element: withSuspense(About) },
+          { path: "docs/privacypolicy", element: withSuspense(PrivacyPolicy) },
+          { path: "docs/service", element: withSuspense(Service) },
+        ],
+      },
+      {
+        path: "question",
+        element: withSuspense(Question),
+      },
+      {
+        path: "user",
+        element: withSuspense(User),
+      },
+    ],
+  },
+  {
+    path: "login",
+    element: withSuspense(LoginPage),
+    children: [{ path: "oauth" }],
+  },
+  {
+    path: "*",
+    element: withSuspense(PageNotFound),
+  },
+]);
 
+function App() {
   return (
     <div className="app">
       <RouterProvider router={router} />

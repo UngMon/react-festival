@@ -1,11 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  faCaretLeft,
-  faCaretRight,
-  faPause,
-  faPlay,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./TopSlide.css";
 
@@ -76,145 +69,143 @@ const top = [
   },
 ];
 
+const SLIDE_DURATION = 8000; // 8 seconds
+
+const CaretLeftIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 192 512"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+  >
+    <path d="M192 127.338v257.324c0 17.818-21.543 26.727-34.142 14.142L29.142 270.142c-7.81-7.81-7.81-20.474 0-28.284l128.716-128.716c12.599-12.599 34.142-3.676 34.142 14.142z" />
+  </svg>
+);
+
+const CaretRightIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 192 512"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+  >
+    <path d="M0 384.662V127.338c0-17.818 21.543-26.727 34.142-14.142l128.716 128.716c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.389 0 402.48 0 384.662z" />
+  </svg>
+);
+
+const PauseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 448 512"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+  >
+    <path d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z" />
+  </svg>
+);
+
+const PlayIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 448 512"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+  >
+    <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+  </svg>
+);
+
 const TopSlide = () => {
-  const [count, setCount] = useState<number>(0);
-  const [stop, setStop] = useState<boolean>(false);
-  const imageRef = useRef<Array<HTMLDivElement | null>>([]);
-  const timeBarRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+
+  const handleNext = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % top.length);
+  }, []);
 
   useEffect(() => {
-    if (stop) return;
+    if (isPaused) return;
 
-    const timeId = setTimeout(() => {
-      timeBarRef.current!.className = "time-bar slide-active";
-    }, 100);
+    const intervalId = setInterval(handleNext, SLIDE_DURATION);
 
-    let nextIndex: number = count < top.length - 1 ? count + 1 : 0;
-    const currentImageRef = imageRef.current[count];
-    const nextImageRef = imageRef.current[nextIndex];
+    return () => clearInterval(intervalId);
+  }, [isPaused, handleNext]);
 
-    if (currentImageRef && nextImageRef) {
-      currentImageRef.style.opacity = "0";
-      currentImageRef.style.transition = "opacity 3s ease-in-out 5s";
-      currentImageRef.style.zIndex = "1";
-
-      nextImageRef.style.opacity = "1";
-      nextImageRef.style.transition = "";
-      nextImageRef.style.zIndex = "0";
-    }
-
-    const time = setTimeout(() => {
-      setCount(nextIndex);
-      timeBarRef.current!.className = "time-bar";
-    }, 8000);
-
-    return () => {
-      clearTimeout(time);
-      clearTimeout(timeId);
-    };
-  }, [count, stop]);
-
-  const sideButtonClickHandler = (type: string) => {
-    if (!stop) pauseClickHandler();
-
-    const currentImageRef = imageRef.current[count];
-
-    setTimeout(() => {
-      if (type === "prev") {
-        let prevIndex = count - 1 < 0 ? top.length - 1 : count - 1;
-        const prevImageRef = imageRef.current[prevIndex];
-
-        if (currentImageRef && prevImageRef) {
-          currentImageRef.style.opacity = "0";
-          currentImageRef.style.transition = "opacity 1s ease-in-out";
-          currentImageRef.style.zIndex = "1";
-
-          prevImageRef.style.opacity = "1";
-          prevImageRef.style.transition = "";
-          prevImageRef.style.zIndex = "0";
-        }
-
-        setCount(prevIndex);
-      } else {
-        let nextIndex = count + 1 >= top.length ? 0 : count + 1;
-        const nextImageRef = imageRef.current[nextIndex];
-
-        if (currentImageRef && nextImageRef) {
-          currentImageRef.style.opacity = "0";
-          currentImageRef.style.transition = "opacity 1s ease";
-          currentImageRef.style.zIndex = "1";
-
-          nextImageRef.style.opacity = "1";
-          nextImageRef.style.transition = "";
-          nextImageRef.style.zIndex = "0";
-        }
-
-        setCount(nextIndex);
-      }
-    }, 0);
+  const prevButtonHandler = () => {
+    if (!isPaused) setIsPaused(true);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + top.length) % top.length);
   };
 
-  const pauseClickHandler = () => {
-    let nextIndex: number = count < top.length - 1 ? count + 1 : 0;
-    const currentImageRef = imageRef.current[count];
-    const nextImageRef = imageRef.current[nextIndex];
-
-    if (!stop) {
-      if (currentImageRef && nextImageRef) {
-        currentImageRef.style.opacity = "1";
-        currentImageRef.style.transition = "";
-        nextImageRef.style.opacity = "0";
-        nextImageRef.style.transition = "";
-        timeBarRef.current!.className = "time-bar";
-      }
-    }
-
-    setStop(!stop);
+  const nextButtonHandler = () => {
+    if (!isPaused) setIsPaused(true);
+    handleNext();
   };
+
+  const togglePause = () => {
+    setIsPaused((prev) => !prev);
+  };
+
+  const activeItem = top[currentIndex];
 
   return (
     <section className="top-slide-container">
-      {top.map((item, index) => (
-        <div
-          key={index}
-          ref={(el: HTMLDivElement) => (imageRef.current![index] = el)}
-          className="top-visual"
-          style={{
-            opacity: index === 0 ? 1 : 0,
-          }}
-        >
-          <div className="source">
-            <span>{item.source}</span>
-          </div>
-          <div className="top-slide-image">
-            <img src={item.url} alt={item.title} />
-          </div>
-          <div className="top-text-box">
-            <h2>{item.title}</h2>
-            <p>{item.text}</p>
-            <Link
-              to={`/content/search?type=${item.type}&contentId=${item.contentId}`}
-            >
-              자세히 보기
-            </Link>
-          </div>
-          <div className="top-slide-page">
-            <span>{`${index + 1} of ${top.length}`}</span>
-          </div>
+      <div className="slide-background-wrapper">
+        {top.map((item, index) => (
+          <div
+            key={index}
+            className={`slide-background ${
+              index === currentIndex ? "active" : ""
+            }`}
+            style={{ backgroundImage: `url(${item.url})` }}
+          />
+        ))}
+      </div>
+
+      <div className="source">
+        <span>{activeItem.source}</span>
+      </div>
+
+      <div className="slide-ui-container">
+        <div className="top-text-box" key={currentIndex}>
+          <h2>{activeItem.title}</h2>
+          <p>{activeItem.text}</p>
+          <Link
+            to={`/content?contetTypeId=${activeItem.type}&contentId=${activeItem.contentId}`}
+          >
+            자세히 보기
+          </Link>
         </div>
-      ))}
-      <div className="slide-time-box">
-        <div className="time-bar" ref={timeBarRef}></div>
-        <div className="time-button">
-          <button onClick={() => sideButtonClickHandler("prev")}>
-            <FontAwesomeIcon icon={faCaretLeft} />
-          </button>
-          <button onClick={pauseClickHandler}>
-            <FontAwesomeIcon icon={stop ? faPlay : faPause} />
-          </button>
-          <button onClick={() => sideButtonClickHandler("next")}>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </button>
+        <div className="slide-controls">
+          <div className="top-slide-page">
+            <span>{`${currentIndex + 1} / ${top.length}`}</span>
+          </div>
+          <div className="time-and-buttons">
+            <div className="time-bar-container">
+              <div
+                className={`time-bar ${!isPaused ? "running" : ""}`}
+                key={`${currentIndex}-${isPaused}`}
+                style={{ animationDuration: `${SLIDE_DURATION}ms` }}
+              />
+            </div>
+            <div className="buttons">
+              <button onClick={prevButtonHandler} aria-label="Previous slide">
+                <CaretLeftIcon />
+              </button>
+              <button
+                onClick={togglePause}
+                aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
+              >
+                {isPaused ? <PlayIcon /> : <PauseIcon />}
+              </button>
+              <button onClick={nextButtonHandler} aria-label="Next slide">
+                <CaretRightIcon />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
