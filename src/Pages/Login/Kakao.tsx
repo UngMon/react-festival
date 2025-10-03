@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { auth as firebaseAuth } from "../../firebase";
 import { signInWithCustomToken } from "firebase/auth";
-import "./Login.css";
+import "./LoginPage.css";
 
 declare global {
   interface Window {
@@ -20,12 +20,13 @@ type KakaoProps = {
 };
 
 const KakaoLogin = ({ setLoading }: KakaoProps) => {
-  if (!window.Kakao.isInitialized()) {
-    window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
-  }
-
   const navigate = useNavigate();
-  const { Kakao } = window;
+
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+    }
+  }, []);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search);
@@ -33,9 +34,9 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
 
     if (!authorizeCode) return;
 
-    setLoading(true);
-
     const kakaoLoginAttempt = async () => {
+      setLoading(true);
+
       try {
         const response: AxiosResponse<Auth> = await axios.post(
           `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao`,
@@ -45,19 +46,19 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
         await signInWithCustomToken(firebaseAuth, firebaseToken);
         navigate("/", { replace: true });
       } catch (error: any) {
-        alert(error.message);
         setLoading(false);
         navigate("/", { replace: true });
       }
     };
 
     kakaoLoginAttempt();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const kakaoLoginHandler = () => {
     // 카카오 버튼을 누르면 카카오 서버로부터 로그인 페이지를 요청,
     setLoading(true);
-    Kakao.Auth.authorize({
+    window.Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
     });
   };

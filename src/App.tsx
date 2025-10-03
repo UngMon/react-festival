@@ -8,7 +8,7 @@ import MainVisual from "./pages/Main/MainVisual";
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./components/Error/PageNotFound"));
-const LoginPage = lazy(() => import("./pages/Login/Login"));
+const LoginPage = lazy(() => import("./pages/Login/LoginPage"));
 const Main = lazy(() => import("./components/Card/CardContainer"));
 const Content = lazy(() => import("./components/Content/Content"));
 const Theme = lazy(() => import("./pages/Theme/Theme"));

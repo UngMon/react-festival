@@ -22,50 +22,67 @@ const Naver = ({ setLoading }: NaverProps) => {
   const navigate = useNavigate();
   const naverRef = useRef<HTMLDivElement>(null);
 
-  const naverLoginHandler = () => {
+  const initializeNaverLogin = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
       callbackUrl: "https://igotjeogot.kr/login/oauth",
       isPopup: false,
       loginButton: { color: "green", type: 3, height: "50" },
-      callbackHandle: true,
     });
-
     naverLogin.init();
-    return naverLogin?.accessToken?.accessToken;
+  };
+
+  const getNaverAccessToken = () => {
+    const hash = window.location.hash.substring(1);
+
+    const params = new URLSearchParams(hash);
+
+    const accessToken = params.get("access_token");
+
+    return accessToken;
   };
 
   useEffect(() => {
-    const access_token = naverLoginHandler();
-    if (!access_token) return;
+    // Naver 컴포넌트 마운트, window.naver 객체 생성
+    // 로그인 페이지 이동, 네이버 로그인 완료 후 콜백 url로 다시 로그인 페이지 이동(새로고침)
+    initializeNaverLogin();
+  }, []);
 
-    const getDataUser = async () => {
+  useEffect(() => {
+    const accessToken = getNaverAccessToken();
+    if (!accessToken) return;
+
+    const authenticateWithFirebase = async (token: string) => {
+      // 2. 실제 서버 통신 직전에만 로딩 상태 활성화
+      setLoading(true);
       try {
-        setLoading(true);
-
         const res: AxiosResponse<Auth> = await axios.get(
           `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/naver`,
-          { headers: { authorization: access_token } }
+          { headers: { authorization: token } }
         );
-    
+
         const { firebaseToken } = res.data;
         await signInWithCustomToken(firebaseAuth, firebaseToken);
+        // 로그인 성공 후 히스토리에서 콜백 URL을 제거하며 이동
         navigate("/", { replace: true });
-      } catch (error: any) {
-        console.error(error);
-        navigate("/", { replace: true });
+      } catch (error) {
+        console.error("Naver login error:", error);
+        alert("네이버 로그인에 실패했습니다.");
+        navigate("/login", { replace: true }); // 에러 발생 시 로그인 페이지로 이동
       } finally {
         setLoading(false);
       }
     };
 
-    getDataUser();
-  });
+    authenticateWithFirebase(accessToken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const clickHandler = () => {
-    if (!naverRef.current || !naverRef.current.children) return;
-    setLoading(true);
-    (naverRef.current.firstChild as HTMLImageElement).click();
+    if (naverRef.current?.firstChild) {
+      setLoading(true);
+      (naverRef.current?.firstChild as HTMLImageElement).click();
+    }
   };
 
   return (
