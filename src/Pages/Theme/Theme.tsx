@@ -16,14 +16,13 @@ const Theme = () => {
 
     let match;
     let result = "";
-    const rawTags = [];
+    const tags = [];
 
     while ((match = regex.exec(hash)) !== null) {
-      console.log(match)
-      rawTags.push(match[0]);
+      tags.push(match[0]);
     }
 
-    const array = [...new Set(rawTags)];
+    const array = [...new Set(tags)];
 
     array.forEach((text) => (result += text));
 
@@ -43,7 +42,6 @@ const Theme = () => {
             <ThemeSlide
               key={item.title}
               images={item.images}
-              index={index}
               clickedElement={clickedElement}
               theme_number={theme_number}
             />
