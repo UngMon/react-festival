@@ -7,6 +7,9 @@ html {
 body {
   margin: 0;
   font-family: sans-serif;
+  -webkit-text-size-adjust: 100%; /* Safari, iOS, Chrome */
+  -ms-text-size-adjust: 100%; /* IE, Edge (구버전) */
+  text-size-adjust: 100%; /* 표준 */
 }
 
 body::-webkit-scrollbar {

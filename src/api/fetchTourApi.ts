@@ -38,29 +38,14 @@ export const fetchTourApi = createAsyncThunk(
   "tour/fetchFromData",
   async (parameter: FetchParams) => {
     const { numOfRows, page, title, params } = parameter;
-    console.log('fetch Tour Api', parameter)
     const url: string = createUrl(title, params, numOfRows, page);
 
     try {
-      // let requestArray: Promise<Response>[] = [];
-
-      // if (title === "festival" || existPageInfo) {
-      //   requestArray = [fetch(url)];
-      // } else {
-      //   // const pageUrl = url.replace('listYN=Y', 'listYN=N');
-      //   requestArray = [fetch(pageUrl), fetch(url)];
-      // }
-      // const responses = await Promise.all(requestArray);
-      // const jsonResponses = await Promise.all(responses.map((res) => res.json()));
-      // totalCount: PageCountRespon;
-
       const response= await fetch(url);
       const responseData = await response.json() as TourResponse;
-
+      console.log(response, responseData)
       return {
         numOfRows,
-        // totalCount: jsonResponses.length > 1 ? jsonResponses[0] : undefined,
-        // data: jsonResponses.length > 1 ? jsonResponses[1] : jsonResponses[0],
         responseData,
         page,
         ...params,

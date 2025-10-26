@@ -51,9 +51,9 @@ const DeleteModal = ({
       if (origin_id) {
         const deleteDocRef = doc(db, "comments", comment_id);
         const originalDocRef = doc(db, "comments", origin_id);
-        console.log(comment_id)
+
         batch.delete(deleteDocRef);
-        // batch.update(originalDocRef, { reply_count: increment(-1) });
+        batch.update(originalDocRef, { reply_count: increment(-1) });
         await batch.commit();
 
         /* 1. 내가 작성한 답글 삭제 (my) => myReply 상태만 업데이트 */

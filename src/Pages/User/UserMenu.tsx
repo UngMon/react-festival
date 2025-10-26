@@ -20,27 +20,29 @@ interface T {
 const UserMenu = ({ setCategory, userData }: T) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user_photo, user_name } = userData;
-  const boxRef = useRef<HTMLDivElement>(null);
+
+  const menuRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
+  const { user_photo, user_name } = userData;
   const [openSide, setOpenSide] = useState<boolean>(false);
 
   useEffect(() => {
+    const menuTag = menuRef.current;
+
+    if (!menuTag) return;
+
     const clickHandler = (e: MouseEvent) => {
       const target = e.target as Node;
 
       if (arrowRef.current?.contains(target)) return;
 
-      if (openSide && !boxRef.current?.contains(target)) {
-        setOpenSide(false);
-      }
+      if (openSide && !menuTag.contains(target)) setOpenSide(false);
     };
 
     const resizeHandler = () => {
       if (window.innerWidth >= 1024 && openSide) {
         setOpenSide(false);
-        const menuBox = boxRef.current;
-        if (menuBox) menuBox.classList.remove();
+        menuTag.style.transition = "none";
       }
     };
 
@@ -51,7 +53,20 @@ const UserMenu = ({ setCategory, userData }: T) => {
       window.removeEventListener("click", clickHandler);
       window.removeEventListener("resize", resizeHandler);
     };
-  });
+  }, [openSide]);
+
+  const openMenuHandler = () => {
+    const menuTag = menuRef.current;
+    if (!menuTag) return;
+
+    setOpenSide((prevState) => !prevState);
+
+    if (!openSide) menuTag.style.transition = "all 0.3s ease-in-out";
+    else
+      setTimeout(() => {
+        menuTag.style.transition = "none";
+      }, 300);
+  };
 
   const logoutHandler = async () => {
     signOut(auth)
@@ -67,34 +82,46 @@ const UserMenu = ({ setCategory, userData }: T) => {
   return (
     <>
       <div
-        className="user-menu-arrow"
-        onClick={() => setOpenSide(true)}
+        className={`user-menu-arrow ${openSide ? "a-op" : ""}`}
+        onClick={openMenuHandler}
         ref={arrowRef}
       >
         <FontAwesomeIcon icon={faRightLong} />
       </div>
-      <div className={`user-menu ${openSide ? "op" : "of"}`} ref={boxRef}>
-        <h3>나의 활동</h3>
-        <div className="user-icon">
-          <div>
-            <img src={user_photo} alt="user-icon" />
+      <div className="menu-container ">
+        <div className={`user-menu ${openSide ? "op" : ""}`} ref={menuRef}>
+          <h3>나의 활동</h3>
+          <div className="user-icon">
+            <div>
+              <img src={user_photo} alt="user-icon" />
+            </div>
+            <div>
+              <span>{user_name}</span>
+            </div>
           </div>
-          <div>
-            <span>{user_name}</span>
-          </div>
+          <ul className="user-menu-list">
+            <li>
+              <button onClick={() => setCategory("myComment")}>
+                작성한 댓글 보기
+              </button>
+            </li>
+            <li>
+              <button onClick={() => setCategory("likedContent")}>
+                좋아요 누른 콘텐츠
+              </button>
+            </li>
+            <li>
+              <button onClick={() => setCategory("likedComment")}>
+                좋아요 누른 댓글
+              </button>
+            </li>
+          </ul>
+          <div className="line" />
+          <button className="log-out" type="button" onClick={logoutHandler}>
+            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            <span>로그아웃</span>
+          </button>
         </div>
-        <ul className="user-menu-list">
-          <li onClick={() => setCategory("myComment")}>작성한 댓글 보기</li>
-          <li onClick={() => setCategory("likedContent")}>
-            좋아요 누른 콘텐츠
-          </li>
-          <li onClick={() => setCategory("likedComment")}>좋아요 누른 댓글</li>
-        </ul>
-        <div className="line" />
-        <button className="log-out" type="button" onClick={logoutHandler}>
-          <FontAwesomeIcon icon={faArrowRightFromBracket} />
-          <span>로그아웃</span>
-        </button>
       </div>
     </>
   );
