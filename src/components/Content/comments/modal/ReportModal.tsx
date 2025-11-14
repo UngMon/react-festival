@@ -1,24 +1,40 @@
-import { useEffect } from "react";
+import { CommentType } from "type/DataType";
+import { useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
-import { reportActions } from "store/report-slice";
+import { modalActions } from "store/modal-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { nowDate } from "utils/nowDate";
 import "./ReportModal.css";
 
-const ReportModal = () => {
+interface T {
+  comment_data: CommentType;
+}
+
+const report_array = [
+  "상업성 콘텐츠 또는 스팸",
+  "포르노 또는 음란물",
+  "괴롭힘 또는 폭력/욕설",
+  "허위 과장 정보",
+];
+
+const ReportModal = ({ comment_data }: T) => {
   const dispatch = useAppDispatch();
-  const reportState = useSelector((state: RootState) => state.report);
-  const report_reason = reportState.report_reason;
-  const clearSetState = () => dispatch(reportActions.setClearState());
+  const [report_reason, setReportReason] = useState<string>("");
+  const { current_user_id, current_user_name } = useSelector(
+    (state: RootState) => state.firebase
+  );
+
+  const clickCancelHandler = () => {
+    dispatch(modalActions.clearModalInfo({}));
+  };
 
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") clearSetState();
+      if (e.key === "Escape") clickCancelHandler();
     };
 
     window.addEventListener("keydown", keyDownHandler);
@@ -30,27 +46,47 @@ const ReportModal = () => {
 
   const reportUserHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (Object.keys(reportState.report_reason).length === 0)
-      return alert("신고 사유를 선택해주세요!");
 
-    const {time} = nowDate();
-    const { open: _, ...rest } = reportState;
-    const contentRef = doc(db, 'report', time + reportState.reporter_id);
+    if (report_reason === "") return alert("신고 사유를 선택해주세요!");
+
+    const report_time = new Date(
+      new Date().getTime() + 9 * 60 * 60 * 1000
+    ).toISOString();
+
+    const contentRef = doc(db, "reportList", report_time + current_user_id);
+    const {
+      content_type,
+      content_id,
+      content_title,
+      text,
+      user_id,
+      user_name,
+      createdAt,
+    } = comment_data;
 
     try {
-      await setDoc(contentRef, rest);
+      await setDoc(contentRef, {
+        content_type,
+        content_id,
+        content_title,
+        createdAt,
+        text,
+        report_reason,
+        reported_id: user_id,
+        reported_name: user_name,
+        reporter_id: current_user_id,
+        reporter_name: current_user_name,
+        report_time,
+      });
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      clickCancelHandler();
     }
-    clearSetState();
-  };
-
-  const listClickHandler = (category: string) => {
-    dispatch(reportActions.checkList({ category }));
   };
 
   return (
-    <div className="report-container" onClick={clearSetState}>
+    <div className="report-container" onClick={clickCancelHandler}>
       <form
         className="report-form"
         onSubmit={reportUserHandler}
@@ -60,59 +96,25 @@ const ReportModal = () => {
           <span>사용자 신고</span>
         </div>
         <div className="report-cancel">
-          <button type="button" onClick={clearSetState}>
+          <button type="button" onClick={clickCancelHandler}>
             <FontAwesomeIcon icon={faXmark} />
           </button>
         </div>
         <ul>
-          <li onClick={() => listClickHandler("스펨/상업")}>
-            <div
-              className={`check-box ${
-                report_reason["스펨/상업"] ? "checked" : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faSquareCheck} />
-            </div>
-            <div>
-              <span>상업성 콘텐츠 또는 스팸</span>
-            </div>
-          </li>
-          <li onClick={() => listClickHandler("포르노/음란물")}>
-            <div
-              className={`check-box ${
-                report_reason["포르노/음란물"] ? "checked" : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faSquareCheck} />
-            </div>
-            <div>
-              <span>포르노 또는 음란물</span>
-            </div>
-          </li>
-          <li onClick={() => listClickHandler("괴롭힘/폭력/욕설")}>
-            <div
-              className={`check-box ${
-                report_reason["괴롭힘/폭력/욕설"] ? "checked" : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faSquareCheck} />
-            </div>
-            <div>
-              <span>괴롭힘 또는 폭력/욕설</span>
-            </div>
-          </li>
-          <li onClick={() => listClickHandler("허위/과장")}>
-            <div
-              className={`check-box ${
-                report_reason["허위/과장"] ? "checked" : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faSquareCheck} />
-            </div>
-            <div>
-              <span>허위 과장 정보</span>
-            </div>
-          </li>
+          {report_array.map((item) => (
+            <li key={item} onClick={() => setReportReason(item)}>
+              <div
+                className={`check-box ${
+                  report_reason === item ? "checked" : ""
+                }`}
+              >
+                <FontAwesomeIcon icon={faSquareCheck} />
+              </div>
+              <div>
+                <span>{item}</span>
+              </div>
+            </li>
+          ))}
         </ul>
         <div className="report-button-box">
           <button type="submit">제출</button>

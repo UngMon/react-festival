@@ -20,9 +20,11 @@ const MobileMenu = ({ headRef }: T) => {
   const dispatch = useAppDispatch();
   const [openNav, setOpenNav] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
-  const userData = useSelector((state: RootState) => state.firebase);
+  const { current_user_id, current_user_photo } = useSelector(
+    (state: RootState) => state.firebase
+  );
   const month = String(new Date().getMonth() + 1).padStart(2, "0");
-  // console.log(userData);
+
   const logoutHandler = () => {
     signOut(auth)
       .then(() => {
@@ -111,10 +113,10 @@ const MobileMenu = ({ headRef }: T) => {
           right: openNav ? "0" : "-150%",
         }}
       >
-        {userData.user_id ? (
+        {current_user_id ? (
           <div className="user-info-box">
             <div>
-              <img src={userData.user_photo} alt="User"></img>
+              <img src={current_user_photo} alt="User"></img>
             </div>
             <p className="mo-email">{convertUserEmail()}</p>
             <button className="mo-logout" onClick={logoutHandler}>

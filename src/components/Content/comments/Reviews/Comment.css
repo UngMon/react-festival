@@ -64,4 +64,12 @@
     }
 
   }
+
+  #mention {
+    padding: 0 5px;
+    color: rgb(60, 60, 255);
+    background-color: rgba(237, 237, 254, 0.885);
+  }
 }
+
+

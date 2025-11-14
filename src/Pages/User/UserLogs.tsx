@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { originCommentActions } from "../../store/origin_comment-slice";
-import { Comment, LikedComment, LikedContent } from "type/DataType";
+import { CommentType, LikedComment, LikedContent } from "type/DataType";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { UserData } from "type/UserDataType";
 import { db } from "../../firebase";
@@ -38,7 +38,7 @@ const CATEGORY_TITLES: Record<string, string> = {
 };
 
 // ===== 통합 state 타입 정리 =====
-type LogItem = Comment | LikedComment | LikedContent;
+type LogItem = CommentType | LikedComment | LikedContent;
 type GroupedLogs = Record<string, LogItem[]>; // { "오늘": [item1, item2], ... }
 type ListState = Record<string, GroupedLogs>; // { "myComment": GroupedLogs, "likedComment": GroupedLogs, ... }
 
@@ -77,7 +77,7 @@ const UserLogs = ({ category, userData }: T) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   console.log("USerLog Render");
-  const { user_id, status } = userData;
+  const { current_user_id, status } = userData;
   const [loading, setLoading] = useState<boolean>(false);
   const [targetRef, intersecting] = useIntersectionObserver();
   const [list, setList] = useState<ListState>({});
@@ -91,7 +91,7 @@ const UserLogs = ({ category, userData }: T) => {
     switch (true) {
       case status === "pending":
         return;
-      case !user_id && status === "fulfilled":
+      case !current_user_id && status === "fulfilled":
         return navigate("/", { replace: true });
       case loading:
         return;
@@ -108,14 +108,14 @@ const UserLogs = ({ category, userData }: T) => {
         const queryConfig = {
           myComment: {
             ref: collection(db, "comments"),
-            conditions: [where("user_id", "==", user_id)],
+            conditions: [where("user_id", "==", current_user_id)],
           },
           likedComment: {
-            ref: collection(db, "userData", user_id, "like_users"),
+            ref: collection(db, "userData", current_user_id, "like_users"),
             conditions: [],
           },
           likedContent: {
-            ref: collection(db, "userData", user_id, "content"),
+            ref: collection(db, "userData", current_user_id, "content"),
             conditions: [],
           },
         };
@@ -176,13 +176,21 @@ const UserLogs = ({ category, userData }: T) => {
       }
     };
     getDataHandler();
-  }, [category, user_id, status, afterIndex, intersecting, navigate, loading]);
+  }, [
+    category,
+    current_user_id,
+    status,
+    afterIndex,
+    intersecting,
+    navigate,
+    loading,
+  ]);
 
   const deleteHandler = useCallback(
     async (
       date: string,
       index: number,
-      item: Comment | LikedComment | LikedContent
+      item: CommentType | LikedComment | LikedContent
     ) => {
       const batch = writeBatch(db);
       let deleteCategory: string | null = null;
@@ -196,13 +204,13 @@ const UserLogs = ({ category, userData }: T) => {
 
         batch.update(updateRef, {
           like_count: increment(-1),
-          [`like_users.${user_id}`]: deleteField(),
+          [`like_users.${current_user_id}`]: deleteField(),
         });
 
         documentRef = doc(
           db,
           "userData",
-          user_id,
+          current_user_id,
           "liked_comments",
           comment_id
         );
@@ -276,7 +284,7 @@ const UserLogs = ({ category, userData }: T) => {
         alert("데이터 삭제에 문제가 발생했습니다!");
       }
     },
-    [dispatch, category, user_id]
+    [dispatch, category, current_user_id]
   );
 
   const renderComments = useMemo(() => {

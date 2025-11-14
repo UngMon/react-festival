@@ -4,10 +4,10 @@ import { User } from "type/UserDataType";
 
 const initialState: UserData = {
   status: "pending",
-  user_id: "",
-  user_name: "",
-  user_email: "",
-  user_photo: "",
+  current_user_id: "",
+  current_user_name: "",
+  current_user_email: "",
+  current_user_photo: "",
 };
 
 const firebaseSlice = createSlice({
@@ -17,17 +17,17 @@ const firebaseSlice = createSlice({
     login(state, action: PayloadAction<{ user: User }>) {
       const { uid, displayName, email, photoURL } = action.payload.user;
       state.status = "fulfilled";
-      state.user_id = uid;
-      state.user_name = displayName || "";
-      state.user_email = email || "";
-      state.user_photo = photoURL || "";
+      state.current_user_id = uid;
+      state.current_user_name = displayName || "";
+      state.current_user_email = email || "";
+      state.current_user_photo = photoURL || "";
     },
     logout(state) {
       state.status = "pending";
-      state.user_id = "";
-      state.user_name = "";
-      state.user_email = "";
-      state.user_photo = "";
+      state.current_user_id = "";
+      state.current_user_name = "";
+      state.current_user_email = "";
+      state.current_user_photo = "";
     },
     userNotFound(state) {
       state.status = "fulfilled";

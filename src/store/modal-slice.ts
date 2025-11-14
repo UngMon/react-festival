@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PickComment } from "type/UserDataType";
-import { Comment } from "type/DataType";
+import { ModalType } from "type/UserDataType";
 
-const initialState: PickComment = {
-  open: "",
-  delete: "",
-  comment_id: "",
-  comment_data: null,
+const initialState: ModalType = {
+  current_id: "",
+  openOption: "",
+  openDelete: "",
+  openReport: "",
   revise: {},
   reply: {},
 };
@@ -16,48 +15,40 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     clickReviseButton(state, action: PayloadAction<{ comment_id: string }>) {
-      const comment_id: string = action.payload.comment_id;
-      state.revise[comment_id] = "revise";
-      state.comment_id = "";
-      state.comment_data = null;
+      state.revise[action.payload.comment_id] = true;
     },
     clickReplyButton(state, action: PayloadAction<{ comment_id: string }>) {
-      state.reply[action.payload.comment_id] = "reply";
+      state.reply[action.payload.comment_id] = true;
     },
     openDeleteModal(state, action: PayloadAction<{ comment_id: string }>) {
-      state.delete = action.payload.comment_id;
-      state.open = "";
+      state.openDelete = action.payload.comment_id;
+      state.openOption = "";
+      state.openReport = "";
     },
-    openOptionModal(
-      state,
-      action: PayloadAction<{
-        comment_id: string;
-        comment_data: Comment;
-      }>
-    ) {
-      const { comment_data, comment_id } = action.payload;
-      state.open = comment_id;
-      state.comment_data = comment_data;
-      state.comment_id = comment_id;
+    openOptionModal(state, action: PayloadAction<{ comment_id: string }>) {
+      state.openOption = action.payload.comment_id;
+      state.openDelete = "";
+      state.openReport = "";
+    },
+    openReportModal(state, action: PayloadAction<{ comment_id: string }>) {
+      state.openReport = action.payload.comment_id;
+      state.openDelete = "";
+      state.openOption = "";
     },
     clearModalInfo(
       state,
-      action: PayloadAction<{ comment_id: string; type?: string }>
+      action: PayloadAction<{ comment_id?: string; type?: string }>
     ) {
       const { comment_id, type } = action.payload;
 
-      if (type && comment_id) {
-        if (type.includes("revise")) {
-          delete state.revise[comment_id];
-        } else if (type.includes("reply")) {
-          delete state.reply[comment_id];
-        }
-      }
+      if (type?.includes("revise") && comment_id)
+        delete state.revise[comment_id];
+      else if (type?.includes("reply") && comment_id)
+        delete state.reply[comment_id];
 
-      state.comment_data = null;
-      state.comment_id = "";
-      state.delete = "";
-      state.open = "";
+      state.openDelete = "";
+      state.openOption = "";
+      state.openReport = "";
     },
   },
 });

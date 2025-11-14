@@ -16,13 +16,15 @@ const LoginButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const userData = useSelector((state: RootState) => state.firebase);
+  const { status, current_user_id, current_user_photo } = useSelector(
+    (state: RootState) => state.firebase
+  );
   const [userModalOpen, setUserModalOpen] = useState(false);
 
   const userImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (userData.status === "fulfilled") return;
+    if (status === "fulfilled") return;
     onAuthStateChanged(getAuth(), (userInfo) => {
       if (userInfo) {
         const { uid, displayName, email, photoURL } = userInfo!;
@@ -33,7 +35,7 @@ const LoginButton = () => {
         dispatch(firebaseActions.userNotFound());
       }
     });
-  }, [userData, dispatch]);
+  }, [status, dispatch]);
 
   useEffect(() => {
     if (!userModalOpen) return;
@@ -68,38 +70,32 @@ const LoginButton = () => {
 
   return (
     <>
-      {userData.status === "pending" && <div className="not-Login" />}
-      {userData.status === "fulfilled" && (
-        <>
-          {userData.user_id === "" ? (
-            <div className="login" onClick={loginHandler}>
-              <FontAwesomeIcon icon={faRightToBracket} />
-            </div>
-          ) : (
-            <div
-              className="userPhoto-box"
-              ref={userImageRef}
-              onClick={() => setUserModalOpen(!userModalOpen)}
-            >
-              <img src={userData.user_photo} alt="userPhoto"></img>
-              {userModalOpen && (
-                <div className="logout-box">
-                  <div className="arrow"></div>
-                  <div className="logout" onClick={logoutHnalder}>
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                    <span>로그아웃</span>
-                  </div>
-                  <div
-                    className="account-log"
-                    onClick={() => navigate("/user")}
-                  >
-                    계정 활동 보기
-                  </div>
-                </div>
-              )}
+      {status === "pending" && <div className="not-Login" />}
+      {status === "fulfilled" && current_user_id === "" && (
+        <div className="login" onClick={loginHandler}>
+          <FontAwesomeIcon icon={faRightToBracket} />
+        </div>
+      )}
+      {status === "fulfilled" && current_user_id !== "" && (
+        <div
+          className="userPhoto-box"
+          ref={userImageRef}
+          onClick={() => setUserModalOpen(!userModalOpen)}
+        >
+          <img src={current_user_photo} alt="userPhoto"></img>
+          {userModalOpen && (
+            <div className="logout-box">
+              <div className="arrow"></div>
+              <div className="logout" onClick={logoutHnalder}>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                <span>로그아웃</span>
+              </div>
+              <div className="account-log" onClick={() => navigate("/user")}>
+                계정 활동 보기
+              </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </>
   );

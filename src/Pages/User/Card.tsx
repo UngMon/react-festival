@@ -1,17 +1,17 @@
-import { LikedComment, LikedContent, Comment } from "../../type/DataType";
+import { LikedComment, LikedContent, CommentType } from "../../type/DataType";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ContentIdCode } from "assets/CatCode/CatCode";
 
 interface T {
-  item: Comment | LikedComment | LikedContent;
+  item: CommentType | LikedComment | LikedContent;
   index: number;
   date: string;
   deleteHandler: (
     date: string,
     index: number,
-    item: Comment | LikedComment | LikedContent
+    item: CommentType | LikedComment | LikedContent
   ) => void;
 }
 

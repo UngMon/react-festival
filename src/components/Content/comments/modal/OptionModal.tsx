@@ -1,31 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { UserData } from "type/UserDataType";
-import { Comment } from "type/DataType";
-import { useAppDispatch } from "store/store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "store/store";
 import { modalActions } from "store/modal-slice";
-import { reportActions } from "store/report-slice";
 import "./OptionModal.css";
 
 interface T {
-  comment_data: Comment;
-  userData: UserData;
+  comment_id: string;
+  comment_user_id: string;
 }
 
-const OptionModal = ({ comment_data, userData }: T) => {
+const OptionModal = ({ comment_id, comment_user_id }: T) => {
   const [scrollY, setScrollY] = useState<number>(window.scrollY);
   const boxRef = useRef<HTMLDivElement>(null);
+  const current_user_id = useSelector(
+    (state: RootState) => state.firebase.current_user_id
+  );
   const dispatch = useAppDispatch();
-  const { user_id, createdAt } = comment_data;
 
   useEffect(() => {
     const toggleOptionModal = (e: MouseEvent) => {
       if (!boxRef.current?.contains(e.target as Node)) {
         setScrollY(0);
-        dispatch(
-          modalActions.clearModalInfo({
-            comment_id: comment_data.createdAt + comment_data.user_id,
-          })
-        );
+        dispatch(modalActions.clearModalInfo({ comment_id }));
       }
     };
 
@@ -40,29 +36,23 @@ const OptionModal = ({ comment_data, userData }: T) => {
       window.removeEventListener("click", toggleOptionModal);
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [dispatch, comment_data, scrollY]);
+  }, [dispatch, scrollY, comment_id]);
 
   const clickHandler = (type: string) => {
-    if (userData.user_id === "")
+    if (current_user_id === "")
       return alert(`로그인 하시면 이용하실 수 있습니다.`);
 
-    const comment_id: string = createdAt + user_id;
-
-    switch (true) {
-      case type === "revise":
-        dispatch(modalActions.clickReviseButton({ comment_id }));
-        break;
-      case type === "delete":
-        dispatch(modalActions.openDeleteModal({ comment_id }));
-        break;
-      default:
-        dispatch(reportActions.setReport({ comment_data, userData }));
-    }
+    if (type === "revise")
+      dispatch(modalActions.clickReviseButton({ comment_id }));
+    else if (type === "delete")
+      dispatch(modalActions.openDeleteModal({ comment_id }));
+    else if (type === "report")
+      dispatch(modalActions.openReportModal({ comment_id }));
   };
 
   return (
     <div className="option-box" ref={boxRef}>
-      {user_id === userData.user_id ? (
+      {comment_user_id === current_user_id ? (
         <>
           <p className="option-revise" onClick={() => clickHandler("revise")}>
             수정

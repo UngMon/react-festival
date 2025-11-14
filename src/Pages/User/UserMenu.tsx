@@ -23,7 +23,7 @@ const UserMenu = ({ setCategory, userData }: T) => {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
-  const { user_photo, user_name } = userData;
+  const { current_user_photo, current_user_name } = userData;
   const [openSide, setOpenSide] = useState<boolean>(false);
 
   useEffect(() => {
@@ -93,10 +93,10 @@ const UserMenu = ({ setCategory, userData }: T) => {
           <h3>나의 활동</h3>
           <div className="user-icon">
             <div>
-              <img src={user_photo} alt="user-icon" />
+              <img src={current_user_photo} alt="user-icon" />
             </div>
             <div>
-              <span>{user_name}</span>
+              <span>{current_user_name}</span>
             </div>
           </div>
           <ul className="user-menu-list">

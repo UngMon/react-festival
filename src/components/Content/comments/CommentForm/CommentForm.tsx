@@ -5,7 +5,7 @@ import { originCommentActions } from "store/origin_comment-slice";
 import { db } from "../../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { Comment } from "type/DataType";
+import { CommentType } from "type/DataType";
 import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 import "./CommentForm.css";
 
@@ -15,23 +15,23 @@ interface T {
 }
 
 const CommentForm = ({ content_type, content_id }: T) => {
-  console.log("UserCommentForm Component Render");
   const dispatch = useAppDispatch();
 
   const { detailCommon } = useSelector((state: RootState) => state.content);
 
   const userData = useSelector((state: RootState) => state.firebase);
-  const { user_id, user_name, user_photo, status } = userData;
+  const { current_user_name, current_user_id, current_user_photo, status } =
+    userData;
 
   const [loading, setLoading] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!detailCommon || !detailCommon[0].title)
-      return alert("데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
+    // if (!detailCommon || !detailCommon[0].title)
+    //   return alert("관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
 
-    if (user_id === "") return alert("비정상적인 접근입니다.");
+    if (current_user_id === "") return alert("비정상적인 접근입니다.");
 
     let text = textRef.current!.value;
 
@@ -40,24 +40,25 @@ const CommentForm = ({ content_type, content_id }: T) => {
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
-
-    const field_data: Comment = {
+    // title: detailCommon[0].title || detailCommon[1].title,
+    // url: detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
+    const field_data: CommentType = {
       content_type,
       content_id,
-      content_title: detailCommon[0].title || detailCommon[1].title,
-      text: [text, "", ""],
-      user_id,
-      user_name,
-      user_photo,
+      content_title: "Test Title",
+      text,
+      user_id: current_user_id,
+      user_name: current_user_name,
+      user_photo: current_user_photo,
       createdAt,
       origin_id: null,
       parent_id: null,
       parent_name: null,
+      parent_user_id: null,
       like_count: 0,
       reply_count: 0,
       updatedAt: null,
-      image_url:
-        detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
+      image_url: "",
       like_users: {},
     };
 
@@ -100,7 +101,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
           <div className="comment-button-box">
             {status === "fulfilled" && (
               <>
-                {user_id === "" ? (
+                {current_user_id === "" ? (
                   <button type="button">
                     <Link to="/login">로그인</Link>
                   </button>

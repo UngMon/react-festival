@@ -1,8 +1,7 @@
-import { PickComment } from "../../../../type/UserDataType";
-import { Comment } from "../../../../type/DataType";
+import { CommentType } from "../../../../type/DataType";
 import { useSelector } from "react-redux";
+import { modalActions } from "store/modal-slice";
 import { RootState, useAppDispatch } from "../../../../store/store";
-import { modalActions } from "../../../../store/modal-slice";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import OptionModal from "../Modal/OptionModal";
@@ -10,39 +9,28 @@ import DeleteModal from "../Modal/DeleteModal";
 import ReportModal from "../Modal/ReportModal";
 
 interface T {
-  origin_index: number;
-  reply_index?: number;
   type: string;
-  modalInfo: PickComment;
-  comment_data: Comment;
+  comment_data: CommentType;
 }
 
-const CommentOption = ({
-  origin_index,
-  reply_index,
-  type,
-  modalInfo,
-  comment_data,
-}: T) => {
+const CommentOption = ({ type, comment_data }: T) => {
   const dispatch = useAppDispatch();
-  const reportState = useSelector((state: RootState) => state.report);
-  const userData = useSelector((state: RootState) => state.firebase);
   const comment_id = comment_data.createdAt + comment_data.user_id;
+
+  const openOption = useSelector((state: RootState) => state.modal.openOption);
+  const openDelete = useSelector((state: RootState) => state.modal.openDelete);
+  const openReport = useSelector((state: RootState) => state.modal.openReport);
+  const current_id = useSelector((state: RootState) => state.modal.current_id);
 
   const optionClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (modalInfo.comment_id === comment_id) {
+    if (current_id === comment_id) {
       // 같은 댓글의 옵션 버튼을 클릭할 경우, pickedComment 상태 초기화
       dispatch(modalActions.clearModalInfo({ comment_id }));
     } else {
       // 다른 댓글의 옵션 버튼을 클릭할 경우, pcikedComment 상태 갱신
-      dispatch(
-        modalActions.openOptionModal({
-          comment_id,
-          comment_data,
-        })
-      );
+      dispatch(modalActions.openOptionModal({ comment_id }));
     }
   };
 
@@ -53,18 +41,21 @@ const CommentOption = ({
         onClick={(event) => optionClickHandler(event)}
         icon={faEllipsisVertical}
       />
-      {modalInfo.open === comment_id && (
-        <OptionModal comment_data={comment_data} userData={userData} />
-      )}
-      {modalInfo.delete === comment_id && (
-        <DeleteModal
-          type={type}
-          modalInfo={modalInfo}
-          origin_index={origin_index}
-          reply_index={reply_index}
+      {openOption === comment_id && (
+        <OptionModal
+          comment_id={comment_id}
+          comment_user_id={comment_data.user_id}
+          // userData={userData}
         />
       )}
-      {reportState.open === comment_id && <ReportModal />}
+      {openDelete === comment_id && (
+        <DeleteModal
+          type={type}
+          comment_data={comment_data}
+          // modalInfo={modalInfo}
+        />
+      )}
+      {openReport === comment_id && <ReportModal comment_data={comment_data} />}
     </div>
   );
 };

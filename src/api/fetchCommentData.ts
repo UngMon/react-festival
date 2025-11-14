@@ -9,7 +9,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { Comment } from "type/DataType";
+import { CommentType } from "type/DataType";
 
 export const fetchCommentData = async (
   origin_id: string | null,
@@ -19,7 +19,7 @@ export const fetchCommentData = async (
   const commentRef = collection(db, "comments");
 
   let lastDataIndex: string = "";
-  let comment_datas: Comment[] = [];
+  let comment_datas: CommentType[] = [];
 
   try {
     let queryConstraints: QueryConstraint[] = [
@@ -34,10 +34,10 @@ export const fetchCommentData = async (
     const queryToRun = query(commentRef, ...queryConstraints);
     const querySnapshot = await getDocs(queryToRun);
 
-    comment_datas = querySnapshot.docs.map((doc) => doc.data()) as Comment[];
+    comment_datas = querySnapshot.docs.map((doc) => doc.data()) as CommentType[];
 
     if (comment_datas.length > 0) lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
-    if (comment_datas.length < 4) lastDataIndex = "finish";
+    if (comment_datas.length < 10) lastDataIndex = "finish";
   } catch (error) {
     lastDataIndex = "finish";
     throw error;

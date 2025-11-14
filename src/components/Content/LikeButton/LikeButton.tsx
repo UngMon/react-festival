@@ -13,7 +13,7 @@ interface T {
 }
 
 const LikeButton = ({ content_id }: T) => {
-  const { status, user_id } = useSelector((state: RootState) => state.firebase);
+  const { status, current_user_id } = useSelector((state: RootState) => state.firebase);
   const { detailCommon } = useSelector((state: RootState) => state.content);
   const [loading, setLoading] = useState<boolean>(true);
   const [like_count, setLikeCount] = useState<number>(0);
@@ -24,17 +24,17 @@ const LikeButton = ({ content_id }: T) => {
 
   useEffect(() => {
     if (!loading || status === "pending") return;
-    if (status === "fulfilled" && user_id === "") {
+    if (status === "fulfilled" && current_user_id === "") {
       return setLoading(false);
     }
 
     const getFeelingData = async () => {
       const feelRef = doc(db, "content", content_id);
-      const userRef = doc(db, "userData", user_id, "content", content_id);
-      console.log(user_id, content_id);
+      const userRef = doc(db, "userData", current_user_id, "content", content_id);
+      console.log(current_user_id, content_id);
       try {
         const promise = [getDoc(feelRef)];
-        if (user_id) promise.push(getDoc(userRef));
+        if (current_user_id) promise.push(getDoc(userRef));
         let existFeelData = false;
         let existUserLike = false;
 
@@ -59,10 +59,10 @@ const LikeButton = ({ content_id }: T) => {
     };
 
     getFeelingData();
-  }, [content_id, loading, user_id, status]);
+  }, [content_id, loading, current_user_id, status]);
 
   const handler = async () => {
-    if (user_id === "") return alert("로그인 하시면 이용하실 수 있습니다.");
+    if (current_user_id === "") return alert("로그인 하시면 이용하실 수 있습니다.");
 
     if (!detailCommon || detailCommon?.length === 0)
       return alert("콘텐츠 정보를 불러오지 못해 이용하실 수 없습니다.");
@@ -70,7 +70,7 @@ const LikeButton = ({ content_id }: T) => {
     const batch = writeBatch(db);
 
     const feelRef = doc(db, "content", content_id);
-    const userRef = doc(db, "userData", user_id, "content", content_id);
+    const userRef = doc(db, "userData", current_user_id, "content", content_id);
     let countChange: number = 0;
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
@@ -87,7 +87,7 @@ const LikeButton = ({ content_id }: T) => {
           cotnent_id: contentid,
           content_title: title,
           image_url: firstimage || firstimage2 || "",
-          user_id,
+          current_user_id,
           createdAt,
         };
 

@@ -14,7 +14,9 @@ import "./LoginPage.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const userData = useSelector((state: RootState) => state.firebase);
+  const current_user_id = useSelector(
+    (state: RootState) => state.firebase.current_user_id
+  );
   const [errorCode, setErrorCode] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(() => {
@@ -26,7 +28,7 @@ const LoginPage = () => {
     const isRedirecting = sessionStorage.getItem("firebaseRedirect") === "true";
     const previouseUrl =
       JSON.parse(sessionStorage.getItem("previouseUrl")!) ?? "/";
-      
+
     if (isRedirecting) {
       getRedirectResult(auth)
         .then((result) => {
@@ -48,7 +50,7 @@ const LoginPage = () => {
   return (
     <>
       {loading && <LoadingThree />}
-      {userData.user_id ? (
+      {current_user_id ? (
         <LoginAccessError />
       ) : (
         !loading && (

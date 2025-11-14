@@ -22,11 +22,11 @@ export interface DataType {
   행사상태: [boolean, boolean, boolean];
 }
 
-export interface Comment {
+export interface CommentType {
   content_type: string;
   content_id: string;
   content_title: string;
-  text: [string, string, string];
+  text: string;
   user_id: string;
   user_name: string;
   user_photo: string;
@@ -34,8 +34,9 @@ export interface Comment {
   origin_id: null | string;
   parent_id: null | string;
   parent_name: null | string;
+  parent_user_id: null | string;
   like_count: number;
-  reply_count?: number;
+  reply_count: number;
   updatedAt: null | string;
   image_url: string;
   like_users: Record<string, boolean>;
@@ -69,20 +70,20 @@ export interface ContentFeel {
 }
 
 export interface OriginComment {
-  comments: Comment[];
+  comments: CommentType[];
   afterIndex: string;
 }
 
 export interface ReplyComment {
-  reply_comments: Record<string, Comment[]>;
+  reply_comments: Record<string, CommentType[]>;
   last_index: Record<string, string>;
 }
 
 export interface Log {
   likedComment: Record<string, LikedComment[]>;
   likedContent: Record<string, LikedContent[]>;
-  myComment: Record<string, Comment[]>;
+  myComment: Record<string, CommentType[]>;
   afterIndex: Record<string, string>;
 }
 
-export type FetchLogDataType = (Comment | LikedComment | LikedContent)[];
+export type FetchLogDataType = (CommentType | LikedComment | LikedContent)[];

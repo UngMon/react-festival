@@ -43,7 +43,6 @@ const CommentArea = ({ content_id }: T) => {
           })
         );
       } catch (error: any) {
-        console.error(error.message);
         alert("댓글을 불러오지 못 했습니다.");
       } finally {
         setTimeout(() => {
@@ -53,7 +52,7 @@ const CommentArea = ({ content_id }: T) => {
     };
 
     getCommentData();
-  }, [dispatch, intersecting, comments, afterIndex, content_id]);
+  }, [dispatch, intersecting, afterIndex, content_id]);
 
   return (
     <div className="comments-area">
@@ -67,19 +66,17 @@ const CommentArea = ({ content_id }: T) => {
             key={item.createdAt + item.user_id}
           >
             <CommentBox
-              origin_index={index}
               type={"origin"}
               deepth={0}
               comment_data={item}
             />
-            <ReplyArea origin_index={index} comment_data={item} />
+            <ReplyArea comment_data={item} />
           </div>
         ))}
-      <div className="comment-target" ref={targetRef}>
-        {intersecting && afterIndex !== "finish" && (
-          <LoadingSpinnerTwo width="20px" padding="7px" />
-        )}
-      </div>
+      {intersecting && afterIndex !== "finish" && (
+        <LoadingSpinnerTwo width="20px" padding="7px" />
+      )}
+      <div className="comment-target" ref={targetRef}></div>
     </div>
   );
 };

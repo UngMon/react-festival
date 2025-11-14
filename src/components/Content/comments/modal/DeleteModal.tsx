@@ -1,32 +1,26 @@
+import { CommentType } from "type/DataType";
 import { useEffect } from "react";
-import { PickComment } from "type/UserDataType";
 import { useAppDispatch } from "store/store";
+import { db } from "../../../../firebase";
 import { modalActions } from "store/modal-slice";
 import { myReplyActions } from "store/my_reply-slice";
 import { replyActions } from "store/reply-slice";
 import { originCommentActions } from "store/origin_comment-slice";
-import { db } from "../../../../firebase";
-import { doc, increment, writeBatch } from "firebase/firestore";
+import { doc, increment, runTransaction, writeBatch } from "firebase/firestore";
 import "./DeleteModal.css";
 
 interface DeleteProps {
-  modalInfo: PickComment;
-  origin_index: number;
-  reply_index?: number;
+  comment_data: CommentType;
   type: string;
 }
 
-const DeleteModal = ({
-  modalInfo,
-  origin_index,
-  reply_index,
-  type,
-}: DeleteProps) => {
+const DeleteModal = ({ comment_data, type }: DeleteProps) => {
   const dispatch = useAppDispatch();
-  const { comment_data, comment_id } = modalInfo;
+  const { createdAt, user_id, origin_id } = comment_data;
+  const comment_id = createdAt + user_id;
 
   const clearModalInfo = () => {
-    dispatch(modalActions.clearModalInfo({ comment_id }));
+    dispatch(modalActions.clearModalInfo({ comment_id, type }));
   };
 
   useEffect(() => {
@@ -42,47 +36,60 @@ const DeleteModal = ({
   });
 
   const deleteCommentHandler = async () => {
+    if (!comment_id) return alert("댓글 정보가 없습니다.");
     const batch = writeBatch(db);
+    let isExisingOrigin = false;
     clearModalInfo();
 
     try {
-      const origin_id = comment_data?.origin_id;
-
       if (origin_id) {
-        const deleteDocRef = doc(db, "comments", comment_id);
         const originalDocRef = doc(db, "comments", origin_id);
+        const deleteDocRef = doc(db, "comments", comment_id);
 
-        batch.delete(deleteDocRef);
-        batch.update(originalDocRef, { reply_count: increment(-1) });
-        await batch.commit();
+        await runTransaction(db, async (transaction) => {
+          const deleteDocSnapshot = await transaction.get(deleteDocRef);
+          const originalDocSnapshot = await transaction.get(originalDocRef);
+
+          if (originalDocSnapshot.exists()) {
+            transaction.update(originalDocRef, {
+              reply_count: increment(-1),
+            });
+            isExisingOrigin = true;
+          }
+
+          if (deleteDocSnapshot.exists()) transaction.delete(deleteDocRef);
+        });
 
         /* 1. 내가 작성한 답글 삭제 (my) => myReply 상태만 업데이트 */
         if (type === "my") {
+          console.log("my");
           dispatch(myReplyActions.deleteMyReply({ origin_id, comment_id }));
         }
 
-        /* 답글 삭제 (to-reply) => replyComments 상태만 업데이트 */
-        if (type === "reply" && reply_index !== undefined) {
-          dispatch(replyActions.deleteReply({ reply_index, origin_id }));
-          dispatch(
-            originCommentActions.changeReplyCount({ origin_index, type })
-          );
+        /* 답글 삭제 (reply) => replyComments, originComment 상태 업데이트 */
+        if (type === "reply") {
+          if (isExisingOrigin) {
+            dispatch(
+              originCommentActions.changeReplyCount({
+                type,
+                comment_id: origin_id,
+              })
+            );
+          }
+          dispatch(replyActions.deleteReply({ origin_id, comment_id }));
         }
-      }
-
-      if (!origin_id) {
-        const originalDocRef = doc(db, "comments", comment_id!);
-
+      } else {
+        const originalDocRef = doc(db, "comments", comment_id);
         batch.delete(originalDocRef);
-
         await batch.commit();
+
         dispatch(replyActions.deleteReply({ origin_id: comment_id }));
         dispatch(myReplyActions.deleteMyReply({ origin_id: comment_id }));
-        dispatch(originCommentActions.deleteComment({ origin_index }));
+        dispatch(originCommentActions.deleteComment({ comment_id }));
       }
     } catch (error: any) {
-      console.log(error)
-      alert(`오류가 발생했습니다. 지속적인 오류가 발생한다면 문의해주세요!`);
+      console.error(error);
+      alert(`오류가 발생했습니다!`);
     }
   };
 

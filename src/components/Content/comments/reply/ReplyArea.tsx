@@ -1,41 +1,65 @@
-import { Comment } from "type/DataType";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import CommentBox from "../Reviews/CommentBox";
-import ReplyBox from "./ReplyBox";
+import React, { useState } from "react";
+import { CommentType } from "type/DataType";
+import Replies from "./Replies";
+import MyReply from "./MyReply";
+import MoreReplyButton from "./MoreReplyButton";
+import ShowReplies from "./ShowReplies";
 import "./ReplyArea.css";
 
 interface T {
-  comment_data: Comment;
-  origin_index: number;
+  comment_data: CommentType;
 }
 
-const ReplyArea = ({ comment_data, origin_index }: T) => {
-  const myReply = useSelector((state: RootState) => state.myReply);
-  const { reply_count, createdAt, user_id } = comment_data;
+const ReplyArea = ({ comment_data }: T) => {
+  console.log("ReplyArea Rendering");
+  const [open, setOpen] = useState(false);
+  const { reply_count, createdAt, user_id, content_id } = comment_data;
+
+  const origin_id = createdAt + user_id;
+  const isExisting = open && reply_count > 0;
 
   return (
     <div className="reply-area">
-      {reply_count! > 0 && (
-        <ReplyBox
-          origin_index={origin_index}
-          comment_data={comment_data}
-          myReply={myReply}
+      {reply_count > 0 && (
+        <ShowReplies
+          open={open}
+          setOpen={setOpen}
+          reply_count={reply_count}
+          origin_id={origin_id}
+          content_id={content_id}
         />
       )}
-      {myReply[createdAt + user_id] &&
-        Object.values(myReply[createdAt + user_id]).map((item, index) => (
-          <CommentBox
-            origin_index={origin_index}
-            reply_index={index}
-            key={item.createdAt + item.user_id}
-            deepth={0}
-            type={"my"}
-            comment_data={item}
-          />
-        ))}
+      {isExisting && <Replies origin_id={origin_id} />}
+      <MyReply origin_id={origin_id} />
+      {isExisting && (
+        <MoreReplyButton origin_id={origin_id} content_id={content_id} />
+      )}
     </div>
   );
 };
 
-export default ReplyArea;
+export default React.memo(ReplyArea);
+//   return (
+//     <div className="reply-area">
+//       {reply_count > 0 && (
+//         <ShowReplies
+//           open={open}
+//           setOpen={setOpen}
+//           reply_count={reply_count}
+//           origin_id={origin_id}
+//           content_id={content_id}
+//         />
+//       )}
+//       {isExisting && (
+//         <Replies origin_id={origin_id} origin_index={origin_index} />
+//       )}
+//       <MyReply origin_id={origin_id} origin_index={origin_index} />
+//       {isExisting && (
+//         <MoreReplyButton
+//           origin_id={origin_id}
+//           content_id={content_id}
+//         />
+//       )}
+//     </div>
+//   );
+// };

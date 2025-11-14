@@ -1,6 +1,6 @@
-import { Comment } from "../../../../type/DataType";
 import { db } from "../../../../firebase";
 import { useSelector } from "react-redux";
+import { CommentType } from "../../../../type/DataType";
 import { deleteField, doc, increment, writeBatch } from "firebase/firestore";
 import { RootState, useAppDispatch } from "../../../../store/store";
 import { originCommentActions } from "../../../../store/origin_comment-slice";
@@ -14,20 +14,15 @@ import "./CommentResponse.css";
 
 interface T {
   type: string;
-  origin_index: number;
-  reply_index?: number;
-  comment_data: Comment;
+  comment_data: CommentType;
 }
 
-const CommentResponse = ({
-  type,
-  origin_index,
-  reply_index,
-  comment_data,
-}: T) => {
+const CommentResponse = ({ type, comment_data }: T) => {
   const dispatch = useAppDispatch();
   const { user_id, createdAt, origin_id, like_count } = comment_data;
-  const currentUserId = useSelector((state: RootState) => state.firebase.user_id);
+  const currentUserId = useSelector(
+    (state: RootState) => state.firebase.current_user_id
+  );
 
   const emotionOfRecord: boolean | undefined =
     comment_data.like_users[currentUserId];
@@ -42,38 +37,32 @@ const CommentResponse = ({
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
 
-    if (type === "origin") {
+    if (type === "origin")
       dispatch(
         originCommentActions.likeComment({
-          origin_index,
+          comment_id: createdAt + user_id,
           like_count,
           user_id: currentUserId,
         })
       );
-    }
-
-    if (origin_id && reply_index !== undefined) {
-      if (type === "reply")
-        dispatch(
-          replyActions.likeComment({
-            origin_id: origin_id!,
-            reply_index: reply_index!,
-            user_id: currentUserId,
-            like_count,
-          })
-        );
-
-      if (type === "my") {
-        dispatch(
-          myReplyActions.likeComment({
-            origin_id,
-            comment_id: createdAt + user_id,
-            user_id: currentUserId,
-            like_count,
-          })
-        );
-      }
-    }
+    else if (type === "reply")
+      dispatch(
+        replyActions.likeComment({
+          origin_id: origin_id!,
+          reply_id: createdAt + user_id,
+          user_id: currentUserId,
+          like_count,
+        })
+      );
+    else if (type === "my")
+      dispatch(
+        myReplyActions.likeComment({
+          origin_id: origin_id!,
+          comment_id: createdAt + user_id,
+          user_id: currentUserId,
+          like_count,
+        })
+      );
 
     try {
       // Firestore 문서 업데이트
