@@ -9,7 +9,6 @@ interface T {
 }
 
 const MyReply = ({ origin_id }: T) => {
-  console.log("MyReply");
   const myReply = useSelector((state: RootState) => state.myReply);
 
   if (!myReply[origin_id]) return null;

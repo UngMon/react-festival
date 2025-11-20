@@ -49,6 +49,8 @@ const ReportModal = ({ comment_data }: T) => {
 
     if (report_reason === "") return alert("신고 사유를 선택해주세요!");
 
+    let api_state: string = "";
+
     const report_time = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
@@ -64,6 +66,8 @@ const ReportModal = ({ comment_data }: T) => {
       createdAt,
     } = comment_data;
 
+    dispatch(modalActions.clearModalInfo({ type: "report" }));
+
     try {
       await setDoc(contentRef, {
         content_type,
@@ -78,10 +82,11 @@ const ReportModal = ({ comment_data }: T) => {
         reporter_name: current_user_name,
         report_time,
       });
+      api_state = "댓글을 신고 했습니다.";
     } catch (error: any) {
-      alert(error.message);
+      api_state = "오류가 발생했습니다.";
     } finally {
-      clickCancelHandler();
+      dispatch(modalActions.toggleToastModal({ api_state }));
     }
   };
 

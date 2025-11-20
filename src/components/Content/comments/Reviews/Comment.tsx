@@ -20,7 +20,6 @@ const Comment = ({ type, comment_data }: T) => {
     parent_name,
   } = comment_data;
   const isExistMention = parent_user_id && user_id !== parent_user_id;
-  console.log(text, isExistMention);
 
   return (
     <div className="comment-container">

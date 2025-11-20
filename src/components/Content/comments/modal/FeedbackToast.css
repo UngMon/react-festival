@@ -1,0 +1,51 @@
+.feedback-toast {
+  position: fixed;
+  bottom: 10px;
+  left: 5%;
+  border-radius: 10px;
+  background-color: rgb(231, 231, 231);
+  
+  transform: translateY(150%); /* 기본 상태: 화면 아래로 숨김 */
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease-in;
+  z-index: 15;
+  will-change: transform, opacity; /* 브라우저에게 변경 힌트 제공 */
+}
+
+/* 활성화 클래스 */
+.feedback-toast.active {
+  transform: translateY(0); /* 원래 위치로 이동 */
+  opacity: 1;
+}
+
+.feedback-toast p {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0; /* p 태그 기본 마진 제거 권장 */
+}
+
+/* .feedback-toast {
+  position: fixed;
+  bottom: -50px;
+  left: 5%;
+  border-radius: 10px;
+  transition: all .5s linear;
+  z-index: 15;
+  opacity: 0;
+}
+
+.feed-up {
+  background-color: rgb(231, 231, 231);
+  opacity: 1;
+  bottom: 10px;
+}
+
+.feedback-toast p {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+} */
+

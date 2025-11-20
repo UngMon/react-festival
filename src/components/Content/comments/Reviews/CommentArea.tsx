@@ -14,7 +14,6 @@ interface T {
 }
 
 const CommentArea = ({ content_id }: T) => {
-  console.log("CommentBox Component Render");
   const dispatch = useAppDispatch();
   const { comments, afterIndex } = useSelector(
     (state: RootState) => state.origin_comment

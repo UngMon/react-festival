@@ -11,7 +11,6 @@ interface T {
 }
 
 const ReplyArea = ({ comment_data }: T) => {
-  console.log("ReplyArea Rendering");
   const [open, setOpen] = useState(false);
   const { reply_count, createdAt, user_id, content_id } = comment_data;
 

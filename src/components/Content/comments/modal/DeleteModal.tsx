@@ -39,7 +39,8 @@ const DeleteModal = ({ comment_data, type }: DeleteProps) => {
     if (!comment_id) return alert("댓글 정보가 없습니다.");
     const batch = writeBatch(db);
     let isExisingOrigin = false;
-    clearModalInfo();
+    let api_state = "";
+    dispatch(modalActions.clearModalInfo({ type: "delete" }));
 
     try {
       if (origin_id) {
@@ -62,7 +63,6 @@ const DeleteModal = ({ comment_data, type }: DeleteProps) => {
 
         /* 1. 내가 작성한 답글 삭제 (my) => myReply 상태만 업데이트 */
         if (type === "my") {
-          console.log("my");
           dispatch(myReplyActions.deleteMyReply({ origin_id, comment_id }));
         }
 
@@ -87,9 +87,11 @@ const DeleteModal = ({ comment_data, type }: DeleteProps) => {
         dispatch(myReplyActions.deleteMyReply({ origin_id: comment_id }));
         dispatch(originCommentActions.deleteComment({ comment_id }));
       }
+      api_state = "댓글을 삭제했습니다.";
     } catch (error: any) {
-      console.error(error);
-      alert(`오류가 발생했습니다!`);
+      api_state = "오류가 발생했습니다.";
+    } finally {
+      dispatch(modalActions.toggleToastModal({ api_state }));
     }
   };
 

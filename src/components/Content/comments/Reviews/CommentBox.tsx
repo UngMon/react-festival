@@ -13,7 +13,6 @@ interface T {
 }
 
 const CommentBox = ({ type, deepth, comment_data }: T) => {
-  console.log("Comment Box origin_index:", comment_data.text);
   const comment_id = comment_data.createdAt + comment_data.user_id;
 
   const isRevise = useSelector(
@@ -38,29 +37,3 @@ const CommentBox = ({ type, deepth, comment_data }: T) => {
 };
 
 export default React.memo(CommentBox);
-//  {!isRevise ? (
-//     <Comment
-//       type={type}
-//       // origin_index={origin_index}
-//       // reply_index={reply_index}
-//       comment_data={comment_data}
-//       // modalInfo={modalInfo}
-//     />
-//   ) : (
-//     <ReplyOrReviseComment
-//       deepth={deepth}
-//       type={"revise-" + type}
-//       // origin_index={origin_index}
-//       // reply_index={reply_index}
-//       comment_data={comment_data}
-//     />
-//   )}
-//   {isReply && (
-//     <ReplyOrReviseComment
-//       deepth={1}
-//       type={"reply-" + type}
-//       // origin_index={origin_index}
-//       // reply_index={reply_index}
-//       comment_data={comment_data}
-//     />
-//   )}

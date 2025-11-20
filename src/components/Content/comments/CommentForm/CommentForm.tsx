@@ -28,8 +28,8 @@ const CommentForm = ({ content_type, content_id }: T) => {
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!detailCommon || !detailCommon[0].title)
-    //   return alert("관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
+    if (!detailCommon || !detailCommon[0].title)
+      return alert("관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
 
     if (current_user_id === "") return alert("비정상적인 접근입니다.");
 
@@ -40,12 +40,11 @@ const CommentForm = ({ content_type, content_id }: T) => {
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
-    // title: detailCommon[0].title || detailCommon[1].title,
-    // url: detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
+
     const field_data: CommentType = {
       content_type,
       content_id,
-      content_title: "Test Title",
+      content_title: detailCommon[0].title || detailCommon[1].title,
       text,
       user_id: current_user_id,
       user_name: current_user_name,
@@ -58,7 +57,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
       like_count: 0,
       reply_count: 0,
       updatedAt: null,
-      image_url: "",
+      image_url: detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
       like_users: {},
     };
 

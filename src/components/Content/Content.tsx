@@ -6,6 +6,7 @@ import MenuBar from "./MenuBar/MenuBar";
 import LikeButton from "./LikeButton/LikeButton";
 import CommentForm from "./Comments/CommentForm/CommentForm";
 import CommentArea from "./Comments/Reviews/CommentArea";
+import FeedbackToast from "./Comments/Modal/FeedbackToast";
 import "./Content.css";
 
 const Cotent = () => {
@@ -18,20 +19,21 @@ const Cotent = () => {
 
   return (
     <main className="Content">
-      {/* <Slider content_id={content_id} />
+      <Slider content_id={content_id} />
       <MenuBar infoRef={infoRef} reviewRef={reviewRef} />
       <Detail
         infoRef={infoRef}
         content_id={content_id}
         content_type={content_type}
-      /> */}
+      />
       <section className="Content-Review">
-        {/* <LikeButton content_id={content_id} /> */}
+        <LikeButton content_id={content_id} />
         <div ref={reviewRef}>
           <CommentForm content_type={content_type} content_id={content_id} />
           <CommentArea content_id={content_id} />
         </div>
       </section>
+      <FeedbackToast />
     </main>
   );
 };

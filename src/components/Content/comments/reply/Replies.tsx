@@ -7,8 +7,6 @@ interface T {
 }
 
 const Replies = ({ origin_id }: T) => {
-  console.log("Reply Box Render!");
-
   const reply_comments = useSelector(
     (state: RootState) => state.reply.reply_comments
   );

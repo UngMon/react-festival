@@ -18,6 +18,8 @@ export interface ModalType {
   openOption: string;
   openDelete: string;
   openReport: string;
+  open_toast: boolean;
+  api_state: string;
   revise: Record<string, boolean>;
   reply: Record<string, boolean>;
 }

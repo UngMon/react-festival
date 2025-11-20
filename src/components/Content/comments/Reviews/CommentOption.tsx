@@ -45,15 +45,10 @@ const CommentOption = ({ type, comment_data }: T) => {
         <OptionModal
           comment_id={comment_id}
           comment_user_id={comment_data.user_id}
-          // userData={userData}
         />
       )}
       {openDelete === comment_id && (
-        <DeleteModal
-          type={type}
-          comment_data={comment_data}
-          // modalInfo={modalInfo}
-        />
+        <DeleteModal type={type} comment_data={comment_data} />
       )}
       {openReport === comment_id && <ReportModal comment_data={comment_data} />}
     </div>
