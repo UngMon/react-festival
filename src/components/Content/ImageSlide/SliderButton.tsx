@@ -20,7 +20,6 @@ const SliderButton = ({
 
   const buttonClickHandler = (type: string, newIndex: number) => {
     if (disabled) return;
-    console.log(newIndex);
     if (imageLength === 2 && (newIndex > 1 || newIndex < 0)) return;
 
     setDisabled(true);

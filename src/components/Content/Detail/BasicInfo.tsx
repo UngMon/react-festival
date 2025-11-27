@@ -10,7 +10,6 @@ interface BasicProps {
 }
 
 const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
-  console.log("BasicInfo Component Render");
   const Intro: { [key: string]: string } = detailIntro[0];
 
   const convertHtmlToText = (text: string) => {
@@ -28,7 +27,7 @@ const BasicInfo = ({ detailIntro, detailCommon, content_type }: BasicProps) => {
   };
 
   const homepage = convertHtmlToText(detailCommon[0].homepage);
-  console.log(detailCommon[0].homepage.length)
+
   return (
     <ul className="Content-table">
       {detailCommon[0].tel && (

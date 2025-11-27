@@ -1,6 +1,6 @@
 import { CheckParams } from "../hooks/useCheckParams";
 
-export type TitleType =
+export type TourDataType =
   | "tour"
   | "culture"
   | "festival"
@@ -53,7 +53,7 @@ export type PageCountRespon = ApiResponse<[{ totalCnt: string }] | "">;
 export interface FetchParams {
   numOfRows: number;
   page?: number;
-  title: TitleType;
+  tourDataType: TourDataType;
   params: CheckParams;
 }
 
@@ -66,7 +66,7 @@ export interface FetchTourData {
   cat2?: string;
   cat3?: string;
   contentTypeId?: string;
-  title: TitleType;
+  tourDataType: TourDataType;
   keyword?: string;
 }
 

@@ -27,7 +27,6 @@ const Input = ({ params }: T) => {
   };
 
   const listClickHandler = (tpye_num: string) => {
-    console.log("/????");
     setContentType(tpye_num);
     navigate(`/search?keyword=${text}&contentTypeId=${tpye_num}`);
   };

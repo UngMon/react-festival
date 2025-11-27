@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { TitleType } from "./type/FetchType";
+import { TourDataType } from "./type/FetchType";
 import RootLayout from "./pages/Root";
 import Loading from "./components/Loading/Loading";
 import GetDataError from "./components/Error/GetDataError";
@@ -28,7 +28,7 @@ const withSuspense = <P extends object>(
   </Suspense>
 );
 
-const pathArray: TitleType[] = [
+const pathArray: TourDataType[] = [
   "tour", "culture", "festival", "travel",
   "leports", "lodging", "shoping", "restaurant", "search",
 ];
@@ -40,9 +40,9 @@ const router = createBrowserRouter([
     errorElement: <GetDataError />,
     children: [
       { index: true, element: <MainVisual /> },
-      ...pathArray.map((title) => ({
-        path: title,
-        element: withSuspense(Main, { title }),
+      ...pathArray.map((tourDataType) => ({
+        path: tourDataType,
+        element: withSuspense(Main, { tourDataType }),
       })),
       {
         path: "content",

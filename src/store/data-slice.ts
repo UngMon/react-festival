@@ -31,14 +31,10 @@ const dataSlice = createSlice({
     행사상태설정(state, action) {
       state.행사상태 = action.payload;
     },
-    changeHttpState(state) {
-      state.successGetData = !state.successGetData;
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTourApi.pending, (state, action) => {
-        state.successGetData = false;
+      .addCase(fetchTourApi.pending, (state) => {
         state.httpState = "pending";
         state.loading = true;
       })
@@ -46,7 +42,7 @@ const dataSlice = createSlice({
         fetchTourApi.fulfilled,
         (state, action: PayloadAction<FetchTourData>) => {
           const {
-            title,
+            tourDataType,
             numOfRows,
             responseData,
             page,
@@ -60,22 +56,21 @@ const dataSlice = createSlice({
 
           if (!("response" in responseData)) {
             // api 요청 에러 발생
-            state.successGetData = false;
-            state.httpState = "fulfilled";
+            state.httpState = "rejected";
             state.loading = false;
-            return console.error(`Error Message: ${responseData.resultMsg}`);
+            console.error(`Error Message: ${responseData.resultMsg}`)
+            return;
           }
 
           let page_key: string = "";
           let totalCount: number = responseData.response.body.totalCount;
 
-          state.successGetData = true;
           state.httpState = "fulfilled";
           state.loading = false;
 
-          if (title === "search") {
+          if (tourDataType === "search") {
             page_key = `${contentTypeId}-${keyword}-${page}`;
-          } else if (title === "festival") {
+          } else if (tourDataType === "festival") {
             page_key = "data";
           } else {
             page_key = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}-${numOfRows}-${page}`;
@@ -86,14 +81,14 @@ const dataSlice = createSlice({
           if (tourData === "") {
             // API는 성공적으로 응답이 됐지만, 내용이 없는 경우
             state.page_record.push(page_key);
-            state[title][page_key] = {
+            state[tourDataType][page_key] = {
               tourData: [],
               totalCount: 0,
             };
             return;
           }
 
-          if (title === "festival") {
+          if (tourDataType === "festival") {
             let fetstivalArray: Item[] = [];
             const TodayYear = `${new Date().getFullYear()}0101`;
 
@@ -110,7 +105,7 @@ const dataSlice = createSlice({
             );
           }
 
-          state[title][page_key] = {
+          state[tourDataType][page_key] = {
             tourData,
             totalCount,
           };
@@ -118,8 +113,8 @@ const dataSlice = createSlice({
           if (state.page_record.length > 19) {
             const delete_key = state.page_record.shift();
 
-            if (delete_key && delete_key in state[title])
-              delete state[title][delete_key];
+            if (delete_key && delete_key in state[tourDataType])
+              delete state[tourDataType][delete_key];
           }
 
           state.page_record.push(page_key);
@@ -127,8 +122,7 @@ const dataSlice = createSlice({
       )
       .addCase(fetchTourApi.rejected, (state) => {
         state.loading = false;
-        state.successGetData = false;
-        state.httpState = "fulfilled";
+        state.httpState = "rejected";
       });
   },
 });

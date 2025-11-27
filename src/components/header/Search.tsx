@@ -39,7 +39,7 @@ const Search = () => {
     const keyword = inputRef.current!.value;
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
-    
+
     navigate(`/search?contentTypeId=${category[0]}&keyword=${keyword}`);
     inputRef.current!.value = "";
     setOpenSearch(false);
@@ -47,13 +47,7 @@ const Search = () => {
 
   return (
     <>
-      <button
-        className="magnifying"
-        onClick={() => {
-          console.log("clickHere");
-          setOpenSearch(true);
-        }}
-      >
+      <button className="magnifying" onClick={() => setOpenSearch(true)}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
       {openSearch && (

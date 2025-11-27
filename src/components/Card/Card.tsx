@@ -1,4 +1,4 @@
-import { TitleType } from "type/FetchType";
+import { TourDataType } from "type/FetchType";
 import { CheckParams } from "hooks/useCheckParams";
 import { useEffect } from "react";
 import { RootState, useAppDispatch } from "store/store";
@@ -12,17 +12,22 @@ import CardItem from "./CardItem";
 import "./Card.css";
 
 interface CardProps {
-  title: TitleType;
+  tourDataType: TourDataType;
   numOfRows: number;
   page: number;
   params: CheckParams;
 }
 
-const Card = ({ title, numOfRows, page, params }: CardProps) => {
-  console.log("Card Render");
+const Card = ({ tourDataType, numOfRows, page, params }: CardProps) => {
+  console.log('Card')
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const tourData = useSelector((state: RootState) => state.data);
+  const key = generatePageKey(tourDataType, params, numOfRows, page);
+  const httpState = useSelector((state: RootState) => state.data.httpState);
+  const page_record = useSelector((state: RootState) => state.data.page_record);
+  const tourData = useSelector(
+    (state: RootState) => state.data[tourDataType][key]
+  );
 
   useEffect(() => {
     if (params.requireRedirect !== "") {
@@ -30,42 +35,49 @@ const Card = ({ title, numOfRows, page, params }: CardProps) => {
       return;
     }
 
-    const key = generatePageKey(title, params, numOfRows, page);
-
-    if (tourData.page_record.includes(key)) return;
-
     // 데이터 요청이 진행 중이거나 이미 해당 페이지 데이터가 있으면 재요청 방지
-    if (tourData.httpState === "pending" || tourData.page_record.includes(key))
-      return;
+    if (httpState === "pending" || page_record.includes(key)) return;
 
     dispatch(
       fetchTourApi({
         numOfRows,
         page,
-        title,
-        params: params as CheckParams,
+        tourDataType,
+        params,
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, navigate, page, params, numOfRows, title]);
+  }, [
+    dispatch,
+    navigate,
+    page,
+    params,
+    numOfRows,
+    tourDataType,
+    httpState,
+    key,
+    page_record,
+  ]);
 
   return (
-    <article className={`main-box-content ${title === "search" && "result"}`}>
+    <article
+      className={`main-box-content ${tourDataType === "search" && "result"}`}
+    >
       <div className="AllView-grid-box">
-        {
+        {httpState === "fulfilled" && tourData && (
           <CardItem
             params={params}
-            title={title}
-            tourData={tourData}
+            tourDataType={tourDataType}
+            tourDataArray={tourData.tourData}
             numOfRows={numOfRows}
             page={page}
           />
-        }
-        {tourData.loading && <Loading height="500px" />}
-        {!tourData.loading && !tourData.successGetData && <GetDataError />}
+        )}
+        {httpState === "pending" && <Loading height="500px" />}
+        {httpState === "rejected" && <GetDataError />}
       </div>
     </article>
   );
 };
 
 export default Card;
+

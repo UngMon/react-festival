@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "store/store";
 import { fetchTourApi } from "api/fetchTourApi";
 import { CheckParams } from "hooks/useCheckParams";
-import { Item, TitleType } from "type/FetchType";
+import { Item, TourDataType } from "type/FetchType";
 import {
   지역코드,
   시군코드,
@@ -16,12 +16,12 @@ import "./ResultCard.css";
 import Loading from "components/Loading/Loading";
 
 interface T {
-  title: TitleType;
+  tourDataType: TourDataType;
   params: CheckParams;
   page: number;
 }
 
-const ResultCard = ({ title, params, page }: T) => {
+const ResultCard = ({ tourDataType, params, page }: T) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tourData = useSelector((state: RootState) => state.data);
@@ -45,7 +45,7 @@ const ResultCard = ({ title, params, page }: T) => {
       fetchTourApi({
         numOfRows: 25,
         page,
-        title,
+        tourDataType,
         params,
       })
     );
@@ -53,7 +53,7 @@ const ResultCard = ({ title, params, page }: T) => {
     dispatch,
     navigate,
     tourData,
-    title,
+    tourDataType,
     page,
     params,
     contentTypeId,

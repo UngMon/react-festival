@@ -24,7 +24,6 @@ interface SliderProps {
 }
 
 const Slider = ({ content_id }: SliderProps) => {
-  console.log("Slider");
   const sliderRef = useRef<HTMLDivElement>(null);
   const sliderBoxRef = useRef<HTMLDivElement>(null);
 

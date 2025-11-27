@@ -3,34 +3,36 @@ import { TagCode } from "assets/CatCode/CatCode";
 import "./Tags.css";
 
 interface T {
-  title: string;
+  tourDataType: string;
   month: string;
   contentTypeId: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;
+  setPage: (input: number) => void;
 }
 
 const Tags = ({
-  title,
+  tourDataType,
   contentTypeId,
   month,
   areaCode,
   cat1,
   cat2,
   cat3,
+  setPage
 }: T) => {
   const navigate = useNavigate();
-  console.log("Tags Rendering");
 
   const festivalTagClick = (cat3: string) => {
-    let url = `/${title}?`;
+    let url = `/${tourDataType}?`;
 
-    if (title === "festival") url += `month=${month}&`;
+    if (tourDataType === "festival") url += `month=${month}&`;
 
     url += `contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
     navigate(url);
+    setPage(1);
   };
 
   const tagObject =

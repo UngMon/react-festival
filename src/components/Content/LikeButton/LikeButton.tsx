@@ -31,7 +31,7 @@ const LikeButton = ({ content_id }: T) => {
     const getFeelingData = async () => {
       const feelRef = doc(db, "content", content_id);
       const userRef = doc(db, "userData", current_user_id, "content", content_id);
-      console.log(current_user_id, content_id);
+
       try {
         const promise = [getDoc(feelRef)];
         if (current_user_id) promise.push(getDoc(userRef));

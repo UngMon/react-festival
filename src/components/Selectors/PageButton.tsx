@@ -1,4 +1,4 @@
-import { TitleType } from "type/FetchType";
+import { TourDataType } from "type/FetchType";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { CheckParams } from "hooks/useCheckParams";
@@ -11,23 +11,23 @@ import {
 import "./PageButton.css";
 
 interface T {
-  title: TitleType;
+  tourDataType: TourDataType;
   numOfRows: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   params: CheckParams;
 }
 
-const PageButton = ({ title, numOfRows, page, setPage, params }: T) => {
+const PageButton = ({ tourDataType, numOfRows, page, setPage, params }: T) => {
   const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
     params as CheckParams;
 
   let page_key =
-    title === "search"
+    tourDataType === "search"
       ? `${contentTypeId}-${keyword}-${page}`
       : `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}-${numOfRows}-${page}`;
 
-  const data = useSelector((state: RootState) => state.data[title]);
+  const data = useSelector((state: RootState) => state.data[tourDataType]);
 
   if (!data[page_key] || !data[page_key].totalCount) return null;
 

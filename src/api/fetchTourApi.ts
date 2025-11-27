@@ -4,7 +4,7 @@ import { FetchParams, FetchTourData, TourResponse } from "type/FetchType";
 const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
 
 const createUrl = (
-  title: string,
+  tourDataType: string,
   params: FetchParams["params"],
   numOfRows: number,
   page: number | undefined
@@ -13,12 +13,12 @@ const createUrl = (
   const baseParameterOne = `&numOfRows=${numOfRows}&pageNo=${page}`;
   const baseParameterTwo = "&MobileOS=ETC&MobileApp=igotjeogot&_type=json&arrange=Q";
 
-  if (title === "festival") {
+  if (tourDataType === "festival") {
     const startDate = `${new Date().getFullYear() - 1}0101`;
     return `${url}searchFestival2?serviceKey=${serviceKey}&numOfRows=2000&pageNo=1${baseParameterTwo}&eventStartDate=${startDate}`;
   }
 
-  if (title === "search") {
+  if (tourDataType === "search") {
     const keyword = encodeURIComponent(params.keyword!);
     url += `searchKeyword2?serviceKey=${serviceKey}${baseParameterOne}${baseParameterTwo}&keyword=${keyword}`;
     if (params.contentTypeId && params.contentTypeId !== "0")
@@ -37,19 +37,19 @@ const createUrl = (
 export const fetchTourApi = createAsyncThunk(
   "tour/fetchFromData",
   async (parameter: FetchParams) => {
-    const { numOfRows, page, title, params } = parameter;
-    const url: string = createUrl(title, params, numOfRows, page);
+    const { numOfRows, page, tourDataType, params } = parameter;
+    const url: string = createUrl(tourDataType, params, numOfRows, page);
 
     try {
       const response= await fetch(url);
       const responseData = await response.json() as TourResponse;
-      console.log(response, responseData)
+
       return {
         numOfRows,
         responseData,
         page,
         ...params,
-        title,
+        tourDataType,
       } as FetchTourData;
     } catch (error: any) {
       return Promise.reject(error.message);

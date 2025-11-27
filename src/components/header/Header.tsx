@@ -9,7 +9,6 @@ import "./Header.css";
 import WebName from "./WebName";
 
 const Header = () => {
-  console.log("Header Render");
   const { pathname } = useLocation();
   const headRef = useRef<HTMLHeadElement>(null);
 

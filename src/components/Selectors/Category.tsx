@@ -3,25 +3,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface T {
-  title: string;
+  tourDataType: string;
   month?: string;
   contentTypeId: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3?: string;
+  setPage: (input: number) => void;
 }
 
 const Category = ({
-  title,
+  tourDataType,
   month,
   contentTypeId,
   areaCode,
   cat1,
   cat2,
   cat3,
+  setPage,
 }: T) => {
-  console.log(title, contentTypeId, areaCode, cat1, cat2, cat3);
   const navigate = useNavigate();
 
   const pickerSelector = (
@@ -32,28 +33,30 @@ const Category = ({
 
     if (cat === "cat1") {
       navigate(
-        `/${title}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
+        `/${tourDataType}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
       );
     }
 
     if (cat === "cat2") {
       navigate(
-        `/${title}?${
-          title === "축제/공연/행사" ? `month=${month}&` : ""
+        `/${tourDataType}?${
+          tourDataType === "축제/공연/행사" ? `month=${month}&` : ""
         }contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
       );
     }
 
     if (cat === "cat3") {
       navigate(
-        `/${title}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
+        `/${tourDataType}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
       );
     }
+
+    setPage(1);
   };
 
   return (
     <>
-      {title === "tour" && (
+      {tourDataType === "tour" && (
         <>
           <div className="picker">
             <select value={cat1} onChange={(e) => pickerSelector(e, "cat1")}>
@@ -91,7 +94,7 @@ const Category = ({
           )}
         </>
       )}
-      {title === "culture" && (
+      {tourDataType === "culture" && (
         <div className="picker">
           <select value={cat3} onChange={(e) => pickerSelector(e, "cat3")}>
             <option value="all"># 전체</option>
@@ -114,7 +117,7 @@ const Category = ({
           <FontAwesomeIcon icon={faCheck} />
         </div>
       )}
-      {title === "leports" && (
+      {tourDataType === "leports" && (
         <div className="picker">
           <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
             <option value="all"># 전체</option>

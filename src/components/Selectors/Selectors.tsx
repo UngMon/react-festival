@@ -1,5 +1,5 @@
 import React from "react";
-import { TitleType } from "type/FetchType";
+import { TourDataType } from "type/FetchType";
 import { useCheckParams, CheckParams } from "hooks/useCheckParams";
 import SubMenu from "./SubMenu";
 import MonthSelector from "./MonthSelector";
@@ -11,21 +11,22 @@ import RowsPerPage from "./RowsPerPage";
 import "./Picker.css";
 
 interface T {
-  title: TitleType;
+  tourDataType: TourDataType;
   numOfRows: number;
   setNumOfRows: React.Dispatch<React.SetStateAction<number>>;
+  setPage: (input: number) => void;
 }
- 
-const Selectors = ({ title, numOfRows, setNumOfRows }: T) => {
+
+const Selectors = ({ tourDataType, numOfRows, setNumOfRows, setPage }: T) => {
   const { contentTypeId, month, areaCode, cat1, cat2, cat3, requireRedirect } =
-    useCheckParams(title) as CheckParams;
+    useCheckParams(tourDataType) as CheckParams;
 
   return (
     <div className="Ui-Box">
-      <SubMenu title={title} />
+      <SubMenu title={tourDataType} />
       <div>
         <div className="option-container">
-          {title === "festival" && requireRedirect === "" && (
+          {tourDataType === "festival" && requireRedirect === "" && (
             <MonthSelector
               month={month!}
               type={contentTypeId!}
@@ -34,45 +35,48 @@ const Selectors = ({ title, numOfRows, setNumOfRows }: T) => {
           )}
           {requireRedirect === "" && (
             <RegionSelector
-              title={title}
+              tourDataType={tourDataType}
               month={month}
               contentTypeId={contentTypeId!}
               areaCode={areaCode!}
               cat1={cat1!}
               cat2={cat2!}
               cat3={cat3!}
+              setPage={setPage}
             />
           )}
           {requireRedirect === "" && (
             <Category
-              title={title}
+              tourDataType={tourDataType}
               month={month}
               contentTypeId={contentTypeId!}
               areaCode={areaCode!}
               cat1={cat1!}
               cat2={cat2!}
               cat3={cat3!}
+              setPage={setPage}
             />
           )}
         </div>
         {requireRedirect === "" && (
           <Tags
-            title={title}
+            tourDataType={tourDataType}
             month={month!}
             contentTypeId={contentTypeId!}
             areaCode={areaCode!}
             cat1={cat1!}
             cat2={cat2!}
             cat3={cat3!}
+            setPage={setPage}
           />
         )}
       </div>
-      {title === "festival" && <OnGoingSelector />}
-      {title !== "festival" && (
+      {tourDataType === "festival" && <OnGoingSelector />}
+      {tourDataType !== "festival" && (
         <RowsPerPage numOfRows={numOfRows} setNumOfRows={setNumOfRows} />
       )}
     </div>
   );
-}
+};
 
 export default React.memo(Selectors);

@@ -1,8 +1,8 @@
 import { CheckParams } from "hooks/useCheckParams";
-import { TitleType } from "type/FetchType";
+import { TourDataType } from "type/FetchType";
 
 export const generatePageKey = (
-  title: TitleType,
+  title: TourDataType,
   params: CheckParams,
   numOfRows: number,
   page: number

@@ -1,38 +1,39 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { 지역코드 } from "assets/CatCode/CatCode";
 
 interface T {
-  title: string;
+  tourDataType: string;
   month?: string;
   contentTypeId: string;
   areaCode: string;
   cat1: string;
   cat2: string;
   cat3: string;
+  setPage: (input: number) => void;
 }
 
 const RegionSelector = ({
-  title,
+  tourDataType,
   month,
   contentTypeId,
   areaCode,
   cat1,
   cat2,
   cat3,
+  setPage
 }: T) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     
     let url = '?';
-    if (title === "festival") url += `month=${month}&`;
+    if (tourDataType === "festival") url += `month=${month}&`;
     url += `contentTypeId=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
-    console.log(url, location.pathname)
     navigate(url);
+    setPage(1);
   };
 
   return (

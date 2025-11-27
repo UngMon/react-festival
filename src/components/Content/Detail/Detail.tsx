@@ -17,7 +17,6 @@ interface DetailProps {
 }
 
 const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
-  console.log("Detail Component Render");
   const dispatch = useAppDispatch();
   const { detailCommon, detailInfo, detailIntro } = useSelector(
     (state: RootState) => state.content
@@ -31,7 +30,6 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
           contentTypeId,
           contentId
         );
-        console.log(response)
         const { contentCommon, contentInfo, contentIntro } = response;
 
         dispatch(

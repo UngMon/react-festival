@@ -1,7 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { dataReducer } from "./data-slice";
 import { firebaseReducer } from "./firebase-slice";
-import { reportReducer } from "./report-slice";
 import { myReplyReducer } from "./my_reply-slice";
 import { originCommentReducer } from "./origin_comment-slice";
 import { replyReducer } from "./reply-slice";
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   data: dataReducer,
   content: contentReducer,
   firebase: firebaseReducer,
-  report: reportReducer,
   origin_comment: originCommentReducer,
   reply: replyReducer,
   myReply: myReplyReducer,
