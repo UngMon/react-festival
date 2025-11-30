@@ -9,6 +9,7 @@ import { originCommentActions } from "store/origin_comment-slice";
 import { replyActions } from "store/reply-slice";
 import { myReplyActions } from "store/my_reply-slice";
 import UserIcon from "./UserIcon";
+import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 
 interface T {
   type: string;
@@ -22,6 +23,7 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
 
   const dispatch = useAppDispatch();
   const divRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [submitPossible, setSubmitPossible] = useState<boolean>(false);
   const { current_user_photo, current_user_name } = useSelector(
     (state: RootState) => state.firebase
@@ -48,6 +50,7 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
     ).toISOString();
 
     try {
+      setLoading(true);
       await updateDoc(reviseDocRef, { text: revisedText, updatedAt });
 
       if (type === "origin") {
@@ -85,6 +88,9 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
       dispatch(modalActions.clearModalInfo({ comment_id, type: "revise" }));
     } catch (error) {
       console.log(error);
+      alert('댓글 수정 중 오류가 발생했습니다.')
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,50 +120,59 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
   };
 
   return (
-    <div
-      className="comment-container"
-      style={{
-        marginLeft: `${deepth * 55}px`,
-      }}
-    >
-      <UserIcon user_photo={current_user_photo} user_name={current_user_name} />
-      <form
-        className="reply-input-box"
-        onSubmit={(e) => submitRevisedDocument(e)}
-      >
-        <div className="reply-text-box">
-          <div
-            ref={divRef}
-            className="editable"
-            contentEditable="true"
-            spellCheck="false"
-            dir="auto"
-            onInput={(e) => inputHandler(e)}
-          ></div>
-          <i />
-        </div>
-        <div className="reply-button-box">
-          <button
-            className="enabled"
-            type="button"
-            onClick={() => {
-              dispatch(
-                modalActions.clearModalInfo({ comment_id, type: "revise" })
-              );
-            }}
+    <>
+      {loading ? (
+        <LoadingSpinnerTwo width="20px" padding="7px" />
+      ) : (
+        <div
+          className="comment-container"
+          style={{
+            marginLeft: `${deepth * 55}px`,
+          }}
+        >
+          <UserIcon
+            user_photo={current_user_photo}
+            user_name={current_user_name}
+          />
+          <form
+            className="reply-input-box"
+            onSubmit={(e) => submitRevisedDocument(e)}
           >
-            취소
-          </button>
-          <button
-            className={submitPossible ? "enabled" : "disabled"}
-            type="submit"
-            disabled={!submitPossible}
-          >
-            저장
-          </button>
+            <div className="reply-text-box">
+              <div
+                ref={divRef}
+                className="editable"
+                contentEditable="true"
+                spellCheck="false"
+                dir="auto"
+                onInput={(e) => inputHandler(e)}
+              ></div>
+              <i />
+            </div>
+            <div className="reply-button-box">
+              <button
+                className="enabled"
+                type="button"
+                onClick={() => {
+                  dispatch(
+                    modalActions.clearModalInfo({ comment_id, type: "revise" })
+                  );
+                }}
+              >
+                취소
+              </button>
+              <button
+                className={submitPossible ? "enabled" : "disabled"}
+                type="submit"
+                disabled={!submitPossible}
+              >
+                저장
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 

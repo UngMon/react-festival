@@ -38,27 +38,3 @@ const ReplyArea = ({ comment_data }: T) => {
 };
 
 export default React.memo(ReplyArea);
-//   return (
-//     <div className="reply-area">
-//       {reply_count > 0 && (
-//         <ShowReplies
-//           open={open}
-//           setOpen={setOpen}
-//           reply_count={reply_count}
-//           origin_id={origin_id}
-//           content_id={content_id}
-//         />
-//       )}
-//       {isExisting && (
-//         <Replies origin_id={origin_id} origin_index={origin_index} />
-//       )}
-//       <MyReply origin_id={origin_id} origin_index={origin_index} />
-//       {isExisting && (
-//         <MoreReplyButton
-//           origin_id={origin_id}
-//           content_id={content_id}
-//         />
-//       )}
-//     </div>
-//   );
-// };

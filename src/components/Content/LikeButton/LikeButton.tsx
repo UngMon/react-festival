@@ -52,7 +52,6 @@ const LikeButton = ({ content_id }: T) => {
           hasUserLike: existUserLike,
         });
       } catch (error: any) {
-        console.log(error);
         alert(error.message);
       }
       setLoading(false);
@@ -113,7 +112,6 @@ const LikeButton = ({ content_id }: T) => {
       setLikeCount(like_count + countChange);
       await batch.commit();
     } catch (error) {
-      console.log(error);
       alert("오류가 발생했습니다!");
     }
   };

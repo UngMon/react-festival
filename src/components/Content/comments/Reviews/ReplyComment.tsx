@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { modalActions } from "store/modal-slice";
 import { myReplyActions } from "store/my_reply-slice";
 import UserIcon from "./UserIcon";
+import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 import "./ReplyOrReviseComment.css";
 
 interface T {
@@ -20,6 +21,7 @@ const ReplyComment = ({ deepth, comment_data }: T) => {
 
   const { current_user_id, current_user_photo, current_user_name } =
     useSelector((state: RootState) => state.firebase);
+  const [loading, setLoading] = useState<boolean>(false);
   const [submitPossible, setSubmitPossible] = useState<boolean>(false);
 
   const { createdAt, user_id, origin_id, user_name } = comment_data;
@@ -74,7 +76,7 @@ const ReplyComment = ({ deepth, comment_data }: T) => {
 
       dispatch(modalActions.clearModalInfo({ comment_id, type: "reply" }));
     } catch (error: any) {
-      console.log(error);
+      alert("답글 작성 중 오류가 발생했습니다.");
     }
   };
 
@@ -86,71 +88,82 @@ const ReplyComment = ({ deepth, comment_data }: T) => {
     if (!text) return alert("댓글을 작성해주세요!");
 
     try {
+      setLoading(true);
       await replyHandler(text);
     } catch (error: any) {
-      console.error(error);
-      alert(error.message);
+      alert("답글 작성 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="comment-container"
-      style={{
-        marginLeft: `${deepth * 55}px`,
-      }}
-    >
-      <UserIcon user_photo={current_user_photo} user_name={current_user_name} />
-      <form className="reply-input-box" onSubmit={submitHandler}>
-        <div className="reply-text-box">
-          <div
-            ref={divRef}
-            className="editable"
-            contentEditable="true"
-            spellCheck="false"
-            dir="auto"
-            onInput={(e) => {
-              const target = e.target as HTMLDivElement;
-              const text = target.innerText;
-              const len = text.length;
-              // 길이가 0 이면 저장 버튼 비활성화
-              if (len === 0) {
-                setSubmitPossible(false);
-                return;
-              }
-              // 길이가 1일 때만 trim() 검사 (불필요한 호출 최소화)
-              if (len === 1) {
-                setSubmitPossible(text.trim().length === 1);
-                return;
-              }
-              // 길이가 2 이상이면 무조건 true
-              setSubmitPossible(true);
-            }}
-          ></div>
-          <i />
+    <>
+      {loading ? (
+        <LoadingSpinnerTwo width="20px" padding="7px" />
+      ) : (
+        <div
+          className="comment-container"
+          style={{
+            marginLeft: `${deepth * 55}px`,
+          }}
+        >
+          <UserIcon
+            user_photo={current_user_photo}
+            user_name={current_user_name}
+          />
+          <form className="reply-input-box" onSubmit={submitHandler}>
+            <div className="reply-text-box">
+              <div
+                ref={divRef}
+                className="editable"
+                contentEditable="true"
+                spellCheck="false"
+                dir="auto"
+                onInput={(e) => {
+                  const target = e.target as HTMLDivElement;
+                  const text = target.innerText;
+                  const len = text.length;
+                  // 길이가 0 이면 저장 버튼 비활성화
+                  if (len === 0) {
+                    setSubmitPossible(false);
+                    return;
+                  }
+                  // 길이가 1일 때만 trim() 검사 (불필요한 호출 최소화)
+                  if (len === 1) {
+                    setSubmitPossible(text.trim().length === 1);
+                    return;
+                  }
+                  // 길이가 2 이상이면 무조건 true
+                  setSubmitPossible(true);
+                }}
+              ></div>
+              <i />
+            </div>
+            <div className="reply-button-box">
+              <button
+                className="enabled"
+                type="button"
+                onClick={() => {
+                  dispatch(
+                    modalActions.clearModalInfo({ comment_id, type: "reply" })
+                  );
+                }}
+              >
+                취소
+              </button>
+              <button
+                className={submitPossible ? "enabled" : "disabled"}
+                type="submit"
+                disabled={!submitPossible}
+              >
+                저장
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="reply-button-box">
-          <button
-            className="enabled"
-            type="button"
-            onClick={() => {
-              dispatch(
-                modalActions.clearModalInfo({ comment_id, type: "reply" })
-              );
-            }}
-          >
-            취소
-          </button>
-          <button
-            className={submitPossible ? "enabled" : "disabled"}
-            type="submit"
-            disabled={!submitPossible}
-          >
-            저장
-          </button>
-        </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 

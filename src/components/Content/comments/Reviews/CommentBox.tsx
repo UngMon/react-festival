@@ -14,7 +14,6 @@ interface T {
 
 const CommentBox = ({ type, deepth, comment_data }: T) => {
   const comment_id = comment_data.createdAt + comment_data.user_id;
-
   const isRevise = useSelector(
     (state: RootState) => state.modal.revise[comment_id]
   );

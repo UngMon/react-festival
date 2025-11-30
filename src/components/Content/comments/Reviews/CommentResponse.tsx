@@ -99,7 +99,6 @@ const CommentResponse = ({ type, comment_data }: T) => {
 
       await batch.commit();
     } catch (error: any) {
-      console.error(error);
       alert("문제가 발생했습니다!");
     }
   };

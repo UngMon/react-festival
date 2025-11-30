@@ -17,7 +17,7 @@ const MyReply = ({ origin_id }: T) => {
 
   return (
     <>
-      {myReplyArray.map((item, index) => (
+      {myReplyArray.map((item) => (
         <CommentBox
           key={item.createdAt + item.user_id}
           deepth={0}
