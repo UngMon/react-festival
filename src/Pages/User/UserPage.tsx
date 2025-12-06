@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import FeedbackToast from "components/Content/Comments/Modal/FeedbackToast";
 import UserMenu from "./UserMenu";
 import UseLogs from "./UserLogs";
 
 const UserPage = () => {
   const userData = useSelector((state: RootState) => state.firebase);
-  const [category, setCategory] = useState<string>("myComment");
+  const [category, setCategory] = useState<
+    "myComment" | "likedComment" | "likedContent"
+  >("myComment");
 
   return (
     <div
@@ -19,6 +22,7 @@ const UserPage = () => {
     >
       <UserMenu setCategory={setCategory} userData={userData} />
       <UseLogs category={category} userData={userData} />
+      <FeedbackToast />
     </div>
   );
 };

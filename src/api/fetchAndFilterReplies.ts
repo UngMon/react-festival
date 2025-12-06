@@ -31,8 +31,6 @@ export const fetchAndFilterReplies = createAsyncThunk(
         return myReply[replyKey] === undefined; // myReply에 없는 것만 필터링
       });
 
-      console.log(origin_id, comment_datas, lastDataIndex)
-
       // 6. 성공 시 반환할 값 (origin_id, 필터링된 데이터, 다음 인덱스)
       return { origin_id, comment_datas: filtered_datas, lastDataIndex };
     } catch (error: any) {

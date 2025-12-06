@@ -65,14 +65,14 @@ const originCommentSlice = createSlice({
       );
 
       if (comment_index < -1 || comment_index >= state.comments.length) {
-        // console.error("Invalid comment index:", comment_index);
+        console.error("Invalid comment index:", comment_index);
         return;
       }
 
       const comment = state.comments[comment_index];
 
       if (comment.reply_count === undefined) {
-        // console.error("reply_count is undefined");
+        console.error("reply_count is undefined");
         return;
       }
 

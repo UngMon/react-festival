@@ -36,14 +36,13 @@ const myReplySlice = createSlice({
       const comments = state[origin_id];
 
       if (!comments) {
-        // console.error("origin_id does not exist");
+        console.error("origin_id does not exist");
         return;
       }
 
       const myReply = comments[comment_id];
 
       if (!myReply) {
-        // console.error("comment_id does not exist");
         return;
       }
 
@@ -57,14 +56,14 @@ const myReplySlice = createSlice({
       const comments = state[origin_id];
 
       if (!comments) {
-        // console.error("origin_id does not exist");
+        console.error("origin_id does not exist");
         return;
       }
 
       const myReply = comments[comment_id];
 
       if (!myReply) {
-        // console.error("comment_id does not exist");
+        console.error("comment_id does not exist");
         return;
       }
 
@@ -76,9 +75,9 @@ const myReplySlice = createSlice({
       action: PayloadAction<{ origin_id: string; comment_id?: string }>
     ) {
       const { origin_id, comment_id } = action.payload;
-      console.log('????', origin_id, comment_id)
+
       if (!state[origin_id]) {
-        // console.error(`original comment Does not exist myslice`)
+        console.error(`original comment Does not exist myslice`)
         return;
       } 
 

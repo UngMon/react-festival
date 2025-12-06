@@ -104,7 +104,7 @@ const replySlice = createSlice({
       const comment = state.reply_comments[origin_id];
 
       if (!comment) {
-        // console.error("Original Dose not exist reply slice");
+        console.error("Original Dose not exist reply slice");
         return;
       }
 

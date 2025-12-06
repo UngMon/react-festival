@@ -4,10 +4,15 @@ import { modalActions } from "store/modal-slice";
 import { RootState, useAppDispatch } from "store/store";
 import "./FeedbackToast.css";
 
-const progressState = ["댓글을 삭제 중입니다.", "댓글을 신고 중입니다."];
+const progressState = [
+  "댓글을 삭제 중입니다.",
+  "댓글을 신고 중입니다.",
+  "데이터를 삭제 중입니다.",
+];
 const doneStates = [
   "댓글을 삭제했습니다.",
   "댓글을 신고 했습니다.",
+  "데이터를 삭제했습니다.",
   "오류가 발생했습니다.",
 ];
 
@@ -18,7 +23,7 @@ const FeedbackToast = () => {
   // 상태 파생 변수
   const inProgress = progressState.includes(api_state);
   const isDone = doneStates.includes(api_state);
-  
+
   // 애니메이션 종료(내려가기)를 제어하기 위한 로컬 상태
   const [isClosing, setIsClosing] = useState(false);
 
@@ -51,9 +56,9 @@ const FeedbackToast = () => {
   }, [isDone, dispatch]);
 
   return (
-    <div 
-      className={`feedback-toast ${isVisible ? "active" : ""}`} 
-      role="alert" 
+    <div
+      className={`feedback-toast ${isVisible ? "active" : ""}`}
+      role="alert"
       aria-live="assertive"
     >
       <p>{api_state}</p>

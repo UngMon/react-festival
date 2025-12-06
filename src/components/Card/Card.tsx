@@ -19,7 +19,6 @@ interface CardProps {
 }
 
 const Card = ({ tourDataType, numOfRows, page, params }: CardProps) => {
-  console.log('Card')
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const key = generatePageKey(tourDataType, params, numOfRows, page);

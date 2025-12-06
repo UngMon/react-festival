@@ -22,7 +22,6 @@ interface T {
 }
 
 const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
-  console.log("Card Item");
   const navigate = useNavigate();
   const 행사상태 = useSelector((state: RootState) => state.data.행사상태);
   const { areaCode, cat1, cat2, cat3, keyword, month: param_month } = params;

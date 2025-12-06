@@ -86,4 +86,5 @@ export interface Log {
   afterIndex: Record<string, string>;
 }
 
-export type FetchLogDataType = (CommentType | LikedComment | LikedContent)[];
+export type LogItem = CommentType | LikedComment | LikedContent;
+export type GroupedLogs = Record<string, LogItem[]>; // { "오늘": [item1, item2], ... }

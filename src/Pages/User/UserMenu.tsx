@@ -13,7 +13,9 @@ import { UserData } from "type/UserDataType";
 import "./UserMenu.css";
 
 interface T {
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  setCategory: React.Dispatch<
+    React.SetStateAction<"myComment" | "likedComment" | "likedContent">
+  >;
   userData: UserData;
 }
 

@@ -22,13 +22,9 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
     navigate(`/content?contentTypeId=${content_type}&contentId=${content_id}`);
   };
 
-  const convertText = (content: [string, string, string]) => {
-    const text = content.filter((_, i) => i !== 1).join("");
-    return text.length > 70 ? text.slice(0, 70) + "..." : text;
-  };
-
   const time = (createdAt: string) => {
-    return new Date(createdAt).toLocaleTimeString("ko-KR", {
+    return new Date(createdAt).toLocaleTimeString("un-es", {
+      timeZone: "UTC", // UTC 기준 시간 그대로 출력
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
@@ -45,7 +41,7 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
       </div>
       <div id="v-b-2">
         <div id="v-b-3">
-          {"content" in item && <div>{convertText!(item.content)}</div>}
+          {"text" in item && <div>{item.text}</div>}
           <div>
             <span>{item.content_title}</span>
             {"like_users" in item && (

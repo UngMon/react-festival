@@ -13,14 +13,14 @@ interface T {
 }
 
 const LikeButton = ({ content_id }: T) => {
-  const { status, current_user_id } = useSelector((state: RootState) => state.firebase);
+  const { status, current_user_id } = useSelector(
+    (state: RootState) => state.firebase
+  );
   const { detailCommon } = useSelector((state: RootState) => state.content);
   const [loading, setLoading] = useState<boolean>(true);
   const [like_count, setLikeCount] = useState<number>(0);
-  const [existData, setExistData] = useState<{
-    hasFeelData: boolean;
-    hasUserLike: boolean;
-  }>({ hasFeelData: false, hasUserLike: false });
+  const [existFeelData, setExistFeelData] = useState<boolean>(false);
+  const [existUserLike, setExistUserLike] = useState<boolean>(false);
 
   useEffect(() => {
     if (!loading || status === "pending") return;
@@ -30,7 +30,13 @@ const LikeButton = ({ content_id }: T) => {
 
     const getFeelingData = async () => {
       const feelRef = doc(db, "content", content_id);
-      const userRef = doc(db, "userData", current_user_id, "content", content_id);
+      const userRef = doc(
+        db,
+        "userData",
+        current_user_id,
+        "liked_content",
+        content_id
+      );
 
       try {
         const promise = [getDoc(feelRef)];
@@ -47,10 +53,9 @@ const LikeButton = ({ content_id }: T) => {
 
         if (userData.exists()) existUserLike = true;
 
-        setExistData({
-          hasFeelData: existFeelData,
-          hasUserLike: existUserLike,
-        });
+        setExistFeelData(existFeelData);
+        setExistUserLike(existUserLike);
+
       } catch (error: any) {
         alert(error.message);
       }
@@ -61,7 +66,8 @@ const LikeButton = ({ content_id }: T) => {
   }, [content_id, loading, current_user_id, status]);
 
   const handler = async () => {
-    if (current_user_id === "") return alert("로그인 하시면 이용하실 수 있습니다.");
+    if (current_user_id === "")
+      return alert("로그인 하시면 이용하실 수 있습니다.");
 
     if (!detailCommon || detailCommon?.length === 0)
       return alert("콘텐츠 정보를 불러오지 못해 이용하실 수 없습니다.");
@@ -69,7 +75,13 @@ const LikeButton = ({ content_id }: T) => {
     const batch = writeBatch(db);
 
     const feelRef = doc(db, "content", content_id);
-    const userRef = doc(db, "userData", current_user_id, "content", content_id);
+    const userRef = doc(
+      db,
+      "userData",
+      current_user_id,
+      "liked_content",
+      content_id
+    );
     let countChange: number = 0;
     const createdAt = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
@@ -77,7 +89,7 @@ const LikeButton = ({ content_id }: T) => {
 
     try {
       /* 사용자가 좋아요 버튼을 클릭한 기록이 없는 상황 */
-      if (!existData.hasUserLike) {
+      if (!existUserLike) {
         const { contentid, contenttypeid, title, firstimage, firstimage2 } =
           detailCommon[0];
 
@@ -86,32 +98,29 @@ const LikeButton = ({ content_id }: T) => {
           cotnent_id: contentid,
           content_title: title,
           image_url: firstimage || firstimage2 || "",
-          current_user_id,
           createdAt,
         };
 
-        setExistData({ ...existData, hasUserLike: true });
-
-        if (existData.hasFeelData) {
+        if (existFeelData) {
           batch.update(feelRef, { like_count: increment(1) });
         } else {
-          batch.set(feelRef, {
-            like_count: 1,
-          });
+          batch.set(feelRef, { like_count: 1 });
         }
 
         batch.set(userRef, userFeelData);
+
+        setExistUserLike(true);
         countChange = 1;
       } else {
-        /* 사용자가 좋아요 클릭한 기록이 있는 상황 */
-        setExistData({ ...existData, hasUserLike: false });
+        /* 사용자가 좋아요 클릭한 기록이 있는 상황(기록 삭제) */
         batch.update(feelRef, { like_count: increment(-1) });
         batch.delete(userRef);
         countChange = -1;
+        setExistUserLike(false);
       }
       setLikeCount(like_count + countChange);
       await batch.commit();
-    } catch (error) {
+    } catch (error: any) {
       alert("오류가 발생했습니다!");
     }
   };
@@ -121,13 +130,9 @@ const LikeButton = ({ content_id }: T) => {
       <p className="How-to-feel">{`이 콘텐츠 어떻게 생각하세요?`}</p>
       <div className="Cotent-feeling">
         <div className="feel-box" onClick={handler}>
-          <div className={existData.hasUserLike ? "like is-active" : "like"} />
+          <div className={existUserLike ? "like is-active" : "like"} />
           {!loading && (
-            <p
-              className={`feeling-count ${
-                existData.hasUserLike ? "liked" : ""
-              }`}
-            >
+            <p className={`feeling-count ${existUserLike ? "liked" : ""}`}>
               {like_count}
             </p>
           )}
