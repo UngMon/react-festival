@@ -197,7 +197,11 @@ const UserLogs = ({ category, userData }: T) => {
         <p className="log-error-text">"데이터를 불러오지 못 했습니다."</p>
       ) : (
         listInfo[category].afterIndex === "finish" && (
-          <div id="Nonexistent">마지막 활동 기록 입니다.</div>
+          <div id="Nonexistent">
+            {array.length > 0
+              ? "마지막 활동 기록 입니다."
+              : "활동 기록이 없습니다."}
+          </div>
         )
       )}
       <div className="target" ref={targetRef}></div>
