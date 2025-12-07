@@ -1,4 +1,9 @@
-import { LogItem, LikedComment } from "type/DataType";
+import {
+  LogItem,
+  LikedComment,
+  CommentType,
+  LikedContent,
+} from "type/DataType";
 import { db } from "../firebase";
 import {
   collection,
@@ -64,17 +69,26 @@ export const deleteLogItem = async (
 ): Promise<string | null> => {
   const batch = writeBatch(db);
   let documentRef: DocumentReference<DocumentData> | null = null;
+  let updatedOriginId: string | null = null;
 
   if (category === "likedComment") {
     // 좋아요 누른 댓글
-    const { comment_id, createdAt } = item as LikedComment;
-    const updateRef = doc(db, "comments", createdAt + item.user_id);
+    const { comment_id } = item as LikedComment;
+    const commentRef = doc(db, "comments", comment_id);
 
-    batch.update(updateRef, {
-      like_count: increment(-1),
-      [`like_users.${current_user_id}`]: deleteField(),
-    });
+    // ★ 중요: 댓글 문서가 실제로 존재하는지 먼저 확인합니다.
+    const commentSnap = await getDoc(commentRef);
 
+    if (commentSnap.exists()) {
+      // A. 댓글이 존재하면 -> 댓글의 좋아요 수 감소 + 내 아이디 삭제
+      batch.update(commentRef, {
+        like_count: increment(-1),
+        [`like_users.${current_user_id}`]: deleteField(),
+      });
+    }
+    // B. 댓글이 없으면(이미 삭제됨) -> 댓글 업데이트는 건너뛰고, 아래에서 내 기록(userData)만 삭제하게 됨
+
+    // 삭제할 내 기록(Log) 참조
     documentRef = doc(
       db,
       "userData",
@@ -84,34 +98,46 @@ export const deleteLogItem = async (
     );
   } else if (category === "likedContent") {
     // 좋아요 누른 컨텐츠
-    documentRef = doc(db, "userData", item.user_id, "content", item.content_id);
-    const updateRef = doc(db, "content", item.content_id);
+    const { content_id } = item as LikedContent;
+
+    const updateRef = doc(db, "content", content_id);
     batch.update(updateRef, {
       like_count: increment(-1),
     });
+
+    // 삭제할 내 기록(Log) 참조
+    documentRef = doc(
+      db,
+      "userData",
+      current_user_id,
+      "liked_content",
+      content_id
+    );
   } else if (category === "myComment") {
     // 내가 작성한 댓글
-    const documentId = item.createdAt + item.user_id;
+    const { createdAt, user_id, origin_id } = item as CommentType;
+    const documentId = createdAt + user_id;
+
+    // 오리지널 댓글의 식별
+    if (origin_id) {
+      const originDocRef = doc(db, "comments", origin_id);
+      const originDoc = await getDoc(originDocRef);
+
+      if (originDoc.exists()) {
+        batch.update(originDocRef, {
+          reply_count: increment(-1),
+        });
+
+        // ★ 중요: 오리진 댓글의 업데이트가 일어났음을 알리기 위해 ID 저장
+        updatedOriginId = origin_id;
+      }
+    }
+
+    // 삭제할 내 기록(Log) 참조
     documentRef = doc(db, "comments", documentId);
   }
 
   if (documentRef) batch.delete(documentRef);
-
-  let updatedOriginId: string | null = null;
-
-  if ("like_users" in item && item.origin_id) {
-    const originDocRef = doc(db, "comments", item.origin_id);
-    const originDoc = await getDoc(originDocRef);
-
-    if (originDoc.exists()) {
-      batch.update(originDocRef, {
-        reply_count: increment(-1),
-      });
-
-      // ★ 중요: 오리진 댓글의 업데이트가 일어났음을 알리기 위해 ID 저장
-      updatedOriginId = item.origin_id;
-    }
-  }
 
   await batch.commit();
 

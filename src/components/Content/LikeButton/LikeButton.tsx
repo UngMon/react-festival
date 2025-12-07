@@ -55,7 +55,6 @@ const LikeButton = ({ content_id }: T) => {
 
         setExistFeelData(existFeelData);
         setExistUserLike(existUserLike);
-
       } catch (error: any) {
         alert(error.message);
       }
@@ -95,7 +94,7 @@ const LikeButton = ({ content_id }: T) => {
 
         const userFeelData = {
           content_type: contenttypeid,
-          cotnent_id: contentid,
+          content_id: contentid,
           content_title: title,
           image_url: firstimage || firstimage2 || "",
           createdAt,

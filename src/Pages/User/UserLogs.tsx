@@ -126,22 +126,23 @@ const UserLogs = ({ category, userData }: T) => {
       if (!current_user_id) return;
 
       let api_state: string = "데이터를 삭제 중입니다.";
-      
+
       try {
         dispatch(modalActions.toggleToastModal({ api_state }));
-        
+
         const updatedOriginId = await deleteLogItem(
           category,
           current_user_id,
           item
         );
 
-        if (updatedOriginId)
+        if (updatedOriginId) {
           dispatch(
             originCommentActions.subtractionCount({
               origin_id: updatedOriginId,
             })
           );
+        }
 
         setListInfo((prevData) => {
           const dataOfDate = prevData[category].datas[date];
