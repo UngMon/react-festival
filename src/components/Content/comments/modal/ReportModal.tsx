@@ -1,13 +1,12 @@
 import { CommentType } from "type/DataType";
 import { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../../../firebase";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { modalActions } from "store/modal-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { reportComment } from "api/firestoreUtils";
 import "./ReportModal.css";
 
 interface T {
@@ -51,37 +50,15 @@ const ReportModal = ({ comment_data }: T) => {
 
     let api_state: string = "";
 
-    const report_time = new Date(
-      new Date().getTime() + 9 * 60 * 60 * 1000
-    ).toISOString();
-
-    const contentRef = doc(db, "reportList", report_time + current_user_id);
-    const {
-      content_type,
-      content_id,
-      content_title,
-      text,
-      user_id,
-      user_name,
-      createdAt,
-    } = comment_data;
-
     dispatch(modalActions.clearModalInfo({ type: "report" }));
 
     try {
-      await setDoc(contentRef, {
-        content_type,
-        content_id,
-        content_title,
-        createdAt,
-        text,
-        report_reason,
-        reported_id: user_id,
-        reported_name: user_name,
-        reporter_id: current_user_id,
-        reporter_name: current_user_name,
-        report_time,
-      });
+      await reportComment(
+        comment_data,
+        current_user_id,
+        current_user_name,
+        report_reason
+      );
       api_state = "댓글을 신고 했습니다.";
     } catch (error: any) {
       api_state = "오류가 발생했습니다.";

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../store/store";
-import { fetchCommentData } from "api/fetchCommentData";
+import { fetchCommentData } from "api/firestoreUtils";
 import { originCommentActions } from "../../../../store/origin_comment-slice";
 import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 import CommentBox from "./CommentBox";

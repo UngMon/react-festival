@@ -4,6 +4,8 @@ import {
   CommentType,
   LikedContent,
 } from "type/DataType";
+import { ContentCommon } from "type/ContentType";
+import { UserData } from "type/UserDataType";
 import { db } from "../firebase";
 import {
   collection,
@@ -15,6 +17,7 @@ import {
   doc,
   increment,
   deleteField,
+  setDoc,
   getDoc,
   getDocs,
   writeBatch,
@@ -22,7 +25,163 @@ import {
   CollectionReference,
   DocumentData,
   DocumentReference,
+  updateDoc,
+  runTransaction,
 } from "firebase/firestore";
+
+export const fetchCommentData = async (
+  origin_id: string | null,
+  afterIndex: string,
+  content_id: string
+) => {
+  const commentRef = collection(db, "comments");
+
+  let lastDataIndex: string = "";
+  let comment_datas: CommentType[] = [];
+
+  try {
+    let queryConstraints: QueryConstraint[] = [
+      where("content_id", "==", content_id),
+      where("origin_id", "==", origin_id),
+      orderBy("createdAt", origin_id ? "asc" : "desc"),
+      limit(10),
+    ];
+
+    if (afterIndex) queryConstraints.push(startAfter(afterIndex));
+
+    const queryToRun = query(commentRef, ...queryConstraints);
+    const querySnapshot = await getDocs(queryToRun);
+
+    comment_datas = querySnapshot.docs.map((doc) => doc.data()) as CommentType[];
+
+    if (comment_datas.length > 0) lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
+    if (comment_datas.length < 10) lastDataIndex = "finish";
+  } catch (error) {
+    lastDataIndex = "finish";
+    throw error;
+  } finally {
+    return { comment_datas, lastDataIndex };
+  }
+};
+
+export const submitCommentToFirestore = async (
+  content_type: string,
+  content_id: string,
+  userData: UserData,
+  detailCommon: ContentCommon[],
+  text: string
+): Promise<CommentType> => {
+  const { current_user_id, current_user_name, current_user_photo } = userData;
+
+  // 제목 추출
+  const content_title =
+    detailCommon?.[0]?.title || detailCommon?.[1]?.title || "제목 없음";
+  // 이미지 추출
+  const image_url =
+    detailCommon?.[0]?.firstimage || detailCommon?.[0]?.firstimage2 || "";
+
+  const createdAt = new Date(
+    new Date().getTime() + 9 * 60 * 60 * 1000
+  ).toISOString();
+
+  const field_data: CommentType = {
+    content_type,
+    content_id,
+    content_title,
+    text,
+    user_id: current_user_id,
+    user_name: current_user_name,
+    user_photo: current_user_photo,
+    createdAt,
+    origin_id: null,
+    parent_id: null,
+    parent_name: null,
+    parent_user_id: null,
+    like_count: 0,
+    reply_count: 0,
+    updatedAt: null,
+    image_url,
+    like_users: {},
+  };
+
+  const documentId = createdAt + current_user_id;
+
+  const commentRef = doc(db, "comments", documentId);
+
+  await setDoc(commentRef, field_data);
+
+  return field_data;
+};
+
+export const likeButtonOfComment = async (
+  like_count: number,
+  current_user_id: string,
+  comment_data: CommentType,
+  emotionOfRecord: boolean
+): Promise<void> => {
+  const { createdAt, user_id, origin_id } = comment_data;
+  const documentId = createdAt + user_id;
+
+  const time: string = new Date(
+    new Date().getTime() + 9 * 60 * 60 * 1000
+  ).toISOString();
+
+  const batch = writeBatch(db);
+  const docRef = doc(db, "comments", documentId);
+  const userRef = doc(
+    db,
+    "userData",
+    current_user_id,
+    "liked_comments",
+    documentId
+  );
+
+  batch.update(docRef, {
+    like_count: increment(like_count),
+    [`like_users.${current_user_id}`]: emotionOfRecord ? deleteField() : true,
+  });
+
+  if (!emotionOfRecord) {
+    batch.set(userRef, {
+      origin_id,
+      comment_id: createdAt + user_id,
+      createdAt: time,
+      content_title: comment_data.content_title,
+      content_id: comment_data.content_id,
+      content_type: comment_data.content_type,
+      image_url: comment_data.image_url,
+      text: comment_data.text,
+      user_id: current_user_id,
+    });
+  } else batch.delete(userRef);
+
+  await batch.commit();
+};
+
+export const replyComment = async (
+  originId: string,
+  document_id: string,
+  field_data: CommentType
+): Promise<void> => {
+  const batch = writeBatch(db);
+
+  const replyDocRef = doc(db, "comments", document_id);
+  const originDocumentRef = doc(db, "comments", originId);
+
+  batch.set(replyDocRef, field_data);
+  batch.update(originDocumentRef, { reply_count: increment(1) });
+
+  await batch.commit();
+};
+
+export const reviseComment = async (
+  revisedText: string,
+  comment_id: string,
+  updatedAt: string
+): Promise<void> => {
+  const reviseDocRef = doc(db, "comments", comment_id);
+  await updateDoc(reviseDocRef, { text: revisedText, updatedAt });
+};
 
 export const getUserLogs = async (
   category: string, // '좋아요 누른 댓글', '좋아요 누른 컨텐츠', '작성한 댓글'
@@ -60,6 +219,76 @@ export const getUserLogs = async (
   const data = response.docs.map((doc) => doc.data()) as LogItem[];
 
   return data;
+};
+
+export const deleteComment = async (
+  origin_id: string | null,
+  comment_id: string
+): Promise<boolean> => {
+  const batch = writeBatch(db);
+  let isExisingOrigin = false;
+
+  if (origin_id) {
+    const originalDocRef = doc(db, "comments", origin_id);
+    const deleteDocRef = doc(db, "comments", comment_id);
+
+    await runTransaction(db, async (transaction) => {
+      const deleteDocSnapshot = await transaction.get(deleteDocRef);
+      const originalDocSnapshot = await transaction.get(originalDocRef);
+
+      if (originalDocSnapshot.exists()) {
+        transaction.update(originalDocRef, {
+          reply_count: increment(-1),
+        });
+        isExisingOrigin = true;
+      }
+
+      if (deleteDocSnapshot.exists()) transaction.delete(deleteDocRef);
+    });
+  } else {
+    const originalDocRef = doc(db, "comments", comment_id);
+    batch.delete(originalDocRef);
+    await batch.commit();
+  }
+
+  return isExisingOrigin;
+};
+
+export const reportComment = async (
+  comment_data: CommentType,
+  current_user_id: string,
+  current_user_name: string,
+  report_reason: string
+): Promise<void> => {
+  const report_time = new Date(
+    new Date().getTime() + 9 * 60 * 60 * 1000
+  ).toISOString();
+
+  const {
+    content_type,
+    content_id,
+    content_title,
+    text,
+    user_id,
+    user_name,
+    createdAt,
+  } = comment_data;
+
+  const contentRef = doc(db, "reportList", report_time + current_user_id);
+
+  await setDoc(contentRef, {
+    content_type,
+    content_id,
+    content_title,
+    createdAt,
+    text,
+    report_reason,
+    reported_id: user_id,
+    reported_name: user_name,
+    reporter_id: current_user_id,
+    reporter_name: current_user_name,
+    report_time,
+  });
 };
 
 export const deleteLogItem = async (

@@ -1,12 +1,11 @@
 import { CommentType } from "type/DataType";
 import { useEffect } from "react";
 import { useAppDispatch } from "store/store";
-import { db } from "../../../../firebase";
 import { modalActions } from "store/modal-slice";
 import { myReplyActions } from "store/my_reply-slice";
 import { replyActions } from "store/reply-slice";
 import { originCommentActions } from "store/origin_comment-slice";
-import { doc, increment, runTransaction, writeBatch } from "firebase/firestore";
+import { deleteComment } from "api/firestoreUtils";
 import "./DeleteModal.css";
 
 interface DeleteProps {
@@ -37,30 +36,14 @@ const DeleteModal = ({ comment_data, type }: DeleteProps) => {
 
   const deleteCommentHandler = async () => {
     if (!comment_id) return alert("댓글 정보가 없습니다.");
-    const batch = writeBatch(db);
-    let isExisingOrigin = false;
+
     let api_state = "";
     dispatch(modalActions.clearModalInfo({ type: "delete" }));
 
     try {
+      const isExisingOrigin = await deleteComment(origin_id, comment_id);
+
       if (origin_id) {
-        const originalDocRef = doc(db, "comments", origin_id);
-        const deleteDocRef = doc(db, "comments", comment_id);
-
-        await runTransaction(db, async (transaction) => {
-          const deleteDocSnapshot = await transaction.get(deleteDocRef);
-          const originalDocSnapshot = await transaction.get(originalDocRef);
-
-          if (originalDocSnapshot.exists()) {
-            transaction.update(originalDocRef, {
-              reply_count: increment(-1),
-            });
-            isExisingOrigin = true;
-          }
-
-          if (deleteDocSnapshot.exists()) transaction.delete(deleteDocRef);
-        });
-
         /* 1. 내가 작성한 답글 삭제 (my) => myReply 상태만 업데이트 */
         if (type === "my") {
           dispatch(myReplyActions.deleteMyReply({ origin_id, comment_id }));
@@ -79,10 +62,6 @@ const DeleteModal = ({ comment_data, type }: DeleteProps) => {
           dispatch(replyActions.deleteReply({ origin_id, comment_id }));
         }
       } else {
-        const originalDocRef = doc(db, "comments", comment_id);
-        batch.delete(originalDocRef);
-        await batch.commit();
-
         dispatch(replyActions.deleteReply({ origin_id: comment_id }));
         dispatch(myReplyActions.deleteMyReply({ origin_id: comment_id }));
         dispatch(originCommentActions.deleteComment({ comment_id }));

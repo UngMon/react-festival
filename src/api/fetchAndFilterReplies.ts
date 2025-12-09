@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchCommentData } from "./fetchCommentData";
+import { fetchCommentData } from "./firestoreUtils";
 import { RootState } from "store/store";
 
 export const fetchAndFilterReplies = createAsyncThunk(

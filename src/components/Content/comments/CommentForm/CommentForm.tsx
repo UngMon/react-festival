@@ -2,10 +2,9 @@ import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { originCommentActions } from "store/origin_comment-slice";
-import { db } from "../../../../firebase";
-import { doc, setDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
 import { CommentType } from "type/DataType";
+import { submitCommentToFirestore } from "api/firestoreUtils";
+import { Link } from "react-router-dom";
 import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 import "./CommentForm.css";
 
@@ -17,60 +16,43 @@ interface T {
 const CommentForm = ({ content_type, content_id }: T) => {
   const dispatch = useAppDispatch();
 
-  const { detailCommon } = useSelector((state: RootState) => state.content);
-
   const userData = useSelector((state: RootState) => state.firebase);
-  const { current_user_name, current_user_id, current_user_photo, status } =
-    userData;
+  const { detailCommon } = useSelector((state: RootState) => state.content);
+  const { current_user_id, status } = userData;
 
   const [loading, setLoading] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const reivewSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!detailCommon || !detailCommon[0].title)
-      return alert("관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.");
+    if (current_user_id === "")
+      return alert("로그인 하시면 이용하실 수 있습니다.");
 
-    if (current_user_id === "") return alert("비정상적인 접근입니다.");
+    if (!detailCommon?.[0]?.title)
+      return alert(
+        "관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다."
+      );
+
+    // textRef.current가 있는지 먼저 확인
+    if (!textRef.current) return;
 
     let text = textRef.current!.value;
 
     if (text.length === 0) return alert("글자를 입력해주세요!");
 
-    const createdAt = new Date(
-      new Date().getTime() + 9 * 60 * 60 * 1000
-    ).toISOString();
-
-    const field_data: CommentType = {
-      content_type,
-      content_id,
-      content_title: detailCommon[0].title || detailCommon[1].title,
-      text,
-      user_id: current_user_id,
-      user_name: current_user_name,
-      user_photo: current_user_photo,
-      createdAt,
-      origin_id: null,
-      parent_id: null,
-      parent_name: null,
-      parent_user_id: null,
-      like_count: 0,
-      reply_count: 0,
-      updatedAt: null,
-      image_url: detailCommon[0].firstimage || detailCommon[0].firstimage2 || "",
-      like_users: {},
-    };
-
-    const documentId = field_data.createdAt + field_data.user_id;
-
-    const commentRef = doc(db, "comments", documentId);
-
     try {
       setLoading(true);
-      await setDoc(commentRef, field_data);
+      const field_data: CommentType = await submitCommentToFirestore(
+        content_type,
+        content_id,
+        userData,
+        detailCommon,
+        text
+      );
+
       dispatch(originCommentActions.addNewComment({ field_data }));
     } catch (error: any) {
-      alert(`리뷰 작성에 에러가 발생했습니다! ${error.message}`);
+      alert("오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }

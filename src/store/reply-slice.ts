@@ -73,8 +73,8 @@ const replySlice = createSlice({
       const reply_data = reply_comment[reply_index];
       reply_data.like_count += like_count;
 
-      if (like_count === 1) delete reply_data.like_users[user_id];
-      else if (like_count === -1) reply_data.like_users[user_id] = true;
+      if (like_count === -1) delete reply_data.like_users[user_id];
+      else if (like_count === 1) reply_data.like_users[user_id] = true;
     },
     reviseComment(state, action: PayloadAction<RevisePayload>) {
       const { origin_id, text, updatedAt, reply_id } = action.payload;

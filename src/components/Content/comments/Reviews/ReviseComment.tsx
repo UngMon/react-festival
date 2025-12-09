@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { useEffect, useRef, useState } from "react";
 import { modalActions } from "store/modal-slice";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../firebase";
 import { originCommentActions } from "store/origin_comment-slice";
 import { replyActions } from "store/reply-slice";
 import { myReplyActions } from "store/my_reply-slice";
+import { reviseComment } from "api/firestoreUtils";
 import UserIcon from "./UserIcon";
 import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
 
@@ -36,22 +35,20 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
   const submitRevisedDocument = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!divRef.current) {
-      return alert("댓글이 존재하지 않습니다.");
-    }
+    if (!divRef.current) return alert("댓글이 존재하지 않습니다.");
 
     const revisedText = divRef.current.innerText;
 
     if (revisedText.length === 0) return alert("댓글을 작성해주세요!");
 
-    const reviseDocRef = doc(db, "comments", comment_id);
     const updatedAt: string = new Date(
       new Date().getTime() + 9 * 60 * 60 * 1000
     ).toISOString();
 
     try {
       setLoading(true);
-      await updateDoc(reviseDocRef, { text: revisedText, updatedAt });
+
+      await reviseComment(revisedText, comment_id, updatedAt);
 
       if (type === "origin") {
         dispatch(
@@ -87,8 +84,7 @@ const ReviseComment = ({ type, deepth, comment_data }: T) => {
 
       dispatch(modalActions.clearModalInfo({ comment_id, type: "revise" }));
     } catch (error) {
-      console.log(error);
-      alert('댓글 수정 중 오류가 발생했습니다.')
+      alert("댓글 수정 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
