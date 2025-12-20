@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTourApi } from "api/fetchTourApi";
-import { DataType } from "type/DataType";
-import { Item, FetchTourData } from "type/FetchType";
+import { DataType } from "types/DataType";
+import { Item, FetchTourData } from "types/FetchType";
 
 // 1: 서울특별시, 2: 인천광역시, 3: 대전광역시, 4: 대구광역시, 5: 광주광역시, 6: 부산광역시,
 // 7: 울산광역시  8: 세종특별자치시, 31: 경기도, 32:강원도, 33: 충청북도, 34: 충청남도 ,
@@ -41,40 +41,20 @@ const dataSlice = createSlice({
       .addCase(
         fetchTourApi.fulfilled,
         (state, action: PayloadAction<FetchTourData>) => {
-          const {
-            tourDataType,
-            numOfRows,
-            responseData,
-            page,
-            contentTypeId,
-            areaCode,
-            cat1,
-            cat2,
-            cat3,
-            keyword,
-          } = action.payload;
+          const { tourDataType, responseData, page_key } = action.payload;
 
           if (!("response" in responseData)) {
             // api 요청 에러 발생
             state.httpState = "rejected";
             state.loading = false;
-            console.error(`Error Message: ${responseData.resultMsg}`)
+            console.error(`Error Message: ${responseData.resultMsg}`);
             return;
           }
 
-          let page_key: string = "";
           let totalCount: number = responseData.response.body.totalCount;
 
           state.httpState = "fulfilled";
           state.loading = false;
-
-          if (tourDataType === "search") {
-            page_key = `${contentTypeId}-${keyword}-${page}`;
-          } else if (tourDataType === "festival") {
-            page_key = "data";
-          } else {
-            page_key = `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}-${numOfRows}-${page}`;
-          }
 
           let tourData = responseData.response.body.items.item;
 

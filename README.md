@@ -1,8 +1,8 @@
-# 축제모아
+# 이곳저곳
 
-한국관광공사 api를 이용하여 대한민국 축제/행사/공연을 한 곳에서 확인할 수 있는 웹(web) 앱.
+한국관광공사 api를 이용하여 대한민국 축제/행사/공연을 한 곳에서 볼 수 있는 웹(web) 애플리케이션 입니다.
 
-## 축제모아 V1.21 출시
+## 이곳저곳 2.0v 출시
 
 https://festival-moa-fc37b.firebaseapp.com
 
@@ -10,122 +10,210 @@ https://festival-moa-fc37b.firebaseapp.com
 
 ```
 festival
-│
-├─ public
-│  ├─ favicon.ico
-│  ├─ images / image들...
-│  ├─ index.html
-│  ├─ manifest.json
-│  └─ robots.txt
-├─ src
-│  ├─ App.css
-│  ├─ App.test.tsx
-│  ├─ App.tsx
-│  ├─ components
-│  │  ├─ card // 축제/행사/공연을 보여주는 카드
-│  │  │  ├─ Card.css
-│  │  │  └─ Card.tsx
-│  │  ├─ content // 콘텐츠 영역. 카드 클릭시 해당 콘텐츠에 대한 상세 정보 확인, 댓글, 지도 확인 가능
-│  │  │  ├─ Content.css
-│  │  │  ├─ Content.tsx
-│  │  │  ├─ contentImages // 자동 슬라이드 관광공사 데이터로 부터 받아온 행사 이미지들을 슬라이딩 해줌
-│  │  │  │  ├─ Slider.css
-│  │  │  │  ├─ Slider.tsx
-│  │  │  │  └─ SliderButton.tsx
-│  │  │  ├─ contentInfo // 콘텐츠 정보
-│  │  │  │  ├─ BasicInfo.tsx
-│  │  │  │  ├─ Detail.css
-│  │  │  │  ├─ Detail.tsx
-│  │  │  │  ├─ Map.tsx
-│  │  │  │  ├─ MenuBar.css
-│  │  │  │  ├─ MenuBar.tsx
-│  │  │  └─ contentReview // 사용자들의 리뷰
-│  │  │     ├─ ContentReviews.css
-│  │  │     ├─ ContentReviews.tsx
-│  │  │     ├─ Feelings.tsx
-│  │  │     ├─ UserReviews.tsx
-│  │  │     └─ modal // 사용자가 댓글을 삭제, 신고
-│  │  │        ├─ DeleteModal.css
-│  │  │        ├─ DeleteModal.tsx
-│  │  │        ├─ ReportModal.css
-│  │  │        └─ ReportModal.tsx
-│  │  ├─ error // 각종 에러 페이지
-│  │  │  ├─ GetDataError.css
-│  │  │  ├─ GetDataError.tsx
-│  │  │  ├─ LoginAccessError.css
-│  │  │  ├─ LoginAccessError.tsx
-│  │  │  ├─ PageNotFound.css
-│  │  │  └─ PageNotFound.tsx
-│  │  ├─ footer // 정보제공, 제작자 이메일
-│  │  │  ├─ Footer.css
-│  │  │  └─ Footer.tsx
-│  │  ├─ header // 페이지 상단 ui
-│  │  │  ├─ Header.css
-│  │  │  ├─ Header.tsx
-│  │  │  ├─ LoginButton.module.css
-│  │  │  ├─ LoginButton.tsx
-│  │  │  ├─ Navigation.css
-│  │  │  ├─ Navigation.tsx
-│  │  │  ├─ PcSearch.css
-│  │  │  └─ PcSearch.tsx
-│  │  ├─ login // 추가 소셜 로그인(v1.20 기준 구현 안됨)
-│  │  │  ├─ Kakao.tsx
-│  │  │  └─ Naver.tsx
-│  │  ├─ main // 첫 페이지, 월별 보기, 지역, 계절별 메인 페이지
-│  │  │  ├─ Main.css
-│  │  │  ├─ Main.tsx
-│  │  │  ├─ Monthly.tsx
-│  │  │  ├─ Regions.tsx
-│  │  │  └─ Seasons.tsx
-│  │  └─ ui // 월, 지역, 계절, 검색에 관한 ui 컴포넌트
-│  │     ├─ Loading.css
-│  │     ├─ Loading.tsx
-│  │     ├─ LoadingTwo.tsx
-│  │     ├─ MobileSearch.cs
-│  │     ├─ MobileSearch.tsx
-│  │     ├─ MonthSelector.css
-│  │     ├─ MonthSelector.tsx
-│  │     ├─ RegionSelector.tsx
-│  │     ├─ SeasonSelector.css
-│  │     ├─ SeasonSelector.tsx
-│  │     ├─ UiBox.css
-│  │     └─ UiBox.tsx
-│  ├─ firebase // 파이어베이스 firestore DB, Auth 기능을 사용하기 위한 firebase app 초기화
-│  │  └─ index.ts
-│  ├─ index.css
-│  ├─ index.tsx
-│  ├─ pages // 각종 페이지 App.tsx에서 정의한 path들의 최상위 컴포넌트
-│  │  ├─ Error.tsx
-│  │  ├─ Login.css
-│  │  ├─ Login.tsx
-│  │  ├─ MonthlyFestival.tsx
-│  │  ├─ Regions.tsx
-│  │  ├─ Result.css
-│  │  ├─ Result.tsx
-│  │  ├─ Root.tsx
-│  │  ├─ SearchPage.tsx
-│  │  ├─ Seasons.tsx
-│  │  └─ Start.tsx
-│  ├─ react-app-env.d.ts
-│  ├─ redux // redux state 정의
-│  │  ├─ festival-slice.tsx // 관광공사 정보를 월별, 지역별, 계절별로 정렬
-│  │  ├─ fetch-action.tsx // redux-thunk(관광공사 데이터를 요청)
-│  │  ├─ firebase-slice.tsx // 사용자 로그인 데이터 저장
-│  │  ├─ rootReducer.tsx
-│  │  └─ store.tsx
-│  ├─ reportWebVitals.ts
-│  ├─ setupTests.ts
-│  ├─ type
-│  │  └─ Type.ts // 각종 타입 정의
-│  └─ utils // 컴포넌트 코드 길이가 길어지는 것을 방지 or 자주 사용되는 함수
-│     ├─ CalculateDate.ts
-│     ├─ CurrentSeason.ts
-│     ├─ DataSlice.ts
-│     ├─ NowDate.ts
-│     └─ SetData.ts
-├─ tsconfig.json
-├─ package.json
-└─ package-lock.json
+
+├── src
+│   ├── App.css
+│   ├── App.test.tsx
+│   ├── App.tsx
+│   ├── api
+│   │   ├── fetchAndFilterReplies.ts
+│   │   ├── fetchContentData.ts
+│   │   ├── fetchTourApi.ts
+│   │   └── firestoreUtils.ts
+│   ├── assets
+│   │   ├── CatCode
+│   │   │   └── CatCode.ts
+│   │   └── Theme
+│   │       └── Theme.ts
+│   ├── components
+│   │   ├── Card
+│   │   │   ├── Card.css
+│   │   │   ├── Card.tsx
+│   │   │   ├── CardContainer.tsx
+│   │   │   └── CardItem.tsx
+│   │   ├── CommentForm
+│   │   │   ├── CommentForm.css
+│   │   │   └── CommentForm.tsx
+│   │   ├── Comments
+│   │   │   ├── Modal
+│   │   │   │   ├── DeleteModal.css
+│   │   │   │   ├── DeleteModal.tsx
+│   │   │   │   ├── FeedbackToast.css
+│   │   │   │   ├── FeedbackToast.tsx
+│   │   │   │   ├── OptionModal.css
+│   │   │   │   ├── OptionModal.tsx
+│   │   │   │   ├── ReportModal.css
+│   │   │   │   └── ReportModal.tsx
+│   │   │   ├── Reply
+│   │   │   │   ├── MoreReplyButton.tsx
+│   │   │   │   ├── MyReply.tsx
+│   │   │   │   ├── Replies.tsx
+│   │   │   │   ├── ReplyArea.css
+│   │   │   │   ├── ReplyArea.tsx
+│   │   │   │   └── ShowReplies.tsx
+│   │   │   └── Reviews
+│   │   │       ├── Comment.css
+│   │   │       ├── Comment.tsx
+│   │   │       ├── CommentArea.css
+│   │   │       ├── CommentArea.tsx
+│   │   │       ├── CommentBox.tsx
+│   │   │       ├── CommentOption.tsx
+│   │   │       ├── CommentResponse.css
+│   │   │       ├── CommentResponse.tsx
+│   │   │       ├── ReplyComment.tsx
+│   │   │       ├── ReplyOrReviseComment.css
+│   │   │       ├── ReviseComment.tsx
+│   │   │       └── UserIcon.tsx
+│   │   ├── Content
+│   │   │   ├── Content.css
+│   │   │   ├── Content.tsx
+│   │   │   ├── Detail
+│   │   │   │   ├── BasicInfo.tsx
+│   │   │   │   ├── Detail.css
+│   │   │   │   ├── Detail.tsx
+│   │   │   │   └── Map.tsx
+│   │   │   ├── ImageSlide
+│   │   │   │   ├── Slider.css
+│   │   │   │   ├── Slider.tsx
+│   │   │   │   └── SliderButton.tsx
+│   │   │   └── MenuBar
+│   │   │       ├── MenuBar.css
+│   │   │       └── MenuBar.tsx
+│   │   ├── Error
+│   │   │   ├── GetDataError.css
+│   │   │   ├── GetDataError.tsx
+│   │   │   ├── LoginAccessError.css
+│   │   │   ├── LoginAccessError.tsx
+│   │   │   ├── PageNotFound.css
+│   │   │   └── PageNotFound.tsx
+│   │   ├── Footer
+│   │   │   ├── Footer.css
+│   │   │   └── Footer.tsx
+│   │   ├── Header
+│   │   │   ├── Header.css
+│   │   │   ├── Header.tsx
+│   │   │   ├── LoginButton.css
+│   │   │   ├── LoginButton.tsx
+│   │   │   ├── MobileMenu.css
+│   │   │   ├── MobileMenu.tsx
+│   │   │   ├── PcMenu.css
+│   │   │   ├── PcMenu.tsx
+│   │   │   ├── Search.css
+│   │   │   ├── Search.tsx
+│   │   │   ├── TopButton.css
+│   │   │   ├── TopButton.tsx
+│   │   │   ├── WebName.css
+│   │   │   └── WebName.tsx
+│   │   ├── LikeButton
+│   │   │   ├── LikeButton.css
+│   │   │   └── LikeButton.tsx
+│   │   ├── Loading
+│   │   │   ├── Loading.css
+│   │   │   ├── Loading.tsx
+│   │   │   ├── LoadingSpinnerTwo.css
+│   │   │   ├── LoadingSpinnerTwo.tsx
+│   │   │   ├── LoadingThree.css
+│   │   │   └── LoadingThree.tsx
+│   │   └── Selectors
+│   │       ├── Category.tsx
+│   │       ├── MonthSelector.tsx
+│   │       ├── OnGoingSelector.css
+│   │       ├── OnGoingSelector.tsx
+│   │       ├── PageButton.css
+│   │       ├── PageButton.tsx
+│   │       ├── Picker.css
+│   │       ├── RegionSelector.tsx
+│   │       ├── RowsPerPage.css
+│   │       ├── RowsPerPage.tsx
+│   │       ├── Selectors.tsx
+│   │       ├── SubMenu.css
+│   │       ├── SubMenu.tsx
+│   │       ├── Tags.css
+│   │       └── Tags.tsx
+│   ├── firebase
+│   │   └── index.ts
+│   ├── hooks
+│   │   ├── useCheckParams.ts
+│   │   ├── useIntersectionObserver.ts
+│   │   └── useTourData.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── pages
+│   │   ├── Docs
+│   │   │   ├── About.css
+│   │   │   ├── About.tsx
+│   │   │   ├── DocsLayout.tsx
+│   │   │   ├── Navigator.css
+│   │   │   ├── Navigator.tsx
+│   │   │   ├── PrivacyPolicy.tsx
+│   │   │   ├── Service.tsx
+│   │   │   └── Text.css
+│   │   ├── Login
+│   │   │   ├── GoogleAndFaceBook.tsx
+│   │   │   ├── Kakao.tsx
+│   │   │   ├── LoginError.css
+│   │   │   ├── LoginError.tsx
+│   │   │   ├── LoginPage.css
+│   │   │   ├── LoginPage.tsx
+│   │   │   └── Naver.tsx
+│   │   ├── Main
+│   │   │   ├── BottomSlide.css
+│   │   │   ├── BottomSlide.tsx
+│   │   │   ├── MainVisual.tsx
+│   │   │   ├── TopSlide.css
+│   │   │   └── TopSlide.tsx
+│   │   ├── Question
+│   │   │   ├── Question.css
+│   │   │   └── Question.tsx
+│   │   ├── Result
+│   │   │   ├── Input.css
+│   │   │   ├── Input.tsx
+│   │   │   ├── Result.css
+│   │   │   ├── Result.tsx
+│   │   │   ├── ResultCard.css
+│   │   │   └── ResultCard.tsx
+│   │   ├── Root.tsx
+│   │   ├── Theme
+│   │   │   ├── Theme.css
+│   │   │   ├── Theme.tsx
+│   │   │   ├── ThemeSlide.css
+│   │   │   └── ThemeSlide.tsx
+│   │   └── User
+│   │       ├── Card.tsx
+│   │       ├── UserLogs.css
+│   │       ├── UserLogs.tsx
+│   │       ├── UserMenu.css
+│   │       ├── UserMenu.tsx
+│   │       └── UserPage.tsx
+│   ├── store
+│   │   ├── content-slice.ts
+│   │   ├── data-slice.ts
+│   │   ├── firebase-slice.ts
+│   │   ├── modal-slice.ts
+│   │   ├── my_reply-slice.ts
+│   │   ├── origin_comment-slice.ts
+│   │   ├── reply-slice.ts
+│   │   ├── rootReducer.ts
+│   │   └── store.ts
+│   ├── type
+│   │   ├── ContentType.ts
+│   │   ├── DataType.ts
+│   │   ├── FetchType.ts
+│   │   └── UserDataType.ts
+│   └── utils
+│       ├── calculateDate.ts
+│       ├── convertText.ts
+│       ├── dateSlice.ts
+│       ├── generatePageKey.ts
+│       └── nowDate.ts
+├── tsconfig.json
+├── Patchhistoty.md
+├── README.md
+├── firebase.json
+├── firestore.indexes.json
+├── firestore.rules
+├── package-lock.json
+└── package.json
 ```
 
 ### 기술 스택

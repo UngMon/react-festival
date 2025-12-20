@@ -3,9 +3,9 @@ import {
   LikedComment,
   CommentType,
   LikedContent,
-} from "type/DataType";
-import { ContentCommon } from "type/ContentType";
-import { UserData } from "type/UserDataType";
+} from "types/DataType";
+import { ContentCommon } from "types/ContentType";
+import { UserData } from "types/UserDataType";
 import { db } from "../firebase";
 import {
   collection,

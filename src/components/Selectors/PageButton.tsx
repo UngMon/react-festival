@@ -1,4 +1,6 @@
-import { TourDataType } from "type/FetchType";
+import { TourDataType } from "types/FetchType";
+import { useSearchParams } from "react-router-dom";
+import { createPageKey } from "utils/createPageKey";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { CheckParams } from "hooks/useCheckParams";
@@ -13,25 +15,23 @@ import "./PageButton.css";
 interface T {
   tourDataType: TourDataType;
   numOfRows: number;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
   params: CheckParams;
 }
 
-const PageButton = ({ tourDataType, numOfRows, page, setPage, params }: T) => {
-  const { contentTypeId, areaCode, cat1, cat2, cat3, keyword } =
-    params as CheckParams;
+const PageButton = ({ tourDataType, numOfRows, params }: T) => {
+  const page = Number(params.page);
 
-  let page_key =
-    tourDataType === "search"
-      ? `${contentTypeId}-${keyword}-${page}`
-      : `${contentTypeId}-${areaCode}-${cat1}-${cat2}-${cat3}-${numOfRows}-${page}`;
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const data = useSelector((state: RootState) => state.data[tourDataType]);
+  let page_key = createPageKey(tourDataType, numOfRows, params);
 
-  if (!data[page_key] || !data[page_key].totalCount) return null;
+  const DataOfPageKey = useSelector(
+    (state: RootState) => state.data[tourDataType]?.[page_key]
+  );
 
-  const page_total_count = data[page_key].totalCount;
+  if (!DataOfPageKey || !DataOfPageKey?.totalCount) return null;
+
+  const page_total_count = DataOfPageKey.totalCount;
 
   const MaxPageCount: number = Math.ceil(page_total_count / numOfRows);
   const currentGroup: number = Math.floor((page - 1) / 10); // 현재 10단위 그룹 (0부터 시작)
@@ -41,13 +41,22 @@ const PageButton = ({ tourDataType, numOfRows, page, setPage, params }: T) => {
   const arrowButtonHandler = (type: string) => {
     if (MaxPageCount === 0) return;
 
-    if (type === "back" && page >= 2) setPage(page - 1);
+    let newPage: number = page;
 
-    if (type === "forward" && page < MaxPageCount) setPage(page + 1);
+    if (type === "back" && page >= 2) newPage -= 1;
 
-    if (type === "prev") setPage(1);
+    if (type === "forward" && page < MaxPageCount) newPage += 1;
 
-    if (type === "next") setPage(MaxPageCount);
+    if (type === "prev") newPage = 1;
+
+    if (type === "next") newPage = MaxPageCount;
+
+    clickPageButton(newPage);
+  };
+
+  const clickPageButton = (newPage: number) => {
+    searchParams.set("page", newPage.toString());
+    setSearchParams(searchParams);
   };
 
   return (
@@ -72,9 +81,9 @@ const PageButton = ({ tourDataType, numOfRows, page, setPage, params }: T) => {
       ).map((num) => (
         <button
           type="button"
-          className={`page-button ${page === num ? "current-page" : ""}`}
+          className={`page-button ${+page! === num ? "current-page" : ""}`}
           key={num}
-          onClick={() => setPage(num)}
+          onClick={() => clickPageButton(num)}
         >
           <span>{num}</span>
         </button>

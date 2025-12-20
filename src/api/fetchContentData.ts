@@ -3,7 +3,7 @@ import {
   ResponseInfo,
   ResponseIntro,
   ResponseContentData,
-} from "../type/ContentType";
+} from "../types/ContentType";
 
 export const fetchContentData = async (
   id: string,

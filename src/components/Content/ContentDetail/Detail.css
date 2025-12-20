@@ -1,0 +1,61 @@
+.Cotent-text-box {
+  grid-column-end: span 3;
+  padding-top: 70px;
+  line-height: 25px;
+  position: relative;
+  font-size: 15px;
+}
+
+.info {
+  margin-bottom: 25px;
+  display: flex;
+
+  strong {
+    display: flex;
+    min-width: 100px;
+  }
+
+  p {
+    letter-spacing: 0.5px;
+    padding-left: 10px;
+    white-space: pre-wrap;
+
+    string {
+      display: inline;
+    }
+  }
+}
+
+.infoname {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 2px;
+    margin-top: 5px;
+    height: 16px;
+    background-color: #ddd;
+  }
+}
+
+.label {
+  min-width: 100px;
+  line-height: 100%;
+  font-size: 0.96em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label::after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 14px;
+  margin-top: 1px;
+  background-color: #cfcfcf;
+}
+

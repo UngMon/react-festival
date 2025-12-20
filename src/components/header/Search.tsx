@@ -40,7 +40,7 @@ const Search = () => {
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
 
-    navigate(`/search?contentTypeId=${category[0]}&keyword=${keyword}`);
+    navigate(`/search?contentTypeId=${category[0]}&keyword=${keyword}&page=1`);
     inputRef.current!.value = "";
     setOpenSearch(false);
   };

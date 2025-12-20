@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CommentType } from "type/DataType";
+import { CommentType } from "types/DataType";
 
 interface BasicPayload {
   origin_id: string;

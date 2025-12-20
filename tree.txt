@@ -1,0 +1,206 @@
+festival
+├── Patchhistoty.md
+├── README.md
+├── firebase.json
+├── firestore.indexes.json
+├── firestore.rules
+├── package-lock.json
+├── package.json
+├── src
+│   ├── App.css
+│   ├── App.test.tsx
+│   ├── App.tsx
+│   ├── api
+│   │   ├── fetchAndFilterReplies.ts
+│   │   ├── fetchContentData.ts
+│   │   ├── fetchTourApi.ts
+│   │   └── firestoreUtils.ts
+│   ├── assets
+│   │   ├── CatCode
+│   │   │   └── CatCode.ts
+│   │   └── Theme
+│   │       └── Theme.ts
+│   ├── components
+│   │   ├── Card
+│   │   │   ├── Card.css
+│   │   │   ├── Card.tsx
+│   │   │   ├── CardContainer.tsx
+│   │   │   └── CardItem.tsx
+│   │   ├── CommentForm
+│   │   │   ├── CommentForm.css
+│   │   │   └── CommentForm.tsx
+│   │   ├── Comments
+│   │   │   ├── Comment.css
+│   │   │   ├── Comment.tsx
+│   │   │   ├── CommentArea.css
+│   │   │   ├── CommentArea.tsx
+│   │   │   ├── CommentBox.tsx
+│   │   │   ├── CommentOption.tsx
+│   │   │   ├── CommentResponse.css
+│   │   │   ├── CommentResponse.tsx
+│   │   │   ├── ReplyComment.tsx
+│   │   │   ├── ReplyOrReviseComment.css
+│   │   │   ├── ReviseComment.tsx
+│   │   │   └── UserIcon.tsx
+│   │   ├── Content
+│   │   │   ├── Content.css
+│   │   │   └── Content.tsx
+│   │   ├── ContentDetail
+│   │   │   ├── BasicInfo.tsx
+│   │   │   ├── Detail.css
+│   │   │   ├── Detail.tsx
+│   │   │   └── Map.tsx
+│   │   ├── ContentImageSlide
+│   │   │   ├── Slider.css
+│   │   │   ├── Slider.tsx
+│   │   │   └── SliderButton.tsx
+│   │   ├── ContentMenuBar
+│   │   │   ├── MenuBar.css
+│   │   │   └── MenuBar.tsx
+│   │   ├── Error
+│   │   │   ├── GetDataError.css
+│   │   │   ├── GetDataError.tsx
+│   │   │   ├── LoginAccessError.css
+│   │   │   ├── LoginAccessError.tsx
+│   │   │   ├── PageNotFound.css
+│   │   │   └── PageNotFound.tsx
+│   │   ├── Footer
+│   │   │   ├── Footer.css
+│   │   │   └── Footer.tsx
+│   │   ├── Header
+│   │   │   ├── Header.css
+│   │   │   ├── Header.tsx
+│   │   │   ├── LoginButton.css
+│   │   │   ├── LoginButton.tsx
+│   │   │   ├── MobileMenu.css
+│   │   │   ├── MobileMenu.tsx
+│   │   │   ├── PcMenu.css
+│   │   │   ├── PcMenu.tsx
+│   │   │   ├── Search.css
+│   │   │   ├── Search.tsx
+│   │   │   ├── TopButton.css
+│   │   │   ├── TopButton.tsx
+│   │   │   ├── WebName.css
+│   │   │   └── WebName.tsx
+│   │   ├── LikeButton
+│   │   │   ├── LikeButton.css
+│   │   │   └── LikeButton.tsx
+│   │   ├── Loading
+│   │   │   ├── Loading.css
+│   │   │   ├── Loading.tsx
+│   │   │   ├── LoadingSpinnerTwo.css
+│   │   │   ├── LoadingSpinnerTwo.tsx
+│   │   │   ├── LoadingThree.css
+│   │   │   └── LoadingThree.tsx
+│   │   ├── Modal
+│   │   │   ├── DeleteModal.css
+│   │   │   ├── DeleteModal.tsx
+│   │   │   ├── FeedbackToast.css
+│   │   │   ├── FeedbackToast.tsx
+│   │   │   ├── OptionModal.css
+│   │   │   ├── OptionModal.tsx
+│   │   │   ├── ReportModal.css
+│   │   │   └── ReportModal.tsx
+│   │   ├── Replies
+│   │   │   ├── MoreReplyButton.tsx
+│   │   │   ├── MyReply.tsx
+│   │   │   ├── Replies.tsx
+│   │   │   ├── ReplyArea.css
+│   │   │   ├── ReplyArea.tsx
+│   │   │   └── ShowReplies.tsx
+│   │   └── Selectors
+│   │       ├── Category.tsx
+│   │       ├── MonthSelector.tsx
+│   │       ├── OnGoingSelector.css
+│   │       ├── OnGoingSelector.tsx
+│   │       ├── PageButton.css
+│   │       ├── PageButton.tsx
+│   │       ├── Picker.css
+│   │       ├── RegionSelector.tsx
+│   │       ├── RowsPerPage.css
+│   │       ├── RowsPerPage.tsx
+│   │       ├── Selectors.tsx
+│   │       ├── SubMenu.css
+│   │       ├── SubMenu.tsx
+│   │       ├── Tags.css
+│   │       └── Tags.tsx
+│   ├── firebase
+│   │   └── index.ts
+│   ├── hooks
+│   │   ├── useCheckParams.ts
+│   │   ├── useIntersectionObserver.ts
+│   │   └── useTourData.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── pages
+│   │   ├── Docs
+│   │   │   ├── About.css
+│   │   │   ├── About.tsx
+│   │   │   ├── DocsLayout.tsx
+│   │   │   ├── Navigator.css
+│   │   │   ├── Navigator.tsx
+│   │   │   ├── PrivacyPolicy.tsx
+│   │   │   ├── Service.tsx
+│   │   │   └── Text.css
+│   │   ├── Login
+│   │   │   ├── GoogleAndFaceBook.tsx
+│   │   │   ├── Kakao.tsx
+│   │   │   ├── LoginError.css
+│   │   │   ├── LoginError.tsx
+│   │   │   ├── LoginPage.css
+│   │   │   ├── LoginPage.tsx
+│   │   │   └── Naver.tsx
+│   │   ├── Main
+│   │   │   ├── BottomSlide.css
+│   │   │   ├── BottomSlide.tsx
+│   │   │   ├── MainVisual.tsx
+│   │   │   ├── TopSlide.css
+│   │   │   └── TopSlide.tsx
+│   │   ├── Question
+│   │   │   ├── Question.css
+│   │   │   └── Question.tsx
+│   │   ├── Result
+│   │   │   ├── Input.css
+│   │   │   ├── Input.tsx
+│   │   │   ├── Result.css
+│   │   │   ├── Result.tsx
+│   │   │   ├── ResultCard.css
+│   │   │   └── ResultCard.tsx
+│   │   ├── Root.tsx
+│   │   ├── Theme
+│   │   │   ├── Theme.css
+│   │   │   ├── Theme.tsx
+│   │   │   ├── ThemeSlide.css
+│   │   │   └── ThemeSlide.tsx
+│   │   └── User
+│   │       ├── Card.tsx
+│   │       ├── UserLogs.css
+│   │       ├── UserLogs.tsx
+│   │       ├── UserMenu.css
+│   │       ├── UserMenu.tsx
+│   │       └── UserPage.tsx
+│   ├── react-app-env.d.ts
+│   ├── setupTests.ts
+│   ├── store
+│   │   ├── content-slice.ts
+│   │   ├── data-slice.ts
+│   │   ├── firebase-slice.ts
+│   │   ├── modal-slice.ts
+│   │   ├── my_reply-slice.ts
+│   │   ├── origin_comment-slice.ts
+│   │   ├── reply-slice.ts
+│   │   ├── rootReducer.ts
+│   │   └── store.ts
+│   ├── types
+│   │   ├── ContentType.ts
+│   │   ├── DataType.ts
+│   │   ├── FetchType.ts
+│   │   └── UserDataType.ts
+│   └── utils
+│       ├── calculateDate.ts
+│       ├── convertText.ts
+│       ├── dateSlice.ts
+│       ├── generatePageKey.ts
+│       └── nowDate.ts
+├── tree.txt
+└── tsconfig.json

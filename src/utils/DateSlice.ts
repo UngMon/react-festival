@@ -1,18 +1,9 @@
 export const dateSlice = (startDate: string, endDate: string): string => {
-  if (!startDate && !endDate) return "";
-  
-  const result =
-    startDate.slice(0, 4) +
-    "." +
-    startDate.slice(4, 6) +
-    "." +
-    startDate.slice(6, 8) +
-    " ~ " +
-    endDate.slice(0, 4) +
-    "." +
-    endDate.slice(4, 6) +
-    "." +
-    endDate.slice(6, 8);
+  if (!startDate || !endDate) return "";
 
-  return result;
+  // (\d{4}): 연도 4자리, (\d{2}): 월 2자리, (\d{2}): 일 2자리 캡처
+  const format = (date: string) => date.replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3');
+  
+  // 20250101, 20251230 => 2025.01.01 ~ 2025.12.30
+  return `${format(startDate)} ~ ${format(endDate)}`;
 };

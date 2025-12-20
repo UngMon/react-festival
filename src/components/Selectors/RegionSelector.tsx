@@ -1,39 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { 지역코드 } from "assets/CatCode/CatCode";
 
 interface T {
-  tourDataType: string;
-  month?: string;
-  contentTypeId: string;
   areaCode: string;
-  cat1: string;
-  cat2: string;
-  cat3: string;
-  setPage: (input: number) => void;
 }
 
-const RegionSelector = ({
-  tourDataType,
-  month,
-  contentTypeId,
-  areaCode,
-  cat1,
-  cat2,
-  cat3,
-  setPage
-}: T) => {
-  const navigate = useNavigate();
+const RegionSelector = ({ areaCode }: T) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    
-    let url = '?';
-    if (tourDataType === "festival") url += `month=${month}&`;
-    url += `contentTypeId=${contentTypeId}&areaCode=${value}&cat1=${cat1}&cat2=${cat2}&cat3=${cat3}`;
-    navigate(url);
-    setPage(1);
+    const newAreaCode = event.target.value;
+
+    searchParams.set("areaCode", newAreaCode);
+    searchParams.set("page", "1");
+
+    setSearchParams(searchParams);
   };
 
   return (
@@ -53,4 +37,4 @@ const RegionSelector = ({
     </div>
   );
 };
-export default RegionSelector;
+export default React.memo(RegionSelector);

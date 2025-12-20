@@ -5,10 +5,8 @@ import {
   AuthProvider,
   setPersistence,
   browserSessionPersistence,
-  signInWithPopup,
-//   signInWithRedirect,
+  signInWithRedirect,
 } from "firebase/auth";
-
 import { useNavigate } from "react-router-dom";
 
 interface T {
@@ -32,9 +30,9 @@ const GoolgeAndFaceBook = ({ setLoading, setErrorCode }: T) => {
     try {
       await setPersistence(auth, browserSessionPersistence);
       let provider: AuthProvider | null = providerMap[type];
-
-      //if (provider) await signInWithRedirect(auth, provider);
-      if (provider) await signInWithPopup(auth, provider);
+      
+      if (provider) await signInWithRedirect(auth, provider);
+      // if (provider) await signInWithPopup(auth, provider);
     } catch (error: any) {
       // 만약 리다이렉트 전에 에러가 발생하면, 남겼던 표식을 반드시 제거해야 합니다.
       setErrorCode(error.code);

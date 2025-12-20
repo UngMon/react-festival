@@ -1,10 +1,10 @@
-import { TourDataType } from "type/FetchType";
+import { TourDataType } from "types/FetchType";
+import { useCheckParams } from "hooks/useCheckParams";
 import { useState } from "react";
 import Card from "./Card";
 import Selectors from "../Selectors/Selectors";
-import Result from "pages/Result/Result";
+import Result from "pages/Search/Result";
 import PageButton from "../Selectors/PageButton";
-import {useCheckParams} from "hooks/useCheckParams";
 
 interface T {
   tourDataType: TourDataType;
@@ -22,26 +22,28 @@ const CardContainer = ({ tourDataType }: T) => {
           <Selectors
             tourDataType={tourDataType}
             numOfRows={numOfRows}
+            params={params}
             setNumOfRows={setNumOfRows}
-            setPage={setPage}
           />
           <Card
             tourDataType={tourDataType}
             numOfRows={numOfRows}
-            page={page}
             params={params}
           />
         </>
       ) : (
-        <Result tourDataType={tourDataType} page={page} params={params} />
+        <Result
+          tourDataType={tourDataType}
+          params={params}
+          page={page}
+          setPage={setPage}
+        />
       )}
       {tourDataType !== "festival" && (
         <PageButton
           tourDataType={tourDataType}
           numOfRows={numOfRows}
           params={params}
-          page={page}
-          setPage={setPage}
         />
       )}
     </main>

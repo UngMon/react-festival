@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CommentType, ReplyComment } from "type/DataType";
+import { CommentType, ReplyComment } from "types/DataType";
 import { fetchAndFilterReplies } from "api/fetchAndFilterReplies";
 
 interface LikeCommentPayload {

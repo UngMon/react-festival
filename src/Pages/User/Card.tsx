@@ -1,4 +1,4 @@
-import { LikedComment, LikedContent, CommentType } from "../../type/DataType";
+import { LikedComment, LikedContent, CommentType } from "../../types/DataType";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";

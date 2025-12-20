@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ContentType } from "../type/ContentType";
+import { ContentType } from "../types/ContentType";
 import {
   ResponseCommon,
   ResponseInfo,
   ResponseIntro,
-} from "../type/ContentType";
+} from "../types/ContentType";
 
 const initialState: ContentType = {
   detailInfo: undefined,

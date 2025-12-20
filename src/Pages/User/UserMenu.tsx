@@ -9,7 +9,7 @@ import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { useAppDispatch } from "../../store/store";
 import { firebaseActions } from "../../store/firebase-slice";
-import { UserData } from "type/UserDataType";
+import { UserData } from "types/UserDataType";
 import "./UserMenu.css";
 
 interface T {

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ContentFeel } from "type/DataType";
+import { ContentFeel } from "types/DataType";
 import { RootState } from "store/store";
 import { useSelector } from "react-redux";
 import { increment, getDoc, writeBatch } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { db } from "../../../firebase";
-import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
+import LoadingSpinnerTwo from "components/Common/Loading/LoadingSpinnerTwo";
 import "./LikeButton.css";
 
 interface T {

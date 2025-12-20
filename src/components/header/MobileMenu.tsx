@@ -134,7 +134,7 @@ const MobileMenu = ({ headRef }: T) => {
         )}
         <li>
           <Link
-            to="/tour?contentTypeId=12&areaCode=1&cat1=all&cat2=all&cat3=all"
+            to="/tour?contentTypeId=12&areaCode=1&cat1=all&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -143,7 +143,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/culture?contentTypeId=14&areaCode=1&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=14&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -161,7 +161,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/travel?contentTypeId=25&areaCode=1&cat1=C01&cat2=all&cat3=all"
+            to="/travel?contentTypeId=25&areaCode=1&cat1=C01&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -170,7 +170,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/culture?contentTypeId=28&areaCode=1&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=28&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -179,7 +179,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/culture?contentTypeId=32&areaCode=1&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=32&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -188,7 +188,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/culture?contentTypeId=38&areaCode=1&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=38&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >
@@ -197,7 +197,7 @@ const MobileMenu = ({ headRef }: T) => {
         </li>
         <li>
           <Link
-            to="/culture?contentTypeId=39&areaCode=1&cat1=A02&cat2=all&cat3=all"
+            to="/culture?contentTypeId=39&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1"
             className="side-item"
             onClick={() => setOpenNav(false)}
           >

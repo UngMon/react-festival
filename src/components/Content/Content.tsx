@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import Slider from "./ImageSlide/Slider";
-import Detail from "./Detail/Detail";
-import MenuBar from "./MenuBar/MenuBar";
-import LikeButton from "./LikeButton/LikeButton";
-import CommentForm from "./Comments/CommentForm/CommentForm";
-import CommentArea from "./Comments/Reviews/CommentArea";
-import FeedbackToast from "./Comments/Modal/FeedbackToast";
+import Slider from "./ContentImageSlide/Slider";
+import Detail from "./ContentDetail/Detail";
+import MenuBar from "./ContentMenuBar/MenuBar";
+import LikeButton from "components/Content/LikeButton/LikeButton";
+import CommentForm from "./CommentForm/CommentForm";
+import CommentArea from "components/Content/Comments/CommentArea";
+import FeedbackToast from "components/Content/Comments/Modal/FeedbackToast";
 import "./Content.css";
 
 const Cotent = () => {

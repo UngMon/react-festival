@@ -1,5 +1,5 @@
-import { LogItem, GroupedLogs } from "type/DataType";
-import { UserData } from "type/UserDataType";
+import { LogItem, GroupedLogs } from "types/DataType";
+import { UserData } from "types/UserDataType";
 import { modalActions } from "store/modal-slice";
 import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "../../store/store";
@@ -8,7 +8,7 @@ import { originCommentActions } from "../../store/origin_comment-slice";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { deleteLogItem, getUserLogs } from "api/firestoreUtils";
 import Card from "./Card";
-import LoadingSpinnerTwo from "components/Loading/LoadingSpinnerTwo";
+import LoadingSpinnerTwo from "components/Common/Loading/LoadingSpinnerTwo";
 import "./UserLogs.css";
 
 interface T {

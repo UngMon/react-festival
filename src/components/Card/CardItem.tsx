@@ -1,5 +1,5 @@
 import { CheckParams } from "hooks/useCheckParams";
-import { Item, TourDataType } from "type/FetchType";
+import { Item, TourDataType } from "types/FetchType";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { useNavigate } from "react-router-dom";
@@ -16,28 +16,23 @@ type Card = {
 interface T {
   tourDataType: TourDataType;
   params: CheckParams;
-  numOfRows: number;
-  page: number;
   tourDataArray: Item[];
 }
 
 const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
   const navigate = useNavigate();
   const 행사상태 = useSelector((state: RootState) => state.data.행사상태);
-  const { areaCode, cat1, cat2, cat3, keyword, month: param_month } = params;
+  const { areaCode, cat1, cat2, cat3, month: param_month } = params;
   const { year, month, date } = nowDate();
 
   // url에 맞는 관광공사 데이터가 없다면 아래 요소 반환
-  if (tourDataArray.length === 0)
+  if (!tourDataArray || tourDataArray.length === 0) {
     return (
       <div key="not-found" className="not-found-category">
-        <p>
-          {tourDataType === "search"
-            ? "검색한 키워드 결과가 없습니다!"
-            : "조건에 부합하는 결과가 없습니다!"}
-        </p>
+        <p>"조건에 부합하는 결과가 없습니다!"</p>
       </div>
     );
+  }
 
   const filteredItems = () => {
     let result: Card[] = [];
@@ -91,64 +86,67 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
 
   return (
     <>
-      {tourDataType === "search" && (
-        <h3 className="result-title">{`' ${keyword} ' 검색 결과: ${datas.length}개`}</h3>
-      )}
-      {datas.map((item) => {
-        const {
-          areacode,
-          contentid,
-          contenttypeid,
-          sigungucode,
-          firstimage,
-          eventstartdate,
-          eventenddate,
-          title,
-          cat3,
-        } = item.data;
-        const 축제상태 = item._state;
+      {datas.length > 0 ? (
+        datas.map((item) => {
+          const {
+            areacode,
+            contentid,
+            contenttypeid,
+            sigungucode,
+            firstimage,
+            eventstartdate,
+            eventenddate,
+            title,
+            cat3,
+          } = item.data;
+          const 축제상태 = item._state;
 
-        const 지역 = 지역코드[areacode];
-        const 시군구 = 시군코드[지역코드[areacode]][sigungucode];
-        const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
+          const 지역 = 지역코드[areacode];
+          const 시군구 = 시군코드[지역코드[areacode]][sigungucode];
+          const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
 
-        return (
-          <div
-            className="card-item"
-            key={contentid}
-            onClick={() =>
-              navigate(
-                `/content?contentTypeId=${contenttypeid}&contentId=${contentid}`
-              )
-            }
-          >
-            <div className="card-image-box">
-              <img
-                src={
-                  firstimage?.replace(/^http:\/\//, "https://") ||
-                  "../images/Noimage.png"
-                }
-                alt="img"
-                loading="lazy"
-              />
-            </div>
-            {tourDataType === "festival" && (
-              <p className={`cal-date ${축제상태}`}>{축제상태}</p>
-            )}
-            <div className="card-text">
-              <p className="area">{지역표시}</p>
-              <h4>{title}</h4>
-              {tourDataType === "festival" ? (
-                <p className="card-date">
-                  {dateSlice(eventstartdate!, eventenddate!)}
-                </p>
-              ) : (
-                <p className="card-tag">{`#${cat3Code[cat3]}`}</p>
+          return (
+            <div
+              className="card-item"
+              key={contentid}
+              onClick={() =>
+                navigate(
+                  `/content?contentTypeId=${contenttypeid}&contentId=${contentid}`
+                )
+              }
+            >
+              <div className="card-image-box">
+                <img
+                  src={
+                    firstimage?.replace(/^http:\/\//, "https://") ||
+                    "../images/Noimage.png"
+                  }
+                  alt="img"
+                  loading="lazy"
+                />
+              </div>
+              {tourDataType === "festival" && (
+                <p className={`cal-date ${축제상태}`}>{축제상태}</p>
               )}
+              <div className="card-text">
+                <p className="area">{지역표시}</p>
+                <h4>{title}</h4>
+                {tourDataType === "festival" ? (
+                  <p className="card-date">
+                    {dateSlice(eventstartdate!, eventenddate!)}
+                  </p>
+                ) : (
+                  <p className="card-tag">{`#${cat3Code[cat3]}`}</p>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      ) : (
+        <div key="not-found" className="not-found-category">
+          <p>"조건에 부합하는 결과가 없습니다!"</p>
+        </div>
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { CommentType } from "type/DataType";
+import { CommentType } from "types/DataType";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";

@@ -1,21 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { useSearchParams } from "react-router-dom";
 
 interface T {
   month: string;
-  type: string;
-  areaCode: string;
 }
 
-const MonthSelector = ({ month, type, areaCode }: T) => {
-  const navigate = useNavigate();
+const MonthSelector = ({ month }: T) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pickedMonthHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    navigate(
-      `/festival?contentTypeId=${type}&month=${value}&areaCode=${areaCode}&cat1=all&cat2=all&cat3=all`
-    );
+
+    searchParams.set("month", value);
+
+    setSearchParams(searchParams);
   };
 
   return (
@@ -43,4 +43,4 @@ const MonthSelector = ({ month, type, areaCode }: T) => {
   );
 };
 
-export default MonthSelector;
+export default React.memo(MonthSelector);

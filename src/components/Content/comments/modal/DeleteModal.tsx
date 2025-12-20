@@ -1,4 +1,4 @@
-import { CommentType } from "type/DataType";
+import { CommentType } from "types/DataType";
 import { useEffect } from "react";
 import { useAppDispatch } from "store/store";
 import { modalActions } from "store/modal-slice";

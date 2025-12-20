@@ -1,0 +1,8 @@
+.map {
+  display: flex;
+  margin-bottom: 25px;
+
+  span {
+    padding-left: 10px;
+  }
+}

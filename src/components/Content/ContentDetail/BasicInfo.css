@@ -1,0 +1,59 @@
+.Content-table {
+  padding-top: 25px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 16px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.Content-table li {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px 10px 0;
+}
+
+.Content-table span {
+  padding-left: 10px;
+  font-size: 0.9em;
+  word-break: break-all;
+  white-space: pre-line;
+
+  a {
+    color: #333;
+
+    &:hover {
+      color: #3f75da;
+    }
+  }
+}
+
+.Content-get-error {
+  font-size: 1.5em;
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
+}
+
+.hompage_link {
+  color: rgb(65, 65, 251) !important;
+}
+
+@media (max-width: 1023.5px) {
+  .Content-table {
+    grid-template-columns: 1fr;
+  }
+  .Content-table strong {
+    width: 100px;
+  }
+
+  .Content-table span {
+    width: auto;
+  }
+}
+
+@media (max-width: 425px) {
+  .Content-table {
+    font-size: 14px;
+  }
+}

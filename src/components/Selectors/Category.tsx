@@ -1,57 +1,41 @@
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface T {
   tourDataType: string;
-  month?: string;
-  contentTypeId: string;
-  areaCode: string;
   cat1: string;
   cat2: string;
   cat3?: string;
-  setPage: (input: number) => void;
 }
 
-const Category = ({
-  tourDataType,
-  month,
-  contentTypeId,
-  areaCode,
-  cat1,
-  cat2,
-  cat3,
-  setPage,
-}: T) => {
-  const navigate = useNavigate();
+const Category = ({ tourDataType, cat1, cat2, cat3 }: T) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pickerSelector = (
     event: React.ChangeEvent<HTMLSelectElement>,
     cat: string
   ) => {
-    const value = event.target.value;
+    const newValue = event.target.value;
 
     if (cat === "cat1") {
-      navigate(
-        `/${tourDataType}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${value}&cat2=all&cat3=all`
-      );
+      searchParams.set("cat1", newValue);
+      searchParams.set("cat2", "all");
+      searchParams.set("cat3", "all");
     }
 
     if (cat === "cat2") {
-      navigate(
-        `/${tourDataType}?${
-          tourDataType === "축제/공연/행사" ? `month=${month}&` : ""
-        }contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${value}&cat3=all`
-      );
+      searchParams.set("cat2", newValue);
+      searchParams.set('cat3', 'all');
     }
 
     if (cat === "cat3") {
-      navigate(
-        `/${tourDataType}?contentTypeId=${contentTypeId}&areaCode=${areaCode}&cat1=${cat1}&cat2=${cat2}&cat3=${value}`
-      );
+      searchParams.set("cat3", newValue);
     }
 
-    setPage(1);
+    searchParams.set("page", "1");
+
+    setSearchParams(searchParams);
   };
 
   return (
@@ -111,7 +95,7 @@ const Category = ({
             <option value="A02061100"># 문화전수시설</option>
             <option value="A02061200"># 영화관</option>
             <option value="A02061300"># 어학당</option>
-            <option value="A02061300"># 학교</option>
+            <option value="A02061400"># 학교</option>
           </select>
           <FontAwesomeIcon id="before-icon" icon={faFolderOpen} />
           <FontAwesomeIcon icon={faCheck} />

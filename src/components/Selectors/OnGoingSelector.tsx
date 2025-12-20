@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import { dataActions } from "store/data-slice";
 import { RootState, useAppDispatch } from "store/store";
@@ -42,4 +43,4 @@ const OnGoingSelector = () => {
   );
 };
 
-export default OnGoingSelector;
+export default React.memo(OnGoingSelector);

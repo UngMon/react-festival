@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CommentType, OriginComment } from "type/DataType";
+import { CommentType, OriginComment } from "types/DataType";
 
 interface LikeCommentPayload {
   comment_id: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import { TourDataType } from "type/FetchType";
-import { useCheckParams, CheckParams } from "hooks/useCheckParams";
+import { TourDataType } from "types/FetchType";
+import { CheckParams } from "hooks/useCheckParams";
 import SubMenu from "./SubMenu";
 import MonthSelector from "./MonthSelector";
 import RegionSelector from "./RegionSelector";
@@ -13,62 +13,34 @@ import "./Picker.css";
 interface T {
   tourDataType: TourDataType;
   numOfRows: number;
+  params: CheckParams;
   setNumOfRows: React.Dispatch<React.SetStateAction<number>>;
-  setPage: (input: number) => void;
 }
 
-const Selectors = ({ tourDataType, numOfRows, setNumOfRows, setPage }: T) => {
-  const { contentTypeId, month, areaCode, cat1, cat2, cat3, requireRedirect } =
-    useCheckParams(tourDataType) as CheckParams;
+const Selectors = ({ tourDataType, numOfRows, params, setNumOfRows }: T) => {
+  const { month, areaCode, requireRedirect, cat1, cat2, cat3, contentTypeId } =
+    params;
 
   return (
     <div className="Ui-Box">
       <SubMenu title={tourDataType} />
       <div>
         <div className="option-container">
-          {tourDataType === "festival" && requireRedirect === "" && (
-            <MonthSelector
-              month={month!}
-              type={contentTypeId!}
-              areaCode={areaCode!}
-            />
+          {tourDataType === "festival" && params.requireRedirect === "" && (
+            <MonthSelector month={month!} />
           )}
-          {requireRedirect === "" && (
-            <RegionSelector
-              tourDataType={tourDataType}
-              month={month}
-              contentTypeId={contentTypeId!}
-              areaCode={areaCode!}
-              cat1={cat1!}
-              cat2={cat2!}
-              cat3={cat3!}
-              setPage={setPage}
-            />
-          )}
+          {requireRedirect === "" && <RegionSelector areaCode={areaCode!} />}
           {requireRedirect === "" && (
             <Category
               tourDataType={tourDataType}
-              month={month}
-              contentTypeId={contentTypeId!}
-              areaCode={areaCode!}
               cat1={cat1!}
               cat2={cat2!}
               cat3={cat3!}
-              setPage={setPage}
             />
           )}
         </div>
         {requireRedirect === "" && (
-          <Tags
-            tourDataType={tourDataType}
-            month={month!}
-            contentTypeId={contentTypeId!}
-            areaCode={areaCode!}
-            cat1={cat1!}
-            cat2={cat2!}
-            cat3={cat3!}
-            setPage={setPage}
-          />
+          <Tags contentTypeId={contentTypeId!} cat2={cat2!} cat3={cat3!} />
         )}
       </div>
       {tourDataType === "festival" && <OnGoingSelector />}

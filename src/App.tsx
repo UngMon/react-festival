@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { TourDataType } from "./type/FetchType";
+import { TourDataType } from "./types/FetchType";
 import RootLayout from "./pages/Root";
-import Loading from "./components/Loading/Loading";
-import GetDataError from "./components/Error/GetDataError";
+import Loading from "./components/Common/Loading/Loading";
+import GetDataError from "./components/Common/Error/GetDataError";
 import MainVisual from "./pages/Main/MainVisual";
 import "./App.css";
 
-const PageNotFound = lazy(() => import("./components/Error/PageNotFound"));
+const PageNotFound = lazy(() => import("./components/Common/Error/PageNotFound"));
 const LoginPage = lazy(() => import("./pages/Login/LoginPage"));
 const Main = lazy(() => import("./components/Card/CardContainer"));
 const Content = lazy(() => import("./components/Content/Content"));
