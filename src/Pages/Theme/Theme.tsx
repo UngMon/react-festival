@@ -32,7 +32,7 @@ const Theme = () => {
   return (
     <section className="theme">
       {theme_number &&
-        slideData[Number(theme_number)].map((item, index) => (
+        slideData[Number(theme_number)].map((item) => (
           <div className="theme-item-box" key={item.title}>
             <div className="item-title">
               <h2>{item.title}</h2>

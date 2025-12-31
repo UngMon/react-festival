@@ -6,7 +6,7 @@ import { auth } from "../../firebase";
 import { getRedirectResult } from "firebase/auth";
 import LoadingThree from "../../components/Common/Loading/LoadingThree";
 import LoginAccessError from "../../components/Common/Error/LoginAccessError";
-import KakaoLogin from "./Kakao";
+import Kakao from "./Kakao";
 import Naver from "./Naver";
 import LoginError from "./LoginError";
 import GoolgeAndFaceBook from "./GoogleAndFaceBook";
@@ -41,6 +41,7 @@ const LoginPage = () => {
         })
         .finally(() => {
           setLoading(false);
+          setErrorCode("auth/operation-not-allowed");
           sessionStorage.removeItem("firebaseRedirect");
         });
     }
@@ -59,7 +60,7 @@ const LoginPage = () => {
               setLoading={setLoading}
               setErrorCode={setErrorCode}
             />
-            <KakaoLogin setLoading={setLoading} />
+            <Kakao setLoading={setLoading} />
             <Naver setLoading={setLoading} />
           </form>
         )

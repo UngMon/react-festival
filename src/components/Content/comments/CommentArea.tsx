@@ -15,23 +15,26 @@ interface T {
 
 const CommentArea = ({ content_id }: T) => {
   const dispatch = useAppDispatch();
-  const { comments, afterIndex } = useSelector(
+  const { comments, afterIndex, record } = useSelector(
     (state: RootState) => state.origin_comment
   );
   const loading = useRef<boolean>(false);
   const [targetRef, intersecting] = useIntersectionObserver();
+  const isMatch = record === content_id;
+  const isFinish = afterIndex === "finish";
 
   useEffect(() => {
-    if (afterIndex === "finish" || !intersecting || loading.current) return;
+    if ((isMatch && isFinish) || !intersecting || loading.current) return;
 
     const getCommentData = async () => {
       loading.current = true;
       const origin_id = null;
+      const checkedAfterIndex = isMatch ? afterIndex : null;
 
       try {
         const { comment_datas, lastDataIndex } = await fetchCommentData(
           origin_id,
-          afterIndex,
+          checkedAfterIndex,
           content_id
         );
 
@@ -39,6 +42,7 @@ const CommentArea = ({ content_id }: T) => {
           originCommentActions.setComment({
             comment_datas,
             startAfter: lastDataIndex,
+            content_id,
           })
         );
       } catch (error: any) {
@@ -51,28 +55,32 @@ const CommentArea = ({ content_id }: T) => {
     };
 
     getCommentData();
-  }, [dispatch, intersecting, afterIndex, content_id]);
+  }, [
+    dispatch,
+    intersecting,
+    afterIndex,
+    content_id,
+    record,
+    isFinish,
+    isMatch,
+  ]);
 
   return (
     <div className="comments-area">
-      {comments.length === 0 && afterIndex === "finish" && (
+      {isMatch && comments.length === 0 && afterIndex === "finish" && (
         <p>등록된 리뷰가 없습니다!</p>
       )}
-      {comments.length > 0 &&
-        comments.map((item, index) => (
+      {isMatch && comments.length > 0 &&
+        comments.map((item) => (
           <div
             className="comment-box-container"
             key={item.createdAt + item.user_id}
           >
-            <CommentBox
-              type={"origin"}
-              deepth={0}
-              comment_data={item}
-            />
+            <CommentBox type={"origin"} deepth={0} comment_data={item} />
             <ReplyArea comment_data={item} />
           </div>
         ))}
-      {intersecting && afterIndex !== "finish" && (
+      {intersecting && (!isMatch || !isFinish) && (
         <LoadingSpinnerTwo width="20px" padding="7px" />
       )}
       <div className="comment-target" ref={targetRef}></div>

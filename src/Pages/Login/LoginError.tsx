@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import WebName from "../../components/Header/WebName";
+import WebName from "components/Header/WebName";
 import "./LoginError.css";
 
 interface T {

@@ -31,7 +31,7 @@ import {
 
 export const fetchCommentData = async (
   origin_id: string | null,
-  afterIndex: string,
+  afterIndex: string | null,
   content_id: string
 ) => {
   const commentRef = collection(db, "comments");

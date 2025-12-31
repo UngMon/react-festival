@@ -25,22 +25,23 @@
       href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap"
       rel="stylesheet"
     />
-    <script
-      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
-      integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      Kakao.init("490aea2f6f7854ad4fcaf8e8c8bcfdde");
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <script
       type="text/javascript"
       src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
       charset="utf-8"
     ></script>
     <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+      integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Kakao.init("%REACT_APP_KAKAO_API_KEY%");
+    </script>
+    <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=490aea2f6f7854ad4fcaf8e8c8bcfdde"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAO_API_KEY%"
     ></script>
   </head>
   <body>

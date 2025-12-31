@@ -21,8 +21,6 @@ const BasicInfo = ({ detailIntro, detailCommon, content_type }: T) => {
 
   const Intro: { [key: string]: string } = detailIntro[0];
 
-  console.log(content_type, BasicInfoList)
-
   const extractLinks = (htmlString: string) => {
     if (!htmlString) return [];
 

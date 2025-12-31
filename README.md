@@ -1,282 +1,100 @@
 # 이곳저곳
 
-한국관광공사 api를 이용하여 대한민국 축제/행사/공연을 한 곳에서 볼 수 있는 웹(web) 애플리케이션 입니다.
+"복잡한 정보 속에서 찾은 나만의 국내 여행지" > 공공데이터 API를 활용한 직관적인 국내 관광 정보 서비스
 
-## 이곳저곳 2.0v 출시
+<a href="https://igotjeogot.kr" rel='noreferrer' target="_blank" >이곳저곳으로 이동</a>
+<br></br>
 
-https://festival-moa-fc37b.firebaseapp.com
+### 💡 개발 배경 및 목적
 
-## 프로젝트 구조
+평소 국내 여행을 즐기며 '대한민국 구석구석'과 같은 포털에서 정보를 얻곤 했지만, 방대한 정보량에 비해 복잡한 UI로 인해 원하는 정보를 빠르게 찾기 어렵다는 아쉬움이 있었습니다. 이러한 불편함을 해소하고자 1만 개 이상의 관광 데이터를 사용자가 한눈에 파악할 수 있도록 직관적으로 재구성하고, 검색과 커뮤니티 등 핵심 기능에 집중한 미니멀 관광 플랫폼 '이곳저곳'을 기획하게 되었습니다.
 
-```
-festival
+단순한 화면을 구현하는 것에 그치지 않고, 프론트엔드 중심의 Full-cycle 개발(설계, 빌드, 배포, 운영)을 직접 경험하며 실무 환경에서 필요한 문제 해결 역량과 전체적인 서비스 흐름을 이해하는 것을 최종 목표로 삼았습니다.
+<br></br>
 
-├── src
-│   ├── App.css
-│   ├── App.test.tsx
-│   ├── App.tsx
-│   ├── api
-│   │   ├── fetchAndFilterReplies.ts
-│   │   ├── fetchContentData.ts
-│   │   ├── fetchTourApi.ts
-│   │   └── firestoreUtils.ts
-│   ├── assets
-│   │   ├── CatCode
-│   │   │   └── CatCode.ts
-│   │   └── Theme
-│   │       └── Theme.ts
-│   ├── components
-│   │   ├── Card
-│   │   │   ├── Card.css
-│   │   │   ├── Card.tsx
-│   │   │   ├── CardContainer.tsx
-│   │   │   └── CardItem.tsx
-│   │   ├── CommentForm
-│   │   │   ├── CommentForm.css
-│   │   │   └── CommentForm.tsx
-│   │   ├── Comments
-│   │   │   ├── Modal
-│   │   │   │   ├── DeleteModal.css
-│   │   │   │   ├── DeleteModal.tsx
-│   │   │   │   ├── FeedbackToast.css
-│   │   │   │   ├── FeedbackToast.tsx
-│   │   │   │   ├── OptionModal.css
-│   │   │   │   ├── OptionModal.tsx
-│   │   │   │   ├── ReportModal.css
-│   │   │   │   └── ReportModal.tsx
-│   │   │   ├── Reply
-│   │   │   │   ├── MoreReplyButton.tsx
-│   │   │   │   ├── MyReply.tsx
-│   │   │   │   ├── Replies.tsx
-│   │   │   │   ├── ReplyArea.css
-│   │   │   │   ├── ReplyArea.tsx
-│   │   │   │   └── ShowReplies.tsx
-│   │   │   └── Reviews
-│   │   │       ├── Comment.css
-│   │   │       ├── Comment.tsx
-│   │   │       ├── CommentArea.css
-│   │   │       ├── CommentArea.tsx
-│   │   │       ├── CommentBox.tsx
-│   │   │       ├── CommentOption.tsx
-│   │   │       ├── CommentResponse.css
-│   │   │       ├── CommentResponse.tsx
-│   │   │       ├── ReplyComment.tsx
-│   │   │       ├── ReplyOrReviseComment.css
-│   │   │       ├── ReviseComment.tsx
-│   │   │       └── UserIcon.tsx
-│   │   ├── Content
-│   │   │   ├── Content.css
-│   │   │   ├── Content.tsx
-│   │   │   ├── Detail
-│   │   │   │   ├── BasicInfo.tsx
-│   │   │   │   ├── Detail.css
-│   │   │   │   ├── Detail.tsx
-│   │   │   │   └── Map.tsx
-│   │   │   ├── ImageSlide
-│   │   │   │   ├── Slider.css
-│   │   │   │   ├── Slider.tsx
-│   │   │   │   └── SliderButton.tsx
-│   │   │   └── MenuBar
-│   │   │       ├── MenuBar.css
-│   │   │       └── MenuBar.tsx
-│   │   ├── Error
-│   │   │   ├── GetDataError.css
-│   │   │   ├── GetDataError.tsx
-│   │   │   ├── LoginAccessError.css
-│   │   │   ├── LoginAccessError.tsx
-│   │   │   ├── PageNotFound.css
-│   │   │   └── PageNotFound.tsx
-│   │   ├── Footer
-│   │   │   ├── Footer.css
-│   │   │   └── Footer.tsx
-│   │   ├── Header
-│   │   │   ├── Header.css
-│   │   │   ├── Header.tsx
-│   │   │   ├── LoginButton.css
-│   │   │   ├── LoginButton.tsx
-│   │   │   ├── MobileMenu.css
-│   │   │   ├── MobileMenu.tsx
-│   │   │   ├── PcMenu.css
-│   │   │   ├── PcMenu.tsx
-│   │   │   ├── Search.css
-│   │   │   ├── Search.tsx
-│   │   │   ├── TopButton.css
-│   │   │   ├── TopButton.tsx
-│   │   │   ├── WebName.css
-│   │   │   └── WebName.tsx
-│   │   ├── LikeButton
-│   │   │   ├── LikeButton.css
-│   │   │   └── LikeButton.tsx
-│   │   ├── Loading
-│   │   │   ├── Loading.css
-│   │   │   ├── Loading.tsx
-│   │   │   ├── LoadingSpinnerTwo.css
-│   │   │   ├── LoadingSpinnerTwo.tsx
-│   │   │   ├── LoadingThree.css
-│   │   │   └── LoadingThree.tsx
-│   │   └── Selectors
-│   │       ├── Category.tsx
-│   │       ├── MonthSelector.tsx
-│   │       ├── OnGoingSelector.css
-│   │       ├── OnGoingSelector.tsx
-│   │       ├── PageButton.css
-│   │       ├── PageButton.tsx
-│   │       ├── Picker.css
-│   │       ├── RegionSelector.tsx
-│   │       ├── RowsPerPage.css
-│   │       ├── RowsPerPage.tsx
-│   │       ├── Selectors.tsx
-│   │       ├── SubMenu.css
-│   │       ├── SubMenu.tsx
-│   │       ├── Tags.css
-│   │       └── Tags.tsx
-│   ├── firebase
-│   │   └── index.ts
-│   ├── hooks
-│   │   ├── useCheckParams.ts
-│   │   ├── useIntersectionObserver.ts
-│   │   └── useTourData.ts
-│   ├── index.css
-│   ├── index.tsx
-│   ├── pages
-│   │   ├── Docs
-│   │   │   ├── About.css
-│   │   │   ├── About.tsx
-│   │   │   ├── DocsLayout.tsx
-│   │   │   ├── Navigator.css
-│   │   │   ├── Navigator.tsx
-│   │   │   ├── PrivacyPolicy.tsx
-│   │   │   ├── Service.tsx
-│   │   │   └── Text.css
-│   │   ├── Login
-│   │   │   ├── GoogleAndFaceBook.tsx
-│   │   │   ├── Kakao.tsx
-│   │   │   ├── LoginError.css
-│   │   │   ├── LoginError.tsx
-│   │   │   ├── LoginPage.css
-│   │   │   ├── LoginPage.tsx
-│   │   │   └── Naver.tsx
-│   │   ├── Main
-│   │   │   ├── BottomSlide.css
-│   │   │   ├── BottomSlide.tsx
-│   │   │   ├── MainVisual.tsx
-│   │   │   ├── TopSlide.css
-│   │   │   └── TopSlide.tsx
-│   │   ├── Question
-│   │   │   ├── Question.css
-│   │   │   └── Question.tsx
-│   │   ├── Result
-│   │   │   ├── Input.css
-│   │   │   ├── Input.tsx
-│   │   │   ├── Result.css
-│   │   │   ├── Result.tsx
-│   │   │   ├── ResultCard.css
-│   │   │   └── ResultCard.tsx
-│   │   ├── Root.tsx
-│   │   ├── Theme
-│   │   │   ├── Theme.css
-│   │   │   ├── Theme.tsx
-│   │   │   ├── ThemeSlide.css
-│   │   │   └── ThemeSlide.tsx
-│   │   └── User
-│   │       ├── Card.tsx
-│   │       ├── UserLogs.css
-│   │       ├── UserLogs.tsx
-│   │       ├── UserMenu.css
-│   │       ├── UserMenu.tsx
-│   │       └── UserPage.tsx
-│   ├── store
-│   │   ├── content-slice.ts
-│   │   ├── data-slice.ts
-│   │   ├── firebase-slice.ts
-│   │   ├── modal-slice.ts
-│   │   ├── my_reply-slice.ts
-│   │   ├── origin_comment-slice.ts
-│   │   ├── reply-slice.ts
-│   │   ├── rootReducer.ts
-│   │   └── store.ts
-│   ├── type
-│   │   ├── ContentType.ts
-│   │   ├── DataType.ts
-│   │   ├── FetchType.ts
-│   │   └── UserDataType.ts
-│   └── utils
-│       ├── calculateDate.ts
-│       ├── convertText.ts
-│       ├── dateSlice.ts
-│       ├── generatePageKey.ts
-│       └── nowDate.ts
-├── tsconfig.json
-├── Patchhistoty.md
-├── README.md
-├── firebase.json
-├── firestore.indexes.json
-├── firestore.rules
-├── package-lock.json
-└── package.json
-```
+### 🛠 기술 스택
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Stack</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center"><b>Languages</b></td>
+      <td>
+        <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+        <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+        <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+        <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><b>Frontend</b></td>
+      <td>
+        <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+        <img src="https://img.shields.io/badge/redux_toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white">
+        <img src="https://img.shields.io/badge/react_router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><b>Backend & DB</b></td>
+      <td>
+        <img src="https://img.shields.io/badge/firebase_auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
+        <img src="https://img.shields.io/badge/firebase_firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
+        <img src="https://img.shields.io/badge/firebase_functions-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-### 기술 스택
+##### 💡 Firebase Firestore (NoSQL), Firebase Functions (Node.js)
+<br/>
 
-1. Language
-<div style={{display: flex}}>
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-  <img src="https://img.shields.io/badge/tyoescript-3178C6?style=for-the-badge&logo=react&logoColor=black">
-</div>
+### ✨ 주요 기능
 
-2. 라이브러리
-<div style={{display: flex}}>
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
-  <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=react&logoColor=black">
-</div>
+<table width="100%">
+  <tbody>
+    <tr>
+      <td width="50%" align="center" ><b>소셜 로그인</b></th>
+      <td width="50%" align="center" ><b>검색 및 필터링</b></th>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./readme_assets/login.gif" width="100%" alt="소셜 로그인">
+      </td>
+      <td align="center">
+        <img src="./readme_assets/search.gif" width="100%" alt="검색 및 필터링">
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><b>댓글 및 커뮤니티</b></td>
+      <td align="center"><b>사용자 기록 관리</b></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./readme_assets/comment.gif" width="100%" alt="댓글 및 커뮤니티">
+      </td>
+      <td align="center">
+        <img src="./readme_assets/userlog.gif" width="100%" alt="사용자 기록 관리">
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-3. DB(NoSQL)
-   <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=react&logoColor=black">
+### 업데이트 내역
 
-4. API
-   한국관광공사(https://www.data.go.kr/data/15101578/openapi.do),
-   카카오맵, firebase
+<a href='https://github.com/UngMon/react-festival/blob/main/Patchhistoty.md' rel='noreferrer'>업데이트 내역으로 이동</a>
+<br></br>
 
-### 사용 방법
+### 📚 프로젝트 회고
 
-1. npm install => package.json에 명시된 dependencys가 설치됩니다.
-2. 패키지를 설치하셨다면, 파이어베이스에 프로젝트를 추가합니다. (https://firebase.google.com/docs/web/setup?hl=ko)
-3. 프로젝트를 추가하면서 생성된 sdk key값을 firebase/index.ts에 기입합니다.
-4. 페이스북 로그인 기능을 사용하시려면 https://developers.facebook.com/?locale=ko_KR에 여러분의 앱을 등록해야 합니다.
-5. 카카오 맵을 이용하시려면 https://developers.kakao.com/에 앱을 등록하세요.
+🎨 "디자인보다 사용자 경험(UX)에 집중하다"
+프로젝트 초기, 전문 디자인 역량의 한계를 '벤치마킹과 단순화'로 극복하고자 했습니다. '방대한 데이터를 어떻게 하면 직관적으로 보이게 할 것인가'에 초점을 맞추고 다양한 사이트를 참고하여 복잡한 레이아웃 대신, 사용자에게 익숙한 현대적 플랫폼의 UI 패턴을 분석하고 적용했습니다. '심심함'이 아닌 '명확함'을 목표로, 카드 타입의 레이아웃과 직관적인 네비게이션을 설계하여 정보 접근성을 높였습니다.
 
-앱 실행은 'npm start'
+🧩 "확장성을 고려한 컴포넌트 설계의 중요성"
+기능이 추가될수록 기존 코드를 수정해야 하는 리팩토링 비용이 발생하며 코드 설계의 중요성을 체감했습니다. 단순히 화면을 그리는 것을 넘어, **재사용 가능한 컴포넌트, 유틸 함수, Custom Hook**으로 로직을 분리하는 연습을 했습니다. 특히 댓글과 답글 등 반복되는 로직을 모듈화함으로써 새로운 기능을 추가할 때 기존 코드를 레고 블록처럼 조합하여 개발 속도를 획기적으로 단축할 수 있었습니다.
 
-### 기능 설명
-
-1.  반응형 웹: 모바일, PC 환경을 고려한 ui 설계
-    
-2.  소셜 로그인: Firebase Auth를 이용한 소셜 로그인 기능
-
-3.  월, 지역, 계절별 볼 수 있는 NavBar
-
-4.  해당 축제/행사/공연의 카카오 맵
-
-5.  이미지 슬라이드
-
-6.  좋아요 기능
-
-7.  댓글 기능(입력, 추가, 삭제)
-
-8.  신고 기능
-
-9.  검색 기능
-
-### 업데이트
-
-https://github.com/UngMon/react-festival/blob/main/Patchhistoty.md
-
-### 향후 계획
-
-1. 카카오, 네이버 로그인 기능 추가 예정입니다.. front 혼자서 개발하다보니 조금 한계점이 있습니다. 다행히 firebase의 cloud functions를 이용하면 개인 서버 없이 서버측 코드를 작성하여 카카오, 네이버 와같은 소셜 로그인을 구현할 수 있을 것 같습니다. 사실은 v1.01 배포 이전에 카카오 로그인은 admin sdk로 구현을 했지만, 네이버 로그인 기능을 추가하면서 에러가 발생하여 잠시 비활성화 해놨습니다. 틈틈이 공부하면서 구현해볼 생각입니다.
-
-### 프로젝트 후기
-
-= api를 이용해서 의미 있는 서비스를 만들어 보자는 아이디어에서 시작한 프로젝트입니다. 코로나도 풀리고 놀러갈 때, 모든 축제를 한눈에 알아볼 수 있으면 좋겠다는 마음에 관광공사 api를 이용해서 웹 서비스를 배포했습니다. 개발 단계에서 보이지 않던 문제가 서비스 개시를 하면서 지인들과 사용자들의 평가로부터 웹 개발자로써 신경 써야 할 부분이 많다는 것을 느꼈습니다. 특히 여태 크롬 환경에서 개발을 했는데.. 정의한 css가 다양한 브라우저에서 적용되지 않았던 점, http 보안 이슈, UX 등 아쉬웠던 점이 많이 보였습니다. 특히 웹 성능 측면에서 사용자가 어떤 네트워크 환경에서 사용하는지 고려하며 서비스를 만들어야 함을 알게 되었습니다. 축제 모아는 많은 이미지를 받아오는 프로젝트 입니다. 그런데 관광공사에서 제공하는 축제 이미지들은 해상도에 비해 용량이 매우 큽니다. 그러다 보니 slow 3G환경은 물론, 모바일 데이터 환경에서 사용자가 받아오는 데이터가 많다는 것을 알게 되었습니다. 이를 해결하기 위해 클라이언트 측에서 이미지 lazy 라이브러리를 사용할지 아니면 firebase storage에서 압축된 이미지를 저장하여 데이터를 불러올지 고민하고 있습니다. 특히 lazy loading을 구현하기 위해서 img 태그에 loading='lazy' 속성을 추가하거나, intersection observer를 사용하는 방법이 있지만 찾아보니 지원하지 않는 브라우저가 있기 때문에 완벽한 방법은 아닌 것 같습니다. 현재로써는 압축된 이미지를 사용하는 것이 웹 성능을 개선하는데 최적의 방법 같습니다. 마지막으로 타입스크립트를 적용한 첫 프로젝트 입니다. 타입스크립트를 배우면서도 '굳이 이걸 왜 쓸까?' 싶었지만, 개발 중간 단계부터 컴포넌트 개수가 증가하고, 코드가 길어질수록 변수와 props 의 타입이 명시가 되어있다 보니 코드 이해가 쉬었습니다. 캘린더 프로젝트에서는 제가 작성한 코드를 이해를 못 한 경우가 있었는데, 타입 명시가 이럴 때 도움이 된다는 것을 느꼈으며 실무에서 협업할 때, 각자가 쓴 코드를 좀 더 수월하게 이해할 수 있겠다 느꼈습니다. 결과적으로 축제모아를 만들면서 단순 기능 구현을 하는 개발자가 아닌 성능과 사용자 경험을 중시하며 설계를 하는 개발자가 되어야겠다! 느끼게 해준 프로젝트입니다!.
+🌐 "프론트엔드 개발자로서의 협업 관점 확보"
+Serverless(Firebase) 환경을 직접 구축하며 백엔드와의 소통 방식을 배웠습니다. 데이터 구조(NoSQL)를 직접 설계하면서 API 호출 효율성을 고민하며, 프론트엔드 팀이 백엔드 팀과 어떤 지점에서 기술적 타협점을 찾아야 하는지(예: API 페이로드 최적화, 에러 핸들링)를 간접 경험했습니다. 이 과정은 실무에서 UI/UX 디자이너, 백엔드 개발자와 원활하게 소통할 수 있는 소중한 밑거름이 되었습니다.

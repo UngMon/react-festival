@@ -12,7 +12,11 @@ interface ChangeReplyCountPayload {
   type: "reply-reply" | "reply";
 }
 
-const initialState: OriginComment = { comments: [], afterIndex: "" };
+const initialState: OriginComment = {
+  comments: [],
+  afterIndex: "",
+  record: "",
+};
 
 const originCommentSlice = createSlice({
   name: "origin_comment",
@@ -23,10 +27,16 @@ const originCommentSlice = createSlice({
       action: PayloadAction<{
         comment_datas: CommentType[];
         startAfter: string;
+        content_id: string;
       }>
     ) {
-      const { comment_datas, startAfter } = action.payload;
-      state.comments.push(...comment_datas);
+      const { comment_datas, startAfter, content_id } = action.payload;
+      if (state.record === content_id) {
+        state.comments.push(...comment_datas);
+      } else {
+        state.comments = comment_datas;
+        state.record = content_id;
+      }
       state.afterIndex = startAfter;
     },
     addNewComment(state, action: PayloadAction<{ field_data: CommentType }>) {

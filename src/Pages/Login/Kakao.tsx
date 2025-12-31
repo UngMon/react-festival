@@ -19,7 +19,7 @@ type KakaoProps = {
   setLoading: (bool: boolean) => void;
 };
 
-const KakaoLogin = ({ setLoading }: KakaoProps) => {
+const Kakao = ({ setLoading }: KakaoProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +60,7 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
     setLoading(true);
     window.Kakao.Auth.authorize({
       redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
+      throughTalk: false, // 카카오톡 앱 실행 시도 없이 웹뷰로 로그인 진행
     });
   };
 
@@ -73,4 +74,4 @@ const KakaoLogin = ({ setLoading }: KakaoProps) => {
   );
 };
 
-export default KakaoLogin;
+export default Kakao;

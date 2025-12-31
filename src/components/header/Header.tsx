@@ -1,15 +1,16 @@
-import { useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import WebName from "./WebName";
 import PcMenu from "./PcMenu";
 import Search from "./Search";
 import TopButton from "./TopButton";
 import LoginButton from "./LoginButton";
 import MobileMenu from "./MobileMenu";
 import "./Header.css";
-import WebName from "./WebName";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
   const headRef = useRef<HTMLHeadElement>(null);
 
   useEffect(() => {
@@ -32,15 +33,15 @@ const Header = () => {
   return (
     <header
       ref={headRef}
-      className={`header-container ${pathname !== "/" ? "h-o" : ""}`}
+      className={`header-container ${pathname !== "/" ? "h-o" : ""} ${
+        openSearch ? "search-on" : ""
+      }`}
     >
       <div className="header-box">
-        <Link to="/" className="Logo">
-          <WebName type="start" />
-        </Link>
+        <WebName type="start" />
         <PcMenu />
         <div className="header-sub-box">
-          <Search />
+          <Search openSearch={openSearch} setOpenSearch={setOpenSearch} />
           <LoginButton />
           <MobileMenu headRef={headRef} />
         </div>

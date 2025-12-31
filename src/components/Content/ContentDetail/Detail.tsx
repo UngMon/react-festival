@@ -72,7 +72,9 @@ const Detail = ({ infoRef, content_id, content_type }: DetailProps) => {
                 </div>
               ) : null
             )}
-            {detailCommon && <Map detailCommon={detailCommon} />}
+            {detailCommon && detailCommon.length > 0 && (
+              <Map detailCommon={detailCommon} />
+            )}
             {detailIntro && detailCommon && (
               <BasicInfo
                 detailIntro={detailIntro}

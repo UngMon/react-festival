@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ContentCommon } from "types/ContentType";
 import "./Map.css";
 
@@ -7,32 +7,40 @@ interface MapProps {
 }
 
 const Map = ({ detailCommon }: MapProps) => {
-  const { kakao } = window;
   const mapRef = useRef<HTMLDivElement>(null);
+  const [isExistKakaoMap, setIsExistKakaoMap] = useState<boolean>(true)
 
   useEffect(() => {
-    const { mapx, mapy } = detailCommon[0];
-    let container = mapRef.current!; //지도를 담을 영역의 DOM 레퍼런스
+    const { kakao } = window;
 
-    let options = {
-      //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(Number(mapy), Number(mapx)), //지도의 중심좌표.
-      level: 3, //지도의 레벨(확대, 축소 정도)
-    };
+    // kakao 객체가 아예 없는 경우(스크립트 로딩 중) 예외 처리
+    if (!kakao || !kakao.maps) {
+      setIsExistKakaoMap(false)
+      console.log("카카오 맵 객체가 아직 준비되지 않았습니다.");
+      return;
+    }
 
-    let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    // kakao 객체가 있고, maps 객체가 준비되었을 때 실행
+    kakao.maps.load(() => {
+      if (!mapRef.current || !detailCommon[0]) return;
 
-    // 마커가 표시될 위치입니다
-    var markerPosition = new kakao.maps.LatLng(Number(mapy), Number(mapx));
+      const { mapx, mapy } = detailCommon[0];
+      const container = mapRef.current;
 
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-      position: markerPosition,
+      const options = {
+        center: new kakao.maps.LatLng(Number(mapy), Number(mapx)),
+        level: 3,
+      };
+
+      const map = new kakao.maps.Map(container, options);
+      const markerPosition = new kakao.maps.LatLng(Number(mapy), Number(mapx));
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+      });
+
+      marker.setMap(map);
     });
-
-    // 마커가 지도 위에 표시되도록 설정합니다
-    marker.setMap(map);
-  }, [detailCommon, kakao]);
+  }, [detailCommon]);
 
   return (
     <div>
@@ -40,11 +48,11 @@ const Map = ({ detailCommon }: MapProps) => {
         <strong className="label">주소</strong>
         <span>{detailCommon[0].addr1}</span>
       </div>
-      <div
+      {isExistKakaoMap && <div
         id="map"
         style={{ width: "100%", height: "400px" }}
         ref={mapRef}
-      ></div>
+      ></div>}
     </div>
   );
 };

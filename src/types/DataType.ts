@@ -72,6 +72,7 @@ export interface ContentFeel {
 export interface OriginComment {
   comments: CommentType[];
   afterIndex: string;
+  record: string;
 }
 
 export interface ReplyComment {

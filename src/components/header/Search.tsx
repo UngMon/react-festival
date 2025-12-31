@@ -17,9 +17,13 @@ const Category: Array<[string, string]> = [
   ["28", "레포츠"],
 ];
 
-const Search = () => {
+interface T {
+  openSearch: boolean;
+  setOpenSearch: (bool: boolean) => void;
+}
+
+const Search = ({ openSearch, setOpenSearch }: T) => {
   const navigate = useNavigate();
-  const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
   const [category, setCategory] = useState<[string, string]>(["0", "전체"]);
   const inputRef = useRef<HTMLInputElement>(null);
