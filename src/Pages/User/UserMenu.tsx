@@ -14,7 +14,9 @@ import "./UserMenu.css";
 
 interface T {
   setCategory: React.Dispatch<
-    React.SetStateAction<"myComment" | "likedComment" | "likedContent">
+    React.SetStateAction<
+      "userInfo" | "myComment" | "likedComment" | "likedContent"
+    >
   >;
   userData: UserData;
 }
@@ -95,13 +97,21 @@ const UserMenu = ({ setCategory, userData }: T) => {
           <h3>나의 활동</h3>
           <div className="user-icon">
             <div>
-              <img src={current_user_photo} alt="user-icon" />
+              <img
+                src={current_user_photo || "./images/userIcon.png"}
+                alt="user-icon"
+              />
             </div>
             <div>
               <span>{current_user_name}</span>
             </div>
           </div>
           <ul className="user-menu-list">
+            <li>
+              <button onClick={() => setCategory("userInfo")}>
+                사용자 정보 보기
+              </button>
+            </li>
             <li>
               <button onClick={() => setCategory("myComment")}>
                 작성한 댓글 보기

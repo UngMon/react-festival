@@ -1,0 +1,92 @@
+.del-acc-container {
+  position: relative;
+  box-sizing: border-box;
+  padding: 30px 20px 20px;
+  width: clamp(280px, 50%, 320px);
+  background-color: rgb(250, 251, 254);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0px 0px 15px 10px rgba(112, 112, 112, 0.3);
+
+  --back-gray: rgb(232, 232, 232);
+}
+
+#delete-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--back-gray);
+  margin-bottom: 20px;
+}
+
+#delete-icon {
+  line-height: 75px;
+  font-size: 30px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 600,
+    "GRAD" 200,
+    "opsz" 24;
+}
+
+.del-acc-container h2 {
+  text-align: center;
+  font-size: 1.4em;
+}
+
+.del-acc-container b {
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+  color: rgba(255, 62, 62, 0.9);
+  font-size: 0.9em;
+}
+
+.del-acc-container ul {
+  padding-left: 20px;
+}
+
+.del-acc-container ul li {
+  box-sizing: border-box;
+  padding: 10px 0 0;
+  width: 100%;
+  list-style: disc;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.del-acc-container p {
+  padding: 20px 5px 10px;
+  text-align: center;
+  font-size: 0.95em;
+  color: #626262;
+}
+
+.del-acc-but-box {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.del-acc-but-box button {
+  box-sizing: unset;
+  cursor: pointer;
+  color: #333;
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: var(--back-gray);
+  font-size: 0.8em;
+
+  &:hover {
+    background-color: rgb(9, 74, 255);
+    color: white;
+  }
+}

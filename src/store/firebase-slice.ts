@@ -29,6 +29,12 @@ const firebaseSlice = createSlice({
       state.current_user_email = "";
       state.current_user_photo = "";
     },
+    updateProfileImage(state, action: PayloadAction<{ photoURL: string }>) {
+      state.current_user_photo = action.payload.photoURL;
+    },
+    updateUserName(state, action: PayloadAction<{ newNickname: string }>) {
+      state.current_user_name = action.payload.newNickname;
+    },
     userNotFound(state) {
       state.status = "fulfilled";
     },

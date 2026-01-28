@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FRIEBASE_API_KEY,
@@ -22,5 +22,17 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const storage = getStorage(app);
+
+// // localhost에서 개발 중일 때만 이 코드가 실행됩니다.
+// if (window.location.hostname === "localhost") {
+//   // 9099는 Auth 에뮬레이터 포트입니다.
+//   connectAuthEmulator(auth, "http://127.0.0.1:9099");
+
+//   // Storage 에뮬레이터 (기본 포트 9199) - 추가 필수!
+//   connectStorageEmulator(storage, "127.0.0.1", 9199);
+
+//   // Firestore 에뮬레이터 (8080) - 사용 중이라면 추가 권장
+//   connectFirestoreEmulator(db, "127.0.0.1", 8080);
+// }
 
 export { db, auth, storage };

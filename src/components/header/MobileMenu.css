@@ -1,154 +1,169 @@
-.side-container {
-  font-size: 16px;
-}
-
-.side-background {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  font-size: 16px;
-}
-
-.nav-bar {
-  position: relative;
-  z-index: 20;
-  box-sizing: border-box;
-  margin-left: 5px;
+.menu-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   padding: 0 5px;
+  margin-left: 10px;
   width: 35px;
-  height: 35px;
+  height: 30px;
   color: inherit;
-  display: block;
-  cursor: pointer;
-
-  .bar {
-    box-sizing: border-box;
-    width: 100%;
-    border: 2px solid;
-    margin: 4px 0;
-    border-color: inherit;
-    transition: transform 0.2s linear;
-  }
-
-  .ro-t45 {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .fadeout {
-    opacity: 0;
-  }
-
-  .ro-b45 {
-    transform: rotate(-45deg) translate(6px, -6.5px);
-  }
+  z-index: 200;
 }
 
-.acti {
-  color: #333 !important;
+.bar {
+  width: 100%;
+  border: 2px solid;
+  border-color: inherit;
+  margin: 3px 0;
+  transition: transform 0.2s linear;
 }
 
-.side-container ul {
-  box-sizing: border-box;
+.menu-on {
+  border-color: #222222;
+}
+
+.ro-t45 {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.fadeout {
+  opacity: 0;
+}
+
+.ro-b45 {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.menu-overlay {
   position: fixed;
   top: 0;
   right: 0;
-  max-height: 100%;
-  padding: 60px 0 20px;
-  width: 320px;
-  background-color: #f5f5f5;
-  transition: all 0.5s ease;
-  overflow-y: auto;
-}
-
-.side-container ul li {
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-}
-
-.side-container ul li a {
-  box-sizing: border-box;
-  padding-left: 50px;
-  display: block;
   width: 100%;
   height: 100%;
-  color: #333;
-  margin: 10px 0;
-  font-size: 1em;
-
-  &:hover {
-    cursor: pointer;
-    color: rgb(52, 117, 238);
-    background-color: rgb(215, 223, 228);
-  }
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(0.5px); /* 블러 효과 */
+  z-index: 99;
+  transition: right 0.01s linear;
 }
 
-.user-info-box {
-  box-sizing: border-box;
+.menu-drawer {
+  --primary-blue: #3b72f2; /* 기존 버튼색 참조 */
+  --text-dark: #222222;
+  --text-gray: #666666;
+  --bg-light: #f8f9fa;
+  --divider-color: #dedede;
+  --bg-mid-light: #edeef0;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%; /* 모바일 화면 너비의 80% 차지 */
+  max-width: 320px;
+  height: clamp(320px, 80%, 1000px);
+  background-color: #ffffff;
+  z-index: 100;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); /* 왼쪽에 은은한 그림자 */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  transition: right 0.2s linear;
+}
+
+.drawer-header {
+  height: 60px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  padding: 20px 20px;
+  border-top: 1px solid var(--divider-color);
+  background-color: var(--bg-light);
+}
+
+.profile-image-placeholder {
   text-align: center;
-  padding: 20px 0;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-  color: #333;
-}
 
-.user-info-box a {
-  font-size: 18px;
-  color: inherit;
-  cursor: pointer;
-
-  &:hover {
-    color: rgb(52, 117, 238);
-  }
-}
-
-.user-info-box div {
-  height: 40px;
   img {
-    width: 40px;
-    height: 100%;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
   }
 }
 
-.user-info-box p {
-  margin: 10px auto;
-  width: 250px;
-  height: 30px;
-  line-height: 30px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  color: #333 !important;
-}
-
-.user-info-box .mo-logout {
-  background-color: transparent;
-  border: 0;
-  font-size: 1em;
+.profile-section button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 auto;
+  color: var(--text-dark);
   font-weight: bold;
-  width: 120px;
   border-radius: 5px 5px 5px 5px;
-  height: 40px;
-  color: #333;
 
   &:hover {
-    cursor: pointer;
-    background-color: rgb(43, 117, 255);
-    color: #f5f5f5;
+    background-color: var(--primary-blue);
+    color: var(--bg-light);
   }
+}
+
+.account-mgmt-btn {
+  width: 200px;
+  height: 40px;
+  font-size: 0.9em;
+}
+
+.logout-btn {
+  width: 200px;
+  height: 40px;
+  font-size: 0.9em;
+}
+
+.menu-divider {
+  border: none;
+  border-top: 1px solid var(--divider-color);
+  margin: 0;
+}
+
+/* 네비게이션 메뉴 리스트 스타일 */
+.menu-nav ul {
+  list-style: none;
+  padding: 20px 0 25px;
+  margin: 0;
+  overflow-y: auto; /* 내용이 길어지면 스크롤 */
+}
+
+.menu-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px; /* 터치 영역 확보 및 좌측 여백 증가 */
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: background-color 0.2s;
+}
+
+/* 메뉴 호버/터치 효과 */
+.menu-nav li a:hover,
+.menu-nav li a:active {
+  background-color: var(--bg-mid-light);
+}
+
+.menu-icon {
+  color: var(--text-gray);
+  margin-right: 16px;
+  font-size: 22px;
+}
+
+.menu-text {
+  font-weight: 400;
 }
 
 @media (min-width: 1024px) {
-  .side-container {
+  .menu-bar {
     display: none;
-  }
-}
-
-@media (max-height: 575px) {
-  .side {
-    height: 460px;
   }
 }

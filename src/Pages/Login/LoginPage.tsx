@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
-import { getRedirectResult } from "firebase/auth";
+import {
+  loginWithFirebase,
+  loginWithKakao,
+  loginWithNaver,
+} from "utils/login_utils";
 import LoadingThree from "../../components/Common/Loading/LoadingThree";
 import LoginAccessError from "../../components/Common/Error/LoginAccessError";
 import Kakao from "./Kakao";
@@ -15,55 +18,72 @@ import "./LoginPage.css";
 const LoginPage = () => {
   const navigate = useNavigate();
   const current_user_id = useSelector(
-    (state: RootState) => state.firebase.current_user_id
+    (state: RootState) => state.firebase.current_user_id,
   );
-  const [errorCode, setErrorCode] = useState<string>("");
 
-  const [loading, setLoading] = useState<boolean>(() => {
-    const isRedirecting = sessionStorage.getItem("firebaseRedirect") === "true";
-    return isRedirecting;
-  });
+  const [errorCode, setErrorCode] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const finalizeLogin = useCallback(() => {
+    const previousUrl = JSON.parse(
+      sessionStorage.getItem("previousUrl") || '"/"',
+    );
+    navigate(previousUrl, { replace: true });
+  }, [navigate]);
+
+  // 세션 스토리지에 Login_Type = Google, Facebook, Kakao, Naver 이렇게 추가하기
+  // 세션 스트로지 firebaseRedirect는 그냥 없애도록 합시다. ㅇㅋ?
+
+  const authCallbackHandler = useCallback(async () => {
+    const Login_Type = JSON.parse(sessionStorage.getItem("Login_Type") || "");
+
+    try {
+      // A. 구글 / 페이스북 (Firebase Redirect)
+      if (Login_Type === "Firebase") {
+        await loginWithFirebase();
+        return finalizeLogin();
+      }
+
+      // B. Kakao (Query Params)
+      if (Login_Type === "Kakao") {
+        await loginWithKakao(); // 카카오 로그인 유틸 함수
+        return finalizeLogin();
+      }
+
+      // C. Naver (Hash Params)
+      if (Login_Type === "Naver") {
+        await loginWithNaver();
+        return finalizeLogin();
+      }
+    } catch (error: any) {
+      console.error("Redirect Result Error:", error);
+      setErrorCode(error.code || "auth/login-failed");
+    } finally {
+      setLoading(false);
+      sessionStorage.removeItem("Login_Type");
+    }
+  }, [finalizeLogin]);
 
   useEffect(() => {
-    const isRedirecting = sessionStorage.getItem("firebaseRedirect") === "true";
-    const previouseUrl =
-      JSON.parse(sessionStorage.getItem("previouseUrl")!) ?? "/";
+    authCallbackHandler();
+  }, [authCallbackHandler]);
 
-    if (isRedirecting) {
-      getRedirectResult(auth)
-        .then((result) => {
-          if (result) {
-            navigate(previouseUrl, { replace: true });
-          }
-        })
-        .catch((error) => {
-          setErrorCode(error.code);
-        })
-        .finally(() => {
-          setLoading(false);
-          setErrorCode("auth/operation-not-allowed");
-          sessionStorage.removeItem("firebaseRedirect");
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (current_user_id) return <LoginAccessError />;
 
   return (
     <>
       {loading && <LoadingThree />}
-      {current_user_id ? (
-        <LoginAccessError />
-      ) : (
-        !loading && (
-          <form className="Login-Form">
-            <GoolgeAndFaceBook
-              setLoading={setLoading}
-              setErrorCode={setErrorCode}
-            />
-            <Kakao setLoading={setLoading} />
-            <Naver setLoading={setLoading} />
-          </form>
-        )
+      {!loading && (
+        <form className="Login-Form">
+          <h3 className="title">로그인</h3>
+          <p id="p-tag">로그인 후 서비스를 이용하실 수 있습니다.</p>
+          <GoolgeAndFaceBook
+            setLoading={setLoading}
+            setErrorCode={setErrorCode}
+          />
+          <Kakao setLoading={setLoading} />
+          <Naver setLoading={setLoading} />
+        </form>
       )}
       {errorCode && (
         <LoginError errorCode={errorCode} setErrorCode={setErrorCode} />

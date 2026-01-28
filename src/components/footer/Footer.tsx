@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="footer-container">
       <div className="footer-logo">
-        <p>여기저기</p>
+        <p>이곳저곳</p>
       </div>
       <div className="footer-navigation">
         <nav>

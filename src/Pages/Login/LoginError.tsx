@@ -49,6 +49,11 @@ const LoginError = ({ errorCode, setErrorCode }: T) => {
       "로그인 세션이 만료되었어요. 다시 로그인해 주세요.",
     "auth/uid-already-exists": "이미 사용 중인 사용자 ID에요.",
     "auth/user-not-found": "사용자를 찾을 수 없어요.",
+    "auth/redirect-failed": "리다이렉트 실패했습니다.",
+    "auth/naver-login-failed": "네이버 로그인 실패",
+    "auth/kakao-login-failed": "카카오 로그인 실패",
+    "auth/kakao-server-error": '카카오 인증 서버 통신 실패',
+    "auth/naver-server-error": '네이버 인증 서버 통신 실패'
   };
 
   return (

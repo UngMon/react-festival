@@ -27,6 +27,7 @@
   color: inherit;
   cursor: pointer;
   outline: none;
+  z-index: 200;
 
   svg {
     font-size: 1.8em;

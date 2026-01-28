@@ -1,0 +1,224 @@
+.profile-container {
+  --font-weight: bold;
+  --text-black: #333;
+  --text-gray: #828282;
+  --blue: #3c68fa;
+  --white: #f4f4f4;
+  --back-color: #f5f5f5;
+  --plat-back-color: #f6f8ff;
+  --plat-border-color: rgb(211, 211, 211);
+  margin: 0 auto;
+  width: clamp(320px, 60%, 640px);
+  padding: 40px 20px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: var(--font-weight);
+  background: transparent;
+}
+
+/* 프로필 이미지 */
+.profile-header h2 {
+  display: flex;
+  align-items: center;
+
+  span:nth-of-type(1) {
+    font-size: 31px;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 500,
+      "GRAD" 100,
+      "opsz" 24;
+  }
+
+  span:nth-of-type(2) {
+    font-size: 28px;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 500,
+      "GRAD" 100,
+      "opsz" 24;
+  }
+}
+
+.profile-header p {
+  padding: 5px 0;
+  font-size: 0.8em;
+}
+
+.profile-photo-box {
+  padding: 30px 0;
+}
+
+.profile-photo {
+  margin: auto;
+  position: relative;
+  text-align: center;
+  width: 80px;
+  cursor: pointer;
+
+  &:hover .edit-photo-button {
+    color: rgb(67, 67, 255);
+    background-color: whitesmoke;
+  }
+}
+
+.profile-photo img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  z-index: 9;
+}
+
+.edit-photo-button {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  padding: 0px;
+  bottom: 5px;
+  right: -2px;
+  color: rgb(32, 33, 33);
+  z-index: 10;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.edit-photo-button span {
+  font-size: 14px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 200,
+    "opsz" 24;
+}
+
+.photo-description {
+  padding-top: 15px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+/****** 공용 ******/
+
+.pr-list-box {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--plat-border-color);
+
+  &:nth-of-type(4) {
+    border-bottom: unset;
+  }
+}
+
+.pr-dis-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pr-text-box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.pr-text-box h3 {
+  font-size: 1em;
+  color: var(--text-gray);
+}
+
+.pr-text-box span {
+  overflow-wrap: break-word;
+  font-size: 1em;
+  color: var(--text-black);
+}
+
+.pr-button {
+  display: inline-block;
+  padding: 0px 10px;
+  cursor: pointer;
+  box-sizing: unset;
+  border-radius: 18px;
+  border: 1px solid black;
+  font-size: 0.85em;
+  width: 55px;
+  height: 30px;
+  color: var(--text-black);
+  font-weight: var(--font-weight);
+  line-height: 30px;
+  text-align: center;
+}
+
+/********* 디테일(닉네임, 이메일, 가입 날짜) *********/
+.profile-detail-section {
+  border-radius: 15px;
+  background-color: var(--plat-back-color);
+  border: 1px solid var(--plat-border-color);
+}
+
+.nickname-box {
+  width: calc(100% - 95px);
+}
+
+.nickname-edit-button {
+  &:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    border: unset;
+  }
+}
+
+.sign-up-date {
+  border-bottom: none;
+}
+
+/********* 소셜 플랫폼 *********/
+.profile-platform-section {
+  padding: 40px 0 30px;
+}
+
+.profile-platform-section p {
+  font-size: 0.8em;
+  padding: 5px 0 20px;
+}
+
+.platforms-container {
+  border: 1px solid rgb(211, 211, 211);
+  background-color: var(--plat-back-color);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.pr-con:nth-of-type(4) {
+  border-bottom: 0;
+}
+
+.plat-icon {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  img {
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+
+.plat-check {
+}
+
+.plat-sub {
+  font-size: 0.8em;
+  padding: 7px 5px 0;
+  color: var(--blue);
+}
+
+.delete-account-section {
+  padding: 5px;
+}
+
+.delete-account button {
+  color: red;
+  padding: 5px;
+  cursor: pointer;
+}

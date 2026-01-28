@@ -1,0 +1,67 @@
+.edit-name-container {
+  display: block;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 30px 20px 20px;
+  width: clamp(280px, 80%, 400px);
+  background: rgb(245, 245, 255);
+}
+
+.edit-name-container .spinner-container {
+  height: 149.5px;
+  display: flex;
+  align-items: center;
+}
+
+.edit-name-container h3 {
+  font-size: 1.2em;
+}
+
+.edit-name-container p {
+  font-size: 0.8em;
+  margin-top: 5px;
+  font-weight: bold;
+  color: rgb(119, 119, 119);
+}
+
+.edit-name-container input {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: aliceblue;
+  border: 1px solid rgb(4, 4, 4);
+  border-radius: 3px;
+  padding: 7px;
+  font-weight: bold;
+  margin: 15px 0 5px;
+}
+
+.sub-descr {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+}
+
+.sub-descr span:nth-of-type(1) {
+  color: red;
+}
+
+.e-n-buttons {
+  padding-top: 10px;
+  text-align: right;
+}
+
+.e-n-buttons button {
+  cursor: pointer;
+  margin: 0 5px;
+  width: 40px;
+  height: 30px;
+  color: #333;
+  font-weight: bold;
+  background-color: transparent;
+  border-radius: 7px;
+
+  &:not(:disabled):hover {
+    background-color: rgb(62, 62, 255);
+    color: rgb(254, 254, 254);
+  }
+}
