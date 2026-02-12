@@ -1,27 +1,32 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { TourDataType } from "./types/FetchType";
 import RootLayout from "./pages/Root";
-import Loading from "./components/Common/Loading/Loading";
-import GetDataError from "./components/Common/Error/GetDataError";
-import MainVisual from "./pages/Main/MainVisual";
+import Loading from "./common/loading/Loading";
+import GetDataError from "./common/error/GetDataError";
+import MainPage from "./pages/main/MainPage";
+import ProtectedRoute from "common/ProtectedRoute";
 import "./App.css";
 
-const PageNotFound = lazy(() => import("./components/Common/Error/PageNotFound"));
-const LoginPage = lazy(() => import("./pages/Login/LoginPage"));
-const Main = lazy(() => import("./components/Card/CardContainer"));
-const Content = lazy(() => import("./components/Content/Content"));
-const Theme = lazy(() => import("./pages/Theme/Theme"));
-const DocsLayout = lazy(() => import("./pages/Docs/DocsLayout"));
-const About = lazy(() => import("./pages/Docs/About"));
-const User = lazy(() => import("./pages/User/UserPage"));
-const PrivacyPolicy = lazy(() => import("./pages/Docs/PrivacyPolicy"));
-const Service = lazy(() => import("./pages/Docs/Service"));
-const Question = lazy(() => import("./pages/Question/Question"));
+const PageNotFound = lazy(() => import("./common/error/PageNotFound"));
+const LoginPage = lazy(() => import("./pages/login/LoginPage"));
+const TourDataPage = lazy(() => import("./pages/tour-data/TourDataPage"));
+const ContentPage = lazy(() => import("./pages/content/CotentPage"));
+const ThemePage = lazy(() => import("./pages/theme/ThemePage"));
+const DocumentPage = lazy(() => import("./pages/docs/DocumentPage"));
+const About = lazy(() => import("./features/docs/About"));
+const User = lazy(() => import("./pages/user/UserPage"));
+const PrivacyPolicy = lazy(() => import("./features/docs/PrivacyPolicy"));
+const Service = lazy(() => import("./features/docs/Service"));
+const Question = lazy(() => import("./pages/question/Question"));
 
-const withSuspense = <P extends object>(
-  Component: React.FunctionComponent<P>,
-  props: P = {} as P
+const withSuspense = <Props extends object>(
+  Component: React.FunctionComponent<Props>,
+  props: Props = {} as Props,
 ) => (
   <Suspense fallback={<Loading height="400px" />}>
     <Component {...props} />
@@ -29,8 +34,15 @@ const withSuspense = <P extends object>(
 );
 
 const pathArray: TourDataType[] = [
-  "tour", "culture", "festival", "travel",
-  "leports", "lodging", "shoping", "restaurant", "search",
+  "tour",
+  "culture",
+  "festival",
+  "travel",
+  "leports",
+  "lodging",
+  "shopping",
+  "restaurant",
+  "search",
 ];
 
 const router = createBrowserRouter([
@@ -39,38 +51,29 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <GetDataError />,
     children: [
-      { index: true, element: <MainVisual /> },
+      { index: true, element: <MainPage /> },
       ...pathArray.map((tourDataType) => ({
         path: tourDataType,
-        element: withSuspense(Main, { tourDataType }),
+        element: withSuspense(TourDataPage, { tourDataType }),
       })),
+      { path: "content", element: withSuspense(ContentPage) },
+      { path: "theme", element: withSuspense(ThemePage) },
       {
-        path: "content",
-        element: withSuspense(Content),
-      },
-      {
-        path: "pick",
-        element: withSuspense(Theme),
-      },
-      {
-        path: "docs",
-        element: withSuspense(PageNotFound),
-      },
-      {
-        element: <DocsLayout />,
+        element: <ProtectedRoute />,
         children: [
-          { path: "docs/about", element: withSuspense(About) },
-          { path: "docs/privacypolicy", element: withSuspense(PrivacyPolicy) },
-          { path: "docs/service", element: withSuspense(Service) },
+          { path: "question", element: withSuspense(Question) },
+          { path: "user", element: withSuspense(User) },
         ],
       },
       {
-        path: "question",
-        element: withSuspense(Question),
-      },
-      {
-        path: "user",
-        element: withSuspense(User),
+        path: "docs",
+        element: withSuspense(DocumentPage),
+        children: [
+          { index: true, element: <Navigate to="about" replace /> },
+          { path: "about", element: withSuspense(About) },
+          { path: "privacypolicy", element: withSuspense(PrivacyPolicy) },
+          { path: "service", element: withSuspense(Service) },
+        ],
       },
     ],
   },

@@ -13,7 +13,7 @@ const useTourData = (
 ): Item[] | null => {
   // 1. 키 생성 로직을 여기서 수행
   const key = createPageKey(title, numOfRows, params);
-  console.log("useTourData");
+
   // 2. 리덕스에서 데이터 가져오기
   const page_record = useSelector((state: RootState) => state.data.page_record);
   const httpState = useSelector((state: RootState) => state.data.httpState);

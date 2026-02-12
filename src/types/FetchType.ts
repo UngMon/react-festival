@@ -8,7 +8,7 @@ export type TourDataType =
   | "leports"
   | "search"
   | "lodging"
-  | "shoping"
+  | "shopping"
   | "restaurant";
 
 export type Item = {

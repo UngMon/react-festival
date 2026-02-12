@@ -30,7 +30,7 @@ export const redirectGoogleAndFacebook = async (providerName: string) => {
         ? new GoogleAuthProvider()
         : new FacebookAuthProvider();
 
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth, provider); // 임시로 팝업
   } catch (error) {
     sessionStorage.removeItem("Login_Type");
     // 에러를 다시 던져서 컴포넌트가 UI 처리를 할 수 있게 한다.

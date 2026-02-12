@@ -13,7 +13,9 @@ a {
 button {
   background-color: transparent;
   border: 0;
+  padding: 0;
   color: white;
+  cursor: pointer;
 }
 
 img {

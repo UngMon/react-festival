@@ -3,19 +3,11 @@ import "./ThemeSlide.css";
 
 interface T {
   images: string[];
-  theme_number: string | null;
+  category: string;
   clickedElement: React.MutableRefObject<HTMLElement | null>;
 }
 
-const themeObject: { [key: string]: string } = {
-  "0": "cafe",
-  "1": "culture",
-  "2": "flagship",
-  "3": "music",
-  "4": "bar",
-};
-
-const ThemeSlide = ({ images, clickedElement, theme_number }: T) => {
+const ThemeSlide = ({ images, clickedElement, category }: T) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const [scrollX, setScrollX] = useState<number>(0);
@@ -162,7 +154,7 @@ const ThemeSlide = ({ images, clickedElement, theme_number }: T) => {
           {images.map((item, idx) => (
             <div key={idx}>
               <img
-                src={`./images/theme/${themeObject[theme_number!]}/${item}`}
+                src={`./images/theme/${category}/${item}`}
                 alt="item"
               />
             </div>

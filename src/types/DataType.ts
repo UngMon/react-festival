@@ -1,5 +1,17 @@
 import { Item } from "./FetchType";
 
+export interface SlideItem {
+  title: string;
+  text: string;
+  images: string[];
+  sns: string;
+  hash: string;
+  contentId: string;
+  sigun: string;
+  contentType: string;
+  link: string;
+}
+
 interface Datas {
   tourData: Item[];
   totalCount: number;
@@ -14,7 +26,7 @@ export interface DataType {
   travel: Record<string, Datas>;
   leports: Record<string, Datas>;
   lodging: Record<string, Datas>;
-  shoping: Record<string, Datas>;
+  shopping: Record<string, Datas>;
   restaurant: Record<string, Datas>;
   search: Record<string, Datas>;
   loading: boolean;

@@ -1,0 +1,54 @@
+.subnav {
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 5px;
+  margin: 20px 0 30px;
+}
+
+.submenu {
+  height: 36px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.submenu li {
+  min-width: 30px;
+  height: 100%;
+  line-height: 40px;
+  text-align: center;
+}
+
+.submenu li a {
+  width: 40px;
+  height: 100%;
+  display: block;
+}
+
+.submenu li .sub-home-icon {
+  font-size: 36px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 100,
+    "opsz" 24;
+}
+
+.submenu li .sub-che-rig {
+  font-size: 36px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.submenu li:nth-of-type(3) {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 40px;
+}

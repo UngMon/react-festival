@@ -17,7 +17,7 @@ const initialState: DataType = {
   leports: {},
   search: {},
   lodging: {},
-  shoping: {},
+  shopping: {},
   restaurant: {},
   loading: false,
   page_record: [],

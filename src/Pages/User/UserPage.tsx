@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import FeedbackToast from "components/Content/Comments/Modal/FeedbackToast";
-import UserMenu from "./UserMenu";
-import UseLogs from "./UserLogs";
-import UserInfo from "./UserInfo";
+import { RootState } from "store/store";
+import FeedbackToast from "common/feedback-toast/FeedbackToast";
+import UserMenu from "features/user/UserMenu";
+import UserLogs from "features/user/UserLogs";
+import UserInfo from "features/user/UserInfo";
 
 const UserPage = () => {
   const userData = useSelector((state: RootState) => state.firebase);
@@ -13,7 +13,7 @@ const UserPage = () => {
   >("userInfo");
 
   return (
-    <div
+    <main
       style={{
         position: "relative",
         background: "rgb(253, 253, 253)",
@@ -21,11 +21,14 @@ const UserPage = () => {
         minHeight: "calc(100vh - 60px)",
       }}
     >
-      {/* <UserMenu setCategory={setCategory} userData={userData} /> */}
-      {category === "userInfo" && <UserInfo userData={userData} />}
-      {/* category !== 'userInfo" && <UseLogs category={category} userData={userData} /> */}
+      <UserMenu setCategory={setCategory} userData={userData} />
+      {category === "userInfo" ? (
+        <UserInfo userData={userData} />
+      ) : (
+        <UserLogs category={category} userData={userData} />
+      )}
       <FeedbackToast />
-    </div>
+    </main>
   );
 };
 
