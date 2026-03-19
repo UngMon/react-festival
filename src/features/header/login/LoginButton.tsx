@@ -1,37 +1,17 @@
+import { useAuth } from "context/AuthContext";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { firebaseActions } from "store/firebase-slice";
-import { RootState, useAppDispatch } from "store/store";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import styles from "./LoginButton.module.css";
 import UserActions from "./modal/UserActions";
+import styles from "./LoginButton.module.css";
+import userIcon from "assets/login/userIcon.png";
 
 const LoginButton = () => {
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { status, current_user_id, current_user_photo, current_user_name } =
-    useSelector((state: RootState) => state.firebase);
+  const { user, status, logout } = useAuth();
   const [userModalOpen, setUserModalOpen] = useState(false);
   const contianerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (status === "fulfilled") return;
-    onAuthStateChanged(getAuth(), (userInfo) => {
-      if (userInfo) {
-        const { uid, displayName, email, photoURL } = userInfo!;
-        dispatch(
-          firebaseActions.login({
-            user: { uid, displayName, email, photoURL },
-          }),
-        );
-      } else {
-        dispatch(firebaseActions.userNotFound());
-      }
-    });
-  }, [status, dispatch]);
 
   useEffect(() => {
     // 1024px 미만일 때 처리하는 매치미디어
@@ -57,25 +37,26 @@ const LoginButton = () => {
   return (
     <div className={styles["login-button-container"]} ref={contianerRef}>
       {status === "pending" && <div className={styles["not-Login"]} />}
-      {status === "fulfilled" && current_user_id === "" && (
+      {status === "fulfilled" && !user?.uid && (
         <button className={styles["login-button"]} onClick={loginHandler}>
           <span className="material-symbols-outlined">login</span>
         </button>
       )}
-      {status === "fulfilled" && current_user_id !== "" && (
+      {status === "fulfilled" && user?.uid && (
         <div
           className={styles["userphoto-box"]}
           onClick={() => setUserModalOpen(!userModalOpen)}
         >
-          <img src={current_user_photo} alt="userphoto"></img>
+          <img src={user?.photoURL || userIcon} alt="userphoto"></img>
         </div>
       )}
       {userModalOpen && (
         <UserActions
-          current_user_name={current_user_name}
-          current_user_photo={current_user_photo}
+          user_name={user?.displayName}
+          user_photo={user?.photoURL}
           setUserModalOpen={setUserModalOpen}
           containerRef={contianerRef}
+          logout={logout}
         />
       )}
     </div>

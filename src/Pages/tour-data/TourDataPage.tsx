@@ -20,7 +20,6 @@ const TourDataPage = ({ tourDataType }: T) => {
       {tourDataType !== "search" ? (
         <>
           <Selectors
-            tourDataType={tourDataType}
             numOfRows={numOfRows}
             params={params}
             setNumOfRows={setNumOfRows}

@@ -11,13 +11,12 @@ const DEFAULT_PARAMS = {
   MobileOS: "ETC",
   MobileApp: "igotjeogot",
   _type: "json",
-  serviceKey: SERVICE_KEY, // URLSearchParams가 자동으로 인코딩할 수 있으므로 주의 (아래 설명 참조)
 };
 
 export const createUrl = (
   tourDataType: string,
   numOfRows: number,
-  params: CheckParams
+  params: CheckParams,
 ) => {
   const { contentTypeId, keyword, areaCode, cat1, cat2, cat3, page } = params;
 
@@ -33,36 +32,33 @@ export const createUrl = (
   switch (tourDataType) {
     case "festival":
       endpoint = "searchFestival2";
-      // 축제는 1년치 데이터를 한 번에 많이 가져오는 로직 유지
+      // 축제는 2년치 데이터를 한 번에 많이 가져오는 로직 유지
       const startDate = `${new Date().getFullYear() - 1}0101`;
-      queryParams.set("numOfRows", "2000"); // 축제는 최대 2000개 한번에 불러오기
+      queryParams.set("numOfRows", "3000"); // 축제는 최대 3000개 한번에 불러오기
       queryParams.set("pageNo", "1");
       queryParams.set("eventStartDate", startDate);
       break;
     case "search":
       endpoint = "searchKeyword2";
       if (keyword) queryParams.set("keyword", keyword);
-      if (contentTypeId && contentTypeId !== "0") {
-        queryParams.set("contentTypeId", contentTypeId);
-      }
       break;
-    default: // areaBasedList
+    default: // 지역기반 검색
       endpoint = "areaBasedList2";
       queryParams.set("contentTypeId", contentTypeId || "");
-      if (areaCode && areaCode !== "0") queryParams.set("areaCode", areaCode);
-      if (cat1 && cat1 !== "all") queryParams.set("cat1", cat1);
-      if (cat2 && cat2 !== "all") queryParams.set("cat2", cat2);
-      if (cat3 && cat3 !== "all") queryParams.set("cat3", cat3);
+      if (areaCode && areaCode !== "0") // (지역 시)
+        queryParams.set("lDongRegnCd", areaCode);
+      /* lclsSystm1 대분류, lclsSystm2 중분류, lclsSystm3 소분류 */
+      if (cat1 && cat1 !== "all") queryParams.set("lclsSystm1", cat1);
+      if (cat2 && cat2 !== "all") queryParams.set("lclsSystm2", cat2);
+      if (cat3 && cat3 !== "all") queryParams.set("lclsSystm3", cat3);
       break;
   }
 
-  // serviceKey를 제외하고 나머지 파라미터만 문자열로 변환
-  queryParams.delete("serviceKey");
   const queryString = queryParams.toString();
 
-  // 최종 URL 조합 (ServiceKey는 별도 처리하여 안전성 확보)
+  // 최종 URL 조합
   return `${BASE_URL}${endpoint}?serviceKey=${encodeURIComponent(
-    SERVICE_KEY
+    SERVICE_KEY,
   )}&${queryString}`;
 };
 
@@ -85,5 +81,5 @@ export const fetchTourApi = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message || "Something went wrong");
     }
-  }
+  },
 );

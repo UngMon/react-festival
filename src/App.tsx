@@ -5,15 +5,16 @@ import {
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { TourDataType } from "./types/FetchType";
+import { AuthProvider } from "context/AuthContext";
 import RootLayout from "./pages/Root";
 import Loading from "./common/loading/Loading";
 import GetDataError from "./common/error/GetDataError";
 import MainPage from "./pages/main/MainPage";
 import ProtectedRoute from "common/ProtectedRoute";
+import LoginPage from "./pages/login/LoginPage";
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./common/error/PageNotFound"));
-const LoginPage = lazy(() => import("./pages/login/LoginPage"));
 const TourDataPage = lazy(() => import("./pages/tour-data/TourDataPage"));
 const ContentPage = lazy(() => import("./pages/content/CotentPage"));
 const ThemePage = lazy(() => import("./pages/theme/ThemePage"));
@@ -34,11 +35,12 @@ const withSuspense = <Props extends object>(
 );
 
 const pathArray: TourDataType[] = [
-  "tour",
+  "experience",
+  "history",
+  "nature",
   "culture",
   "festival",
-  "travel",
-  "leports",
+  "sports",
   "lodging",
   "shopping",
   "restaurant",
@@ -79,7 +81,7 @@ const router = createBrowserRouter([
   },
   {
     path: "login",
-    element: withSuspense(LoginPage),
+    element: <LoginPage />,
     children: [{ path: "oauth" }],
   },
   {
@@ -91,7 +93,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="app">
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </div>
   );
 }

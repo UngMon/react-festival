@@ -68,9 +68,8 @@ const EditProfileName = ({ nickName, setOpenEditName }: T) => {
 
       // 1. 현재 사용자의 ID 토큰 받기
       const idToken = await user.getIdToken();
-      //process.env.REACT_APP_FIREBASE_SERVER_POINT
       const response = await fetch(
-        `http://127.0.0.1:5001/festival-moa-fc37b/us-central1/auth/update-nickname`,
+        `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/update-nickname`,
         {
           method: "PATCH",
           headers: {
@@ -85,9 +84,6 @@ const EditProfileName = ({ nickName, setOpenEditName }: T) => {
         const errorText = await response.text();
         throw new Error(errorText || "서버 요청 실패");
       }
-
-      // const data = await response.json();
-      // console.log("업데이트 성공", data);
 
       // 3. 클라이언트 로컬 상태 업데이트
       // (Auth 서버 정보는 바뀌었지만 클라이언트 앱의 user 객체는 reload가 필요!)

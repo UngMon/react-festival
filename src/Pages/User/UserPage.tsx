@@ -1,33 +1,27 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
 import FeedbackToast from "common/feedback-toast/FeedbackToast";
-import UserMenu from "features/user/UserMenu";
-import UserLogs from "features/user/UserLogs";
-import UserInfo from "features/user/UserInfo";
+import UserLogs from "features/user/logs/UserLogs";
+import Account from "features/user/account/Account";
+import SubMenu from "features/user/ui/SubMenu";
+import Title from "features/user/ui/Title";
+import "./UserPage.css";
 
 const UserPage = () => {
-  const userData = useSelector((state: RootState) => state.firebase);
-  const [category, setCategory] = useState<
-    "userInfo" | "myComment" | "likedComment" | "likedContent"
-  >("userInfo");
+  const [category, setCategory] = useState<string>("userInfo");
 
   return (
-    <main
-      style={{
-        position: "relative",
-        background: "rgb(253, 253, 253)",
-        width: "100%",
-        minHeight: "calc(100vh - 60px)",
-      }}
-    >
-      <UserMenu setCategory={setCategory} userData={userData} />
-      {category === "userInfo" ? (
-        <UserInfo userData={userData} />
-      ) : (
-        <UserLogs category={category} userData={userData} />
-      )}
-      <FeedbackToast />
+    <main className="user-page-container">
+      <div className="user-page-back-img" />
+      <Title category={category} />
+      <div className="user-page-box">
+        <SubMenu setCategory={setCategory} category={category} />
+        {category === "userInfo" ? (
+          <Account />
+        ) : (
+          <UserLogs category={category} />
+        )}
+        <FeedbackToast />
+      </div>
     </main>
   );
 };

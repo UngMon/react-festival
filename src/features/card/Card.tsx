@@ -24,7 +24,7 @@ const Card = ({ tourDataType, numOfRows, params }: CardProps) => {
   const httpState = useSelector((state: RootState) => state.data.httpState);
   const page_record = useSelector((state: RootState) => state.data.page_record);
   const tourData = useSelector(
-    (state: RootState) => state.data[tourDataType]?.[page_key]
+    (state: RootState) => state.data.datas[tourDataType]?.[page_key],
   );
 
   useEffect(() => {
@@ -32,9 +32,13 @@ const Card = ({ tourDataType, numOfRows, params }: CardProps) => {
       navigate(params.requireRedirect);
       return;
     }
-    
+
     // 데이터 요청이 진행 중이거나 이미 해당 페이지 데이터가 있으면 재요청 방지
-    if (httpState === "pending" || page_record.includes(page_key)) return;
+    if (
+      httpState === "pending" ||
+      page_record.some((item) => item.previous_page_key === page_key)
+    )
+      return;
 
     dispatch(fetchTourApi({ numOfRows, tourDataType, params }));
   }, [

@@ -15,11 +15,11 @@ import "./LoginPage.css";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [errorCode, setErrorCode] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-
+  const [loading, setLoading] = useState<boolean>(true);
+  console.log('LoginPage')
   const finalizeLogin = useCallback(() => {
-    const previousUrl = sessionStorage.getItem("previousUrl") || '"/"';
-    navigate(previousUrl, { replace: true });
+    const previousUrl = sessionStorage.getItem("previousUrl") || '/';
+    navigate(`/${previousUrl}`, { replace: true });
   }, [navigate]);
 
   const authCallbackHandler = useCallback(async () => {

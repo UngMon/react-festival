@@ -52,7 +52,7 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
   return (
     <>
       <button className="magnifying" onClick={() => setOpenSearch(true)}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <span className="material-symbols-outlined">search</span>
       </button>
       {openSearch && (
         <div className="search-container">
@@ -102,7 +102,7 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
                 type="button"
                 onClick={() => setOpenSearch(false)}
               >
-                <FontAwesomeIcon icon={faXmark} />
+                <span className="material-symbols-outlined">close</span>
               </button>
             </form>
           </div>

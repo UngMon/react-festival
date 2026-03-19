@@ -26,7 +26,7 @@ const PageButton = ({ tourDataType, numOfRows, params }: T) => {
   let page_key = createPageKey(tourDataType, numOfRows, params);
 
   const DataOfPageKey = useSelector(
-    (state: RootState) => state.data[tourDataType]?.[page_key]
+    (state: RootState) => state.data.datas[tourDataType]?.[page_key]
   );
 
   if (!DataOfPageKey || !DataOfPageKey?.totalCount) return null;

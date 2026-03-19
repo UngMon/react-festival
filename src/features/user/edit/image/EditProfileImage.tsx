@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { resizeAndCropImage } from "./resizeAndCropImage";
-import { auth, storage } from "../../../firebase";
+import { auth, storage } from "../../../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useAppDispatch } from "store/store";
 import { firebaseActions } from "store/firebase-slice";
@@ -12,17 +12,13 @@ interface T {
 }
 
 const EditProfileImage = ({ setOpenImageEditor }: T) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  // 파일 처리 공통 로직
-  const processFile = async (file: File) => {
-    const user = auth.currentUser;
+  const [loading, setLoading] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-    if (!user) return;
-
+  // [파일 업로드]
+  const uploadImage = async (file: File) => {
     const MAX_SIZE = 5 * 1024 * 1024; // 5MB 비트 단위
     const ALLOWED_TYPES = [
       "image/png",
@@ -31,41 +27,35 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
       "image/webp",
     ];
 
-    // 1. 파일 형식 검증 (image type 체크)
+    // 1. 파일 형식 및 용량 검증
     if (!ALLOWED_TYPES.includes(file.type)) {
       alert("PNG, JPG, JPEG, Webp 파일만 업로드할 수 있습니다.");
       return;
     }
 
-    // 2. 용량 제한 검증
     if (file.size > MAX_SIZE) {
       alert("파일 용량은 최대 5MB를 초과할 수 없습니다.");
       return;
     }
 
+    const user = auth.currentUser;
+    if (!user) return;
+
     try {
       setLoading(true);
 
-      // 이전에 만든 리사이징 함수 실행
+      // 2. 리사이징 (중앙 기준 400x400 크롭 자동 수행)
       const compressedBlob = await resizeAndCropImage(file, 400);
-      console.log("가공된 이미지:", compressedBlob);
-      // 여기서 Firebase 업로드 함수 호출
 
-      // 3. [Storage 저장] 고유한 UID 파일명 지정
-      const storageRef = ref(storage, `profiles/${user.uid}_${Date.now()}.jpg`);
-
-      //업로드 실행
+      // 3. Firebase Storage 업로드
+      const storageRef = ref(storage, `profiles/${user.uid}/profile.jpeg`);
       await uploadBytes(storageRef, compressedBlob);
-
-      // 3. 업로드된 이미지 URL 가져오기
       const photoURL = await getDownloadURL(storageRef);
-      console.log(photoURL);
 
+      // 4. 서버(Cloud Functions) 업데이트 API 호출
       const idToken = await user.getIdToken();
-
-      // 4. Cloud Functions 호출 (Auth 및 관련 문서 업데이트)
       const response = await fetch(
-        `http://127.0.0.1:5001/festival-moa-fc37b/us-central1/auth/update-profile-image`,
+        `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/update-profile-image`,
         {
           method: "PATCH",
           headers: {
@@ -76,19 +66,18 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
         },
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "이미지 업데이트에 실패했습니다.");
-      }
+      if (!response.ok) throw new Error("업데이트 실패");
 
       const result = await response.json();
 
       if (result.success) {
-        alert("프로필 사진이 성공적으로 변경되었습니다!");
+        alert("프로필 사진이 변경되었습니다!");
+        // Redux 상태 업데이트
         dispatch(firebaseActions.updateProfileImage({ photoURL }));
+        setOpenImageEditor(false);
       }
     } catch (error) {
-      console.error("이미지 처리 실패:", error);
+      console.error(error);
       alert("프로필 이미지 변경 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
@@ -96,35 +85,19 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
     }
   };
 
-  const dragOverHandler = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    if (!isDragging) setIsDragging(true);
-    console.log("dragOverHandler");
-  };
-
-  const dragLeaveHandler = () => {
-    if (isDragging) setIsDragging(false);
-    console.log("dragLeaveHandler");
-  };
-
-  const dropHandler = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    console.log("Drop_Handler", e);
     const file = e.dataTransfer.files?.[0];
-    console.log(file);
-    if (file) {
-      processFile(file);
-    }
+    if (file) uploadImage(file);
   };
 
-  const dragBoxClickHandler = () => {
+  const handleClick = () => {
     if (!fileInputRef.current) return;
     fileInputRef.current.click();
   };
 
   return (
-    <>
+    <div className="image-edit-wrapper">
       {loading ? (
         <LoadingSpinnerTwo width="50px" padding="10px" />
       ) : (
@@ -136,20 +109,16 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
             ref={fileInputRef}
             style={{ display: "none" }}
             onChange={(e) => {
-              console.log("Change Input", e);
+              const file = e.target.files?.[0];
+              if (file) {
+                uploadImage(file);
+                e.target.value = "";
+              }
             }}
           />
-          <div
-            className="image-drag-box"
-            onDragOver={(e) => dragOverHandler(e)}
-            onDragLeave={dragLeaveHandler}
-            onDrop={(e) => dropHandler(e)}
-            onClick={(e) => {
-              console.log("onClick", e);
-            }}
-          >
+          <div className="image-drag-box" onDrop={(e) => handleDrop(e)}>
             <div className="darg-boundary">
-              <span>이미지 업로드</span>
+              <span>프로필 사진 추가</span>
               <span
                 className="material-symbols-outlined image-edit-close"
                 onClick={(e) => {
@@ -165,7 +134,7 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
               <span>
                 PNG, JPG, JPEG, WebP 형식의 이미지 파일을 선택해 주세요.
               </span>
-              <button type="button" onClick={dragBoxClickHandler}>
+              <button type="button" onClick={handleClick}>
                 파일 선택하기
               </button>
               <span>최대 5MB 까지</span>
@@ -173,7 +142,7 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

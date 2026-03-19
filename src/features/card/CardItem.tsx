@@ -5,8 +5,9 @@ import { RootState } from "store/store";
 import { useNavigate } from "react-router-dom";
 import { nowDate } from "utils/nowDate";
 import { calculateDate } from "utils/calculateDate";
-import { cat3Code, 지역코드, 시군코드 } from "constant/catCode";
+import { 소분류, 지역코드, 시군코드 } from "constant/catCode";
 import { dateSlice } from "utils/dateSlice";
+import NoImage from "assets/etc-image/noimage.png";
 
 type Card = {
   data: Item;
@@ -33,7 +34,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
       </div>
     );
   }
-
+  console.log(tourDataArray);
   const filteredItems = () => {
     let result: Card[] = [];
 
@@ -43,22 +44,22 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
       시작전: Card[];
     }>(
       (acc, item) => {
-        if (!item.areacode) return acc;
-        if (cat1 !== "all" && cat1 !== item.cat1) return acc;
-        if (cat2 !== "all" && cat2 !== item.cat2) return acc;
-        if (cat3 !== "all" && cat3 !== item.cat3) return acc;
+        if (!item.lDongRegnCd) return acc;
+        if (cat1 !== "all" && cat1 !== item.lclsSystm1) return acc;
+        if (cat2 !== "all" && cat2 !== item.lclsSystm2) return acc;
+        if (cat3 !== "all" && cat3 !== item.lclsSystm3) return acc;
 
         if (tourDataType === "festival") {
           if (item.eventstartdate!.slice(4, 6) > param_month!) return acc;
           if (item.eventenddate!.slice(4, 6) < param_month!) return acc;
-          if (areaCode !== "0" && areaCode !== item.areacode) return acc;
+          if (areaCode !== "0" && areaCode !== item.lDongRegnCd) return acc;
 
           let 축제상태 = calculateDate(
             item.eventstartdate!,
             item.eventenddate!,
             year,
             month,
-            date
+            date,
           );
 
           if (축제상태 === "진행중")
@@ -70,7 +71,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
 
         return acc;
       },
-      { 진행중: [], 종료: [], 시작전: [] }
+      { 진행중: [], 종료: [], 시작전: [] },
     );
 
     if (tourDataType === "festival") {
@@ -89,20 +90,23 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
       {datas.length > 0 ? (
         datas.map((item) => {
           const {
-            areacode,
+            lDongRegnCd,
             contentid,
             contenttypeid,
-            sigungucode,
+            lDongSignguCd,
             firstimage,
             eventstartdate,
             eventenddate,
             title,
-            cat3,
+            lclsSystm1,
+            lclsSystm2,
+            lclsSystm3,
           } = item.data;
+          console.log(lclsSystm1, lclsSystm2, lclsSystm3)
           const 축제상태 = item._state;
 
-          const 지역 = 지역코드[areacode];
-          const 시군구 = 시군코드[지역코드[areacode]][sigungucode];
+          const 지역 = 지역코드[lDongRegnCd];
+          const 시군구 = 시군코드[lDongRegnCd][lDongSignguCd];
           const 지역표시 = `${지역 && `[${지역}]`} ${시군구 && `[${시군구}]`}`;
 
           return (
@@ -111,16 +115,13 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
               key={contentid}
               onClick={() =>
                 navigate(
-                  `/content?contentTypeId=${contenttypeid}&contentId=${contentid}`
+                  `/content?contentTypeId=${contenttypeid}&contentId=${contentid}`,
                 )
               }
             >
               <div className="card-image-box">
                 <img
-                  src={
-                    firstimage?.replace(/^http:\/\//, "https://") ||
-                    "../images/Noimage.png"
-                  }
+                  src={firstimage?.replace(/^http:\/\//, "https://") || NoImage}
                   alt="img"
                   loading="lazy"
                 />
@@ -131,12 +132,16 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
               <div className="card-text">
                 <p className="area">{지역표시}</p>
                 <h4>{title}</h4>
-                {tourDataType === "festival" ? (
+                {lclsSystm1 === "EV" ? (
                   <p className="card-date">
                     {dateSlice(eventstartdate!, eventenddate!)}
                   </p>
                 ) : (
-                  <p className="card-tag">{`#${cat3Code[cat3]}`}</p>
+                  <p className="card-tag">
+                    {소분류[lclsSystm2][lclsSystm3]
+                      ? `#${소분류[lclsSystm2][lclsSystm3]}`
+                      : ""}
+                  </p>
                 )}
               </div>
             </div>

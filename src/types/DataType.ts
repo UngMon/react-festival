@@ -17,20 +17,26 @@ interface Datas {
   totalCount: number;
 }
 
+interface Page_Record {
+  previous_type: string;
+  previous_page_key: string; 
+}
+
 export interface DataType {
   successGetData: boolean;
   httpState: string;
-  tour: Record<string, Datas>;
-  culture: Record<string, Datas>;
-  festival: Record<string, Datas>;
-  travel: Record<string, Datas>;
-  leports: Record<string, Datas>;
-  lodging: Record<string, Datas>;
-  shopping: Record<string, Datas>;
-  restaurant: Record<string, Datas>;
-  search: Record<string, Datas>;
+  datas: Record<string, Record<string, Datas>>
+  // tour: Record<string, Datas>;
+  // culture: Record<string, Datas>;
+  // festival: Record<string, Datas>;
+  // travel: Record<string, Datas>;
+  // leports: Record<string, Datas>;
+  // lodging: Record<string, Datas>;
+  // shopping: Record<string, Datas>;
+  // restaurant: Record<string, Datas>;
+  // search: Record<string, Datas>;
   loading: boolean;
-  page_record: string[];
+  page_record: Page_Record[];
   행사상태: [boolean, boolean, boolean];
 }
 
@@ -55,25 +61,22 @@ export interface CommentType {
 }
 
 export interface LikedContent {
-  like_content: boolean;
-  content_type: string;
   content_id: string;
+  content_type: string;
   content_title: string;
-  image_url: string;
   createdAt: string;
-  user_id: string;
-  like: boolean;
+  image_url: string;
 }
 
 export interface LikedComment {
-  origin_id: string | null;
-  comment_id: string;
+  content_id: string;
   content_title: string;
   content_type: string;
-  content_id: string;
-  content: [string, string, string];
-  user_id: string;
+  comment_id: string;
   createdAt: string;
+  origin_id: string | null;
+  text: string;
+  user_id: string;
   image_url: string;
 }
 

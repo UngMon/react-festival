@@ -40,7 +40,8 @@
 .header-sub-box {
   display: flex;
   align-items: center;
-  z-index: 12;
+  column-gap: 7px;
+  z-index: 99;
 }
 
 @media (min-width: 1024px) {

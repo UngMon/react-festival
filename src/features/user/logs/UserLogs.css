@@ -15,24 +15,23 @@
   }
 }
 
-.content-view {
+.log-section {
   position: relative;
-  background-color: rgb(248, 248, 248);
-  width: clamp(320px, 100%, 655px);
+  width: clamp(320px, 100%, 600px);
   min-height: calc(100vh - 60px);
-  margin: 0 auto;
-  padding: 40px 0 20px;
+  margin: 30px auto 0;
+  padding-bottom: 20px;
 }
 
 #date {
   margin-bottom: 20px;
-  background-color: rgb(48, 110, 255);
+  background-color: rgb(243, 243, 255);
   border-radius: 0;
   padding: 16px 24px;
   height: 24px;
   line-height: 24px;
   font-weight: bold;
-  color: white;
+  color: #333;
 }
 
 #Nonexistent {
@@ -50,11 +49,6 @@
   &:not(:last-child) {
     border-bottom: 1px solid #c3c3c3; /* 마지막 요소 제외하고 실선 추가 */
   }
-}
-
-#top-title {
-  text-align: center;
-  padding-bottom: 40px;
 }
 
 #v-b-1 {
@@ -106,17 +100,16 @@
     font-size: 13px;
     min-height: 20px;
     font-weight: 500;
-
-    span:nth-child(1) {
-      color: rgb(0, 94, 218);
-      cursor: pointer;
-    }
   }
 
   div:nth-child(3) {
     margin-top: 16px;
     font-size: 13px;
   }
+}
+
+#v-b-3 > div > span:nth-child(1) {
+  color: rgb(0, 94, 218);
 }
 
 #v-b-img {
@@ -134,6 +127,13 @@
 .log-error-text {
   padding-top: 50px;
   text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .log-section {
+    padding-top: 40px;
+    margin: 0px;
+  }
 }
 
 @media (min-width: 1024px) and (max-width: 1295px) {

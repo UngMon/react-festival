@@ -1,27 +1,33 @@
-import { UserData } from "types/UserDataType";
 import { useState } from "react";
-import { auth } from "../../firebase";
-import Portal from "../../common/Portal";
-import EditProfileImage from "./edit/EditProfileImage";
-import EditProfileName from "./edit/EditProfileName";
-import DeleteAccount from "./edit/DeleteAccount";
-import "./UserInfo.css";
+import { auth } from "../../../firebase";
+import { useAuth } from "context/AuthContext";
+import goolge_logo from "assets/login/google_logo.jpeg";
+import facebook_logo from "assets/login/facebook_logo.png";
+import kakao_logo from "assets/login/kakao_logo.png";
+import naver_logo from "assets/login/naver_logo.png";
+import Portal from "../../../common/Portal";
+import EditProfileImage from "../edit/image/EditProfileImage";
+import EditProfileName from "../edit/name/EditProfileName";
+import DeleteAccount from "../edit/DeleteAccount";
+import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
+import "./Account.css";
 
-interface T {
-  userData: UserData;
-}
+const Provider_Name: Record<string, string> = {
+  "kakao.com": "카카오",
+  "naver.com": "네이버",
+  "google.com": "구글",
+  "facebook.com": "페이스북",
+};
 
-const UserInfo = ({ userData }: T) => {
-  const { current_user_email, current_user_name, current_user_photo } =
-    userData;
+const Account = () => {
+  const { user, provider, logout, status } = useAuth();
+  const { email, displayName, photoURL } = user!;
 
   const [openImageEditor, setOpenImageEditor] = useState<boolean>(false);
   const [openEditName, setOpenEditName] = useState<boolean>(false);
   const [openDeleteAcc, setOpenDeleteAcc] = useState<boolean>(false);
 
-  const provider: string = auth?.currentUser?.providerData[0].providerId || "";
-
-  const formantDate = (date: string | undefined) => {
+  const formatDate = (date: string | undefined) => {
     if (!date) return "-";
 
     const dateObj = new Date(date);
@@ -39,19 +45,12 @@ const UserInfo = ({ userData }: T) => {
 
   return (
     <div className="profile-container">
-      <header className="profile-header">
-        <h2>
-          <span className="material-symbols-outlined">account_box</span>
-          <span className="material-symbols-outlined">arrow_forward_ios</span>
-          개인정보관리
-        </h2>
-        <p>닉네임과 프로필 사진을 변경할 수 있습니다.</p>
-      </header>
       <section className="profile-photo-box">
         <div className="profile-photo">
           <img
-            src={current_user_photo || "./images/userIcon.png"}
             alt="프로필 이미지"
+            src={photoURL || "./images/userIcon.png"}
+            onClick={() => setOpenImageEditor(true)}
           />
           <button
             className="edit-photo-button"
@@ -61,14 +60,14 @@ const UserInfo = ({ userData }: T) => {
           </button>
         </div>
         <div className="photo-description">
-          <span>{current_user_name}</span>
+          <span>{displayName}</span>
         </div>
       </section>
       <section className="profile-detail-section">
         <div className="pr-list-box pr-dis-flex">
           <div className="nickname-box pr-text-box">
             <h3>닉네임</h3>
-            <span>{current_user_name || "-"}</span>
+            <span>{displayName || "-"}</span>
           </div>
           <button
             type="button"
@@ -80,11 +79,11 @@ const UserInfo = ({ userData }: T) => {
         </div>
         <div className="pr-list-box pr-text-box">
           <h3>이메일</h3>
-          <span>{current_user_email || "-"}</span>
+          <span>{email || "-"}</span>
         </div>
         <div className="sign-up-date pr-list-box pr-text-box">
           <h3>가입일</h3>
-          <span>{formantDate(auth?.currentUser?.metadata.creationTime)}</span>
+          <span>{formatDate(auth?.currentUser?.metadata.creationTime)}</span>
         </div>
       </section>
       <section className="profile-platform-section">
@@ -93,7 +92,7 @@ const UserInfo = ({ userData }: T) => {
         <div className="platforms-container">
           <div className="pr-list-box pr-dis-flex">
             <div className="plat-icon">
-              <img src="./images/google_logo.jpeg" alt="google" width={40} />
+              <img src={goolge_logo} alt="google" width={40} />
               <span>Google</span>
             </div>
             <span className="pr-button plat-check">
@@ -102,7 +101,7 @@ const UserInfo = ({ userData }: T) => {
           </div>
           <div className="pr-list-box pr-dis-flex">
             <div className="plat-icon">
-              <img src="./images/facebook_logo.png" alt="facebook" width={40} />
+              <img src={facebook_logo} alt="facebook" width={40} />
               <span>Facebook</span>
             </div>
             <span className="pr-button plat-check">
@@ -111,25 +110,25 @@ const UserInfo = ({ userData }: T) => {
           </div>
           <div className="pr-list-box pr-dis-flex">
             <div className="plat-icon">
-              <img src="./images/kakao_logo.png" alt="kakao" width={40} />
+              <img src={kakao_logo} alt="kakao" width={40} />
               <span>Kakao</span>
             </div>
             <span className="pr-button plat-check">
-              {provider === "Kakao" ? "연결됨" : "연결안됨"}
+              {provider === "kakao.com" ? "연결됨" : "연결안됨"}
             </span>
           </div>
           <div className="pr-list-box pr-dis-flex">
             <div className="plat-icon">
-              <img src="./images/naver_logo.png" alt="naver" width={40} />
+              <img src={naver_logo} alt="naver" width={40} />
               <span>Naver</span>
             </div>
             <span className="pr-button plat-check">
-              {provider === "Naver" ? "연결됨" : "연결안됨"}
+              {provider === "naver.com" ? "연결됨" : "연결안됨"}
             </span>
           </div>
         </div>
         <div className="plat-sub">
-          <span>{`네이버(으)로 로그인 한 계정입니다.`}</span>
+          <span>{`${Provider_Name[provider!]}(으)로 로그인 한 계정입니다.`}</span>
         </div>
       </section>
       <section className="delete-account">
@@ -141,7 +140,7 @@ const UserInfo = ({ userData }: T) => {
         <Portal
           children={
             <EditProfileName
-              nickName={current_user_name}
+              nickName={displayName!}
               setOpenEditName={setOpenEditName}
             />
           }
@@ -156,11 +155,17 @@ const UserInfo = ({ userData }: T) => {
       )}
       {openDeleteAcc && (
         <Portal
-          children={<DeleteAccount setOpenDeleteAcc={setOpenDeleteAcc} />}
+          children={
+            <DeleteAccount
+              setOpenDeleteAcc={setOpenDeleteAcc}
+              provider={provider}
+              logout={logout}
+            />
+          }
         />
       )}
     </div>
   );
 };
 
-export default UserInfo;
+export default Account;

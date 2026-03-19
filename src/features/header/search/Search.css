@@ -19,22 +19,25 @@
 }
 
 .magnifying {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border: 0;
   background-color: transparent;
-  z-index: 99;
   color: inherit;
   cursor: pointer;
   outline: none;
-  z-index: 100;
+  z-index: 101;
 
-  svg {
-    font-size: 1.8em;
-  }
-
-  &:hover {
-    color: orange !important;
+  span {
+    line-height: 30px;
+    width: 100%;
+    height: 100%;
+    font-size: clamp(24px, 5vw, 28px);
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 600,
+      "GRAD" 200,
+      "opsz" 24;
   }
 }
 
@@ -49,7 +52,7 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 100;
+  z-index: 110;
 }
 
 .search-box {
@@ -162,8 +165,10 @@
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s,
-      color 5000s ease-in-out 0s, fontSize 5000s ease-in-out 0s;
+    transition:
+      background-color 5000s ease-in-out 0s,
+      color 5000s ease-in-out 0s,
+      fontSize 5000s ease-in-out 0s;
   }
 }
 
@@ -188,6 +193,20 @@
 
   &:hover {
     color: orange;
+  }
+
+  span {
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    text-align: center;
+    color: inherit;
+    font-size: clamp(26px, 8vw, 35px);
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 350,
+      "GRAD" 100,
+      "opsz" 24;
   }
 }
 

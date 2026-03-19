@@ -4,43 +4,48 @@ const { month } = nowDate();
 
 export const MENU_ITEMS = [
   {
-    to: "/tour?contentTypeId=12&areaCode=1&cat1=all&cat2=all&cat3=all&page=1",
+    to: "/experience?areaCode=0&cat1=EX&cat2=all&cat3=all&page=1",
     icon: "map",
-    text: "관광지",
+    text: "체험관광",
   },
   {
-    to: "/culture?contentTypeId=14&areaCode=1&cat1=A02&cat2=all&cat3=all&page=1",
+    to: "/history?areaCode=0&cat1=HS&cat2=all&cat3=all&page=1",
     icon: "museum",
-    text: "문화시설",
+    text: "역사관광",
   },
   {
-    to: `/festival?contentTypeId=15&month=${month}&areaCode=0&cat1=A02&cat2=all&cat3=all`,
+    to: "/nature?areaCode=0&cat1=NA&cat2=all&cat3=all&page=1",
+    icon: "route",
+    text: "자연관광",
+  },
+  {
+    to: "/culture?areaCode=0&cat1=VE&cat2=all&cat3=all&page=1",
+    icon: "route",
+    text: "문화관광",
+  },
+  {
+    to: `/festival?month=${month}&areaCode=0&cat1=EV&cat2=all&cat3=all`,
     icon: "festival",
     text: "축제/공연/행사",
   },
   {
-    to: "/travel?contentTypeId=25&areaCode=0&cat1=C01&cat2=all&cat3=all&page=1",
-    icon: "route",
-    text: "여행코스",
-  },
-  {
-    to: "/leports?contentTypeId=28&areaCode=0&cat1=A03&cat2=all&cat3=all&page=1",
+    to: "/sports?areaCode=0&cat1=LS&cat2=all&cat3=all&page=1",
     icon: "directions_bike",
-    text: "레포츠",
+    text: "레저스포츠",
   },
   {
-    to: "/lodging?contentTypeId=32&areaCode=0&cat1=B02&cat2=B0201&cat3=all&page=1",
+    to: "/lodging?areaCode=0&cat1=AC&cat2=all&cat3=all&page=1",
     icon: "hotel",
     text: "숙박",
   },
   {
-    to: "/shopping?contentTypeId=38&areaCode=0&cat1=A04&cat2=A0401&cat3=all&page=1",
+    to: "/shopping?areaCode=0&cat1=SH&cat2=all&cat3=all&page=1",
     icon: "shopping_bag",
     text: "쇼핑",
   },
   {
-    to: "/restaurant?contentTypeId=39&areaCode=0&cat1=A05&cat2=A0502&cat3=all&page=1",
+    to: "/restaurant?areaCode=0&cat1=FD&cat2=all&cat3=all&page=1",
     icon: "restaurant",
-    text: "음식점",
+    text: "음식",
   },
 ];

@@ -1,5 +1,4 @@
 import React from "react";
-import { TourDataType } from "types/FetchType";
 import { CheckParams } from "hooks/useCheckParams";
 import SubMenu from "./SubMenu";
 import MonthSelector from "./MonthSelector";
@@ -11,40 +10,33 @@ import RowsPerPage from "./RowsPerPage";
 import "./Picker.css";
 
 interface T {
-  tourDataType: TourDataType;
   numOfRows: number;
   params: CheckParams;
   setNumOfRows: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Selectors = ({ tourDataType, numOfRows, params, setNumOfRows }: T) => {
+const Selectors = ({ numOfRows, params, setNumOfRows }: T) => {
   const { month, areaCode, requireRedirect, cat1, cat2, cat3, contentTypeId } =
     params;
 
   return (
     <div className="Ui-Box">
-      <SubMenu title={tourDataType} />
+      <SubMenu cat1={cat1} />
       <div>
         <div className="option-container">
-          {tourDataType === "festival" && params.requireRedirect === "" && (
+          {cat1 === "EV" && params.requireRedirect === "" && (
             <MonthSelector month={month!} />
           )}
           {requireRedirect === "" && <RegionSelector areaCode={areaCode!} />}
-          {requireRedirect === "" && (
-            <Category
-              tourDataType={tourDataType}
-              cat1={cat1!}
-              cat2={cat2!}
-              cat3={cat3!}
-            />
-          )}
+          {requireRedirect === "" && <Category cat1={cat1!} cat2={cat2!} />}
         </div>
         {requireRedirect === "" && (
           <Tags contentTypeId={contentTypeId!} cat2={cat2!} cat3={cat3!} />
         )}
       </div>
-      {tourDataType === "festival" && <OnGoingSelector />}
-      {tourDataType !== "festival" && (
+      {cat1 === "EV" ? ( // 대분류가 축제/공연/행사
+        <OnGoingSelector />
+      ) : (
         <RowsPerPage numOfRows={numOfRows} setNumOfRows={setNumOfRows} />
       )}
     </div>

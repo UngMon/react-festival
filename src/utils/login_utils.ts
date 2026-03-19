@@ -178,8 +178,8 @@ export const isAuthFresh = async () => {
   const authTime = new Date(tokenResult.authTime).getTime();
   const now = Date.now();
 
-  // 로그인 후 시간이 5분(300,000ms) 이내면 ok
-  return now - authTime < 5 * 60 * 1000;
+  // 로그인 후 시간이 1시간 (3,600,000ms) 이내면 ok
+  return now - authTime < 60 * 60 * 1000;
 };
 
 // 3. 실제 서버 API를 호출하는 함수

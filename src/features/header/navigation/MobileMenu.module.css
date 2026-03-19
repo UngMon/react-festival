@@ -3,16 +3,10 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 0 5px;
-  margin-left: 10px;
-  width: 35px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   color: inherit;
-  z-index: 200;
-
-  &:hover {
-    border-color: orange !important;
-  }
+  z-index: 101;
 }
 
 .menuOn {
@@ -20,15 +14,15 @@
 }
 
 .bar {
+  box-sizing: border-box;
   width: 100%;
   border: 2px solid;
   border-color: inherit;
-  margin: 3px 0;
   transition: transform 0.2s linear;
 }
 
 .roT45 {
-  transform: rotate(45deg) translate(7px, 7px);
+  transform: rotate(45deg) translate(5px, 5px);
 }
 
 .fadeout {
@@ -64,7 +58,7 @@
   right: 0;
   width: 80%; /* 모바일 화면 너비의 80% 차지 */
   max-width: 320px;
-  height: clamp(320px, 90%, 720px);
+  height: clamp(320px, 90%, 700px);
   background-color: #ffffff;
   z-index: 100;
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); /* 왼쪽에 은은한 그림자 */
@@ -92,7 +86,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 60px;
-  padding: 20px 20px;
+  padding: 20px 20px 10px;
   border-top: 1px solid var(--divider-color);
   background-color: var(--bg-light);
 }
@@ -157,7 +151,7 @@
 /* 네비게이션 메뉴 리스트 스타일 */
 .menu-nav ul {
   list-style: none;
-  padding: 20px 0 25px;
+  padding: 20px 0;
   margin: 0;
   overflow-y: auto; /* 내용이 길어지면 스크롤 */
 }

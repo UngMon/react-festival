@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { TagCode } from "constant/catCode";
+import { 소분류 } from "constant/catCode";
 import "./Tags.css";
 
 interface T {
@@ -11,6 +11,8 @@ interface T {
 const Tags = ({ contentTypeId, cat2, cat3 }: T) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  if (!소분류[cat2]) return null;
+
   const festivalTagClick = (cat3: string) => {
     searchParams.set("cat3", cat3);
     searchParams.set("page", "1");
@@ -18,24 +20,18 @@ const Tags = ({ contentTypeId, cat2, cat3 }: T) => {
     setSearchParams(searchParams);
   };
 
-  const tagObject =
-    contentTypeId === "15" || contentTypeId === "25"
-      ? TagCode[contentTypeId]
-      : TagCode[cat2];
-
   return (
     <div className="tags">
       <div className="hash">
-        {tagObject &&
-          Object.entries(tagObject).map((item, index) => (
-            <button
-              key={index}
-              className={`${cat3 === item[1] ? "category-active" : ""}`}
-              onClick={() => festivalTagClick(item[1])}
-            >
-              {item[0]}
-            </button>
-          ))}
+        {Object.entries(소분류[cat2]).map((item) => (
+          <button
+            key={item[0]}
+            className={`${cat3 === item[1] ? "category-active" : ""}`}
+            onClick={() => festivalTagClick(item[0])}
+          >
+            {item[1]}
+          </button>
+        ))}
       </div>
     </div>
   );

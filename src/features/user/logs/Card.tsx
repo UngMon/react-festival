@@ -1,4 +1,4 @@
-import { LikedComment, LikedContent, CommentType } from "../../types/DataType";
+import { LikedComment, LikedContent, CommentType } from "types/DataType";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -11,14 +11,14 @@ interface T {
   deleteHandler: (
     date: string,
     index: number,
-    item: CommentType | LikedComment | LikedContent
+    item: CommentType | LikedComment | LikedContent,
   ) => void;
 }
 
 const Card = ({ item, index, date, deleteHandler }: T) => {
   const navigate = useNavigate();
 
-  const imageClickHandler = (content_type: string, content_id: string) => {
+  const handleNavigate = (content_type: string, content_id: string) => {
     navigate(`/content?contentTypeId=${content_type}&contentId=${content_id}`);
   };
 
@@ -41,9 +41,14 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
       </div>
       <div id="v-b-2">
         <div id="v-b-3">
-          {"text" in item && <div>{item.text}</div>}
+          {"text" in item && <div>{`"${item.text}"`}</div>}
           <div>
-            <span>{item.content_title}</span>
+            <span
+              onClick={() => handleNavigate(item.content_type, item.content_id)}
+            >
+              {item.content_title}
+            </span>
+            {!("text" in item) && <span>에 좋아요 누름</span>}
             {"like_users" in item && (
               <span>{`에 남긴 ${item.origin_id ? "답글" : "댓글"}`}</span>
             )}
@@ -55,7 +60,7 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
         </div>
         <div
           id="v-b-img"
-          onClick={() => imageClickHandler(item.content_type, item.content_id)}
+          onClick={() => handleNavigate(item.content_type, item.content_id)}
         >
           <img src={item.image_url || "./images/NoImage.png"} alt="img" />
         </div>

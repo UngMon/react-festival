@@ -15,8 +15,8 @@ export interface CheckParams {
 // 1. 타이틀에 따라 파라미터 분리 (Config Object)
 const PARAM_CONFIG: Record<string, string[]> = {
   search: ["keyword", "contentTypeId", "page"],
-  festival: ["contentTypeId", "month", "areaCode", "cat1", "cat2", "cat3"],
-  default: ["contentTypeId", "areaCode", "cat1", "cat2", "cat3", "page"],
+  festival: ["month", "areaCode", "cat1", "cat2", "cat3"],
+  default: ["areaCode", "cat1", "cat2", "cat3", "page"],
 };
 
 const useCheckParams = (title: string) => {

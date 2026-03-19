@@ -10,15 +10,16 @@ import { Item, FetchTourData } from "types/FetchType";
 const initialState: DataType = {
   successGetData: false,
   httpState: "nothing",
-  tour: {},
-  culture: {},
-  festival: {},
-  travel: {},
-  leports: {},
-  search: {},
-  lodging: {},
-  shopping: {},
-  restaurant: {},
+  datas: {},
+  // tour: {},
+  // culture: {},
+  // festival: {},
+  // travel: {},
+  // leports: {},
+  // search: {},
+  // lodging: {},
+  // shopping: {},
+  // restaurant: {},
   loading: false,
   page_record: [],
   행사상태: [true, false, false],
@@ -60,8 +61,11 @@ const dataSlice = createSlice({
 
           if (tourData === "") {
             // API는 성공적으로 응답이 됐지만, 내용이 없는 경우
-            state.page_record.push(page_key);
-            state[tourDataType][page_key] = {
+            state.page_record.push({
+              previous_type: tourDataType,
+              previous_page_key: page_key,
+            });
+            state.datas[tourDataType][page_key] = {
               tourData: [],
               totalCount: 0,
             };
@@ -73,32 +77,48 @@ const dataSlice = createSlice({
             const TodayYear = `${new Date().getFullYear()}0101`;
 
             for (const item of tourData) {
-              if (item.areacode === "") continue;
+              if (item.lDongRegnCd === "") {
+                continue;
+              }
 
-              if (item.eventenddate! < TodayYear) continue;
+              if (item.eventenddate! < TodayYear) {
+                console.log(item.title, item.eventenddate, TodayYear);
+                continue;
+              }
 
               fetstivalArray.push(item);
             }
 
             tourData = fetstivalArray.sort((a, b) =>
-              a.eventenddate! < b.eventenddate! ? -1 : 1
+              a.eventenddate! < b.eventenddate! ? -1 : 1,
             );
           }
 
-          state[tourDataType][page_key] = {
+          if (!state.datas[tourDataType]) state.datas[tourDataType] = {};
+
+          state.datas[tourDataType][page_key] = {
             tourData,
             totalCount,
           };
 
           if (state.page_record.length > 19) {
             const delete_key = state.page_record.shift();
+            const previous_type = delete_key?.previous_type,
+              previous_page_key = delete_key?.previous_page_key;
 
-            if (delete_key && delete_key in state[tourDataType])
-              delete state[tourDataType][delete_key];
+            if (
+              previous_type &&
+              previous_page_key &&
+              previous_page_key in state.datas[tourDataType]
+            )
+              delete state.datas[previous_type][previous_page_key];
           }
 
-          state.page_record.push(page_key);
-        }
+          state.page_record.push({
+            previous_type: tourDataType,
+            previous_page_key: page_key,
+          });
+        },
       )
       .addCase(fetchTourApi.rejected, (state) => {
         state.loading = false;

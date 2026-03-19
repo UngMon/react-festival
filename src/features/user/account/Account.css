@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poor+Story&display=swap");
+
 .profile-container {
+  position: relative;
   --font-weight: bold;
   --text-black: #333;
   --text-gray: #828282;
@@ -8,8 +11,8 @@
   --plat-back-color: #f6f8ff;
   --plat-border-color: rgb(211, 211, 211);
   margin: 0 auto;
-  width: clamp(320px, 60%, 640px);
-  padding: 40px 20px;
+  width: clamp(320px, 90%, 560px);
+  padding: 100px 20px 40px;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: var(--font-weight);
@@ -17,36 +20,13 @@
 }
 
 /* 프로필 이미지 */
-.profile-header h2 {
-  display: flex;
-  align-items: center;
-
-  span:nth-of-type(1) {
-    font-size: 31px;
-    font-variation-settings:
-      "FILL" 0,
-      "wght" 500,
-      "GRAD" 100,
-      "opsz" 24;
-  }
-
-  span:nth-of-type(2) {
-    font-size: 28px;
-    font-variation-settings:
-      "FILL" 0,
-      "wght" 500,
-      "GRAD" 100,
-      "opsz" 24;
-  }
-}
-
-.profile-header p {
-  padding: 5px 0;
-  font-size: 0.8em;
-}
-
 .profile-photo-box {
-  padding: 30px 0;
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  width: 100%;
+  height: 120px;
+  border-radius: 15px;
 }
 
 .profile-photo {
@@ -66,7 +46,6 @@
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  z-index: 9;
 }
 
 .edit-photo-button {
@@ -77,10 +56,10 @@
   bottom: 5px;
   right: -2px;
   color: rgb(32, 33, 33);
-  z-index: 10;
+  z-index: 1;
   cursor: pointer;
   border-radius: 50%;
-  background-color: white;
+  background-color: rgb(229, 237, 255);
 }
 
 .edit-photo-button span {
@@ -94,7 +73,7 @@
 }
 
 .photo-description {
-  padding-top: 15px;
+  padding-top: 10px;
   text-align: center;
   font-size: 1.2em;
 }
@@ -123,7 +102,7 @@
 }
 
 .pr-text-box h3 {
-  font-size: 1em;
+  font-size: 0.9em;
   color: var(--text-gray);
 }
 
@@ -205,6 +184,7 @@
 }
 
 .plat-check {
+  cursor: unset;
 }
 
 .plat-sub {
@@ -221,4 +201,37 @@
   color: red;
   padding: 5px;
   cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .profile-container {
+    margin: 0;
+    padding: 40px 0px;
+  }
+
+  .profile-header {
+    padding: 20px 0;
+    text-align: left;
+  }
+
+  .profile-header h2 {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
+
+  .profile-header h2 span {
+    font-size: 24px;
+    padding-bottom: 10px;
+  }
+
+  .profile-header p {
+    text-align: left;
+  }
+
+  .profile-photo-box {
+    position: unset;
+    width: auto;
+    padding-bottom: 30px;
+  }
 }

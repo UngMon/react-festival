@@ -1,29 +1,53 @@
 import { CheckParams } from "../hooks/useCheckParams";
 
-export type TourDataType =
-  | "tour"
-  | "culture"
-  | "festival"
-  | "travel"
-  | "leports"
-  | "search"
-  | "lodging"
-  | "shopping"
-  | "restaurant";
+export type TourDataType = string;
+  // | "experience"
+  // | "history"
+  // | "nature"
+  // | "culture"
+  // | "festival"
+  // | "sports"
+  // | "lodging"
+  // | "shopping"
+  // | "restaurant"
+  // | 'search'
 
 export type Item = {
-  cat1: string;
-  cat2: string;
-  cat3: string;
+  // 주소 정보
+  addr1: string;
+  addr2: string;
+  mapx: string;
+  mapy: string;
+  mlevel: string;
+  tel: string;
+  zipcode: string;
+
+  // 기본 정보
   contentid: string;
   contenttypeid: string;
-  eventstartdate?: string;
-  eventenddate?: string;
+  cpyrhtDivCd: string;
+  createdtime: string;
+  title: string;
+
+  // 대표 이미지 정보
   firstimage: string;
   firstimage2: string;
-  areacode: string;
-  sigungucode: string;
-  title: string;
+
+  // 수정 날짜
+  modifiedtime: string;
+
+  // 분류 코드 (지역, 유형)
+  lDongRegnCd: string;
+  lDongSignguCd: string;
+  lclsSystm1: string;
+  lclsSystm2: string;
+  lclsSystm3: string;
+
+  // 축제 공연 행사 전용 정보
+  eventstartdate?: string;
+  eventenddate?: string;
+  progresstype?: string;
+  festivaltype?: string;
 };
 
 interface ApiSuccessResponse<T> {

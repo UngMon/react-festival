@@ -9,7 +9,7 @@ const useTourData = (
   title: TourDataType,
   params: CheckParams,
   numOfRows: number,
-  page: number
+  page: number,
 ): Item[] | null => {
   // 1. 키 생성 로직을 여기서 수행
   const key = createPageKey(title, numOfRows, params);
@@ -18,10 +18,10 @@ const useTourData = (
   const page_record = useSelector((state: RootState) => state.data.page_record);
   const httpState = useSelector((state: RootState) => state.data.httpState);
   const data = useSelector(
-    (state: RootState) => state.data[title]?.[key]?.tourData
+    (state: RootState) => state.data.datas[title]?.[key]?.tourData,
   );
 
-  if (page_record.includes(key)) return null;
+  if (page_record.some((item) => item.previous_page_key === key)) return null;
 
   // 데이터 요청이 진행 중이거나 이미 해당 페이지 데이터가 있으면 재요청 방지
   if (httpState === "pending") return null;

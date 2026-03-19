@@ -1,26 +1,21 @@
 import { LogItem, GroupedLogs } from "types/DataType";
-import { UserData } from "types/UserDataType";
+import { useAuth } from "context/AuthContext";
 import { modalActions } from "store/modal-slice";
 import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch } from "../../store/store";
-import { useNavigate } from "react-router-dom";
-import { originCommentActions } from "../../store/origin_comment-slice";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { deleteLogItem, getUserLogs } from "features/comments/api/firestoreUtils";
+import { useAppDispatch } from "store/store";
+import { originCommentActions } from "store/origin_comment-slice";
+import { useIntersectionObserver } from "hooks/useIntersectionObserver";
+import {
+  deleteLogItem,
+  getUserLogs,
+} from "features/comments/api/firestoreUtils";
 import Card from "./Card";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./UserLogs.css";
 
 interface T {
   category: string;
-  userData: UserData;
 }
-
-const CATEGORY_TITLES: Record<string, string> = {
-  myComment: "내가 작성한 댓글",
-  likedComment: "좋아요 누른 댓글",
-  likedContent: "좋아요 누른 콘텐츠",
-};
 
 interface ListState {
   afterIndex: string;
@@ -34,7 +29,7 @@ const getFormattedDate = (isoString: string) => {
   const target = new Date(
     targetDate.getFullYear(),
     targetDate.getMonth(),
-    targetDate.getDate()
+    targetDate.getDate(),
   );
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yesterday = new Date(today);
@@ -46,11 +41,10 @@ const getFormattedDate = (isoString: string) => {
   return target.toLocaleDateString("ko-KR", { month: "long", day: "numeric" });
 };
 
-const UserLogs = ({ category, userData }: T) => {
+const UserLogs = ({ category }: T) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const uid = useAuth().user!.uid;
 
-  const { current_user_id, status } = userData;
   const [loading, setLoading] = useState<boolean>(false);
   const [targetRef, intersecting] = useIntersectionObserver();
   const [listInfo, setListInfo] = useState<Record<string, ListState>>({
@@ -60,11 +54,8 @@ const UserLogs = ({ category, userData }: T) => {
   });
 
   useEffect(() => {
-    if (status === "pending") return;
-    else if (listInfo[category].afterIndex === "finish") return;
+    if (listInfo[category].afterIndex === "finish") return;
     else if (listInfo[category].afterIndex === "error") return;
-    else if (!current_user_id && status === "fulfilled")
-      return navigate("/", { replace: true });
     else if (loading) return;
     else if (!intersecting) return;
 
@@ -73,7 +64,7 @@ const UserLogs = ({ category, userData }: T) => {
     const getDataHandler = async (category: string) => {
       try {
         const afterIndex = listInfo[category].afterIndex;
-        const data = await getUserLogs(category, current_user_id, afterIndex);
+        const data = await getUserLogs(category, uid, afterIndex);
 
         setListInfo((prevData) => {
           const newGroupedData = prevData[category].datas;
@@ -111,36 +102,24 @@ const UserLogs = ({ category, userData }: T) => {
       }
     };
     getDataHandler(category);
-  }, [
-    category,
-    current_user_id,
-    status,
-    intersecting,
-    navigate,
-    loading,
-    listInfo,
-  ]);
+  }, [category, uid, intersecting, loading, listInfo]);
 
   const deleteHandler = useCallback(
     async (date: string, index: number, item: LogItem) => {
-      if (!current_user_id) return;
+      if (!uid) return;
 
       let api_state: string = "데이터를 삭제 중입니다.";
 
       try {
         dispatch(modalActions.toggleToastModal({ api_state }));
 
-        const updatedOriginId = await deleteLogItem(
-          category,
-          current_user_id,
-          item
-        );
+        const updatedOriginId = await deleteLogItem(category, uid, item);
 
         if (updatedOriginId) {
           dispatch(
             originCommentActions.subtractionCount({
               origin_id: updatedOriginId,
-            })
+            }),
           );
         }
 
@@ -168,15 +147,14 @@ const UserLogs = ({ category, userData }: T) => {
         dispatch(modalActions.toggleToastModal({ api_state }));
       }
     },
-    [dispatch, category, current_user_id]
+    [dispatch, category, uid],
   );
 
   const dataForCategory = listInfo[category].datas;
   const array = Object.entries(dataForCategory);
 
   return (
-    <div className="content-view">
-      <h2 id="top-title">{`${CATEGORY_TITLES[category]}`}</h2>
+    <section className="log-section">
       {array?.map((item, idx) => (
         <div key={idx}>
           <div id="date">{item[0]}</div>
@@ -205,7 +183,7 @@ const UserLogs = ({ category, userData }: T) => {
         )
       )}
       <div className="target" ref={targetRef}></div>
-    </div>
+    </section>
   );
 };
 

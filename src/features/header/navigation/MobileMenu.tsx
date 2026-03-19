@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import { auth } from "../../../firebase";
-import { signOut } from "firebase/auth";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "store/store";
-import { firebaseActions } from "store/firebase-slice";
+import { useAuth } from "context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { MENU_ITEMS } from "./constants";
 import styles from "./MobileMenu.module.css";
@@ -14,27 +10,27 @@ interface Props {
 
 const MobileMenu = ({ headRef }: Props) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [openNav, setOpenNav] = useState<boolean>(false);
-  // const [scrollY, setScrollY] = useState<number>(0);
-  const { current_user_id, current_user_photo } = useSelector(
-    (state: RootState) => state.firebase,
-  );
+  const { user, logout } = useAuth();
 
-  const logoutHandler = () => {
-    signOut(auth)
-      .then(() => {
-        setOpenNav(false);
-        dispatch(firebaseActions.logout());
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+  const logoutHandler = async () => {
+    try {
+      await logout();
+      setOpenNav(false);
+    } catch (error: any) {
+      alert("로그아웃 오류 발생");
+    } finally {
+      navigate("/");
+    }
+  };
+
+  const setAccountHandler = () => {
+    navigate("/user");
+    setOpenNav(false);
   };
 
   const buttonClickHandler = () => {
     setOpenNav(!openNav);
-    // setScrollY(window.scrollY);
 
     const magnifying = headRef.current?.querySelector(".magnifying");
     if (!magnifying) return;
@@ -46,11 +42,6 @@ const MobileMenu = ({ headRef }: Props) => {
 
   useEffect(() => {
     if (!openNav) return;
-
-    // function preventDefault(e: Event) {
-    //   e.preventDefault();
-    //   window.scrollTo(0, scrollY);
-    // }
 
     const resizeHandler = () => {
       if (window.innerWidth >= 1024) {
@@ -64,18 +55,10 @@ const MobileMenu = ({ headRef }: Props) => {
       if (e.key === "Escape") setOpenNav(false);
     };
 
-    const options = { passive: false };
-
-    // window.addEventListener("wheel", preventDefault, options);
-    // window.addEventListener("touchmove", preventDefault, options); // 모바일 터치 스크롤도 막기
-    // window.addEventListener("scroll", preventDefault, options);
     window.addEventListener("resize", resizeHandler);
     window.addEventListener("keydown", keyDownHandler);
 
     return () => {
-      // window.removeEventListener("wheel", preventDefault);
-      // window.removeEventListener("touchmove", preventDefault);
-      // window.removeEventListener("scroll", preventDefault);
       window.removeEventListener("resize", resizeHandler);
       window.removeEventListener("keydown", keyDownHandler);
     };
@@ -108,11 +91,11 @@ const MobileMenu = ({ headRef }: Props) => {
         }}
         aria-hidden={!openNav}
       >
-        {current_user_id ? (
+        {user?.uid ? (
           <section className={styles["profile-section"]}>
             <figure className={styles["profile-image-placeholder"]}>
               <img
-                src={current_user_photo || "./images/NoImage.png"}
+                src={user?.photoURL || "./images/NoImage.png"}
                 alt="User"
               ></img>
             </figure>
@@ -120,7 +103,7 @@ const MobileMenu = ({ headRef }: Props) => {
               <button
                 type="button"
                 className={styles["account-mgmt-btn"]}
-                onClick={() => navigate("/user")}
+                onClick={setAccountHandler}
               >
                 <span className="material-symbols-outlined">
                   settings_account_box
