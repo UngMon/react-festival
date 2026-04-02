@@ -1,4 +1,3 @@
-import { TourDataType } from "types/FetchType";
 import { CheckParams } from "hooks/useCheckParams";
 import { useEffect } from "react";
 import { RootState, useAppDispatch } from "store/store";
@@ -12,57 +11,32 @@ import CardItem from "./CardItem";
 import "./Card.css";
 
 interface CardProps {
-  tourDataType: TourDataType;
   numOfRows: number;
   params: CheckParams;
 }
 
-const Card = ({ tourDataType, numOfRows, params }: CardProps) => {
+const Card = ({ numOfRows, params }: CardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const page_key = createPageKey(tourDataType, numOfRows, params);
-  const httpState = useSelector((state: RootState) => state.data.httpState);
-  const page_record = useSelector((state: RootState) => state.data.page_record);
-  const tourData = useSelector(
-    (state: RootState) => state.data.datas[tourDataType]?.[page_key],
+  const page_key = createPageKey(numOfRows, params);
+  const httpState = useSelector((state: RootState) => state.tour.httpState);
+  const page_record = useSelector((state: RootState) => state.tour.page_record);
+  const dataArray = useSelector(
+    (state: RootState) => state.tour.datas[page_key],
   );
 
   useEffect(() => {
-    if (params.requireRedirect !== "") {
-      navigate(params.requireRedirect);
-      return;
-    }
-
     // 데이터 요청이 진행 중이거나 이미 해당 페이지 데이터가 있으면 재요청 방지
-    if (
-      httpState === "pending" ||
-      page_record.some((item) => item.previous_page_key === page_key)
-    )
-      return;
+    if (httpState === "pending" || page_record.includes(page_key)) return;
 
-    dispatch(fetchTourApi({ numOfRows, tourDataType, params }));
-  }, [
-    dispatch,
-    navigate,
-    params,
-    numOfRows,
-    tourDataType,
-    httpState,
-    page_key,
-    page_record,
-  ]);
+    dispatch(fetchTourApi({ numOfRows, params }));
+  }, [dispatch, navigate, params, numOfRows, httpState, page_key, page_record]);
 
   return (
-    <article
-      className={`main-box-content ${tourDataType === "search" && "result"}`}
-    >
+    <article className={`main-box-content`}>
       <div className="AllView-grid-box">
-        {httpState === "fulfilled" && tourData && (
-          <CardItem
-            params={params}
-            tourDataType={tourDataType}
-            tourDataArray={tourData.tourData}
-          />
+        {httpState === "fulfilled" && dataArray && (
+          <CardItem params={params} tourDataArray={dataArray.tourData} />
         )}
         {httpState === "pending" && <Loading height="500px" />}
         {httpState === "rejected" && <GetDataError />}

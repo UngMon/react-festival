@@ -1,3 +1,4 @@
+import { useAuth } from "context/AuthContext";
 import { useEffect, useState } from "react";
 import { ContentFeel } from "types/DataType";
 import { RootState } from "store/store";
@@ -13,9 +14,7 @@ interface T {
 }
 
 const LikeButton = ({ content_id }: T) => {
-  const { status, current_user_id } = useSelector(
-    (state: RootState) => state.firebase
-  );
+  const { user, status } = useAuth();
   const { detailCommon } = useSelector((state: RootState) => state.content);
   const [loading, setLoading] = useState<boolean>(true);
   const [like_count, setLikeCount] = useState<number>(0);
@@ -24,23 +23,24 @@ const LikeButton = ({ content_id }: T) => {
 
   useEffect(() => {
     if (!loading || status === "pending") return;
-    if (status === "fulfilled" && current_user_id === "") {
-      return setLoading(false);
-    }
 
     const getFeelingData = async () => {
       const feelRef = doc(db, "content", content_id);
-      const userRef = doc(
-        db,
-        "userData",
-        current_user_id,
-        "liked_content",
-        content_id
-      );
 
       try {
         const promise = [getDoc(feelRef)];
-        if (current_user_id) promise.push(getDoc(userRef));
+
+        if (user?.uid) {
+          const userRef = doc(
+            db,
+            "userData",
+            user.uid,
+            "liked_content",
+            content_id,
+          );
+          promise.push(getDoc(userRef));
+        }
+
         let existFeelData = false;
         let existUserLike = false;
 
@@ -51,39 +51,35 @@ const LikeButton = ({ content_id }: T) => {
           setLikeCount(feelingsData.like_count);
         }
 
-        if (userData.exists()) existUserLike = true;
+        if (userData && userData.exists()) existUserLike = true;
 
         setExistFeelData(existFeelData);
         setExistUserLike(existUserLike);
       } catch (error: any) {
+        console.error(error);
         alert(error.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     getFeelingData();
-  }, [content_id, loading, current_user_id, status]);
+  }, [content_id, loading, user, status]);
 
-  const handler = async () => {
-    if (current_user_id === "")
+  const clickHandler = async () => {
+    if (!user || !user?.uid)
       return alert("로그인 하시면 이용하실 수 있습니다.");
 
     if (!detailCommon || detailCommon?.length === 0)
       return alert("콘텐츠 정보를 불러오지 못해 이용하실 수 없습니다.");
 
     const batch = writeBatch(db);
-
     const feelRef = doc(db, "content", content_id);
-    const userRef = doc(
-      db,
-      "userData",
-      current_user_id,
-      "liked_content",
-      content_id
-    );
+    const userRef = doc(db, "userData", user.uid, "liked_content", content_id);
+
     let countChange: number = 0;
     const createdAt = new Date(
-      new Date().getTime() + 9 * 60 * 60 * 1000
+      new Date().getTime() + 9 * 60 * 60 * 1000,
     ).toISOString();
 
     try {
@@ -128,14 +124,14 @@ const LikeButton = ({ content_id }: T) => {
     <>
       <p className="How-to-feel">{`이 콘텐츠 어떻게 생각하세요?`}</p>
       <div className="Cotent-feeling">
-        <div className="feel-box" onClick={handler}>
+        <div className="feel-box" onClick={clickHandler}>
           <div className={existUserLike ? "like is-active" : "like"} />
           {!loading && (
             <p className={`feeling-count ${existUserLike ? "liked" : ""}`}>
               {like_count}
             </p>
           )}
-          {loading && <LoadingSpinnerTwo width="15px" padding="6px" />}
+          {loading && <LoadingSpinnerTwo width="20px" padding="6px" />}
         </div>
       </div>
     </>

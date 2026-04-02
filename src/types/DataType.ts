@@ -17,26 +17,10 @@ interface Datas {
   totalCount: number;
 }
 
-interface Page_Record {
-  previous_type: string;
-  previous_page_key: string; 
-}
-
 export interface DataType {
-  successGetData: boolean;
   httpState: string;
-  datas: Record<string, Record<string, Datas>>
-  // tour: Record<string, Datas>;
-  // culture: Record<string, Datas>;
-  // festival: Record<string, Datas>;
-  // travel: Record<string, Datas>;
-  // leports: Record<string, Datas>;
-  // lodging: Record<string, Datas>;
-  // shopping: Record<string, Datas>;
-  // restaurant: Record<string, Datas>;
-  // search: Record<string, Datas>;
-  loading: boolean;
-  page_record: Page_Record[];
+  datas: Record<string, Datas>
+  page_record: string[];
   행사상태: [boolean, boolean, boolean];
 }
 

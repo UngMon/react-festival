@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ModalType } from "types/UserDataType";
 
 const initialState: ModalType = {
-  current_id: "",
   openOption: "",
   openDelete: "",
   openReport: "",
@@ -37,30 +36,24 @@ const modalSlice = createSlice({
       state.openDelete = "";
       state.openOption = "";
     },
-    toggleToastModal(state, action: PayloadAction<{ api_state?: string }>) {
-      const api_state = action.payload.api_state;
+    toggleToastModal(
+      state,
+      action: PayloadAction<{
+        api_state?: string;
+        comment_id?: string;
+        mode?: string;
+      }>,
+    ) {
+      const { api_state, comment_id, mode } = action.payload;
+
+      if (mode === "revise" && comment_id) {
+        delete state.revise[comment_id];
+      } else if (mode === "reply" && comment_id) {
+        delete state.reply[comment_id];
+      } 
 
       if (api_state) state.api_state = api_state;
       else state.api_state = "";
-    },
-    clearModalInfo(
-      state,
-      action: PayloadAction<{
-        comment_id?: string;
-        type?: string;
-      }>
-    ) {
-      const { comment_id, type } = action.payload;
-
-      if (type?.includes("revise") && comment_id)
-        delete state.revise[comment_id];
-      else if (type?.includes("reply") && comment_id)
-        delete state.reply[comment_id];
-      else if (type?.includes("delete")) {
-        state.api_state = "댓글을 삭제 중입니다.";
-      } else if (type?.includes("report")) {
-        state.api_state = "댓글을 신고 중입니다.";
-      }
 
       state.openDelete = "";
       state.openOption = "";

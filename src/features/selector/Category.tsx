@@ -25,7 +25,7 @@ const Category = ({ cat1, cat2 }: T) => {
       searchParams.set("cat3", newValue);
     }
 
-    searchParams.set("page", "1");
+    if (cat1 !== "EV") searchParams.set("page", "1");
 
     setSearchParams(searchParams);
   };
@@ -34,14 +34,21 @@ const Category = ({ cat1, cat2 }: T) => {
     <>
       {
         <div className="picker">
-          <select value={cat2} onChange={(e) => pickerSelector(e, "cat2")}>
+          <select
+            id="cat2-select"
+            name="cat2"
+            value={cat2}
+            onChange={(e) => pickerSelector(e, "cat2")}
+          >
             {Object.entries(중분류[cat1]).map((item) => (
               <option key={item[0]} value={item[0]}>
                 {item[1]}
               </option>
             ))}
           </select>
-          <span className="material-symbols-outlined picker-icon">folder_open</span>
+          <span className="material-symbols-outlined picker-icon">
+            folder_open
+          </span>
         </div>
       }
     </>

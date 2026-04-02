@@ -33,7 +33,7 @@ const LoginButton = () => {
     );
     navigate("/login");
   };
-
+  
   return (
     <div className={styles["login-button-container"]} ref={contianerRef}>
       {status === "pending" && <div className={styles["not-Login"]} />}
@@ -47,7 +47,7 @@ const LoginButton = () => {
           className={styles["userphoto-box"]}
           onClick={() => setUserModalOpen(!userModalOpen)}
         >
-          <img src={user?.photoURL || userIcon} alt="userphoto"></img>
+          <img src={user?.photoURL || userIcon} alt=""></img>
         </div>
       )}
       {userModalOpen && (

@@ -16,7 +16,6 @@ const Map = ({ detailCommon }: MapProps) => {
     // kakao 객체가 아예 없는 경우(스크립트 로딩 중) 예외 처리
     if (!kakao || !kakao.maps) {
       setIsExistKakaoMap(false)
-      console.log("카카오 맵 객체가 아직 준비되지 않았습니다.");
       return;
     }
 

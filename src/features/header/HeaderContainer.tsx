@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Logo from "./logo/Logo";
 import PcMenu from "./navigation/PcMenu";
-import Search from "./search/Search";
+import SearchButton from "./search/SearchButton";
 import LoginButton from "./login/LoginButton";
 import MobileMenu from "./navigation/MobileMenu";
 import "./HeaderContainer.css";
@@ -40,7 +40,7 @@ const HeaderContainer = () => {
         <Logo type="start" />
         <PcMenu />
         <div className="header-sub-box">
-          <Search openSearch={openSearch} setOpenSearch={setOpenSearch} />
+          <SearchButton openSearch={openSearch} setOpenSearch={setOpenSearch} />
           <LoginButton />
           <MobileMenu headRef={headRef} />
         </div>

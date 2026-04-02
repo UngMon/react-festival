@@ -42,11 +42,11 @@ const MobileMenu = ({ headRef }: Props) => {
 
   useEffect(() => {
     if (!openNav) return;
+    const magnifying = headRef.current?.querySelector(".magnifying");
 
     const resizeHandler = () => {
       if (window.innerWidth >= 1024) {
         setOpenNav(false);
-        const magnifying = headRef.current?.querySelector(".magnifying");
         if (magnifying) magnifying.classList.remove("mag-on");
       }
     };
@@ -61,6 +61,7 @@ const MobileMenu = ({ headRef }: Props) => {
     return () => {
       window.removeEventListener("resize", resizeHandler);
       window.removeEventListener("keydown", keyDownHandler);
+       if (magnifying) magnifying.classList.remove("mag-on");
     };
   }, [openNav, headRef]);
 

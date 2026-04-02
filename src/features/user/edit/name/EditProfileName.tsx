@@ -1,7 +1,5 @@
+import { useAuth } from "context/AuthContext";
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "store/store";
-import { firebaseActions } from "store/firebase-slice";
-import { getAuth } from "firebase/auth";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./EditProfileName.css";
 
@@ -11,8 +9,7 @@ interface T {
 }
 
 const EditProfileName = ({ nickName, setOpenEditName }: T) => {
-  const dispatch = useAppDispatch();
-
+  const { user, updateName } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const [allow, setAllow] = useState<boolean>(false);
   const [text, setText] = useState<string>(nickName);
@@ -42,7 +39,7 @@ const EditProfileName = ({ nickName, setOpenEditName }: T) => {
   const editUserName = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = inputRef.current?.value;
-    console.log(text);
+
     if (!text) {
       alert("이름을 입력해주세요!");
       return;
@@ -58,10 +55,8 @@ const EditProfileName = ({ nickName, setOpenEditName }: T) => {
     }
 
     const newNickname: string = text;
-    const auth = getAuth();
-    const user = auth.currentUser;
 
-    if (!user) throw new Error("로그인이 필요합니다.");
+    if (!user || !user?.uid) throw new Error("로그인이 필요합니다.");
 
     try {
       setLoading(true);
@@ -88,7 +83,8 @@ const EditProfileName = ({ nickName, setOpenEditName }: T) => {
       // 3. 클라이언트 로컬 상태 업데이트
       // (Auth 서버 정보는 바뀌었지만 클라이언트 앱의 user 객체는 reload가 필요!)
       await user.reload();
-      dispatch(firebaseActions.updateUserName({ newNickname }));
+      updateName(newNickname);
+      // dispatch(firebaseActions.updateUserName({ newNickname }));
       alert("닉네임 변경이 완료되었습니다.");
     } catch (error: any) {
       console.error("Endpoint 호출 중 오류:", error);

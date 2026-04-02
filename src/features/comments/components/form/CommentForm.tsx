@@ -4,7 +4,8 @@ import { RootState, useAppDispatch } from "store/store";
 import { originCommentActions } from "store/origin_comment-slice";
 import { CommentType } from "types/DataType";
 import { submitCommentToFirestore } from "features/comments/api/firestoreUtils";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "context/AuthContext";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./CommentForm.css";
 
@@ -15,22 +16,23 @@ interface T {
 
 const CommentForm = ({ content_type, content_id }: T) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const userData = useSelector((state: RootState) => state.firebase);
+  const { user, status } = useAuth();
   const { detailCommon } = useSelector((state: RootState) => state.content);
-  const { current_user_id, status } = userData;
 
   const [loading, setLoading] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
-  const reivewSubmitHandler = async (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (current_user_id === "")
+    console.log("submit");
+    if (!user || !user?.uid)
       return alert("로그인 하시면 이용하실 수 있습니다.");
 
     if (!detailCommon?.[0]?.title)
       return alert(
-        "관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다."
+        "관광 데이터를 불러오지 못하여 댓글을 작성하실 수 없습니다.",
       );
 
     // textRef.current가 있는지 먼저 확인
@@ -45,9 +47,9 @@ const CommentForm = ({ content_type, content_id }: T) => {
       const field_data: CommentType = await submitCommentToFirestore(
         content_type,
         content_id,
-        userData,
+        user,
         detailCommon,
-        text
+        text,
       );
 
       dispatch(originCommentActions.addNewComment({ field_data }));
@@ -62,11 +64,11 @@ const CommentForm = ({ content_type, content_id }: T) => {
     textRef.current!.style.height = "auto"; // heigth 초기화
     textRef.current!.style.height = textRef.current?.scrollHeight + "px";
   };
-
+  console.log(user);
   return (
     <>
       {!loading ? (
-        <form className="comment-form-box" onSubmit={reivewSubmitHandler}>
+        <form className="comment-form-box" onSubmit={submitHandler}>
           <div className="comment-text-box">
             <label htmlFor="user-input" />
             <textarea
@@ -82,9 +84,15 @@ const CommentForm = ({ content_type, content_id }: T) => {
           <div className="comment-button-box">
             {status === "fulfilled" && (
               <>
-                {current_user_id === "" ? (
-                  <button type="button">
-                    <Link to="/login">로그인</Link>
+                {!user?.uid ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      console.log("Login Button");
+                      navigate("/login");
+                    }}
+                  >
+                    로그인
                   </button>
                 ) : (
                   <button type="submit">저장</button>

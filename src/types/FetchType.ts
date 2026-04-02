@@ -1,16 +1,16 @@
 import { CheckParams } from "../hooks/useCheckParams";
 
 export type TourDataType = string;
-  // | "experience"
-  // | "history"
-  // | "nature"
-  // | "culture"
-  // | "festival"
-  // | "sports"
-  // | "lodging"
-  // | "shopping"
-  // | "restaurant"
-  // | 'search'
+// | "experience"
+// | "history"
+// | "nature"
+// | "culture"
+// | "festival"
+// | "sports"
+// | "lodging"
+// | "shopping"
+// | "restaurant"
+// | 'search'
 
 export type Item = {
   // 주소 정보
@@ -77,14 +77,13 @@ export type PageCountRespon = ApiResponse<[{ totalCnt: string }] | "">;
 export interface FetchParams {
   numOfRows: number;
   page?: number;
-  tourDataType: TourDataType;
   params: CheckParams;
 }
 
 export interface FetchTourData {
   responseData: TourResponse;
   page_key: string;
-  tourDataType: TourDataType;
+  cat1: string;
 }
 
 type It = {

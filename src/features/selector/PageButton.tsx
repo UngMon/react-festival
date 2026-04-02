@@ -1,4 +1,3 @@
-import { TourDataType } from "types/FetchType";
 import { useSearchParams } from "react-router-dom";
 import { createPageKey } from "utils/createPageKey";
 import { useSelector } from "react-redux";
@@ -13,27 +12,22 @@ import {
 import "./PageButton.css";
 
 interface T {
-  tourDataType: TourDataType;
   numOfRows: number;
   params: CheckParams;
 }
 
-const PageButton = ({ tourDataType, numOfRows, params }: T) => {
+const PageButton = ({ numOfRows, params }: T) => {
   const page = Number(params.page);
-
+  const page_key = createPageKey(numOfRows, params);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  let page_key = createPageKey(tourDataType, numOfRows, params);
-
-  const DataOfPageKey = useSelector(
-    (state: RootState) => state.data.datas[tourDataType]?.[page_key]
+  const data_of_page = useSelector(
+    (state: RootState) => state.tour.datas[page_key]
   );
 
-  if (!DataOfPageKey || !DataOfPageKey?.totalCount) return null;
+  let totalCount = data_of_page?.totalCount || 1
 
-  const page_total_count = DataOfPageKey.totalCount;
-
-  const MaxPageCount: number = Math.ceil(page_total_count / numOfRows);
+  const MaxPageCount: number = Math.ceil(totalCount / numOfRows);
   const currentGroup: number = Math.floor((page - 1) / 10); // 현재 10단위 그룹 (0부터 시작)
   const startPage: number = currentGroup * 10 + 1;
   const endPage: number = Math.min(startPage + 9, MaxPageCount);
@@ -77,7 +71,7 @@ const PageButton = ({ tourDataType, numOfRows, params }: T) => {
       </button>
       {Array.from(
         { length: endPage - startPage + 1 },
-        (_, i) => i + startPage
+        (_, i) => i + startPage,
       ).map((num) => (
         <button
           type="button"

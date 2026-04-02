@@ -11,9 +11,9 @@ interface LikeCommentPayload {
 
 interface RevisePayload {
   origin_id: string;
-  reply_id: string;
+  comment_id: string;
   text: string;
-  updatedAt: string;
+  time: string;
 }
 
 interface DeletePayload {
@@ -77,7 +77,7 @@ const replySlice = createSlice({
       else if (like_count === 1) reply_data.like_users[user_id] = true;
     },
     reviseComment(state, action: PayloadAction<RevisePayload>) {
-      const { origin_id, text, updatedAt, reply_id } = action.payload;
+      const { origin_id, text, time, comment_id } = action.payload;
 
       const reply_comment = state.reply_comments[origin_id];
 
@@ -87,7 +87,7 @@ const replySlice = createSlice({
       }
 
       const reply_index = state.reply_comments[origin_id].findIndex(
-        (item) => item.createdAt + item.user_id === reply_id
+        (item) => item.createdAt + item.user_id === comment_id
       );
 
       if (reply_index === -1 || reply_index >= reply_comment.length) {
@@ -96,7 +96,7 @@ const replySlice = createSlice({
       }
 
       state.reply_comments[origin_id][reply_index].text = text;
-      state.reply_comments[origin_id][reply_index].updatedAt = updatedAt;
+      state.reply_comments[origin_id][reply_index].updatedAt = time;
     },
     deleteReply(state, action: PayloadAction<DeletePayload>) {
       const { origin_id, comment_id } = action.payload;

@@ -15,7 +15,7 @@ import LoginPage from "./pages/login/LoginPage";
 import "./App.css";
 
 const PageNotFound = lazy(() => import("./common/error/PageNotFound"));
-const TourDataPage = lazy(() => import("./pages/tour-data/TourDataPage"));
+const TourDataPage = lazy(() => import("./pages/tourdata/TourDataPage"));
 const ContentPage = lazy(() => import("./pages/content/CotentPage"));
 const ThemePage = lazy(() => import("./pages/theme/ThemePage"));
 const DocumentPage = lazy(() => import("./pages/docs/DocumentPage"));
@@ -24,6 +24,7 @@ const User = lazy(() => import("./pages/user/UserPage"));
 const PrivacyPolicy = lazy(() => import("./features/docs/PrivacyPolicy"));
 const Service = lazy(() => import("./features/docs/Service"));
 const Question = lazy(() => import("./pages/question/Question"));
+const SearchPage = lazy(() => import("pages/search/SearchPage"));
 
 const withSuspense = <Props extends object>(
   Component: React.FunctionComponent<Props>,
@@ -34,19 +35,6 @@ const withSuspense = <Props extends object>(
   </Suspense>
 );
 
-const pathArray: TourDataType[] = [
-  "experience",
-  "history",
-  "nature",
-  "culture",
-  "festival",
-  "sports",
-  "lodging",
-  "shopping",
-  "restaurant",
-  "search",
-];
-
 const router = createBrowserRouter([
   {
     path: "",
@@ -54,18 +42,12 @@ const router = createBrowserRouter([
     errorElement: <GetDataError />,
     children: [
       { index: true, element: <MainPage /> },
-      ...pathArray.map((tourDataType) => ({
-        path: tourDataType,
-        element: withSuspense(TourDataPage, { tourDataType }),
-      })),
+      { path: "/tourdata/:category", element: withSuspense(TourDataPage) },
       { path: "content", element: withSuspense(ContentPage) },
       { path: "theme", element: withSuspense(ThemePage) },
       {
         element: <ProtectedRoute />,
-        children: [
-          { path: "question", element: withSuspense(Question) },
-          { path: "user", element: withSuspense(User) },
-        ],
+        children: [{ path: "user", element: withSuspense(User) }],
       },
       {
         path: "docs",
@@ -77,6 +59,8 @@ const router = createBrowserRouter([
           { path: "service", element: withSuspense(Service) },
         ],
       },
+      { path: "search", element: withSuspense(SearchPage) },
+      { path: "question", element: withSuspense(Question) },
     ],
   },
   {

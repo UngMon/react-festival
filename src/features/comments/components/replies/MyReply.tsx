@@ -21,7 +21,7 @@ const MyReply = ({ origin_id }: T) => {
         <CommentBox
           key={item.createdAt + item.user_id}
           depth={0}
-          type={"my"}
+          role={"my"}
           comment_data={item}
         />
       ))}

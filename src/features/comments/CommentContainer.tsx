@@ -84,7 +84,7 @@ const CommentContainer = ({ content_id }: T) => {
             className="comment-box-container"
             key={data.createdAt + data.user_id}
           >
-            <CommentBox type={"origin"} depth={0} comment_data={data} />
+            <CommentBox role={"origin"} depth={0} comment_data={data} />
             <ReplyBox comment_data={data} />
           </div>
         ))}

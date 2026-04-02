@@ -5,7 +5,7 @@ import {
   LikedContent,
 } from "types/DataType";
 import { ContentCommon } from "types/ContentType";
-import { UserData } from "types/UserDataType";
+import { User } from "firebase/auth";
 import { db } from "../../../firebase";
 import {
   collection,
@@ -32,7 +32,7 @@ import {
 export const fetchCommentData = async (
   origin_id: string | null,
   afterIndex: string | null,
-  content_id: string
+  content_id: string,
 ) => {
   const commentRef = collection(db, "comments");
 
@@ -52,9 +52,12 @@ export const fetchCommentData = async (
     const queryToRun = query(commentRef, ...queryConstraints);
     const querySnapshot = await getDocs(queryToRun);
 
-    comment_datas = querySnapshot.docs.map((doc) => doc.data()) as CommentType[];
+    comment_datas = querySnapshot.docs.map((doc) =>
+      doc.data(),
+    ) as CommentType[];
 
-    if (comment_datas.length > 0) lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
+    if (comment_datas.length > 0)
+      lastDataIndex = comment_datas[comment_datas.length - 1].createdAt;
     if (comment_datas.length < 10) lastDataIndex = "finish";
   } catch (error) {
     lastDataIndex = "finish";
@@ -67,11 +70,11 @@ export const fetchCommentData = async (
 export const submitCommentToFirestore = async (
   content_type: string,
   content_id: string,
-  userData: UserData,
+  user: User,
   detailCommon: ContentCommon[],
-  text: string
+  text: string,
 ): Promise<CommentType> => {
-  const { current_user_id, current_user_name, current_user_photo } = userData;
+  const { uid, displayName, photoURL } = user;
 
   // 제목 추출
   const content_title =
@@ -81,7 +84,7 @@ export const submitCommentToFirestore = async (
     detailCommon?.[0]?.firstimage || detailCommon?.[0]?.firstimage2 || "";
 
   const createdAt = new Date(
-    new Date().getTime() + 9 * 60 * 60 * 1000
+    new Date().getTime() + 9 * 60 * 60 * 1000,
   ).toISOString();
 
   const field_data: CommentType = {
@@ -89,9 +92,9 @@ export const submitCommentToFirestore = async (
     content_id,
     content_title,
     text,
-    user_id: current_user_id,
-    user_name: current_user_name,
-    user_photo: current_user_photo,
+    user_id: uid,
+    user_name: displayName || "",
+    user_photo: photoURL || "",
     createdAt,
     origin_id: null,
     parent_id: null,
@@ -104,7 +107,7 @@ export const submitCommentToFirestore = async (
     like_users: {},
   };
 
-  const documentId = createdAt + current_user_id;
+  const documentId = createdAt + uid;
 
   const commentRef = doc(db, "comments", documentId);
 
@@ -117,13 +120,13 @@ export const likeButtonOfComment = async (
   like_count: number,
   current_user_id: string,
   comment_data: CommentType,
-  emotionOfRecord: boolean
+  emotionOfRecord: boolean,
 ): Promise<void> => {
   const { createdAt, user_id, origin_id } = comment_data;
   const documentId = createdAt + user_id;
 
   const time: string = new Date(
-    new Date().getTime() + 9 * 60 * 60 * 1000
+    new Date().getTime() + 9 * 60 * 60 * 1000,
   ).toISOString();
 
   const batch = writeBatch(db);
@@ -133,7 +136,7 @@ export const likeButtonOfComment = async (
     "userData",
     current_user_id,
     "liked_comments",
-    documentId
+    documentId,
   );
 
   batch.update(docRef, {
@@ -161,7 +164,7 @@ export const likeButtonOfComment = async (
 export const replyComment = async (
   originId: string,
   document_id: string,
-  field_data: CommentType
+  field_data: CommentType,
 ): Promise<void> => {
   const batch = writeBatch(db);
 
@@ -177,7 +180,7 @@ export const replyComment = async (
 export const reviseComment = async (
   revisedText: string,
   comment_id: string,
-  updatedAt: string
+  updatedAt: string,
 ): Promise<void> => {
   const reviseDocRef = doc(db, "comments", comment_id);
   await updateDoc(reviseDocRef, { text: revisedText, updatedAt });
@@ -186,7 +189,7 @@ export const reviseComment = async (
 export const getUserLogs = async (
   category: string, // '좋아요 누른 댓글', '좋아요 누른 컨텐츠', '작성한 댓글'
   current_user_id: string, // 현재 사용자 id
-  afterIndex: string // 해당 카테고리 데이터의 마지막 생성일자
+  afterIndex: string, // 해당 카테고리 데이터의 마지막 생성일자
 ): Promise<LogItem[]> => {
   let ref: CollectionReference<DocumentData> | null = null;
   const constraints: QueryConstraint[] = [];
@@ -223,7 +226,7 @@ export const getUserLogs = async (
 
 export const deleteComment = async (
   origin_id: string | null,
-  comment_id: string
+  comment_id: string,
 ): Promise<boolean> => {
   const batch = writeBatch(db);
   let isExisingOrigin = false;
@@ -258,10 +261,10 @@ export const reportComment = async (
   comment_data: CommentType,
   current_user_id: string,
   current_user_name: string,
-  report_reason: string
+  report_reason: string,
 ): Promise<void> => {
   const report_time = new Date(
-    new Date().getTime() + 9 * 60 * 60 * 1000
+    new Date().getTime() + 9 * 60 * 60 * 1000,
   ).toISOString();
 
   const {
@@ -294,7 +297,7 @@ export const reportComment = async (
 export const deleteLogItem = async (
   category: string,
   current_user_id: string,
-  item: LogItem
+  item: LogItem,
 ): Promise<string | null> => {
   const batch = writeBatch(db);
   let documentRef: DocumentReference<DocumentData> | null = null;
@@ -323,7 +326,7 @@ export const deleteLogItem = async (
       "userData",
       current_user_id,
       "liked_comments",
-      comment_id
+      comment_id,
     );
   } else if (category === "likedContent") {
     // 좋아요 누른 컨텐츠
@@ -340,7 +343,7 @@ export const deleteLogItem = async (
       "userData",
       current_user_id,
       "liked_content",
-      content_id
+      content_id,
     );
   } else if (category === "myComment") {
     // 내가 작성한 댓글

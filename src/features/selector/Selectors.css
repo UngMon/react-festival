@@ -1,0 +1,26 @@
+.Ui-Box {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 1200px;
+  z-index: 5;
+}
+
+#before-icon {
+  top: 12.5px;
+  left: 20px;
+}
+
+@media (min-width: 500px) {
+  .option-container {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+  }
+
+  .picker {
+    max-width: 220px;
+  }
+}

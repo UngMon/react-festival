@@ -20,7 +20,12 @@ const MonthSelector = ({ month }: T) => {
 
   return (
     <div className="picker">
-      <select value={month} onChange={pickedMonthHandler}>
+      <select
+        id="month-select"
+        name="month"
+        value={month}
+        onChange={pickedMonthHandler}
+      >
         <option value="default" disabled>
           월을 선택하세요
         </option>

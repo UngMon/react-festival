@@ -56,8 +56,7 @@
 }
 
 .search-box {
-  width: clamp(270px, 84.375vw, 750px);
-  height: clamp(100px, 31.25vw, 150px);
+  width: clamp(270px, 84.375vw, 600px);
   height: 150px;
   margin: 20vh auto 0;
   animation-name: form-ani;
@@ -79,61 +78,7 @@
 .search-input-box {
   position: relative;
   width: 100%;
-  height: clamp(40px, 12.5vw, 60px);
-}
-
-.search-category {
-  z-index: 5;
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: #f5f5f5 !important;
-  height: 100%;
-  text-align: center;
-  font-size: clamp(14px, 4.375vw, 18px);
-  user-select: none;
-  cursor: pointer;
-
-  .category {
-    width: clamp(60px, 18.75vw, 80px);
-    line-height: clamp(40px, 12.5vw, 60px);
-  }
-
-  ul {
-    position: absolute;
-    left: 0;
-    top: clamp(40px, 12.5vw, 60px);
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  ul li {
-    width: clamp(60px, 18.75vw, 80px);
-    height: calc(100% - 10px);
-    line-height: clamp(40px, 12.5vw, 60px);
-    border-radius: 5px;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    &:active {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-  }
-
-  svg {
-    width: clamp(14px, 4.375vw, 18px);
-    height: 100%;
-  }
-}
-
-.category-off {
-  overflow: unset;
-}
-
-.category-off {
-  overflow: hidden;
+  height: clamp(40px, 12.5vw, 50px);
 }
 
 .search-input-box input {
@@ -146,7 +91,7 @@
   border-bottom: 1.5px solid white;
   color: white;
   font-size: clamp(16px, 5vw, 24px);
-  padding: 5px 40px 5px clamp(84px, 26.25vw, 108px);
+  padding: 5px 40px 5px 5px;
 
   &::placeholder {
     color: white;
@@ -176,10 +121,23 @@
   position: absolute;
   height: 100%;
   width: 40px;
-  font-size: clamp(18px, 5.625vw, 26px);
   top: 0%;
   right: 0;
   cursor: pointer;
+}
+
+.search-input-box button span {
+  line-height: clamp(40px, 12.5vw, 50px);
+  font-size: clamp(26px, 8vw, 32px);
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 600,
+    "GRAD" 200,
+    "opsz" 24;
+
+  &:hover {
+    color: orange;
+  }
 }
 
 .search-box form #cancel {
@@ -188,7 +146,6 @@
   height: 40px;
   top: 0px;
   right: 0px;
-  font-size: 35px;
   cursor: pointer;
 
   &:hover {
@@ -196,20 +153,16 @@
   }
 
   span {
-    width: 100%;
-    height: 100%;
     line-height: 40px;
-    text-align: center;
-    color: inherit;
     font-size: clamp(26px, 8vw, 35px);
     font-variation-settings:
       "FILL" 0,
-      "wght" 350,
+      "wght" 450,
       "GRAD" 100,
       "opsz" 24;
-  }
-}
 
-.search-box form #search:hover {
-  color: orange;
+    &:hover {
+      color: orange;
+    }
+  }
 }

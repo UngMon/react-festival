@@ -7,6 +7,7 @@ li {
 a {
   text-decoration: none;
   list-style: none;
+  color: #333;
   cursor: pointer;
 }
 
@@ -48,7 +49,7 @@ img {
 }
 
 @media (min-height: 320px) {
-  #portal-wrapper  {
+  #portal-wrapper {
     align-items: center;
   }
 }

@@ -14,7 +14,6 @@ export interface User {
 }
 
 export interface ModalType {
-  current_id: string;
   openOption: string;
   openDelete: string;
   openReport: string;

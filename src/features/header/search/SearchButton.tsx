@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleDown,
-  faMagnifyingGlass,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import "./Search.css";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faAngleDown,
+//   faMagnifyingGlass,
+// } from "@fortawesome/free-solid-svg-icons";
+import "./SearchButton.css";
 
 const Category: Array<[string, string]> = [
   ["0", "전체"],
@@ -22,7 +21,7 @@ interface T {
   setOpenSearch: (bool: boolean) => void;
 }
 
-const Search = ({ openSearch, setOpenSearch }: T) => {
+const SearchButton = ({ openSearch, setOpenSearch }: T) => {
   const navigate = useNavigate();
   const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
   const [category, setCategory] = useState<[string, string]>(["0", "전체"]);
@@ -43,8 +42,7 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
     const keyword = inputRef.current!.value;
 
     if (keyword.length === 0) return alert("검색어를 입력해주세요!");
-
-    navigate(`/search?contentTypeId=${category[0]}&keyword=${keyword}&page=1`);
+    navigate(`/search?keyword=${keyword}&cat1=all&page=1`);
     inputRef.current!.value = "";
     setOpenSearch(false);
   };
@@ -57,34 +55,8 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
       {openSearch && (
         <div className="search-container">
           <div className="search-box">
-            <form onSubmit={onSubmitHandler}>
+            <form onSubmit={onSubmitHandler} id="전체검색">
               <div className="search-input-box">
-                <div
-                  className={`search-category ${
-                    openKeyword ? "category-open" : "category-off"
-                  }`}
-                  onClick={() => setOpenKeyWord(!openKeyword)}
-                >
-                  <div className="category">{category[1]}</div>
-                  <ul>
-                    {Category.map((item, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          display: category[0] === item[0] ? "none" : "",
-                        }}
-                        onClick={() => setCategory([...item])}
-                      >
-                        {item[1]}
-                      </li>
-                    ))}
-                  </ul>
-                  <div
-                    style={{ transform: openKeyword ? "rotate(180deg)" : "" }}
-                  >
-                    <FontAwesomeIcon icon={faAngleDown} />
-                  </div>
-                </div>
                 <label htmlFor="전체검색"></label>
                 <input
                   type="text"
@@ -93,8 +65,8 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
                   autoComplete="off"
                   ref={inputRef}
                 />
-                <button id="search" type="submit">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <button id="magnifying" type="submit">
+                  <span className="material-symbols-outlined">search</span>
                 </button>
               </div>
               <button
@@ -112,4 +84,4 @@ const Search = ({ openSearch, setOpenSearch }: T) => {
   );
 };
 
-export default Search;
+export default SearchButton;

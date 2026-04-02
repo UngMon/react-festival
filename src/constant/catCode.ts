@@ -366,6 +366,7 @@ export const 시군코드: Record<string, Record<string, string>> = {
 };
 
 export const 대분류: Record<string, string> = {
+  all: "전체",
   AC: "숙박",
   C01: "추천코스",
   EV: "축제/공연/행사",

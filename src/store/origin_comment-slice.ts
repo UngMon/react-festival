@@ -9,7 +9,7 @@ interface LikeCommentPayload {
 
 interface ChangeReplyCountPayload {
   comment_id: string;
-  type: "reply-reply" | "reply";
+  type: "add" | "delete";
 }
 
 const initialState: OriginComment = {
@@ -28,7 +28,7 @@ const originCommentSlice = createSlice({
         comment_datas: CommentType[];
         startAfter: string;
         content_id: string;
-      }>
+      }>,
     ) {
       const { comment_datas, startAfter, content_id } = action.payload;
       if (state.record === content_id) {
@@ -45,7 +45,7 @@ const originCommentSlice = createSlice({
     subtractionCount(state, action: PayloadAction<{ origin_id: string }>) {
       const { origin_id } = action.payload;
       const index = state.comments.findIndex(
-        (comment) => comment.createdAt + comment.user_id === origin_id
+        (comment) => comment.createdAt + comment.user_id === origin_id,
       );
       if (index >= 0) state.comments[index].reply_count! -= 1;
     },
@@ -53,7 +53,7 @@ const originCommentSlice = createSlice({
       const { comment_id, like_count, user_id } = action.payload;
 
       const comment_index = state.comments.findIndex(
-        (item) => item.createdAt + item.user_id === comment_id
+        (item) => item.createdAt + item.user_id === comment_id,
       );
 
       if (comment_index === -1 || comment_index >= state.comments.length) {
@@ -71,7 +71,7 @@ const originCommentSlice = createSlice({
       const { comment_id, type } = action.payload;
 
       const comment_index = state.comments.findIndex(
-        (item) => item.createdAt + item.user_id === comment_id
+        (item) => item.createdAt + item.user_id === comment_id,
       );
 
       if (comment_index < -1 || comment_index >= state.comments.length) {
@@ -86,32 +86,32 @@ const originCommentSlice = createSlice({
         return;
       }
 
-      comment.reply_count += type === "reply-reply" ? 1 : -1;
+      comment.reply_count += type === "add" ? 1 : -1;
     },
     reviseComment(
       state,
       action: PayloadAction<{
         text: string;
         comment_id: string;
-        updatedAt: string;
-      }>
+        time: string;
+      }>,
     ) {
-      const { comment_id, text, updatedAt } = action.payload;
+      const { comment_id, text, time } = action.payload;
 
       const comment_index = state.comments.findIndex(
-        (item) => item.createdAt + item.user_id === comment_id
+        (item) => item.createdAt + item.user_id === comment_id,
       );
 
       if (comment_index === -1) return;
 
       const comment = state.comments[comment_index];
-      comment.updatedAt = updatedAt;
+      comment.updatedAt = time;
       comment.text = text;
     },
     deleteComment(state, action: PayloadAction<{ comment_id: string }>) {
       const comment_id = action.payload.comment_id;
       const comment_index = state.comments.findIndex(
-        (item) => item.createdAt + item.user_id === comment_id
+        (item) => item.createdAt + item.user_id === comment_id,
       );
 
       if (comment_index === -1) return;

@@ -1,6 +1,6 @@
+import { useAuth } from "context/AuthContext";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "store/store";
+import { useAppDispatch } from "store/store";
 import { modalActions } from "store/modal-slice";
 import "./OptionModal.css";
 
@@ -12,35 +12,39 @@ interface T {
 const OptionModal = ({ comment_id, comment_user_id }: T) => {
   const [scrollY, setScrollY] = useState<number>(window.scrollY);
   const boxRef = useRef<HTMLDivElement>(null);
-  const current_user_id = useSelector(
-    (state: RootState) => state.firebase.current_user_id
-  );
+  const current_user_id = useAuth().user?.uid;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const toggleOptionModal = (e: MouseEvent) => {
       if (!boxRef.current?.contains(e.target as Node)) {
         setScrollY(0);
-        dispatch(modalActions.clearModalInfo({ comment_id }));
+        dispatch(modalActions.toggleToastModal({ comment_id }));
       }
     };
 
-    const scrollHandler = () => {
+    const preventScroll = (e: Event) => {
+      e.preventDefault();
       window.scrollTo(0, scrollY);
+      
     };
 
     window.addEventListener("click", toggleOptionModal);
-    window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("scroll", preventScroll, { passive: false });
+    window.addEventListener("wheel", preventScroll, { passive: false }); // 마우스 휠 방지
+    window.addEventListener("touchmove", preventScroll, { passive: false }); // 모바일 터치 스크롤 방지
 
     return () => {
       window.removeEventListener("click", toggleOptionModal);
-      window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("scroll", preventScroll);
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      
     };
   }, [dispatch, scrollY, comment_id]);
 
   const clickHandler = (type: string) => {
-    if (current_user_id === "")
-      return alert(`로그인 하시면 이용하실 수 있습니다.`);
+    if (!current_user_id) return alert(`로그인 하시면 이용하실 수 있습니다.`);
 
     if (type === "revise")
       dispatch(modalActions.clickReviseButton({ comment_id }));

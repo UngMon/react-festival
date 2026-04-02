@@ -48,11 +48,3 @@
     "GRAD" 100,
     "opsz" 24;
 }
-
-@media (min-width: 670px) {
-  .picker {
-    margin-right: 20px;
-    max-width: 220px;
-    margin: 15px 0;
-  }
-}

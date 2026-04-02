@@ -9,27 +9,32 @@ import DeleteModal from "../modal/DeleteModal";
 import ReportModal from "../modal/ReportModal";
 
 interface T {
-  type: string;
+  role: string;
   comment_data: CommentType;
 }
 
-const CommentOption = ({ type, comment_data }: T) => {
+const CommentOption = ({ role, comment_data }: T) => {
   const dispatch = useAppDispatch();
   const comment_id = comment_data.createdAt + comment_data.user_id;
 
-  const openOption = useSelector((state: RootState) => state.modal.openOption);
-  const openDelete = useSelector((state: RootState) => state.modal.openDelete);
-  const openReport = useSelector((state: RootState) => state.modal.openReport);
-  const current_id = useSelector((state: RootState) => state.modal.current_id);
+  const isOpenOption = useSelector(
+    (state: RootState) => state.modal.openOption === comment_id,
+  );
+  const isOpenDelete = useSelector(
+    (state: RootState) => state.modal.openDelete === comment_id,
+  );
+  const isOpenReport = useSelector(
+    (state: RootState) => state.modal.openReport === comment_id,
+  );
 
   const optionClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (current_id === comment_id) {
-      // 같은 댓글의 옵션 버튼을 클릭할 경우, pickedComment 상태 초기화
-      dispatch(modalActions.clearModalInfo({ comment_id }));
+    if (isOpenOption) {
+      // 이미 내 옵션창이 열려있는데 다시 클릭한 경우 -> 닫기
+      dispatch(modalActions.toggleToastModal({}));
     } else {
-      // 다른 댓글의 옵션 버튼을 클릭할 경우, pcikedComment 상태 갱신
+      // 닫혀있거나 다른 댓글의 옵션이 열려있는 경우 -> 내 옵션창 열기
       dispatch(modalActions.openOptionModal({ comment_id }));
     }
   };
@@ -41,16 +46,14 @@ const CommentOption = ({ type, comment_data }: T) => {
         onClick={(event) => optionClickHandler(event)}
         icon={faEllipsisVertical}
       />
-      {openOption === comment_id && (
+      {isOpenOption && (
         <OptionModal
           comment_id={comment_id}
           comment_user_id={comment_data.user_id}
         />
       )}
-      {openDelete === comment_id && (
-        <DeleteModal type={type} comment_data={comment_data} />
-      )}
-      {openReport === comment_id && <ReportModal comment_data={comment_data} />}
+      {isOpenDelete && <DeleteModal role={role} comment_data={comment_data} />}
+      {isOpenReport && <ReportModal comment_data={comment_data} />}
     </div>
   );
 };

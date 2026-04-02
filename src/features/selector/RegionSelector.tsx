@@ -5,24 +5,30 @@ import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { 지역코드 } from "constant/catCode";
 
 interface T {
+  cat1: string;
   areaCode: string;
 }
 
-const RegionSelector = ({ areaCode }: T) => {
+const RegionSelector = ({ cat1, areaCode }: T) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pickedRegionHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAreaCode = event.target.value;
 
     searchParams.set("areaCode", newAreaCode);
-    searchParams.set("page", "1");
+    if (cat1 !== 'EV') searchParams.set("page", "1");
 
     setSearchParams(searchParams);
   };
 
   return (
     <div className="picker">
-      <select value={areaCode} onChange={pickedRegionHandler}>
+      <select
+        id="areacode-select"
+        name="areacode"
+        value={areaCode}
+        onChange={pickedRegionHandler}
+      >
         <option value="default" disabled>
           지역을 선택하세요
         </option>

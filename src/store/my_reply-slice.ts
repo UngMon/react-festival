@@ -17,7 +17,7 @@ interface LikeCommentPayload extends BasicPayload {
 
 interface RevisePayload extends BasicPayload {
   text: string;
-  updatedAt: string;
+  time: string;
 }
 
 const initialState: Record<string, Record<string, CommentType>> = {};
@@ -52,7 +52,7 @@ const myReplySlice = createSlice({
       else if (like_count === -1) delete myReply.like_users[user_id];
     },
     reviseComment(state, action: PayloadAction<RevisePayload>) {
-      const { origin_id, comment_id, text, updatedAt } = action.payload;
+      const { origin_id, comment_id, text, time } = action.payload;
       const comments = state[origin_id];
 
       if (!comments) {
@@ -68,7 +68,7 @@ const myReplySlice = createSlice({
       }
 
       myReply.text = text;
-      myReply.updatedAt = updatedAt;
+      myReply.updatedAt = time;
     },
     deleteMyReply(
       state,

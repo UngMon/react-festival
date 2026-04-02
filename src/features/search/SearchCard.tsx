@@ -4,66 +4,37 @@ import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "store/store";
 import { fetchTourApi } from "api/fetchTourApi";
 import { CheckParams } from "hooks/useCheckParams";
-import { Item, TourDataType } from "types/FetchType";
-import {
-  지역코드,
-  시군코드,
-  중분류,
-  소분류,
-  ContentIdCode,
-} from "constant/catCode";
+import { Item } from "types/FetchType";
+import { 지역코드, 시군코드, 중분류, 소분류 } from "constant/catCode";
 import { createPageKey } from "utils/createPageKey";
 import Loading from "common/loading/Loading";
+import NoImage from "assets/etc-image/noimage.png";
 import "./SearchCard.css";
 
 interface T {
-  tourDataType: TourDataType;
   params: CheckParams;
-  page: number;
 }
 
-const SearchCard = ({ tourDataType, params, page }: T) => {
-  const { contentTypeId } = params;
-
+const SearchCard = ({ params }: T) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const page_key = createPageKey(tourDataType, 50, params);
-  const searchDatas = useSelector(
-    (state: RootState) => state.data.datas[tourDataType]?.[page_key],
+  const page_key = createPageKey(50, params);
+
+  const { datas, httpState, page_record } = useSelector(
+    (state: RootState) => state.tour,
   );
-  const httpState = useSelector((state: RootState) => state.data.httpState);
-  const page_record = useSelector((state: RootState) => state.data.page_record);
+  console.log("?Card");
 
   useEffect(() => {
-    switch (true) {
-      case params.requireRedirect !== "":
-        navigate(params.requireRedirect);
-        return;
-      case httpState === "pending":
-        return;
-      case page_record.some((item) => item.previous_page_key === page_key):
-        return;
-    }
+    if (httpState === "pending" || page_record.includes(page_key)) return;
 
     dispatch(
       fetchTourApi({
-        numOfRows: 25,
-        page,
-        tourDataType,
+        numOfRows: 50,
         params,
       }),
     );
-  }, [
-    dispatch,
-    navigate,
-    httpState,
-    page_record,
-    tourDataType,
-    page,
-    params,
-    contentTypeId,
-    page_key,
-  ]);
+  }, [dispatch, httpState, page_record, params, page_key]);
 
   const sigunHandler = (item: Item): string => {
     if (!item.lDongRegnCd || !item.lDongSignguCd) return "";
@@ -80,14 +51,14 @@ const SearchCard = ({ tourDataType, params, page }: T) => {
   return (
     <div className="Result-Box">
       <div className="Result-Title">
-        <div>{`${ContentIdCode[contentTypeId ?? "0"]}`}</div>
+        {/* <div>{`${ContentIdCode[contentTypeId ?? "0"]}`}</div> */}
         <div></div>
       </div>
       {httpState === "pending" && <Loading height="500px" />}
       {httpState === "fulfilled" && (
         <div className="Result-Cards">
-          {searchDatas?.tourData?.length > 0 ? (
-            searchDatas.tourData.map((item) => (
+          {datas[page_key]?.tourData?.length > 0 ? (
+            datas[page_key].tourData.map((item) => (
               <article
                 key={item.contentid}
                 onClick={() => cardClickHandler(item)}
@@ -95,10 +66,7 @@ const SearchCard = ({ tourDataType, params, page }: T) => {
                 <div className="Result-Card-Image">
                   <img
                     alt={item.title}
-                    src={
-                      item.firstimage?.replace("http", "https") ||
-                      "/images/Noimage.png"
-                    }
+                    src={item.firstimage?.replace("httpss", "https") || NoImage}
                     loading="lazy"
                   />
                 </div>

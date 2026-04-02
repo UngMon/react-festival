@@ -5,11 +5,11 @@ import CommentResponse from "./CommentResponse";
 import "./Comment.css";
 
 interface T {
-  type: string;
+  role: string;
   comment_data: CommentType;
 }
 
-const Comment = ({ type, comment_data }: T) => {
+const Comment = ({ role, comment_data }: T) => {
   const {
     user_name,
     user_photo,
@@ -20,7 +20,7 @@ const Comment = ({ type, comment_data }: T) => {
     parent_name,
   } = comment_data;
   const isExistMention = parent_user_id && user_id !== parent_user_id;
-
+  console.log("Comment", text);
   return (
     <div className="comment-container">
       <UserIcon user_photo={user_photo} user_name={user_name} />
@@ -29,13 +29,13 @@ const Comment = ({ type, comment_data }: T) => {
           <span className="name">{user_name}</span>
           {updatedAt && <span className="revised">&nbsp;&nbsp;(수정됨)</span>}
         </div>
-        <CommentOption type={type} comment_data={comment_data} />
+        <CommentOption role={role} comment_data={comment_data} />
       </div>
       <div className="comment-text">
         {isExistMention && <span id="mention">{`@${parent_name}`}</span>}
         <span>{text}</span>
       </div>
-      <CommentResponse type={type} comment_data={comment_data} />
+      <CommentResponse role={role} comment_data={comment_data} />
     </div>
   );
 };

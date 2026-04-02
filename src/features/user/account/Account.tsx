@@ -8,7 +8,7 @@ import naver_logo from "assets/login/naver_logo.png";
 import Portal from "../../../common/Portal";
 import EditProfileImage from "../edit/image/EditProfileImage";
 import EditProfileName from "../edit/name/EditProfileName";
-import DeleteAccount from "../edit/DeleteAccount";
+import DeleteAccount from "../edit/delete/DeleteAccount";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./Account.css";
 

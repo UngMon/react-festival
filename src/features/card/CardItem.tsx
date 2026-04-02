@@ -1,5 +1,5 @@
 import { CheckParams } from "hooks/useCheckParams";
-import { Item, TourDataType } from "types/FetchType";
+import { Item } from "types/FetchType";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import { useNavigate } from "react-router-dom";
@@ -15,14 +15,13 @@ type Card = {
 };
 
 interface T {
-  tourDataType: TourDataType;
   params: CheckParams;
   tourDataArray: Item[];
 }
 
-const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
+const CardItem = ({ params, tourDataArray }: T) => {
   const navigate = useNavigate();
-  const 행사상태 = useSelector((state: RootState) => state.data.행사상태);
+  const 행사상태 = useSelector((state: RootState) => state.tour.행사상태);
   const { areaCode, cat1, cat2, cat3, month: param_month } = params;
   const { year, month, date } = nowDate();
 
@@ -34,7 +33,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
       </div>
     );
   }
-  console.log(tourDataArray);
+
   const filteredItems = () => {
     let result: Card[] = [];
 
@@ -49,7 +48,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
         if (cat2 !== "all" && cat2 !== item.lclsSystm2) return acc;
         if (cat3 !== "all" && cat3 !== item.lclsSystm3) return acc;
 
-        if (tourDataType === "festival") {
+        if (cat1 === "EV") {
           if (item.eventstartdate!.slice(4, 6) > param_month!) return acc;
           if (item.eventenddate!.slice(4, 6) < param_month!) return acc;
           if (areaCode !== "0" && areaCode !== item.lDongRegnCd) return acc;
@@ -74,7 +73,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
       { 진행중: [], 종료: [], 시작전: [] },
     );
 
-    if (tourDataType === "festival") {
+    if (cat1 === "EV") {
       if (행사상태[0]) result.push(...filteredData.진행중);
       if (행사상태[1]) result.push(...filteredData.시작전);
       if (행사상태[2]) result.push(...filteredData.종료);
@@ -102,7 +101,7 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
             lclsSystm2,
             lclsSystm3,
           } = item.data;
-          console.log(lclsSystm1, lclsSystm2, lclsSystm3)
+
           const 축제상태 = item._state;
 
           const 지역 = 지역코드[lDongRegnCd];
@@ -120,13 +119,9 @@ const CardItem = ({ params, tourDataType, tourDataArray }: T) => {
               }
             >
               <div className="card-image-box">
-                <img
-                  src={firstimage?.replace(/^http:\/\//, "https://") || NoImage}
-                  alt="img"
-                  loading="lazy"
-                />
+                <img src={firstimage || NoImage} alt="img" loading="lazy" />
               </div>
-              {tourDataType === "festival" && (
+              {cat1 === "EV" && (
                 <p className={`cal-date ${축제상태}`}>{축제상태}</p>
               )}
               <div className="card-text">

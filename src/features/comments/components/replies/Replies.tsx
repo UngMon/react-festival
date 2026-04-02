@@ -16,7 +16,7 @@ const Replies = ({ origin_id }: T) => {
       {reply_comments[origin_id]?.map((item) => (
         <CommentBox
           key={item.createdAt + item.user_id}
-          type={"reply"}
+          role={"reply"}
           depth={0}
           comment_data={item}
         />

@@ -1,9 +1,8 @@
+import { useAuth } from "context/AuthContext";
 import { useRef, useState } from "react";
 import { resizeAndCropImage } from "./resizeAndCropImage";
 import { auth, storage } from "../../../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useAppDispatch } from "store/store";
-import { firebaseActions } from "store/firebase-slice";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./EditProfileImage.css";
 
@@ -12,8 +11,7 @@ interface T {
 }
 
 const EditProfileImage = ({ setOpenImageEditor }: T) => {
-  const dispatch = useAppDispatch();
-
+  const { updatePhoto } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +48,7 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
       // 3. Firebase Storage 업로드
       const storageRef = ref(storage, `profiles/${user.uid}/profile.jpeg`);
       await uploadBytes(storageRef, compressedBlob);
-      const photoURL = await getDownloadURL(storageRef);
+      const newPhotoURL = await getDownloadURL(storageRef);
 
       // 4. 서버(Cloud Functions) 업데이트 API 호출
       const idToken = await user.getIdToken();
@@ -62,7 +60,7 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${idToken}`,
           },
-          body: JSON.stringify({ photoURL }),
+          body: JSON.stringify({ newPhotoURL }),
         },
       );
 
@@ -73,7 +71,7 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
       if (result.success) {
         alert("프로필 사진이 변경되었습니다!");
         // Redux 상태 업데이트
-        dispatch(firebaseActions.updateProfileImage({ photoURL }));
+        updatePhoto(newPhotoURL);
         setOpenImageEditor(false);
       }
     } catch (error) {

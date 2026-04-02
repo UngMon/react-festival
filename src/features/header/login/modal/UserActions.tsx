@@ -25,6 +25,7 @@ const UserActions = ({
     try {
       await logout();
       sessionStorage.clear();
+      navigate("/");
     } catch (error: any) {
       alert(error.message);
     } finally {

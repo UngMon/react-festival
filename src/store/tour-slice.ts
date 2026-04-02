@@ -8,24 +8,13 @@ import { Item, FetchTourData } from "types/FetchType";
 // 35: 경상북도, 36: 경상남도  ,37: 전라북도 ,38: 전라남도 39: 제주특별자치도
 
 const initialState: DataType = {
-  successGetData: false,
-  httpState: "nothing",
   datas: {},
-  // tour: {},
-  // culture: {},
-  // festival: {},
-  // travel: {},
-  // leports: {},
-  // search: {},
-  // lodging: {},
-  // shopping: {},
-  // restaurant: {},
-  loading: false,
   page_record: [],
+  httpState: "nothing",
   행사상태: [true, false, false],
 };
 
-const dataSlice = createSlice({
+const tourSlice = createSlice({
   name: "tourApi",
   initialState,
   reducers: {
@@ -37,17 +26,16 @@ const dataSlice = createSlice({
     builder
       .addCase(fetchTourApi.pending, (state) => {
         state.httpState = "pending";
-        state.loading = true;
       })
       .addCase(
         fetchTourApi.fulfilled,
         (state, action: PayloadAction<FetchTourData>) => {
-          const { tourDataType, responseData, page_key } = action.payload;
+          const { responseData, page_key, cat1 } = action.payload;
 
           if (!("response" in responseData)) {
             // api 요청 에러 발생
             state.httpState = "rejected";
-            state.loading = false;
+            // state.loading = false;
             console.error(`Error Message: ${responseData.resultMsg}`);
             return;
           }
@@ -55,36 +43,27 @@ const dataSlice = createSlice({
           let totalCount: number = responseData.response.body.totalCount;
 
           state.httpState = "fulfilled";
-          state.loading = false;
 
           let tourData = responseData.response.body.items.item;
 
           if (tourData === "") {
             // API는 성공적으로 응답이 됐지만, 내용이 없는 경우
-            state.page_record.push({
-              previous_type: tourDataType,
-              previous_page_key: page_key,
-            });
-            state.datas[tourDataType][page_key] = {
+            state.page_record.push(page_key);
+            state.datas[page_key] = {
               tourData: [],
               totalCount: 0,
             };
             return;
           }
 
-          if (tourDataType === "festival") {
+          if (cat1 === "EV") {
             let fetstivalArray: Item[] = [];
             const TodayYear = `${new Date().getFullYear()}0101`;
 
             for (const item of tourData) {
-              if (item.lDongRegnCd === "") {
-                continue;
-              }
+              if (item.lDongRegnCd === "") continue;
 
-              if (item.eventenddate! < TodayYear) {
-                console.log(item.title, item.eventenddate, TodayYear);
-                continue;
-              }
+              if (item.eventenddate! < TodayYear) continue;
 
               fetstivalArray.push(item);
             }
@@ -94,38 +73,29 @@ const dataSlice = createSlice({
             );
           }
 
-          if (!state.datas[tourDataType]) state.datas[tourDataType] = {};
+          if (!state.datas[page_key])
+            state.datas[page_key] = { tourData: [], totalCount: 0 };
 
-          state.datas[tourDataType][page_key] = {
+          state.datas[page_key] = {
             tourData,
             totalCount,
           };
 
           if (state.page_record.length > 19) {
             const delete_key = state.page_record.shift();
-            const previous_type = delete_key?.previous_type,
-              previous_page_key = delete_key?.previous_page_key;
 
-            if (
-              previous_type &&
-              previous_page_key &&
-              previous_page_key in state.datas[tourDataType]
-            )
-              delete state.datas[previous_type][previous_page_key];
+            if (delete_key && delete_key in state.datas)
+              delete state.datas[delete_key];
           }
 
-          state.page_record.push({
-            previous_type: tourDataType,
-            previous_page_key: page_key,
-          });
+          state.page_record.push(page_key);
         },
       )
       .addCase(fetchTourApi.rejected, (state) => {
-        state.loading = false;
         state.httpState = "rejected";
       });
   },
 });
 
-export const dataActions = dataSlice.actions;
-export const dataReducer = dataSlice.reducer;
+export const tourActions = tourSlice.actions;
+export const tourReducer = tourSlice.reducer;

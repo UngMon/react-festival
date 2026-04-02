@@ -1,7 +1,7 @@
 import { CommentType } from "types/DataType";
+import { useAuth } from "context/AuthContext";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "store/store";
+import { useAppDispatch } from "store/store";
 import { modalActions } from "store/modal-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
@@ -23,12 +23,10 @@ const report_array = [
 const ReportModal = ({ comment_data }: T) => {
   const dispatch = useAppDispatch();
   const [report_reason, setReportReason] = useState<string>("");
-  const { current_user_id, current_user_name } = useSelector(
-    (state: RootState) => state.firebase
-  );
+  const { user } = useAuth();
 
   const clickCancelHandler = () => {
-    dispatch(modalActions.clearModalInfo({}));
+    dispatch(modalActions.toggleToastModal({}));
   };
 
   useEffect(() => {
@@ -46,18 +44,21 @@ const ReportModal = ({ comment_data }: T) => {
   const reportUserHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!user || !user.uid || !user.displayName)
+      return alert("로그인을 해주세요!");
+
     if (report_reason === "") return alert("신고 사유를 선택해주세요!");
 
     let api_state: string = "";
 
-    dispatch(modalActions.clearModalInfo({ type: "report" }));
+    dispatch(modalActions.toggleToastModal({}));
 
     try {
       await reportComment(
         comment_data,
-        current_user_id,
-        current_user_name,
-        report_reason
+        user.uid,
+        user.displayName,
+        report_reason,
       );
       api_state = "댓글을 신고 했습니다.";
     } catch (error: any) {

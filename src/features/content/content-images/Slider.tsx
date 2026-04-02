@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { ContentImage, ResponseImage } from "types/ContentType";
 import SliderButton from "./SliderButton";
 import Loading from "common/loading/Loading";
+import Noimage from 'assets/etc-image/noimage.png'
 import "./Slider.css";
 
 const serviceKey = encodeURIComponent(process.env.REACT_APP_DATA_SERVICE_KEY!);
@@ -39,7 +40,7 @@ const Slider = ({ content_id }: SliderProps) => {
       const box = sliderBoxRef.current;
       if (!box) return;
 
-      const noImageObj = { originimgurl: "/images/NoImage.png" };
+      const noImageObj = { originimgurl: Noimage };
 
       try {
         const imageData = await getContentImage(contentId);
@@ -150,12 +151,12 @@ const Slider = ({ content_id }: SliderProps) => {
           {image.map((item, index) => (
             <div key={item.originimgurl + index} className="slide">
               <a
-                href={item.originimgurl.replace("http", "https")}
+                href={item.originimgurl}
                 rel="noreferrer"
                 target="_blank"
               >
                 <img
-                  src={item.originimgurl.replace("http", "https")}
+                  src={item.originimgurl}
                   alt="축제 사진"
                   loading="lazy"
                   style={{ width: image.length < 2 ? "300px" : `${width}px` }}
