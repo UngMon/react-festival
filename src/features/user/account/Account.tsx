@@ -9,18 +9,17 @@ import Portal from "../../../common/Portal";
 import EditProfileImage from "../edit/image/EditProfileImage";
 import EditProfileName from "../edit/name/EditProfileName";
 import DeleteAccount from "../edit/delete/DeleteAccount";
-import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./Account.css";
 
-const Provider_Name: Record<string, string> = {
-  "kakao.com": "카카오",
-  "naver.com": "네이버",
-  "google.com": "구글",
-  "facebook.com": "페이스북",
+const Provider_List: Record<string, string[]> = {
+  "google.com": ["Google", goolge_logo],
+  "facebook.com": ["Facebook", facebook_logo],
+  "kakao.com": ["Kakao", kakao_logo],
+  "naver.com": ["Naver", naver_logo],
 };
 
 const Account = () => {
-  const { user, provider, logout, status } = useAuth();
+  const { user, provider, logout } = useAuth();
   const { email, displayName, photoURL } = user!;
 
   const [openImageEditor, setOpenImageEditor] = useState<boolean>(false);
@@ -44,126 +43,113 @@ const Account = () => {
   };
 
   return (
-    <div className="profile-container">
-      <section className="profile-photo-box">
-        <div className="profile-photo">
-          <img
-            alt="프로필 이미지"
-            src={photoURL || "./images/userIcon.png"}
-            onClick={() => setOpenImageEditor(true)}
+    <div className="account">
+      <div className="account-wrapper">
+        <section className="account__photo-section">
+          <div className="account__photo-container">
+            <img
+              alt="프로필 이미지"
+              className="account__photo-img"
+              src={photoURL || "./images/userIcon.png"}
+              onClick={() => setOpenImageEditor(true)}
+            />
+            <button
+              className="account__photo-edit-btn"
+              onClick={() => setOpenImageEditor(true)}
+            >
+              <span className="material-symbols-outlined">edit</span>
+            </button>
+          </div>
+          <div className="account__photo-description">
+            {/* <span>{displayName}</span> */}
+          </div>
+        </section>
+
+        <section className="account__info-section">
+          <div className="account__info-row account__info-row--flex">
+            <div className="nickname-box account__info-text">
+              <h3>닉네임</h3>
+              <span>{displayName || "-"}</span>
+            </div>
+            <button
+              type="button"
+              className="account__btn"
+              onClick={() => setOpenEditName(true)}
+            >
+              {"수정하기"}
+            </button>
+          </div>
+          <div className="account__info-row account__info-text">
+            <h3>이메일</h3>
+            <span>{email || "-"}</span>
+          </div>
+          <div className="sign-up-date account__info-row account__info-text">
+            <h3>가입일</h3>
+            <span>{formatDate(auth?.currentUser?.metadata.creationTime)}</span>
+          </div>
+        </section>
+
+        <section className="account__platform-section">
+          <h3 className="account__platform-title">소셜 플랫폼</h3>
+          <p className="account__platform-desc">
+            가입하신 소셜 플랫폼을 확인할 수 있습니다.
+          </p>
+          <div className="account__platform-list">
+            {Object.entries(Provider_List).map((item) => (
+              <div
+                key={item[0]}
+                className="account__info-row account__info-row--flex"
+              >
+                <div className="account__platform-icon">
+                  <img src={item[1][1]} alt={item[1][0]} width={40} />
+                  <span>{item[1][0]}</span>
+                </div>
+                <span
+                  className={`account__btn no-hover ${provider === item[0] ? "plat-check" : ""}`}
+                >
+                  {provider === item[0] ? "연동됨" : "연동안됨"}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="account__platform-summary">
+            <span>{`${Provider_List[provider!][0]}(으)로 로그인 한 계정입니다.`}</span>
+          </div>
+        </section>
+        <section className="delete-account">
+          <button type="button" onClick={() => setOpenDeleteAcc(true)}>
+            회원탈퇴
+          </button>
+        </section>
+        {openEditName && (
+          <Portal
+            children={
+              <EditProfileName
+                nickName={displayName!}
+                setOpenEditName={setOpenEditName}
+              />
+            }
           />
-          <button
-            className="edit-photo-button"
-            onClick={() => setOpenImageEditor(true)}
-          >
-            <span className="material-symbols-outlined">edit</span>
-          </button>
-        </div>
-        <div className="photo-description">
-          <span>{displayName}</span>
-        </div>
-      </section>
-      <section className="profile-detail-section">
-        <div className="pr-list-box pr-dis-flex">
-          <div className="nickname-box pr-text-box">
-            <h3>닉네임</h3>
-            <span>{displayName || "-"}</span>
-          </div>
-          <button
-            type="button"
-            className="pr-button"
-            onClick={() => setOpenEditName(true)}
-          >
-            {"수정하기"}
-          </button>
-        </div>
-        <div className="pr-list-box pr-text-box">
-          <h3>이메일</h3>
-          <span>{email || "-"}</span>
-        </div>
-        <div className="sign-up-date pr-list-box pr-text-box">
-          <h3>가입일</h3>
-          <span>{formatDate(auth?.currentUser?.metadata.creationTime)}</span>
-        </div>
-      </section>
-      <section className="profile-platform-section">
-        <h3 className="profile-title">소셜 플랫폼</h3>
-        <p>가입하신 소셜 플랫폼을 확인할 수 있습니다.</p>
-        <div className="platforms-container">
-          <div className="pr-list-box pr-dis-flex">
-            <div className="plat-icon">
-              <img src={goolge_logo} alt="google" width={40} />
-              <span>Google</span>
-            </div>
-            <span className="pr-button plat-check">
-              {provider === "google.com" ? "연결됨" : "연결안됨"}
-            </span>
-          </div>
-          <div className="pr-list-box pr-dis-flex">
-            <div className="plat-icon">
-              <img src={facebook_logo} alt="facebook" width={40} />
-              <span>Facebook</span>
-            </div>
-            <span className="pr-button plat-check">
-              {provider === "facebook.com" ? "연결됨" : "연결안됨"}
-            </span>
-          </div>
-          <div className="pr-list-box pr-dis-flex">
-            <div className="plat-icon">
-              <img src={kakao_logo} alt="kakao" width={40} />
-              <span>Kakao</span>
-            </div>
-            <span className="pr-button plat-check">
-              {provider === "kakao.com" ? "연결됨" : "연결안됨"}
-            </span>
-          </div>
-          <div className="pr-list-box pr-dis-flex">
-            <div className="plat-icon">
-              <img src={naver_logo} alt="naver" width={40} />
-              <span>Naver</span>
-            </div>
-            <span className="pr-button plat-check">
-              {provider === "naver.com" ? "연결됨" : "연결안됨"}
-            </span>
-          </div>
-        </div>
-        <div className="plat-sub">
-          <span>{`${Provider_Name[provider!]}(으)로 로그인 한 계정입니다.`}</span>
-        </div>
-      </section>
-      <section className="delete-account">
-        <button type="button" onClick={() => setOpenDeleteAcc(true)}>
-          회원탈퇴
-        </button>
-      </section>
-      {openEditName && (
-        <Portal
-          children={
-            <EditProfileName
-              nickName={displayName!}
-              setOpenEditName={setOpenEditName}
-            />
-          }
-        />
-      )}
-      {openImageEditor && (
-        <Portal
-          children={
-            <EditProfileImage setOpenImageEditor={setOpenImageEditor} />
-          }
-        />
-      )}
-      {openDeleteAcc && (
-        <Portal
-          children={
-            <DeleteAccount
-              setOpenDeleteAcc={setOpenDeleteAcc}
-              provider={provider}
-              logout={logout}
-            />
-          }
-        />
-      )}
+        )}
+        {openImageEditor && (
+          <Portal
+            children={
+              <EditProfileImage setOpenImageEditor={setOpenImageEditor} />
+            }
+          />
+        )}
+        {openDeleteAcc && (
+          <Portal
+            children={
+              <DeleteAccount
+                setOpenDeleteAcc={setOpenDeleteAcc}
+                provider={provider}
+                logout={logout}
+              />
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };

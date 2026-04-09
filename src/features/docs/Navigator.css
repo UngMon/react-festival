@@ -1,145 +1,148 @@
-.PolicyNavigator-Container {
+.policy-nav {
   box-sizing: border-box;
+  margin: 0 auto;
   width: 100%;
+  max-width: 1100px;
   height: 60px;
-  background: rgb(26, 50, 154);
+  --background-color--: #1a329a;
+  background: var(--background-color--);
+  --font-color--: rgb(228, 228, 228);
+  font-size: 16px;
 }
 
-.PolicyNavigator-Box {
-  margin: auto;
+.policy-nav__list {
   position: relative;
+  margin: auto;
   display: flex;
   align-items: center;
-  width: clamp(300px, 90vw, 1060px);
+  min-width: 300px;
+  width:  87.5vw;
+  max-width: 1060px;
   height: 100%;
-  color: rgb(228, 228, 228);
+  color: var(--font-color--);
 }
 
-.PolicyNavigator-Home {
+.policy-nav__item {
+  display: flex;
+  align-items: center;
   height: 100%;
-  margin-right: 5px;
-
-  img {
-    display: inline-flex;
-    padding: calc((60px - 25px) / 2) 10px;
-    width: 25px;
-    height: 25px;
-  }
 }
 
-.PolicyNavigator-Box li {
-  cursor: pointer;
+.policy-nav__item--home {
+  display: flex;
+  align-items: center;
 }
 
-.PolicyNavigator-Box > li:nth-child(2) {
-  height: 60%;
-  border: 2px solid rgb(182, 182, 182);
+.policy-nav__home-link span {
+  line-height: 200%;
+  color: white;
+  font-size: 30px;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 600,
+    "GRAD" 100,
+    "opsz" 24;
 }
 
-.PolicyNavigator-Nav {
-  width: 190px;
-  height: 80%;
-
-  div {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  div span {
-    display: block;
-    width: 150px;
-    padding: 0 10px;
-    font-size: 16px;
-    font-weight: 500;
-  }
+.policy-nav__item--home::after {
+  content: "";
+  width: 5px;
+  height: 70%;
+  background-color: white;
+  margin: 0 10px;
 }
 
-.navi-open {
+.policy-nav__item--dropdown {
+  position: relative;
+}
+
+.policy-nav__trigger {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.policy-nav__title--is-open {
+  transform: rotate(180deg);
+}
+
+.policy-nav__menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: -5px;
+  padding: 10px 0;
+  background: rgb(0, 0, 211);
+}
+
+.policy-nav__menu--is-open {
   display: block;
 }
 
-.navi-off {
-  display: none;
-}
+.policy-menu__item {
+  font-weight: bold;
+  cursor: pointer;
 
-.PolicyNavigator-Nav ul {
-  margin-top: 5px;
-  z-index: 10;
-  background: rgb(19, 29, 75);
-  width: 190px;
-
-  li {
-    font-size: 20px;
-    font-weight: 500;
-    padding: 20px 15px;
-
-    &:hover {
-      background: rgb(129, 129, 129);
-    }
+  &:hover {
+    background: darkblue;
   }
 }
 
-.icons {
+.policy-menu__item-link {
+  white-space: nowrap;
+  padding: 10px 20px;
+  color: inherit;
+  display: block;
+  width: 115px;
+}
+
+.policy-nav__item--action {
   display: none;
-  position: absolute;
-  width: 50px;
+}
+
+.policy-nav__action-button {
   height: 40px;
-
-  svg {
-    padding: 12.5px 7.5px;
-    width: 25px;
-    display: block;
-    margin: auto;
-    font-size: 20px;
-  }
+  padding: 0 5px;
 }
 
-.PolicyNavigator-Box > li:nth-child(4) {
-  right: 50px;
-}
-
-.PolicyNavigator-Box > li:nth-child(5) {
-  right: 0px;
+.policy-nav__action-button span {
+  color: white;
+  font-size: 25px;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 100,
+    "opsz" 24;
 }
 
 @media (min-width: 1024px) {
-  .PolicyNavigator-Container {
-    margin: 40px auto 0;
-    padding: 0 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 1100px;
+  .policy-nav {
+    margin-top: 40px;
+    border-radius: 10px;
     height: 70px;
+    width: 87.5vw;
   }
 
-  .PolicyNavigator-Box {
-    width: 100%;
+  .policy-nav__list {
+    width: 96%;
   }
 
-  .PolicyNavigator-Home img {
-    padding: calc((70px - 30px) / 2) 15px calc((70px - 30px) / 2) 0;
-    width: 30px;
-    height: 30px;
+  .policy-nav__menu {
+    top: 70px;
   }
 
-  .PolicyNavigator-Nav {
-    div span {
-      width: 140px;
-      padding: 0 15px;
-      font-size: 20px;
-    }
-
-    svg {
-      height: 20px;
-    }
+  .policy-nav__item--action {
+    position: absolute;
+    display: flex;
   }
 
-  .PolicyNavigator-Box > li:nth-child(4) {
-    display: block;
+  .policy-nav__item:nth-of-type(3) {
+    right: 35px;
   }
-  .PolicyNavigator-Box > li:nth-child(5) {
-    display: block;
+
+  .policy-nav__item:nth-of-type(4) {
+    right: 0;
   }
 }

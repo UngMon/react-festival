@@ -1,20 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faAngleDown,
-//   faMagnifyingGlass,
-// } from "@fortawesome/free-solid-svg-icons";
 import "./SearchButton.css";
-
-const Category: Array<[string, string]> = [
-  ["0", "전체"],
-  ["12", "관광지"],
-  ["14", "문화시설"],
-  ["15", "축제"],
-  ["25", "여행코스"],
-  ["28", "레포츠"],
-];
 
 interface T {
   openSearch: boolean;
@@ -23,8 +9,6 @@ interface T {
 
 const SearchButton = ({ openSearch, setOpenSearch }: T) => {
   const navigate = useNavigate();
-  const [openKeyword, setOpenKeyWord] = useState<boolean>(false);
-  const [category, setCategory] = useState<[string, string]>(["0", "전체"]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

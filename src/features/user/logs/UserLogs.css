@@ -1,31 +1,19 @@
-.x-mark {
-  top: 15px;
-  right: 15px;
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  font-size: 24px;
-  color: #333;
-  border-radius: 50%;
-
-  &:hover {
-    background: rgb(58, 116, 239);
-    color: #f5f5f5;
-  }
-}
-
+/* UserLogs 컴포넌트 css */
 .log-section {
   position: relative;
-  width: clamp(320px, 100%, 600px);
+  width: 100%;
   min-height: calc(100vh - 60px);
-  margin: 30px auto 0;
   padding-bottom: 20px;
+}
+
+.log-section__items {
+  margin: auto;
+  width: clamp(320px, 100%, 600px);
 }
 
 #date {
   margin-bottom: 20px;
-  background-color: rgb(243, 243, 255);
+  background-color: rgb(234, 237, 255);
   border-radius: 0;
   padding: 16px 24px;
   height: 24px;
@@ -34,24 +22,30 @@
   color: #333;
 }
 
-#Nonexistent {
+.log-section__nonexistent {
   padding: 50px 0;
   text-align: center;
   font-weight: 550;
 }
 
-.view-box {
-  margin: 0 24px;
-  padding: 20px 0;
-  width: calc(100% - 48px);
+.log-section__error-text {
+  padding-top: 50px;
+  text-align: center;
+}
+
+/* Card 컴포넌트 css */
+.log {
+  width: 100%;
+  padding: 20px 24px;
   min-height: 140px;
+  box-sizing: border-box;
 
   &:not(:last-child) {
     border-bottom: 1px solid #c3c3c3; /* 마지막 요소 제외하고 실선 추가 */
   }
 }
 
-#v-b-1 {
+.log__head {
   position: relative;
   height: 36px;
 
@@ -81,11 +75,11 @@
   }
 }
 
-#v-b-2 {
+.log__middle {
   display: flex;
 }
 
-#v-b-3 {
+.log__middle-content {
   padding-right: 10px;
   width: calc(100% - 144px);
 
@@ -108,11 +102,11 @@
   }
 }
 
-#v-b-3 > div > span:nth-child(1) {
+.log__middle-content > div > span:nth-child(1) {
   color: rgb(0, 94, 218);
 }
 
-#v-b-img {
+.log__middle-image {
   text-align: left;
   cursor: pointer;
   width: 134px;
@@ -124,26 +118,15 @@
   }
 }
 
-.log-error-text {
-  padding-top: 50px;
-  text-align: center;
+@media (min-width: 656px) {
+  #date {
+    border-radius: 10px;
+  }
 }
 
 @media (min-width: 1024px) {
   .log-section {
     padding-top: 40px;
-    margin: 0px;
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1295px) {
-  .content-view {
-    margin-left: 320px;
-  }
-}
-
-@media (min-width: 656px) {
-  #date {
-    border-radius: 10px;
+    width: calc(100% - 380px);
   }
 }

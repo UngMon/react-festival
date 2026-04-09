@@ -5,11 +5,11 @@
 }
 
 .Text-Container h2 {
-  font-size: clamp(26px, 5vw, 36px);
+  font-size: clamp(26px, 5vw, 32px);
 }
 
 .Text-Container h3 {
-  font-size: clamp(18px, 3.8vw, 20px);
+  font-size: 20px;
   margin-bottom: 10px;
   font-weight: 800;
 }

@@ -2,161 +2,247 @@
   transition: none !important;
 }
 
-.submenu-section {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 60px;
-  height: 60px;
-  z-index: 3;
-}
-
-.nav-button {
-  position: absolute;
-  top: 16px;
-  left: 20px;
-  color: #333;
-  cursor: pointer;
-  z-index: 10;
-
-  span {
-    font-variation-settings:
-      "FILL" 0,
-      "wght" 500,
-      "GRAD" 100,
-      "opsz" 24;
-  }
-}
-
-.menu-overlay {
+.submenu {
   position: fixed;
-  top: 0px;
+  bottom: 0;
   left: 0;
   width: 100%;
+  height: 71px;
+  z-index: 3;
+  background: rgb(248, 248, 248);
+}
+
+.submenu-wrapper {
+  width: 100%;
   height: 100%;
-  transition: all 0.3s ease-in;
-  transform: translateX(-100vw);
-  z-index: 9;
 }
 
-.menu {
-  box-sizing: border-box;
-  position: absolute;
-  top: 60px;
-  left: 0px;
-  width: 240px;
-  transition: all 0.3s ease-in;
-  transform: translateX(-50vw);
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.3);
-}
-
-.on {
-  transform: translateX(0px);
-}
-
-.picked-category {
+.submenu__title {
   display: none;
 }
 
-.menu ul {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 60px 10px 20px;
-}
-
-.menu ul li {
-  padding: 10px;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-    background: rgb(240, 240, 240);
-  }
-}
-
-.menu ul li button {
+.submenu__list {
   display: flex;
   align-items: center;
-  column-gap: 16px;
   width: 100%;
-  color: #333;
+  height: 100%;
+}
+
+.submenu__list li {
+  box-sizing: border-box;
+  padding: 0 5px;
+  width: calc(100% / 4);
+  height: 100%;
+  cursor: pointer;
+  border-top: 1px solid rgb(219, 219, 219);
+}
+
+.submenu__list li button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
   font-weight: bold;
-  text-align: left;
-  font-size: clamp(14px, 2.5vw, 16px);
+  color: rgb(136, 136, 136);
+  word-break: keep-all;
 }
 
-.menu ul li button span:nth-of-type(1) {
-  font-size: clamp(20px, 3.5vw, 24px);
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 600,
-    "GRAD" 100,
-    "opsz" 24;
+.check {
+  border-top-color: #333 !important;
 }
 
-@media (min-width: 1024px) {
-  .submenu-section {
-    position: relative !important;
-    width: 240px;
-    height: auto;
-    min-height: 100%;
-    display: block;
-  }
+.sub-check {
+  color: #333 !important;
+}
 
-  .container h2 {
-    display: none;
-  }
-
-  .nav-button {
-    display: none;
-  }
-
-  .menu-overlay {
-    position: sticky;
-    top: 0;
-    left: 0;
-    padding-top: 40px;
-    transition: none !important;
-    transform: none !important;
-    width: 240px !important;
-    height: auto !important;
-  }
-
-  .menu {
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100%;
-    transition: none !important;
-    transform: none !important;
-    box-shadow: none;
-    border: 1px solid lightgray;
-  }
-
-  .picked-category {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    column-gap: 16px;
-    box-sizing: border-box;
-    padding: 0 20px;
-    color: rgb(75, 75, 255);
-    border-bottom: 1px solid lightgray;
-    font-weight: bold;
-    height: 50px;
-  }
-
-  .picked-category span:nth-of-type(1) {
+.submenu__list li button span {
+  &:nth-of-type(1) {
+    padding-bottom: 10px;
+    font-size: 20px;
     font-variation-settings:
       "FILL" 0,
-      "wght" 600,
+      "wght" 400,
       "GRAD" 100,
       "opsz" 24;
   }
 
+  &:nth-of-type(2) {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .submenu {
+    position: relative;
+    width: 380px;
+    height: calc(100vh - 80px);
+    font-size: 16px;
+  }
+
+  .submenu-wrapper {
+    position: fixed;
+    width: 380px;
+    height: auto;
+    top: 140px;
+    left: 0;
+  }
+
+  .submenu__title {
+    display: block;
+    padding: 0 0 50px 24px;
+  }
+
+  .submenu__title span {
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    &:nth-of-type(1) {
+      font-size: 2em;
+      line-height: 45px;
+    }
+
+    &:nth-of-type(2) {
+      font-size: 1.4em;
+      color: rgb(114, 114, 114);
+    }
+  }
+
+  .submenu__list {
+    display: block;
+    box-sizing: border-box;
+    padding-left: 24px;
+  }
+
+  .submenu__list li {
+    position: relative;
+    width: 100%;
+    border: unset;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .submenu__list li::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: black;
+  }
+
+  .submenu__list li:not(.check) {
+    &:before {
+      content: unset;
+    }
+  }
+
+  .submenu__list li button {
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    font-size: 1em;
+    height: 60px;
+    line-height: 50px;
+  }
+
+  .submenu__list li button span {
+    font-size: 1.4em !important;
+    line-height: 50px !important;
+
+    &:nth-of-type(1) {
+      padding: 0 10px 0;
+    }
+
+    &:nth-of-type(2) {
+      /* font-family: "Do Hyeon", sans-serif;
+      font-weight: 400;
+      font-style: normal; */
+    }
+  }
+
+  /*        */
+
+  .picked-category {
+    display: block;
+    padding: 0 0 60px 24px;
+  }
+
+  .picked-category span {
+    font-size: 30px;
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    &:nth-of-type(1) {
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    &:nth-of-type(2) {
+      display: none;
+    }
+    &:nth-of-type(3) {
+      font-size: 20px;
+      color: rgb(120, 120, 120);
+      transition: all 0.3s ease-in;
+    }
+  }
+
+  .picked-category br {
+    display: block;
+  }
+
   .menu ul {
-    padding-top: 20px;
+    padding: 0;
+  }
+
+  .menu ul li {
+    position: relative;
+    padding: 10px 24px;
+  }
+
+  .menu ul li:hover {
+    background: rgb(228, 228, 228);
+  }
+
+  .menu ul li::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: black;
+  }
+
+  .menu ul li button {
+    height: 40px;
+    column-gap: 8px;
+    color: gray;
+  }
+
+  .menu ul li button span:not(:nth-of-type(1)) {
+    font-size: 20px;
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .sub-check span {
+    color: #333;
+  }
+
+  .menu ul li button span:nth-of-type(1) {
+    font-size: 20px;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 100,
+      "opsz" 24;
   }
 }

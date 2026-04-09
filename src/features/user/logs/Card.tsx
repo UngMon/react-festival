@@ -32,15 +32,15 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
   };
 
   return (
-    <div className="view-box">
-      <div id="v-b-1">
+    <div className="log">
+      <div className="log__head">
         <h3>{ContentIdCode[item.content_type]}</h3>
         <button type="button" onClick={() => deleteHandler(date, index, item)}>
           <FontAwesomeIcon icon={faXmark} />
         </button>
       </div>
-      <div id="v-b-2">
-        <div id="v-b-3">
+      <div className="log__middle">
+        <div className="log__middle-content">
           {"text" in item && <div>{`"${item.text}"`}</div>}
           <div>
             <span
@@ -59,7 +59,7 @@ const Card = ({ item, index, date, deleteHandler }: T) => {
           <div>{time(item.createdAt)}</div>
         </div>
         <div
-          id="v-b-img"
+          className="log__middle-image"
           onClick={() => handleNavigate(item.content_type, item.content_id)}
         >
           <img src={item.image_url || "./images/NoImage.png"} alt="img" />

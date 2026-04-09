@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poor+Story&display=swap");
 
-.profile-container {
+.account-wrapper {
   position: relative;
   --font-weight: bold;
   --text-black: #333;
@@ -12,7 +12,7 @@
   --plat-border-color: rgb(211, 211, 211);
   margin: 0 auto;
   width: clamp(320px, 90%, 560px);
-  padding: 100px 20px 40px;
+  padding: 30px 20px 40px;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: var(--font-weight);
@@ -20,20 +20,19 @@
 }
 
 /* 프로필 이미지 */
-.profile-photo-box {
-  position: absolute;
-  top: -40px;
-  left: 0px;
+.account__photo-section {
   width: 100%;
-  height: 120px;
+  height: 80px;
   border-radius: 15px;
+  padding-bottom: 30px;
 }
 
-.profile-photo {
+.account__photo-container {
   margin: auto;
   position: relative;
   text-align: center;
   width: 80px;
+  height: 100%;
   cursor: pointer;
 
   &:hover .edit-photo-button {
@@ -42,13 +41,13 @@
   }
 }
 
-.profile-photo img {
+.account__photo-img {
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
 }
 
-.edit-photo-button {
+.account__photo-edit-btn {
   position: absolute;
   width: 26px;
   height: 26px;
@@ -62,9 +61,8 @@
   background-color: rgb(229, 237, 255);
 }
 
-.edit-photo-button span {
+.account__photo-edit-btn span {
   font-size: 14px;
-
   font-variation-settings:
     "FILL" 1,
     "wght" 500,
@@ -72,7 +70,7 @@
     "opsz" 24;
 }
 
-.photo-description {
+.account__photo-description {
   padding-top: 10px;
   text-align: center;
   font-size: 1.2em;
@@ -80,7 +78,7 @@
 
 /****** 공용 ******/
 
-.pr-list-box {
+.account__info-row {
   padding: 15px 18px;
   border-bottom: 1px solid var(--plat-border-color);
 
@@ -89,33 +87,32 @@
   }
 }
 
-.pr-dis-flex {
+.account__info-row--flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.pr-text-box {
+.account__info-text {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
 }
 
-.pr-text-box h3 {
+.account__info-text h3 {
   font-size: 0.9em;
   color: var(--text-gray);
 }
 
-.pr-text-box span {
+.account__info-text span {
   overflow-wrap: break-word;
   font-size: 1em;
   color: var(--text-black);
 }
 
-.pr-button {
+.account__btn {
   display: inline-block;
   padding: 0px 10px;
-  cursor: pointer;
   box-sizing: unset;
   border-radius: 18px;
   border: 1px solid black;
@@ -128,8 +125,15 @@
   text-align: center;
 }
 
+.account__btn:not(.no-hover):hover {
+  cursor: pointer;
+  background-color: var(--blue);
+  color: var(--white);
+  border: unset;
+}
+
 /********* 디테일(닉네임, 이메일, 가입 날짜) *********/
-.profile-detail-section {
+.account__info-section {
   border-radius: 15px;
   background-color: var(--plat-back-color);
   border: 1px solid var(--plat-border-color);
@@ -139,40 +143,28 @@
   width: calc(100% - 95px);
 }
 
-.nickname-edit-button {
-  &:hover {
-    background-color: var(--blue);
-    color: var(--white);
-    border: unset;
-  }
-}
-
 .sign-up-date {
   border-bottom: none;
 }
 
 /********* 소셜 플랫폼 *********/
-.profile-platform-section {
+.account__platform-section {
   padding: 40px 0 30px;
 }
 
-.profile-platform-section p {
+.account__platform-desc {
   font-size: 0.8em;
   padding: 5px 0 20px;
 }
 
-.platforms-container {
+.account__platform-list {
   border: 1px solid rgb(211, 211, 211);
   background-color: var(--plat-back-color);
   border-radius: 18px;
   overflow: hidden;
 }
 
-.pr-con:nth-of-type(4) {
-  border-bottom: 0;
-}
-
-.plat-icon {
+.account__platform-icon {
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -184,10 +176,12 @@
 }
 
 .plat-check {
-  cursor: unset;
+  background-color: var(--blue);
+  color: var(--white);
+  border-color: transparent;
 }
 
-.plat-sub {
+.account__platform-summary {
   font-size: 0.8em;
   padding: 7px 5px 0;
   color: var(--blue);
@@ -204,8 +198,11 @@
 }
 
 @media (min-width: 1024px) {
-  .profile-container {
-    margin: 0;
+  .account {
+    width: calc(100% - 380px);
+  }
+
+  .account-wrapper {
     padding: 40px 0px;
   }
 
@@ -229,7 +226,7 @@
     text-align: left;
   }
 
-  .profile-photo-box {
+  .account__photo-section {
     position: unset;
     width: auto;
     padding-bottom: 30px;

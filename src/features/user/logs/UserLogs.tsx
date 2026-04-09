@@ -155,27 +155,29 @@ const UserLogs = ({ category }: T) => {
 
   return (
     <section className="log-section">
-      {array?.map((item, idx) => (
-        <div key={idx}>
-          <div id="date">{item[0]}</div>
-          {item[1].map((a, idx) => (
-            <Card
-              key={a.createdAt}
-              item={a}
-              index={idx}
-              date={item[0]}
-              deleteHandler={deleteHandler}
-            />
-          ))}
-        </div>
-      ))}
+      <div className="log-section__items">
+        {array?.map((item, idx) => (
+          <div key={idx}>
+            <div id="date">{item[0]}</div>
+            {item[1].map((a, idx) => (
+              <Card
+                key={a.createdAt}
+                item={a}
+                index={idx}
+                date={item[0]}
+                deleteHandler={deleteHandler}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
       {loading ? (
         <LoadingSpinnerTwo width="45px" padding="10px" />
       ) : listInfo[category].afterIndex === "error" ? (
-        <p className="log-error-text">"데이터를 불러오지 못 했습니다."</p>
+        <p className="log-section__error-text">"데이터를 불러오지 못 했습니다."</p>
       ) : (
         listInfo[category].afterIndex === "finish" && (
-          <div id="Nonexistent">
+          <div className="log-section__nonexistent">
             {array.length > 0
               ? "마지막 활동 기록 입니다."
               : "활동 기록이 없습니다."}

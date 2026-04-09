@@ -1,9 +1,13 @@
-.login-button-container {
+.header__login {
   position: relative;
   display: none;
 }
 
-.not-Login {
+.header__user-page {
+  display: block !important;
+}
+
+.header__not-Login {
   width: 35px;
   height: 35px;
   margin-left: 10px;
@@ -11,7 +15,7 @@
   border-radius: 50%;
 }
 
-.login-button {
+.header__login-btn {
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -27,7 +31,7 @@
   }
 }
 
-.login-button > span {
+.header__login-btn > span {
   font-variation-settings:
     "FILL" 0,
     "wght" 700,
@@ -35,25 +39,26 @@
     "opsz" 24;
 }
 
-.userphoto-box {
+.header__photo-box {
   position: relative;
   margin-left: 10px;
   width: 35px;
   height: 35px;
 }
 
-.userphoto-box img {
+.header__photo-box img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
 }
 
-.userphoto-box:hover {
+.header__photo-box :hover {
   cursor: pointer;
 }
 
 @media (min-width: 1024px) {
-  .login-button-container {
+  .header__login {
     display: block;
   }
 }
+

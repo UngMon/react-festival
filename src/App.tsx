@@ -4,7 +4,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { TourDataType } from "./types/FetchType";
 import { AuthProvider } from "context/AuthContext";
 import RootLayout from "./pages/Root";
 import Loading from "./common/loading/Loading";
@@ -46,10 +45,6 @@ const router = createBrowserRouter([
       { path: "content", element: withSuspense(ContentPage) },
       { path: "theme", element: withSuspense(ThemePage) },
       {
-        element: <ProtectedRoute />,
-        children: [{ path: "user", element: withSuspense(User) }],
-      },
-      {
         path: "docs",
         element: withSuspense(DocumentPage),
         children: [
@@ -62,6 +57,11 @@ const router = createBrowserRouter([
       { path: "search", element: withSuspense(SearchPage) },
       { path: "question", element: withSuspense(Question) },
     ],
+  },
+  {
+    path: "user",
+    element: <ProtectedRoute />,
+    children: [{ path: "", element: withSuspense(User) }],
   },
   {
     path: "login",

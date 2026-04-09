@@ -32,9 +32,9 @@ const Footer = () => {
                 저작권보호정책
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/question">Q&A</Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>

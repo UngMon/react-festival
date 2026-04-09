@@ -1,0 +1,27 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 10px;
+  width: 100%;
+  height: 60px;
+  background: rgb(248, 248, 248);
+  z-index: 4;
+}
+
+.header__interaction {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    height: 70px;
+  }
+}
