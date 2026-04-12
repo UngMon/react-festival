@@ -23,7 +23,6 @@ const SearchCard = ({ params }: T) => {
   const { datas, httpState, page_record } = useSelector(
     (state: RootState) => state.tour,
   );
-  console.log("?Card");
 
   useEffect(() => {
     if (httpState === "pending" || page_record.includes(page_key)) return;

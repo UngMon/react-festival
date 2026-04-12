@@ -20,7 +20,7 @@ const Comment = ({ role, comment_data }: T) => {
     parent_name,
   } = comment_data;
   const isExistMention = parent_user_id && user_id !== parent_user_id;
-  console.log("Comment", text);
+
   return (
     <div className="comment-container">
       <UserIcon user_photo={user_photo} user_name={user_name} />

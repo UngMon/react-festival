@@ -26,7 +26,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("submit");
+
     if (!user || !user?.uid)
       return alert("로그인 하시면 이용하실 수 있습니다.");
 
@@ -64,7 +64,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
     textRef.current!.style.height = "auto"; // heigth 초기화
     textRef.current!.style.height = textRef.current?.scrollHeight + "px";
   };
-  console.log(user);
+
   return (
     <>
       {!loading ? (
@@ -85,13 +85,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
             {status === "fulfilled" && (
               <>
                 {!user?.uid ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      console.log("Login Button");
-                      navigate("/login");
-                    }}
-                  >
+                  <button type="button" onClick={() => navigate("/login")}>
                     로그인
                   </button>
                 ) : (

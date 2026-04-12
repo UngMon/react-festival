@@ -114,7 +114,11 @@ const EditProfileImage = ({ setOpenImageEditor }: T) => {
               }
             }}
           />
-          <div className="image-drag-box" onDrop={(e) => handleDrop(e)}>
+          <div
+            className="image-drag-box"
+            onDrop={(e) => handleDrop(e)}
+            onDragOver={(e) => e.preventDefault()}
+          >
             <div className="darg-boundary">
               <span>프로필 사진 추가</span>
               <span

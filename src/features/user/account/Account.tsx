@@ -46,6 +46,11 @@ const Account = () => {
     <div className="account">
       <div className="account-wrapper">
         <section className="account__photo-section">
+          <div className="account__photo-description">
+            <span>나의 계정</span>
+            <br></br>
+            <span>프로필 이미지와 닉네임을 관리해 보세요.</span>
+          </div>
           <div className="account__photo-container">
             <img
               alt="프로필 이미지"
@@ -59,9 +64,6 @@ const Account = () => {
             >
               <span className="material-symbols-outlined">edit</span>
             </button>
-          </div>
-          <div className="account__photo-description">
-            {/* <span>{displayName}</span> */}
           </div>
         </section>
 

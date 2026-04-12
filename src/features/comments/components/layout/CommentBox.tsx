@@ -19,7 +19,7 @@ const CommentBox = ({ role, depth, comment_data }: T) => {
   const isReply = useSelector(
     (state: RootState) => state.modal.reply[comment_id],
   );
-  console.log(role, isReply, isRevise);
+
   // category => origin, reply, my 3가지 형태
   return (
     <>

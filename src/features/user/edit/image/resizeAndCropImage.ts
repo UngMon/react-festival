@@ -52,7 +52,6 @@ export const resizeAndCropImage = (
         // 도화지에 그려진 그림을 다시 '파일(Blob)'로 변환한다.
         canvas.toBlob(
           (blob) => {
-            console.log(`blob`, blob);
             if (blob) resolve(blob);
             else reject(new Error("Blob 생성 실패"));
           },
