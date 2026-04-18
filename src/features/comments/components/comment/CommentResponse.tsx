@@ -8,7 +8,7 @@ import { modalActions } from "store/modal-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as faRegularThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as faSolidThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { likeButtonOfComment } from "features/comments/api/firestoreUtils";
+import { likeButtonOfComment } from "api/firestoreUtils";
 import "./CommentResponse.css";
 
 interface T {

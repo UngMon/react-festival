@@ -6,7 +6,7 @@ import {
 } from "types/DataType";
 import { ContentCommon } from "types/ContentType";
 import { User } from "firebase/auth";
-import { db } from "../../../firebase";
+import { db } from "../firebase";
 import {
   collection,
   query,

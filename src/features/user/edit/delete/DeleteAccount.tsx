@@ -8,7 +8,7 @@ import {
   redirectNaverLogin,
   executeWithdrawal,
   isAuthFresh,
-} from "utils/login_utils";
+} from "api/login_utils";
 import { useAppDispatch } from "store/store";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./DeleteAccount.css";

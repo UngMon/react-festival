@@ -1,4 +1,4 @@
-import { redirectGoogleAndFacebook } from "utils/login_utils";
+import { redirectGoogleAndFacebook } from "api/login_utils";
 import google_logo from "../../assets/login/google_logo.jpeg";
 import facebook_logo from "../../assets/login/facebook_logo.png";
 
@@ -41,6 +41,7 @@ const GoolgeAndFaceBook = ({ setLoading, setErrorCode }: T) => {
       {SOCIAL_CONFIG.map((social) => (
         <div className="log-but-box" key={social.id}>
           <button
+            type="button"
             className={`login-button ${social.id}`}
             onClick={() => {
               loginHandler(social.provider);

@@ -12,14 +12,14 @@ export interface SlideItem {
   link: string;
 }
 
-interface Datas {
+interface TourDatas {
   tourData: Item[];
   totalCount: number;
 }
 
 export interface DataType {
   httpState: string;
-  datas: Record<string, Datas>
+  datas: Record<string, TourDatas>
   page_record: string[];
   행사상태: [boolean, boolean, boolean];
 }
@@ -77,13 +77,6 @@ export interface OriginComment {
 export interface ReplyComment {
   reply_comments: Record<string, CommentType[]>;
   last_index: Record<string, string>;
-}
-
-export interface Log {
-  likedComment: Record<string, LikedComment[]>;
-  likedContent: Record<string, LikedContent[]>;
-  myComment: Record<string, CommentType[]>;
-  afterIndex: Record<string, string>;
 }
 
 export type LogItem = CommentType | LikedComment | LikedContent;

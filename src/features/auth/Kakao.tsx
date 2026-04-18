@@ -1,5 +1,5 @@
-import { redirectKakaoLogin } from "utils/login_utils";
-import kakao_logo from '../../assets/login/kakao_logo.png';
+import { redirectKakaoLogin } from "api/login_utils";
+import kakao_logo from "../../assets/login/kakao_logo.png";
 
 type KakaoProps = {
   setLoading: (bool: boolean) => void;
@@ -12,12 +12,14 @@ const Kakao = ({ setLoading }: KakaoProps) => {
   };
 
   return (
-    <div>
-      <button className={'login-button Kakao'} onClick={loginHandler}>
-        <img src={kakao_logo} alt="카카오 로그인 버튼" width={'50px'} />
-        <span>카카오톡 로그인</span>
-      </button>
-    </div>
+    <button
+      type="button"
+      className={"login-button Kakao"}
+      onClick={loginHandler}
+    >
+      <img src={kakao_logo} alt="카카오 로그인 버튼" width={"50px"} />
+      <span>카카오톡 로그인</span>
+    </button>
   );
 };
 

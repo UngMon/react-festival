@@ -6,7 +6,7 @@ import { modalActions } from "store/modal-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { reportComment } from "features/comments/api/firestoreUtils";
+import { reportComment } from "api/firestoreUtils";
 import "./ReportModal.css";
 
 interface T {

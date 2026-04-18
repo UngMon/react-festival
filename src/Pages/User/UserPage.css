@@ -1,25 +1,42 @@
-.user-page-container {
+.user-page-wrapper {
   position: relative;
   background: rgb(248, 248, 248);
   width: 100%;
-  min-height: 800px;
-  padding: 80px 0;
+  padding-top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: hidden;
 }
 
-.user-page-box {
-  position: relative;
+.user-page-container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.user-page-container::-webkit-scrollbar {
+  width: 6px;
+}
+.user-page-container::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+}
+.user-page-container::-webkit-scrollbar-track {
+  background: rgb(248, 248, 248);
+}
+
+@media (max-height: 860px) {
+  .user-page-box {
+    padding-bottom: 70px;
+  }
 }
 
 @media (min-width: 1024px) {
-  .user-page-container {
-    padding: 80px 0 30px;
+  .user-page-wrapper {
+    padding-top: 70px;
+    height: calc(100vh - 70px);
   }
 
   .user-page-box {
-    box-sizing: border-box;
-    margin: 0 auto;
+    position: relative;
     display: flex;
-    align-items: stretch;
-    height: 100%;
+    align-items: flex-start;
   }
 }

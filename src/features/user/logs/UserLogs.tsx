@@ -5,10 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "store/store";
 import { originCommentActions } from "store/origin_comment-slice";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
-import {
-  deleteLogItem,
-  getUserLogs,
-} from "features/comments/api/firestoreUtils";
+import { deleteLogItem, getUserLogs } from "api/firestoreUtils";
 import Card from "./Card";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./UserLogs.css";
@@ -22,21 +19,21 @@ interface ListState {
   datas: GroupedLogs;
 }
 
-const getFormattedDate = (isoString: string) => {
+const getFormattedDate = (
+  isoString: string,
+  todayTime: number,
+  yesterdayTime: number,
+) => {
   const targetDate = new Date(isoString);
-  const now = new Date();
-
   const target = new Date(
     targetDate.getFullYear(),
     targetDate.getMonth(),
     targetDate.getDate(),
   );
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
+  const targetTime = target.getTime();
 
-  if (target.getTime() === today.getTime()) return "오늘";
-  if (target.getTime() === yesterday.getTime()) return "어제";
+  if (targetTime === todayTime) return "오늘";
+  if (targetTime === yesterdayTime) return "어제";
 
   return target.toLocaleDateString("ko-KR", { month: "long", day: "numeric" });
 };
@@ -52,27 +49,42 @@ const UserLogs = ({ category }: T) => {
     likedComment: { afterIndex: "", datas: {} },
     likedContent: { afterIndex: "", datas: {} },
   });
+  const currentCategoryInfo = listInfo[category];
+  const currentCategoryIndex = currentCategoryInfo.afterIndex;
 
   useEffect(() => {
-    if (listInfo[category].afterIndex === "finish") return;
-    else if (listInfo[category].afterIndex === "error") return;
-    else if (loading) return;
-    else if (!intersecting) return;
+    if (currentCategoryIndex === "finish" || currentCategoryIndex === "error")
+      return;
+    if (loading || !intersecting) return;
 
     setLoading(true);
 
     const getDataHandler = async (category: string) => {
       try {
-        const afterIndex = listInfo[category].afterIndex;
-        const data = await getUserLogs(category, uid, afterIndex);
+        const data = await getUserLogs(category, uid, currentCategoryIndex);
+        const now = new Date();
+        const today = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+        );
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+
+        const todayTime = today.getTime();
+        const yesterdayTime = yesterday.getTime();
 
         setListInfo((prevData) => {
-          const newGroupedData = prevData[category].datas;
+          const newGroupedData = { ...prevData[category].datas };
           let newAfterIndex = prevData[category].afterIndex;
 
           if (data.length > 0) {
             data.forEach((item) => {
-              const date_key: string = getFormattedDate(item.createdAt);
+              const date_key: string = getFormattedDate(
+                item.createdAt,
+                todayTime,
+                yesterdayTime,
+              );
               const existingItemsFromDate = newGroupedData[date_key] || [];
               newGroupedData[date_key] = [...existingItemsFromDate, item];
             });
@@ -102,7 +114,7 @@ const UserLogs = ({ category }: T) => {
       }
     };
     getDataHandler(category);
-  }, [category, uid, intersecting, loading, listInfo]);
+  }, [category, uid, intersecting, loading, currentCategoryIndex]);
 
   const deleteHandler = useCallback(
     async (date: string, index: number, item: LogItem) => {
@@ -127,16 +139,24 @@ const UserLogs = ({ category }: T) => {
           const dataOfDate = prevData[category].datas[date];
           const filteredData = dataOfDate.filter((_, idx) => idx !== index);
 
-          const updateCategoryData = {
-            datas: { ...prevData[category].datas, [date]: filteredData },
-            afterIndex: prevData[category].afterIndex,
+          // 얕은 복사
+          const nextDatas = {
+            ...prevData[category].datas,
+            [date]: filteredData,
           };
 
-          if (filteredData.length === 0) delete updateCategoryData.datas[date];
+          if (filteredData.length === 0) {
+            const { [date]: _, ...restData } = nextDatas;
+
+            return {
+              ...prevData,
+              [category]: { ...prevData[category], datas: restData },
+            };
+          }
 
           return {
             ...prevData,
-            [category]: updateCategoryData,
+            [category]: { ...prevData[category], datas: nextDatas },
           };
         });
 
@@ -172,9 +192,13 @@ const UserLogs = ({ category }: T) => {
         ))}
       </div>
       {loading ? (
-        <LoadingSpinnerTwo width="45px" padding="10px" />
+        <div className="log__spinner">
+          <LoadingSpinnerTwo width="45px" padding="10px" />
+        </div>
       ) : listInfo[category].afterIndex === "error" ? (
-        <p className="log-section__error-text">"데이터를 불러오지 못 했습니다."</p>
+        <p className="log-section__error-text">
+          "데이터를 불러오지 못 했습니다."
+        </p>
       ) : (
         listInfo[category].afterIndex === "finish" && (
           <div className="log-section__nonexistent">

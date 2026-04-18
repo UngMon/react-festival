@@ -4,7 +4,6 @@ import {
   setPersistence,
   GoogleAuthProvider,
   FacebookAuthProvider,
-  signInWithPopup,
   signInWithRedirect,
   signInWithCustomToken,
   getRedirectResult,
@@ -30,7 +29,7 @@ export const redirectGoogleAndFacebook = async (providerName: string) => {
         ? new GoogleAuthProvider()
         : new FacebookAuthProvider();
 
-    await signInWithPopup(auth, provider); // 임시로 팝업
+    await signInWithRedirect(auth, provider);
   } catch (error) {
     sessionStorage.removeItem("Login_Type");
     // 에러를 다시 던져서 컴포넌트가 UI 처리를 할 수 있게 한다.
@@ -138,7 +137,7 @@ export const loginWithNaver = async () => {
     }
 
     const response = await fetch(
-      `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/kakao`,
+      `${process.env.REACT_APP_FIREBASE_SERVER_POINT}/naver`,
       {
         method: "GET",
         headers: {

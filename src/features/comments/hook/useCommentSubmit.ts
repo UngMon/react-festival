@@ -2,7 +2,7 @@ import { useAuth } from "context/AuthContext";
 import {
   replyComment,
   reviseComment,
-} from "features/comments/api/firestoreUtils";
+} from "api/firestoreUtils";
 import { useState } from "react";
 import { modalActions } from "store/modal-slice";
 import { myReplyActions } from "store/my_reply-slice";

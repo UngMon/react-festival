@@ -1,5 +1,5 @@
-import { redirectNaverLogin } from "utils/login_utils";
-import naver_logo from '../../assets/login/naver_logo.png';
+import { redirectNaverLogin } from "api/login_utils";
+import naver_logo from "../../assets/login/naver_logo.png";
 
 interface T {
   setLoading: (bool: boolean) => void;
@@ -17,12 +17,14 @@ const Naver = ({ setLoading }: T) => {
   };
 
   return (
-    <>
-      <button className={'login-button Naver'} onClick={clickHandler}>
-        <img src={naver_logo} alt="네이버 아이콘" />
-        <span>네이버 로그인</span>
-      </button>
-    </>
+    <button
+      type="button"
+      className={"login-button Naver"}
+      onClick={clickHandler}
+    >
+      <img src={naver_logo} alt="네이버 아이콘" />
+      <span>네이버 로그인</span>
+    </button>
   );
 };
 

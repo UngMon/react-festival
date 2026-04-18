@@ -31,10 +31,7 @@ const LoginButton = ({ user_page }: T) => {
   }, []);
 
   const loginHandler = () => {
-    sessionStorage.setItem(
-      "previouseUrl",
-      JSON.stringify(location.pathname + location.search),
-    );
+    sessionStorage.setItem("previousUrl", location.pathname + location.search);
     navigate("/login");
   };
 

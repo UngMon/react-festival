@@ -4,7 +4,7 @@ import {
   loginWithFirebase,
   loginWithKakao,
   loginWithNaver,
-} from "utils/login_utils";
+} from "api/login_utils";
 import LoadingThree from "../../common/loading/LoadingThree";
 import Kakao from "../../features/auth/Kakao";
 import Naver from "../../features/auth/Naver";
@@ -16,10 +16,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [errorCode, setErrorCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  console.log('LoginPage')
+
   const finalizeLogin = useCallback(() => {
-    const previousUrl = sessionStorage.getItem("previousUrl") || '/';
-    navigate(`/${previousUrl}`, { replace: true });
+    const previousUrl = sessionStorage.getItem("previousUrl") || "/";
+    
+    navigate(previousUrl, { replace: true });
   }, [navigate]);
 
   const authCallbackHandler = useCallback(async () => {
@@ -34,7 +35,7 @@ const LoginPage = () => {
 
       // B. Kakao (Query Params)
       if (Login_Type === "Kakao") {
-        await loginWithKakao(); // 카카오 로그인 유틸 함수
+        await loginWithKakao();
         return finalizeLogin();
       }
 

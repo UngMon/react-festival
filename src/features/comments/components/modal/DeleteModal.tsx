@@ -5,7 +5,7 @@ import { modalActions } from "store/modal-slice";
 import { myReplyActions } from "store/my_reply-slice";
 import { replyActions } from "store/reply-slice";
 import { originCommentActions } from "store/origin_comment-slice";
-import { deleteComment } from "features/comments/api/firestoreUtils";
+import { deleteComment } from "api/firestoreUtils";
 import "./DeleteModal.css";
 
 interface DeleteProps {

@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
 import { originCommentActions } from "store/origin_comment-slice";
 import { CommentType } from "types/DataType";
-import { submitCommentToFirestore } from "features/comments/api/firestoreUtils";
-import { useNavigate } from "react-router-dom";
+import { submitCommentToFirestore } from "api/firestoreUtils";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "context/AuthContext";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";
 import "./CommentForm.css";
@@ -17,7 +17,7 @@ interface T {
 const CommentForm = ({ content_type, content_id }: T) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { user, status } = useAuth();
   const { detailCommon } = useSelector((state: RootState) => state.content);
 
@@ -65,6 +65,11 @@ const CommentForm = ({ content_type, content_id }: T) => {
     textRef.current!.style.height = textRef.current?.scrollHeight + "px";
   };
 
+  const loginHandler = () => {
+    sessionStorage.setItem("previousUrl", location.pathname + location.search);
+    navigate("/login");
+  };
+
   return (
     <>
       {!loading ? (
@@ -85,7 +90,7 @@ const CommentForm = ({ content_type, content_id }: T) => {
             {status === "fulfilled" && (
               <>
                 {!user?.uid ? (
-                  <button type="button" onClick={() => navigate("/login")}>
+                  <button type="button" onClick={loginHandler}>
                     로그인
                   </button>
                 ) : (

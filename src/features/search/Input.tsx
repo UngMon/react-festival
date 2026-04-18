@@ -20,7 +20,7 @@ const Input = ({ params }: T) => {
   const { keyword, cat1 } = params;
   const [text, setText] = useState<string | undefined>(keyword);
   const [previousCategory, setPreviousCategory] = useState<string>(cat1!);
-  console.log("Input");
+
   const navigate = useNavigate();
 
   const submitHandler = (e: FormEvent) => {
@@ -74,7 +74,6 @@ const Input = ({ params }: T) => {
           <div id="type-select-box">
             <select
               onChange={(e) => {
-                console.log(e.target, "hi");
                 listClickHandler(e.target.value);
               }}
             >

@@ -52,8 +52,8 @@ const LoginError = ({ errorCode, setErrorCode }: T) => {
     "auth/redirect-failed": "리다이렉트 실패했습니다.",
     "auth/naver-login-failed": "네이버 로그인 실패",
     "auth/kakao-login-failed": "카카오 로그인 실패",
-    "auth/kakao-server-error": '카카오 인증 서버 통신 실패',
-    "auth/naver-server-error": '네이버 인증 서버 통신 실패'
+    "auth/kakao-server-error": "카카오 인증 서버 통신 실패",
+    "auth/naver-server-error": "네이버 인증 서버 통신 실패",
   };
 
   return (
@@ -64,6 +64,7 @@ const LoginError = ({ errorCode, setErrorCode }: T) => {
           <h3>Error</h3>
           <p className="login-error-middle">{firebaseAuthErrors[errorCode]}</p>
           <button
+            type="button"
             className="login-error-arrow"
             onClick={() => setErrorCode("")}
           >

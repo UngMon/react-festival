@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "store/store";
-import { fetchCommentData } from "features/comments/api/firestoreUtils";
+import { fetchCommentData } from "api/firestoreUtils";
 import { originCommentActions } from "store/origin_comment-slice";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 import LoadingSpinnerTwo from "common/loading/LoadingSpinnerTwo";

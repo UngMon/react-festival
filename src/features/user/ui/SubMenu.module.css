@@ -75,18 +75,20 @@
 
 @media (min-width: 1024px) {
   .submenu {
-    position: relative;
+    position: sticky;
+    top: 0px;
+    padding-top: 100px;
     width: 380px;
-    height: calc(100vh - 80px);
     font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: auto !important;
   }
 
   .submenu-wrapper {
-    position: fixed;
-    width: 380px;
-    height: auto;
-    top: 140px;
-    left: 0;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .submenu__title {
@@ -122,6 +124,7 @@
     border: unset;
     cursor: pointer;
     padding: 0;
+    height: auto;
   }
 
   .submenu__list li::before {
@@ -157,15 +160,7 @@
     &:nth-of-type(1) {
       padding: 0 10px 0;
     }
-
-    &:nth-of-type(2) {
-      /* font-family: "Do Hyeon", sans-serif;
-      font-weight: 400;
-      font-style: normal; */
-    }
   }
-
-  /*        */
 
   .picked-category {
     display: block;
